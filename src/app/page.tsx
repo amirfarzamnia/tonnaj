@@ -1,7 +1,7 @@
 'use client';
 
-import { Grid, Box, Button, Card, Paper, CardContent, Typography, Container, Divider } from '@mui/material';
-import { Inventory2, Sell, LocalShipping } from '@mui/icons-material';
+import { Grid, Box, Button, Card, Paper, ImageList, ImageListItem, ImageListItemBar, ListSubheader, IconButton, CardContent, Typography, Container, Divider } from '@mui/material';
+import { Inventory2, Sell, LocalShipping, Pageview } from '@mui/icons-material';
 import 'slick-carousel/slick/slick-theme.css';
 import 'slick-carousel/slick/slick.css';
 import Slider from 'react-slick';
@@ -60,8 +60,42 @@ export default () => {
         ]
     };
 
+    const itemData = [
+        {
+            img: 'https://images.unsplash.com/photo-1551963831-b3b1ca40c98e',
+            title: 'Breakfast',
+            author: '@bkristastucchio'
+        },
+        {
+            img: 'https://images.unsplash.com/photo-1551782450-a2132b4ba21d',
+            title: 'Burger',
+            author: '@rollelflex_graphy726'
+        }
+    ];
+
     return (
         <Container className="mt-10" maxWidth="xl">
+            <ImageList sx={{ width: '85%', height: 450, mx: 'auto', mb: 8 }}>
+                {itemData.map((item) => (
+                    <div key={item.img} className="relative group">
+                        <ImageListItem>
+                            <img src={`${item.img}`} alt={item.title} loading="lazy" className="object-cover rounded-md" style={{ height: 450 }} />
+                            <div className="absolute inset-0 hidden group-hover:flex items-end bg-black bg-opacity-50 p-2">
+                                <ImageListItemBar
+                                    title={item.title}
+                                    subtitle={item.author}
+                                    sx={{ px: 2 }}
+                                    actionIcon={
+                                        <Button variant="outlined" sx={{ display: 'flex', alignItems: 'center', gap: 2, px: 2 }} endIcon={<Pageview />}>
+                                            مشاهده محصولات
+                                        </Button>
+                                    }
+                                />
+                            </div>
+                        </ImageListItem>
+                    </div>
+                ))}
+            </ImageList>
             <Typography gutterBottom textAlign="center" variant="h4">
                 درخواست های خرید محصول
             </Typography>
@@ -78,7 +112,7 @@ export default () => {
                             <Paper square elevation={0} sx={{ display: 'flex', alignItems: 'center', height: 50, pl: 2, bgcolor: 'background.default' }}>
                                 <Typography>{item.label}</Typography>
                             </Paper>
-                            <Box component="img" sx={{ height: 255, display: 'block', width: '100%', overflow: 'hidden' }} src={item.img} alt={item.label} />
+                            <Box component="img" loading="lazy" sx={{ height: 255, display: 'block', width: '100%', overflow: 'hidden' }} src={item.img} alt={item.label} />
                         </Box>
                     ))}
                 </Slider>
@@ -114,7 +148,7 @@ export default () => {
                     </Grid>
                 ))}
             </Grid>
-            <Box component="iframe" className="mx-auto my-12" src="https://www.aparat.com/video/video/embed/videohash/jicqws8/vt/frame" allowFullScreen></Box>
+            <Box component="iframe" loading="lazy" className="mx-auto my-12" src="https://www.aparat.com/video/video/embed/videohash/jicqws8/vt/frame" allowFullScreen></Box>
             <Box className="mx-auto mt-4 mb-20 w-full flex items-center justify-center">
                 <Button variant="outlined" color="secondary" href="/market-guid">
                     درباره خدمات خرید و فروش عمده تناژ بیشتر بدانید
