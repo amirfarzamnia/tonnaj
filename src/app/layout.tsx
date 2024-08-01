@@ -1,8 +1,8 @@
 'use client';
 
 import { Button, Box, Toolbar, AppBar, Menu, Avatar, Tooltip, MenuItem, Container, Typography, IconButton, CssBaseline } from '@mui/material';
+import { Search as SearchIcon, Menu as MenuIcon, LightMode as LightModeIcon, DarkMode as DarkModeIcon } from '@mui/icons-material';
 import { createTheme, ThemeProvider, ThemeOptions } from '@mui/material/styles';
-import { Search as SearchIcon, Menu as MenuIcon } from '@mui/icons-material';
 import AdbIcon from '@mui/icons-material/Adb';
 import * as React from 'react';
 import './index.css';
@@ -19,9 +19,16 @@ const schemeOptions: { dark: ThemeOptions; light: ThemeOptions } = {
             MuiCssBaseline: {
                 styleOverrides: {
                     body: {
-                        backgroundImage: 'radial-gradient(rgba(255, 255, 255, 0.125) 1px, transparent 0)',
+                        backgroundImage: 'radial-gradient(rgba(255, 255, 255, 0.05) 1px, transparent 0)',
                         backgroundSize: '20px 20px',
                         backgroundPosition: '-40px -40px'
+                    }
+                }
+            },
+            MuiCard: {
+                styleOverrides: {
+                    root: {
+                        backgroundColor: 'rgba(255, 255, 255, 0)'
                     }
                 }
             }
@@ -35,9 +42,16 @@ const schemeOptions: { dark: ThemeOptions; light: ThemeOptions } = {
             MuiCssBaseline: {
                 styleOverrides: {
                     body: {
-                        backgroundImage: 'radial-gradient(rgba(0, 0, 0, 0.125) 1px, transparent 0)',
+                        backgroundImage: 'radial-gradient(rgba(0, 0, 0, 0.05) 1px, transparent 0)',
                         backgroundSize: '20px 20px',
                         backgroundPosition: '-40px -40px'
+                    }
+                }
+            },
+            MuiCard: {
+                styleOverrides: {
+                    root: {
+                        backgroundColor: 'rgba(0, 0, 0, 0)'
                     }
                 }
             }
@@ -45,18 +59,20 @@ const schemeOptions: { dark: ThemeOptions; light: ThemeOptions } = {
     }
 };
 
-const prefersDarkScheme = window.matchMedia('(prefers-color-scheme: dark)').matches;
-const theme = createTheme(schemeOptions[prefersDarkScheme ? 'dark' : 'light']);
-
 export default ({ children }: { children: React.ReactNode }) => {
     const [anchorElNav, setAnchorElNav] = React.useState<null | HTMLElement>(null);
     const [anchorElUser, setAnchorElUser] = React.useState<null | HTMLElement>(null);
+    const [darkMode, setDarkMode] = React.useState<boolean>(window.matchMedia('(prefers-color-scheme: dark)').matches);
+
+    const theme = React.useMemo(() => createTheme(schemeOptions[darkMode ? 'dark' : 'light']), [darkMode]);
 
     const handleOpenNavMenu = (event: React.MouseEvent<HTMLElement>) => setAnchorElNav(event.currentTarget);
     const handleOpenUserMenu = (event: React.MouseEvent<HTMLElement>) => setAnchorElUser(event.currentTarget);
 
     const handleCloseNavMenu = () => setAnchorElNav(null);
     const handleCloseUserMenu = () => setAnchorElUser(null);
+
+    const toggleTheme = () => setDarkMode((prevMode) => !prevMode);
 
     return (
         <ThemeProvider theme={theme}>
@@ -94,6 +110,11 @@ export default ({ children }: { children: React.ReactNode }) => {
                                     ))}
                                 </Box>
                                 <Box sx={{ flexGrow: 0 }}>
+                                    <Tooltip title="Toggle theme">
+                                        <IconButton onClick={toggleTheme} sx={{ p: 0 }}>
+                                            {darkMode ? <LightModeIcon /> : <DarkModeIcon />}
+                                        </IconButton>
+                                    </Tooltip>
                                     <Tooltip title="Open settings">
                                         <IconButton onClick={handleOpenUserMenu} sx={{ p: 0 }}>
                                             <Avatar alt="Remy Sharp" src="/static/images/avatar/2.jpg" />
