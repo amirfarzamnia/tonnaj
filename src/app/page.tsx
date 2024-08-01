@@ -8,19 +8,19 @@ import * as React from 'react';
 const carouselItems = [
     {
         label: 'San Francisco - Oakland Bay Bridge',
-        imgPath: 'https://material-ui.com/static/images/cards/contemplative-reptile.jpg'
+        img: 'https://material-ui.com/static/images/cards/contemplative-reptile.jpg'
     },
     {
         label: 'Bird',
-        imgPath: 'https://material-ui.com/static/images/cards/paella.jpg'
+        img: 'https://material-ui.com/static/images/cards/paella.jpg'
     },
     {
         label: 'Bali, Indonesia',
-        imgPath: 'https://material-ui.com/static/images/cards/paella.jpg'
+        img: 'https://material-ui.com/static/images/cards/paella.jpg'
     },
     {
         label: 'Goč, Serbia',
-        imgPath: 'https://material-ui.com/static/images/cards/paella.jpg'
+        img: 'https://material-ui.com/static/images/cards/paella.jpg'
     }
 ];
 
@@ -49,21 +49,21 @@ export default () => {
                 <Paper square elevation={0} sx={{ display: 'flex', alignItems: 'center', height: 50, pl: 2, bgcolor: 'background.default' }}>
                     <Typography>{carouselItems[activeStep].label}</Typography>
                 </Paper>
-                <Box component="img" sx={{ height: 255, display: 'block', maxWidth: 400, overflow: 'hidden', width: '100%' }} src={carouselItems[activeStep].imgPath} alt={carouselItems[activeStep].label} />
+                <Box component="img" sx={{ height: 255, display: 'block', maxWidth: 400, overflow: 'hidden', width: '100%' }} src={carouselItems[activeStep].img} alt={carouselItems[activeStep].label} />
                 <MobileStepper
                     steps={maxSteps}
                     position="static"
                     activeStep={activeStep}
                     nextButton={
-                        <IconButton size="small" onClick={handleNext} disabled={activeStep === maxSteps - 1}>
-                            Next
-                            <KeyboardArrowRight />
+                        <IconButton sx={{ borderRadius: '0.25rem', p: 1 }} size="small" onClick={handleNext} disabled={activeStep === maxSteps - 1}>
+                            <KeyboardArrowLeft />
+                            بعدی
                         </IconButton>
                     }
                     backButton={
-                        <IconButton size="small" onClick={handleBack} disabled={activeStep === 0}>
-                            <KeyboardArrowLeft />
-                            Back
+                        <IconButton sx={{ borderRadius: '0.25rem', p: 1 }} size="small" onClick={handleBack} disabled={activeStep === 0}>
+                            قبلی
+                            <KeyboardArrowRight />
                         </IconButton>
                     }
                 />
@@ -99,7 +99,7 @@ export default () => {
                     </Grid>
                 ))}
             </Grid>
-            <iframe className="mx-auto my-12" src="https://www.aparat.com/video/video/embed/videohash/jicqws8/vt/frame" allowFullScreen></iframe>
+            <Box component="iframe" className="mx-auto my-12" src="https://www.aparat.com/video/video/embed/videohash/jicqws8/vt/frame" allowFullScreen></Box>
             <Box className="mx-auto mt-4 mb-20 w-full flex items-center justify-center">
                 <Button variant="outlined" color="secondary" href="/market-guid">
                     درباره خدمات خرید و فروش عمده تناژ بیشتر بدانید

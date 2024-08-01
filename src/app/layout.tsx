@@ -203,55 +203,53 @@ export default ({ children }: { children: React.ReactNode }) => {
                                     <Typography variant="h6" gutterBottom>
                                         پیشخوان خدمات
                                     </Typography>
-                                    <ul>
-                                        <li>
+                                    <Box component="ul">
+                                        <Box component="li">
                                             <Link underline="hover" href="#">
                                                 بازار فروش عمده
                                             </Link>
-                                        </li>
-                                        <li>
+                                        </Box>
+                                        <Box component="li">
                                             <Link underline="hover" href="#">
                                                 بازار خرده فروشی
                                             </Link>
-                                        </li>
-                                        <li>
+                                            <Box component="li"></Box>
                                             <Link underline="hover" href="#">
                                                 روستابان
                                             </Link>
-                                        </li>
-                                        <li>
+                                            <Box component="li"></Box>
                                             <Link underline="hover" href="#">
                                                 قیمتبان
                                             </Link>
-                                        </li>
-                                    </ul>
+                                        </Box>
+                                    </Box>
                                 </Grid>
                                 <Grid item xs={12} sm={3}>
                                     <Typography variant="h6" gutterBottom>
                                         پیوندهای مفید
                                     </Typography>
-                                    <ul>
-                                        <li>
+                                    <Box component="ul">
+                                        <Box component="li">
                                             <Link underline="hover" href="#">
                                                 خانه
                                             </Link>
-                                        </li>
-                                        <li>
+                                        </Box>
+                                        <Box component="li">
                                             <Link underline="hover" href="#">
                                                 سامانه اطلاع رسانی تناژ
                                             </Link>
-                                        </li>
-                                        <li>
+                                        </Box>
+                                        <Box component="li">
                                             <Link underline="hover" href="#">
                                                 درباره تناژ
                                             </Link>
-                                        </li>
-                                        <li>
+                                        </Box>
+                                        <Box component="li">
                                             <Link underline="hover" href="#">
                                                 تماس با تناژ
                                             </Link>
-                                        </li>
-                                    </ul>
+                                        </Box>
+                                    </Box>
                                 </Grid>
                                 <Grid item xs={12} sm={3}>
                                     <Typography variant="h6" gutterBottom>
@@ -261,7 +259,7 @@ export default ({ children }: { children: React.ReactNode }) => {
                                 </Grid>
                                 <Grid item xs={12} sm={3}>
                                     <Typography variant="h6" gutterBottom>
-                                        همکاریها و مجوزها{' '}
+                                        همکاریها و مجوزها
                                     </Typography>
                                     <Box component="img" src="https://via.placeholder.com/40" alt="Facebook" sx={{ width: 40, height: 40, margin: 1 }} />
                                     <Box component="img" src="https://via.placeholder.com/40" alt="Twitter" sx={{ width: 40, height: 40, margin: 1 }} />
