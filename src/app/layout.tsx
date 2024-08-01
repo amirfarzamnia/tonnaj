@@ -7,7 +7,6 @@ import { NextUIProvider } from '@nextui-org/react';
 import AdbIcon from '@mui/icons-material/Adb';
 import * as React from 'react';
 import './index.css';
-import { NextUIProvider } from '@nextui-org/react';
 
 const pages = ['Products', 'Pricing', 'Blog'];
 const settings = ['Profile', 'Account', 'Dashboard', 'Logout'];
