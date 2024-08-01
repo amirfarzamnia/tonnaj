@@ -1,6 +1,6 @@
 'use client';
 
-import { Button, Box, Toolbar, AppBar, Menu, Avatar, Tooltip, MenuItem, Container, Typography, IconButton, CssBaseline } from '@mui/material';
+import { Button, Box, Toolbar, AppBar, Menu, Avatar, Tooltip, MenuItem, Container, Typography, IconButton, CssBaseline, Shadows } from '@mui/material';
 import { Search as SearchIcon, Menu as MenuIcon, LightMode as LightModeIcon, DarkMode as DarkModeIcon } from '@mui/icons-material';
 import { createTheme, ThemeProvider, ThemeOptions } from '@mui/material/styles';
 import AdbIcon from '@mui/icons-material/Adb';
@@ -32,7 +32,8 @@ const schemeOptions: { dark: ThemeOptions; light: ThemeOptions } = {
                     }
                 }
             }
-        }
+        },
+        shadows: Array(25).fill('none') as Shadows
     },
     light: {
         palette: {
@@ -56,7 +57,8 @@ const schemeOptions: { dark: ThemeOptions; light: ThemeOptions } = {
                     }
                 }
             }
-        }
+        },
+        shadows: Array(25).fill('none') as Shadows
     }
 };
 
