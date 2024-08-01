@@ -10,17 +10,57 @@ import './index.css';
 const pages = ['Products', 'Pricing', 'Blog'];
 const settings = ['Profile', 'Account', 'Dashboard', 'Logout'];
 
-// background: white !important;
-// background-image: radial-gradient(black 1px, transparent 0) !important;
-// background-size: 40px 40px !important;
-// background-position: -19px -19px !important;
-
-// {
-//     dark: { palette: { mode: 'dark' } },
-//     light: { palette: { mode: 'light' } }
-// }[window.matchMedia('(prefers-color-scheme: dark)').matches ? 'dark' : 'light']
-
-// const theme = createTheme();
+const schemeOptions: { dark: ThemeOptions; light: ThemeOptions } = {
+    dark: {
+        palette: {
+            mode: 'dark'
+        },
+        components: {
+            MuiCssBaseline: {
+                styleOverrides: {
+                    body: {
+                        backgroundImage: 'radial-gradient(rgba(255, 255, 255, 0.05) 1px, transparent 0)',
+                        backgroundSize: '20px 20px',
+                        backgroundPosition: '-40px -40px'
+                    }
+                }
+            },
+            MuiCard: {
+                styleOverrides: {
+                    root: {
+                        backgroundColor: 'rgba(255, 255, 255, 0)'
+                    }
+                }
+            }
+        },
+        shadows: Array(25).fill('none') as Shadows
+    },
+    light: {
+        palette: {
+            mode: 'light'
+        },
+        components: {
+            MuiCssBaseline: {
+                styleOverrides: {
+                    body: {
+                        background: 'rgba(245, 245, 245)',
+                        backgroundImage: 'radial-gradient(rgba(0, 0, 0, 0.05) 1px, transparent 0)',
+                        backgroundSize: '20px 20px',
+                        backgroundPosition: '-40px -40px'
+                    }
+                }
+            },
+            MuiCard: {
+                styleOverrides: {
+                    root: {
+                        backgroundColor: 'rgba(0, 0, 0, 0)'
+                    }
+                }
+            }
+        },
+        shadows: Array(25).fill('none') as Shadows
+    }
+};
 
 export default ({ children }: { children: React.ReactNode }) => {
     const [anchorElNav, setAnchorElNav] = React.useState<null | HTMLElement>(null);
