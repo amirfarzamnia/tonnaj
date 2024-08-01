@@ -42,6 +42,7 @@ const schemeOptions: { dark: ThemeOptions; light: ThemeOptions } = {
             MuiCssBaseline: {
                 styleOverrides: {
                     body: {
+                        background: 'rgba(245, 245, 245)',
                         backgroundImage: 'radial-gradient(rgba(0, 0, 0, 0.05) 1px, transparent 0)',
                         backgroundSize: '20px 20px',
                         backgroundPosition: '-40px -40px'
