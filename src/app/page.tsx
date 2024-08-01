@@ -62,6 +62,15 @@ export default () => {
 
     return (
         <Container className="mt-10" maxWidth="xl">
+            <Typography gutterBottom textAlign="center" variant="h4">
+                درخواست های خرید محصول
+            </Typography>
+            <Typography textAlign="center" variant="subtitle2">
+                آخرین تقاضاهای بازار
+            </Typography>
+            <Box sx={{ my: 4, width: '25%', mx: 'auto' }}>
+                <Divider />
+            </Box>
             <Box sx={{ width: '85%', flexGrow: 1, mx: 'auto' }}>
                 <Slider {...sliderSettings}>
                     {carouselItems.map((item, index) => (
