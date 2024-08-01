@@ -1,8 +1,10 @@
 'use client';
 
-import { Grid, Box, Button, Card, CardContent, IconButton, MobileStepper, Paper, Typography, Container, Divider } from '@mui/material';
-import { KeyboardArrowLeft, KeyboardArrowRight } from '@mui/icons-material';
+import { Grid, Box, Button, Card, Paper, CardContent, Typography, Container, Divider } from '@mui/material';
 import { Inventory2, Sell, LocalShipping } from '@mui/icons-material';
+import 'slick-carousel/slick/slick-theme.css';
+import 'slick-carousel/slick/slick.css';
+import Slider from 'react-slick';
 import * as React from 'react';
 
 const carouselItems = [
@@ -31,42 +33,46 @@ const cards = [
 ];
 
 export default () => {
-    const [activeStep, setActiveStep] = React.useState(0);
-    const maxSteps = carouselItems.length;
-
-    const handleNext = () => setActiveStep((prevActiveStep) => (prevActiveStep + 1) % maxSteps);
-    const handleBack = () => setActiveStep((prevActiveStep) => (prevActiveStep - 1 + maxSteps) % maxSteps);
-
-    React.useEffect(() => {
-        const interval = setInterval(handleNext, 3000);
-
-        return () => clearInterval(interval);
-    }, []);
+    const sliderSettings = {
+        dots: true,
+        infinite: true,
+        speed: 500,
+        slidesToShow: 3,
+        slidesToScroll: 1,
+        autoplay: true,
+        autoplaySpeed: 3000,
+        responsive: [
+            {
+                breakpoint: 1024,
+                settings: {
+                    slidesToShow: 2,
+                    slidesToScroll: 1,
+                    infinite: true
+                }
+            },
+            {
+                breakpoint: 600,
+                settings: {
+                    slidesToShow: 1,
+                    slidesToScroll: 1
+                }
+            }
+        ]
+    };
 
     return (
         <Container className="mt-10" maxWidth="xl">
-            <Box sx={{ maxWidth: 400, flexGrow: 1 }}>
-                <Paper square elevation={0} sx={{ display: 'flex', alignItems: 'center', height: 50, pl: 2, bgcolor: 'background.default' }}>
-                    <Typography>{carouselItems[activeStep].label}</Typography>
-                </Paper>
-                <Box component="img" sx={{ height: 255, display: 'block', maxWidth: 400, overflow: 'hidden', width: '100%' }} src={carouselItems[activeStep].img} alt={carouselItems[activeStep].label} />
-                <MobileStepper
-                    steps={maxSteps}
-                    position="static"
-                    activeStep={activeStep}
-                    nextButton={
-                        <IconButton sx={{ borderRadius: '0.25rem', p: 1 }} size="small" onClick={handleNext} disabled={activeStep === maxSteps - 1}>
-                            <KeyboardArrowLeft />
-                            بعدی
-                        </IconButton>
-                    }
-                    backButton={
-                        <IconButton sx={{ borderRadius: '0.25rem', p: 1 }} size="small" onClick={handleBack} disabled={activeStep === 0}>
-                            قبلی
-                            <KeyboardArrowRight />
-                        </IconButton>
-                    }
-                />
+            <Box sx={{ width: '85%', flexGrow: 1, mx: 'auto' }}>
+                <Slider {...sliderSettings}>
+                    {carouselItems.map((item, index) => (
+                        <Box key={index} sx={{ px: 2 }}>
+                            <Paper square elevation={0} sx={{ display: 'flex', alignItems: 'center', height: 50, pl: 2, bgcolor: 'background.default' }}>
+                                <Typography>{item.label}</Typography>
+                            </Paper>
+                            <Box component="img" sx={{ height: 255, display: 'block', width: '100%', overflow: 'hidden' }} src={item.img} alt={item.label} />
+                        </Box>
+                    ))}
+                </Slider>
             </Box>
             <Box className="mx-auto my-24 w-full flex items-center justify-center">
                 <Button variant="outlined" color="secondary" href="/market-guid">
