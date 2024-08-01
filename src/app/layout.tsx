@@ -31,6 +31,28 @@ const schemeOptions: { dark: ThemeOptions; light: ThemeOptions } = {
                         backgroundColor: 'rgba(255, 255, 255, 0)'
                     }
                 }
+            },
+            MuiTypography: {
+                styleOverrides: {
+                    h1: {
+                        color: '#2dd4bf'
+                    },
+                    h2: {
+                        color: '#2dd4bf'
+                    },
+                    h3: {
+                        color: '#2dd4bf'
+                    },
+                    h4: {
+                        color: '#2dd4bf'
+                    },
+                    h5: {
+                        color: '#2dd4bf'
+                    },
+                    h6: {
+                        color: '#2dd4bf'
+                    }
+                }
             }
         },
         shadows: Array(25).fill('none') as Shadows
@@ -54,6 +76,28 @@ const schemeOptions: { dark: ThemeOptions; light: ThemeOptions } = {
                 styleOverrides: {
                     root: {
                         backgroundColor: 'rgba(0, 0, 0, 0)'
+                    }
+                }
+            },
+            MuiTypography: {
+                styleOverrides: {
+                    h1: {
+                        color: '#03a054'
+                    },
+                    h2: {
+                        color: '#03a054'
+                    },
+                    h3: {
+                        color: '#03a054'
+                    },
+                    h4: {
+                        color: '#03a054'
+                    },
+                    h5: {
+                        color: '#03a054'
+                    },
+                    h6: {
+                        color: '#03a054'
                     }
                 }
             }
