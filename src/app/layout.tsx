@@ -20,7 +20,7 @@ const settings = ['Profile', 'Account', 'Dashboard', 'Logout'];
 //     light: { palette: { mode: 'light' } }
 // }[window.matchMedia('(prefers-color-scheme: dark)').matches ? 'dark' : 'light']
 
-// const theme = createTheme();
+const theme = createTheme();
 
 export default ({ children }: Readonly<{ children: React.ReactNode }>) => {
     const [anchorElNav, setAnchorElNav] = React.useState<null | HTMLElement>(null);
