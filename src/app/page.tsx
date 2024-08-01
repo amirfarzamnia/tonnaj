@@ -1,6 +1,6 @@
 'use client';
 
-import { Grid, Card, CardContent, Typography, Container } from '@mui/material';
+import { Grid, Card, CardContent, Typography, Container, Divider } from '@mui/material';
 
 const cards = [
     { title: 'Card 1', description: 'This is the first card.' },
@@ -10,7 +10,11 @@ const cards = [
 
 export default () => {
     return (
-        <Container maxWidth="xl">
+        <Container className="mt-10" maxWidth="xl">
+            <Typography gutterBottom className="text-center" variant="h4">
+                تناج چگونه کار میکند؟
+            </Typography>
+            <Divider className="mb-10" />
             <Grid container spacing={2}>
                 {cards.map((card) => (
                     <Grid item xs={12} sm={6} md={4}>
