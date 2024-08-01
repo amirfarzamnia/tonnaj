@@ -1,6 +1,6 @@
 'use client';
 
-import { Button, Box, Toolbar, AppBar, Menu, Avatar, Tooltip, MenuItem, Container, Typography, IconButton, CssBaseline, Shadows } from '@mui/material';
+import { Button, Box, Grid, Toolbar, AppBar, Link, Menu, Avatar, Tooltip, MenuItem, Container, Typography, IconButton, CssBaseline, Shadows } from '@mui/material';
 import { Search as SearchIcon, Menu as MenuIcon, LightMode as LightModeIcon, DarkMode as DarkModeIcon } from '@mui/icons-material';
 import { createTheme, ThemeProvider, ThemeOptions } from '@mui/material/styles';
 import AdbIcon from '@mui/icons-material/Adb';
@@ -66,7 +66,7 @@ const schemeOptions: { dark: ThemeOptions; light: ThemeOptions } = {
                 styleOverrides: {
                     body: {
                         background: 'rgba(245, 245, 245)',
-                        backgroundImage: 'radial-gradient(rgba(0, 0, 0, 0.05) 1px, transparent 0)',
+                        backgroundImage: 'radial-gradient(rgba(0, 0, 0, 0.1) 1px, transparent 0)',
                         backgroundSize: '20px 20px',
                         backgroundPosition: '-40px -40px'
                     }
@@ -196,6 +196,80 @@ export default ({ children }: { children: React.ReactNode }) => {
                         </Toolbar>
                     </AppBar>
                     {children}
+                    <Box sx={{ background: theme.palette.grey[900], py: 4 }}>
+                        <Container>
+                            <Grid container spacing={4}>
+                                <Grid item xs={12} sm={3}>
+                                    <Typography variant="h6" gutterBottom>
+                                        پیشخوان خدمات
+                                    </Typography>
+                                    <ul>
+                                        <li>
+                                            <Link underline="hover" href="#">
+                                                بازار فروش عمده
+                                            </Link>
+                                        </li>
+                                        <li>
+                                            <Link underline="hover" href="#">
+                                                بازار خرده فروشی
+                                            </Link>
+                                        </li>
+                                        <li>
+                                            <Link underline="hover" href="#">
+                                                روستابان
+                                            </Link>
+                                        </li>
+                                        <li>
+                                            <Link underline="hover" href="#">
+                                                قیمتبان
+                                            </Link>
+                                        </li>
+                                    </ul>
+                                </Grid>
+                                <Grid item xs={12} sm={3}>
+                                    <Typography variant="h6" gutterBottom>
+                                        پیوندهای مفید
+                                    </Typography>
+                                    <ul>
+                                        <li>
+                                            <Link underline="hover" href="#">
+                                                خانه
+                                            </Link>
+                                        </li>
+                                        <li>
+                                            <Link underline="hover" href="#">
+                                                سامانه اطلاع رسانی تناژ
+                                            </Link>
+                                        </li>
+                                        <li>
+                                            <Link underline="hover" href="#">
+                                                درباره تناژ
+                                            </Link>
+                                        </li>
+                                        <li>
+                                            <Link underline="hover" href="#">
+                                                تماس با تناژ
+                                            </Link>
+                                        </li>
+                                    </ul>
+                                </Grid>
+                                <Grid item xs={12} sm={3}>
+                                    <Typography variant="h6" gutterBottom>
+                                        بازار عمده محصولات کشاورزی
+                                    </Typography>
+                                    <Typography variant="caption">سروبان با شعار "از قلب مزرعه" همراه همیشگی شما فعالین عرصه کشاورزی می باشد.در هر لحظه و در هر زمان تنها با چند کلیک ساده بازار خود را بسازید، دانش خود را بیافزایید، از خدمات بهره مند گردید و فرصت های اقتصادی خود را از طریق مشاوران و متخصصان کشف نمایید.فقط کافیست به جمع خانواده بزرگ سروبان بپیوندید.</Typography>
+                                </Grid>
+                                <Grid item xs={12} sm={3}>
+                                    <Typography variant="h6" gutterBottom>
+                                        همکاریها و مجوزها{' '}
+                                    </Typography>
+                                    <Box component="img" src="https://via.placeholder.com/40" alt="Facebook" sx={{ width: 40, height: 40, margin: 1 }} />
+                                    <Box component="img" src="https://via.placeholder.com/40" alt="Twitter" sx={{ width: 40, height: 40, margin: 1 }} />
+                                    <Box component="img" src="https://via.placeholder.com/40" alt="Instagram" sx={{ width: 40, height: 40, margin: 1 }} />
+                                </Grid>
+                            </Grid>
+                        </Container>
+                    </Box>
                 </body>
             </html>
         </ThemeProvider>

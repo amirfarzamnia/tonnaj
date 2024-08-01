@@ -39,7 +39,7 @@ export default () => {
                 ))}
             </Grid>
             <iframe className="mx-auto my-12" src="https://www.aparat.com/video/video/embed/videohash/jicqws8/vt/frame" allowFullScreen></iframe>
-            <Box className="mx-auto mt-4 mb-28 w-full flex items-center justify-center">
+            <Box className="mx-auto mt-4 mb-20 w-full flex items-center justify-center">
                 <Button variant="outlined" color="secondary" href="/market-guid">
                     درباره خدمات خرید و فروش عمده تناژ بیشتر بدانید
                 </Button>
