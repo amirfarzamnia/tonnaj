@@ -16,7 +16,7 @@ export default function Cart({ title, image, author, locationName, description, 
     return (
         <Box component={'a'} href={`/products/details/`} className="cursor-pointer w-[280px] h-[390px] group rounded-t-sm rounded-b-2xl drop-shadow-2xl transition-all duration-300 ease-out shadow-bg shadow-transparent bg-white hover:shadow-black/60" dir="rtl">
             <div className="object-cover">
-                <img src={image} className="h-[155px] rounded-t-sm transition-all duration-200" alt="" />
+                <img src={image} loading="lazy" className="h-[155px] rounded-t-sm transition-all duration-200" alt="" />
             </div>
             <div className="p-1 text-xl">
                 <div className="text-green-600">
