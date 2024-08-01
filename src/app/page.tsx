@@ -1,7 +1,28 @@
 'use client';
 
-import { Grid, Box, Button, Card, CardContent, Typography, Container, Divider } from '@mui/material';
+import { Grid, Box, Button, Card, CardContent, IconButton, MobileStepper, Paper, Typography, Container, Divider } from '@mui/material';
+import { KeyboardArrowLeft, KeyboardArrowRight } from '@mui/icons-material';
 import { Inventory2, Sell, LocalShipping } from '@mui/icons-material';
+import * as React from 'react';
+
+const carouselItems = [
+    {
+        label: 'San Francisco - Oakland Bay Bridge',
+        imgPath: 'https://material-ui.com/static/images/cards/contemplative-reptile.jpg'
+    },
+    {
+        label: 'Bird',
+        imgPath: 'https://material-ui.com/static/images/cards/paella.jpg'
+    },
+    {
+        label: 'Bali, Indonesia',
+        imgPath: 'https://material-ui.com/static/images/cards/paella.jpg'
+    },
+    {
+        label: 'Goč, Serbia',
+        imgPath: 'https://material-ui.com/static/images/cards/paella.jpg'
+    }
+];
 
 const cards = [
     { title: 'ثبت محصول', icon: Inventory2, description: 'کشاورز یا تامین کننده نوع محصول، میزان و قیمت پیشنهادی خود را همراه با عکس و مشخصات کامل،اعلام و در سامانه ثبت می نماید. محصولات در دسته بندی های تخصصی قابلیت ثبت دارند و پاسخگوی سوالات اولیه خریداران است.' },
@@ -10,8 +31,48 @@ const cards = [
 ];
 
 export default () => {
+    const [activeStep, setActiveStep] = React.useState(0);
+    const maxSteps = carouselItems.length;
+
+    const handleNext = () => setActiveStep((prevActiveStep) => (prevActiveStep + 1) % maxSteps);
+    const handleBack = () => setActiveStep((prevActiveStep) => (prevActiveStep - 1 + maxSteps) % maxSteps);
+
+    React.useEffect(() => {
+        const interval = setInterval(handleNext, 3000);
+
+        return () => clearInterval(interval);
+    }, []);
+
     return (
         <Container className="mt-10" maxWidth="xl">
+            <Box sx={{ maxWidth: 400, flexGrow: 1 }}>
+                <Paper square elevation={0} sx={{ display: 'flex', alignItems: 'center', height: 50, pl: 2, bgcolor: 'background.default' }}>
+                    <Typography>{carouselItems[activeStep].label}</Typography>
+                </Paper>
+                <Box component="img" sx={{ height: 255, display: 'block', maxWidth: 400, overflow: 'hidden', width: '100%' }} src={carouselItems[activeStep].imgPath} alt={carouselItems[activeStep].label} />
+                <MobileStepper
+                    steps={maxSteps}
+                    position="static"
+                    activeStep={activeStep}
+                    nextButton={
+                        <IconButton size="small" onClick={handleNext} disabled={activeStep === maxSteps - 1}>
+                            Next
+                            <KeyboardArrowRight />
+                        </IconButton>
+                    }
+                    backButton={
+                        <IconButton size="small" onClick={handleBack} disabled={activeStep === 0}>
+                            <KeyboardArrowLeft />
+                            Back
+                        </IconButton>
+                    }
+                />
+            </Box>
+            <Box className="mx-auto my-24 w-full flex items-center justify-center">
+                <Button variant="outlined" color="secondary" href="/market-guid">
+                    تمام درخواست های خرید را ببینید
+                </Button>
+            </Box>
             <Typography gutterBottom textAlign="center" variant="h4">
                 تناژ چگونه کار میکند؟
             </Typography>
