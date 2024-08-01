@@ -16,11 +16,11 @@ const Item = styled(Paper)(({ theme }) => ({
 
 export default () => {
     return (
-        <div className="w">
-            <div>
+        <div className="w-full h-auto flex mt-2">
+            <div className="w-[80%] flex items-center justify-end bg-white">
                 <Grid container rowSpacing={1} columnSpacing={{ xs: 1, sm: 2, md: 3 }}>
                     <Grid xs={6}>
-                        <Item>1</Item>
+                        <Item></Item>
                     </Grid>
                     <Grid xs={6}>
                         <Item>2</Item>
@@ -33,8 +33,6 @@ export default () => {
                     </Grid>
                 </Grid>
             </div>
-
-            <div></div>
         </div>
     );
 };

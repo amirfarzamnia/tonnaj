@@ -1,8 +1,8 @@
 'use client';
 
 import { Button, Box, Toolbar, AppBar, Menu, Avatar, Tooltip, MenuItem, Container, Typography, IconButton, CssBaseline } from '@mui/material';
+import { Search as SearchIcon, Menu as MenuIcon } from '@mui/icons-material';
 import { createTheme, ThemeProvider } from '@mui/material/styles';
-import { Search, Menu as MenuIcon } from '@mui/icons-material';
 import AdbIcon from '@mui/icons-material/Adb';
 import * as React from 'react';
 import './index.css';
@@ -10,7 +10,17 @@ import './index.css';
 const pages = ['Products', 'Pricing', 'Blog'];
 const settings = ['Profile', 'Account', 'Dashboard', 'Logout'];
 
-const theme = window.matchMedia('(prefers-color-scheme: dark)').matches ? createTheme({ palette: { mode: 'dark' } }) : createTheme({ palette: { mode: 'light' } });
+// background: white !important;
+// background-image: radial-gradient(black 1px, transparent 0) !important;
+// background-size: 40px 40px !important;
+// background-position: -19px -19px !important;
+
+// {
+//     dark: { palette: { mode: 'dark' } },
+//     light: { palette: { mode: 'light' } }
+// }[window.matchMedia('(prefers-color-scheme: dark)').matches ? 'dark' : 'light']
+
+// const theme = createTheme();
 
 export default ({ children }: Readonly<{ children: React.ReactNode }>) => {
     const [anchorElNav, setAnchorElNav] = React.useState<null | HTMLElement>(null);
@@ -25,7 +35,7 @@ export default ({ children }: Readonly<{ children: React.ReactNode }>) => {
     return (
         <ThemeProvider theme={theme}>
             <CssBaseline />
-            <html lang="fa-IR">
+            <html lang="fa-IR" dir="rtl">
                 <body>
                     <AppBar position="static">
                         <Container maxWidth="xl">
@@ -76,9 +86,9 @@ export default ({ children }: Readonly<{ children: React.ReactNode }>) => {
                         <Toolbar>
                             <div className="relative border rounded-sm border-slate-100 border-opacity-25 w-52 hover:bg-gray-600 hover:bg-opacity-5 hover:w-96 transition-all duration-500">
                                 <div className="px-2 h-full absolute pointer-events-none flex items-center justify-center">
-                                    <Search />
+                                    <SearchIcon />
                                 </div>
-                                <input className="outline-none p-2 bg-transparent pl-12" placeholder="...جست و جوی محصول" aria-label="search" />
+                                <input className="outline-none py-2 pr-4 bg-transparent" placeholder="...جست و جوی محصول" aria-label="search" />
                             </div>
                         </Toolbar>
                         <Toolbar>
