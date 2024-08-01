@@ -87,7 +87,33 @@ const products = [
 export default () => {
     return (
         <Container className="mt-10" maxWidth="xl">
-            <Grid container spacing={2} sx={{ px: 2 }}>
+            <Grid container spacing={2} sx={{ mb: 10 }}>
+                {cards.map((card, index) => (
+                    <Grid item xs={12} sm={6} md={4} key={index}>
+                        <Card sx={{ background: 'transparent' }}>
+                            <CardContent>
+                                <Typography gutterBottom variant="h5" component="div">
+                                    <card.icon sx={{ ml: 2 }} />
+                                    {card.title}
+                                </Typography>
+                                <Typography variant="body2" color="text.secondary">
+                                    {card.description}
+                                </Typography>
+                            </CardContent>
+                        </Card>
+                    </Grid>
+                ))}
+            </Grid>
+            <Typography gutterBottom textAlign="center" variant="h4">
+                ویترین آخرین محصولات مزارع کشور{' '}
+            </Typography>
+            <Typography textAlign="center" variant="subtitle2">
+                مستقیم از قلب مردم
+            </Typography>
+            <Box sx={{ my: 4, width: '25%', mx: 'auto' }}>
+                <Divider />
+            </Box>
+            <Grid container spacing={2} sx={{ px: 2, mt: 10 }}>
                 {products.map((card, index) => (
                     <Grid item xs={12} sm={6} md={4} key={index}>
                         <Card sx={{ maxWidth: 345 }}>
