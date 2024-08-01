@@ -1,20 +1,9 @@
 'use client';
 
+import { Button, Box, Toolbar, AppBar, Menu, Avatar, Tooltip, MenuItem, Container, Typography, IconButton, CssBaseline } from '@mui/material';
 import { createTheme, ThemeProvider } from '@mui/material/styles';
-import CssBaseline from '@mui/material/CssBaseline';
-import IconButton from '@mui/material/IconButton';
-import Typography from '@mui/material/Typography';
-import MenuIcon from '@mui/icons-material/Menu';
-import Container from '@mui/material/Container';
-import MenuItem from '@mui/material/MenuItem';
+import { Search, Menu as MenuIcon } from '@mui/icons-material';
 import AdbIcon from '@mui/icons-material/Adb';
-import Toolbar from '@mui/material/Toolbar';
-import Tooltip from '@mui/material/Tooltip';
-import Button from '@mui/material/Button';
-import Avatar from '@mui/material/Avatar';
-import AppBar from '@mui/material/AppBar';
-import Menu from '@mui/material/Menu';
-import Box from '@mui/material/Box';
 import * as React from 'react';
 import './index.css';
 
@@ -84,6 +73,23 @@ export default ({ children }: Readonly<{ children: React.ReactNode }>) => {
                                 </Box>
                             </Toolbar>
                         </Container>
+                        <Toolbar>
+                            <div className="relative border rounded-sm border-slate-100 border-opacity-25 w-52 hover:bg-gray-600 hover:bg-opacity-5 hover:w-96 transition-all duration-500">
+                                <div className="px-2 h-full absolute pointer-events-none flex items-center justify-center">
+                                    <Search />
+                                </div>
+                                <input className="outline-none p-2 bg-transparent pl-12" placeholder="...جست و جوی محصول" aria-label="search" />
+                            </div>
+                        </Toolbar>
+                        <Toolbar>
+                            <Box sx={{ flexGrow: 1, display: { xs: 'none', md: 'flex' }, justifyContent: 'center' }}>
+                                {['محصولات', 'قیمتها', 'تعرفه خدمات', 'تماس با تناژ', 'خدمات تناژ', 'داستان تناژ', 'بازار عمده تناژ'].map((page) => (
+                                    <Button key={page} sx={{ my: 2, color: 'white', display: 'block' }}>
+                                        {page}
+                                    </Button>
+                                ))}
+                            </Box>
+                        </Toolbar>
                     </AppBar>
                     {children}
                 </body>
