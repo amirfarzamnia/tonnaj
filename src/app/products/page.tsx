@@ -1,22 +1,14 @@
 'use client';
 
 import Cart from '@/components/card';
+import { useShop } from '@/context/shopContext';
 import { CartTypes } from '@/types/types';
 import { Typography } from '@mui/material';
 import { Accordion, AccordionItem } from '@nextui-org/react';
 import * as React from 'react';
 
 export default () => {
-    // const []
-
-    const carts: CartTypes[] = [
-        { author: 'نیما', image: '/card.jpg', title: 'فروش سیب زمینی', locationName: 'شهدا', description: 'خرید سیب زمینی...', buttonHref: '/s' },
-
-        { author: 'نیما', image: '/card.jpg', title: 'فروش سیب زمینی', locationName: 'شهدا', description: 'خرید سیب زمینی...', buttonHref: '/s' },
-        { author: 'نیما', image: '/card.jpg', title: 'فروش سیب زمینی', locationName: 'شهدا', description: 'خرید سیب زمینی...', buttonHref: '/s' },
-        { author: 'نیما', image: '/card.jpg', title: 'فروش سیب زمینی', locationName: 'شهدا', description: 'خرید سیب زمینی...', buttonHref: '/s' },
-        { author: 'نیما', image: '/card.jpg', title: 'فروش سیب زمینی', locationName: 'شهدا', description: 'خرید سیب زمینی...', buttonHref: '/s' }
-    ];
+    const { cartItems } = useShop();
 
     const exportItems: { name: string; link: string }[] = [
         {
@@ -200,7 +192,7 @@ export default () => {
                         <div className="w-[50%]"></div>
                     </div>
                     <div className="w-full h-auto grid grid-cols-3 gap-x-3 gap-y-10 whitespace-break-spaces">
-                        {carts.map((item, index) => {
+                        {cartItems.map((item, index) => {
                             return <Cart author={item.author} title={item.title} description={item.description} buttonHref={item.buttonHref} locationName={item.locationName} image={item.image} key={index} />;
                         })}
                     </div>
