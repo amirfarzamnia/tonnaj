@@ -1,8 +1,8 @@
 'use client';
 
-import { Button, Box, Toolbar, AppBar, Menu, Avatar, Tooltip, MenuItem, Container, Typography, IconButton, CssBaseline } from '@mui/material';
-import { Search as SearchIcon, Menu as MenuIcon } from '@mui/icons-material';
-import { createTheme, ThemeProvider } from '@mui/material/styles';
+import { Button, Box, Toolbar, AppBar, Menu, Avatar, Tooltip, MenuItem, Container, Typography, IconButton, CssBaseline, Shadows } from '@mui/material';
+import { Search as SearchIcon, Menu as MenuIcon, LightMode as LightModeIcon, DarkMode as DarkModeIcon } from '@mui/icons-material';
+import { createTheme, ThemeProvider, ThemeOptions } from '@mui/material/styles';
 import AdbIcon from '@mui/icons-material/Adb';
 import * as React from 'react';
 import './index.css';
@@ -20,17 +20,22 @@ const settings = ['Profile', 'Account', 'Dashboard', 'Logout'];
 //     light: { palette: { mode: 'light' } }
 // }[window.matchMedia('(prefers-color-scheme: dark)').matches ? 'dark' : 'light']
 
-const theme = createTheme();
+// const theme = createTheme();
 
-export default ({ children }: Readonly<{ children: React.ReactNode }>) => {
+export default ({ children }: { children: React.ReactNode }) => {
     const [anchorElNav, setAnchorElNav] = React.useState<null | HTMLElement>(null);
     const [anchorElUser, setAnchorElUser] = React.useState<null | HTMLElement>(null);
+    const [darkMode, setDarkMode] = React.useState<boolean>(window.matchMedia('(prefers-color-scheme: dark)').matches);
+
+    const theme = React.useMemo(() => createTheme(schemeOptions[darkMode ? 'dark' : 'light']), [darkMode]);
 
     const handleOpenNavMenu = (event: React.MouseEvent<HTMLElement>) => setAnchorElNav(event.currentTarget);
     const handleOpenUserMenu = (event: React.MouseEvent<HTMLElement>) => setAnchorElUser(event.currentTarget);
 
     const handleCloseNavMenu = () => setAnchorElNav(null);
     const handleCloseUserMenu = () => setAnchorElUser(null);
+
+    const toggleTheme = () => setDarkMode((prevMode) => !prevMode);
 
     return (
         <ThemeProvider theme={theme}>
@@ -68,6 +73,11 @@ export default ({ children }: Readonly<{ children: React.ReactNode }>) => {
                                     ))}
                                 </Box>
                                 <Box sx={{ flexGrow: 0 }}>
+                                    <Tooltip title="Toggle theme">
+                                        <IconButton onClick={toggleTheme} sx={{ p: 0 }}>
+                                            {darkMode ? <LightModeIcon /> : <DarkModeIcon />}
+                                        </IconButton>
+                                    </Tooltip>
                                     <Tooltip title="Open settings">
                                         <IconButton onClick={handleOpenUserMenu} sx={{ p: 0 }}>
                                             <Avatar alt="Remy Sharp" src="/static/images/avatar/2.jpg" />

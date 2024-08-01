@@ -1,3 +1,14 @@
 @tailwind components;
 @tailwind utilities;
 @tailwind base;
+
+@font-face {
+    src: url("https://cdn.font-store.ir/fonts/ganjnameh/GanjNamehSans-Regular.woff2") format("woff2"), url("https://cdn.font-store.ir/fonts/ganjnameh/GanjNamehSans-Regular.woff") format("woff"), url("https://cdn.font-store.ir/fonts/ganjnameh/GanjNamehSans-Regular.ttf") format("truetype"), url("https://cdn.font-store.ir/fonts/ganjnameh/GanjNamehSans-Regular.otf") format("opentype");
+    font-family: "Ganjnameh";
+    font-weight: normal;
+    font-style: normal;
+}
+
+* {
+    font-family: "Ganjnameh", monospace !important;
+}
