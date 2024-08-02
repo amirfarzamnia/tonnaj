@@ -2,7 +2,7 @@
 
 import { useShop } from '@/context/shopContext';
 import { CartTypes } from '@/types/types';
-import { Call, Check, Person2Sharp, Star, StarBorder, Telegram } from '@mui/icons-material';
+import { Call, Check, Person2Sharp, Star, StarBorder } from '@mui/icons-material';
 import { Box, Button, Link, Stack, Typography } from '@mui/material';
 import { Image } from '@nextui-org/react';
 import { useEffect, useState } from 'react';
@@ -10,7 +10,6 @@ import { BiUser } from 'react-icons/bi';
 import { BsTelegram, BsWhatsapp } from 'react-icons/bs';
 import { FaBarcode, FaLeaf, FaLocationArrow, FaTag } from 'react-icons/fa';
 import { IoIosLeaf } from 'react-icons/io';
-import { PiQrCodeThin } from 'react-icons/pi';
 
 type CartInfoType = {
     product_type: string;
@@ -98,142 +97,163 @@ export default ({ params }: { params: { productId: string } }) => {
     ];
 
     return (
-        <Stack direction={'row'} className="items-start justify-center w-full h-auto *:mb-5 *:mt-6">
-            <Box component={'section'} className="w-[45%] flex flex-col items-center justify-center">
-                <Box component={'div'} className="w-fit h-fit">
-                    <Image loading="lazy" src={findCart?.image} className="w-[470px] h-[360px]" />
-                </Box>
-                <Box component={'div'} className="w-[470px] h-[350px] p-2 rounded-xl mt-2 shadow-bg shadow-black bg-white/85">
-                    <Box component={'div'} className="h-auto w-auto mt-4 p-2 flex justify-center pb-5 border-gray-300 border-b-3">
-                        <Box className="text-[20px]" color={'black'}>
-                            <Person2Sharp sx={{ fontSize: 70 }} />
+        <Stack direction={'column'} className="items-start justify-center w-full h-auto *:mb-5 *:mt-6">
+            <Box flexDirection={'row'} className="flex w-full">
+                <Box component={'section'} className="w-[45%] flex flex-col items-center justify-start">
+                    <Box component={'div'} className="w-fit h-fit">
+                        <Image loading="lazy" src={findCart?.image} className="w-[470px] h-[360px]" />
+                    </Box>
+                    <Box component={'div'} className="w-[470px] h-[350px] p-2 rounded-xl mt-2 shadow-bg shadow-black bg-white/85">
+                        <Box component={'div'} className="h-auto w-auto mt-4 p-2 flex justify-center pb-5 border-gray-300 border-b-3">
+                            <Box className="text-[20px]" color={'black'}>
+                                <Person2Sharp sx={{ fontSize: 70 }} />
+                            </Box>
+                            <Box className="mt-6 text-center">
+                                <Typography color={'black'} sx={{ lineHeight: 1.5 }} variant="h5">
+                                    {' '}
+                                    من یک کشاورز و عضو سروبان هستم. محصول من سیب زمینی از همدان بهار است.
+                                </Typography>
+                                <Typography color={'black'} sx={{ lineHeight: 1.5 }} variant="h5">
+                                    خوشحال میشم برای ارتباط مستقیم با من از طریق دکمه زیر اقدام کنید
+                                </Typography>
+                            </Box>
                         </Box>
-                        <Box className="mt-6 text-center">
-                            <Typography color={'black'} sx={{ lineHeight: 1.5 }} variant="h5">
-                                {' '}
-                                من یک کشاورز و عضو سروبان هستم. محصول من سیب زمینی از همدان بهار است.
-                            </Typography>
-                            <Typography color={'black'} sx={{ lineHeight: 1.5 }} variant="h5">
-                                خوشحال میشم برای ارتباط مستقیم با من از طریق دکمه زیر اقدام کنید
-                            </Typography>
+                        <Box component={'div'} className="flex items-center justify-center w-full h-[90px]">
+                            <Box component={'div'} className="w-full flex items-center justify-center">
+                                <Button size="large" variant="contained" color="error" className="w-[90%] h-[7vh] flex items-center justify-center text-[20px]" sx={{ borderRadius: '15px' }}>
+                                    <p>تماس با فروشنده</p>
+                                    <Call className="absolute mr-48 animate-bounce scale-[1.3] p-1 bg-red-600 rounded-lg" sx={{ fontSize: 50 }} />
+                                </Button>
+                            </Box>
                         </Box>
                     </Box>
-                    <Box component={'div'} className="flex items-center justify-center w-full h-[90px]">
-                        <Box component={'div'} className="w-full flex items-center justify-center">
-                            <Button size="large" variant="contained" color="error" className="w-[90%] h-[7vh] flex items-center justify-center text-[20px]" sx={{ borderRadius: '15px' }}>
-                                <p>تماس با فروشنده</p>
-                                <Call className="absolute mr-48 animate-bounce scale-[1.3] p-1 bg-red-600 rounded-lg" sx={{ fontSize: 50 }} />
+                </Box>
+
+                <Box className="w-[49%] flex flex-col items-center justify-start">
+                    <Box component={'div'} className="w-[78%] bg-white/80 drop-shadow-2xl rounded-lg p-3 *:p-2">
+                        <Box className="mr-2">
+                            <Typography fontSize={40} fontWeight={'bold'} variant="h5">
+                                {findCart?.title}
+                            </Typography>
+                        </Box>
+                        <Box component={'div'} className="flex items-center justify-center border-b-3 border-red-900 w-fit mb-5" dir="ltr">
+                            {Array.from({ length: 5 }).map((_, index) => {
+                                return index != 4 ? <Star sx={{ color: '#b91c1c', fontSize: 17 }} fontSize="small" key={index} /> : <StarBorder sx={{ color: '#b91c1c', fontSize: 17 }} fontSize="small" key={index} />;
+                            })}
+                        </Box>
+                        <Box className="flex items-center justify-around">
+                            <Button variant="contained" sx={{ 'color': 'white', 'backgroundColor': 'green', 'borderRadius': '15px', 'border': '2px solid', 'borderColor': 'transparent', ':hover': { backgroundColor: 'transparent', color: 'black', borderColor: 'black' } }} className="scale-[1.1] w-[45%] transition-all duration-300">
+                                گفتگو با فروشنده
                             </Button>
+                            <Button variant="contained" sx={{ 'color': 'black', 'backgroundColor': 'transparent', 'borderRadius': '15px', 'border': '2px solid', 'borderColor': 'green', ':hover': { backgroundColor: 'green', color: 'white', borderColor: 'transparent' } }} className="scale-[1.1] w-[45%] transition-all duration-300">
+                                ثبت سفارش
+                            </Button>
+                        </Box>
+                        <Box marginTop={'15px'}>
+                            <Typography variant="subtitle2" className="font-thin font-serif text-gray-600">
+                                {findCart?.pageTitle}
+                            </Typography>
+                        </Box>
+
+                        <Box flex={1} marginTop={5}>
+                            {infos.map((item, index) => {
+                                return (
+                                    <Box key={index} className="flex items-center" borderBottom={2} borderColor={'#9ca3af'} padding={1.5}>
+                                        <Box className="flex items-center justify-start text-[20px]">
+                                            <Box className="ml-3 text-green-950">{item.icon}</Box>
+                                            <Box>
+                                                <Typography variant="h5" color={'#052e16'} className="text-green-800" fontWeight={'bold'}>
+                                                    {item.title} :
+                                                </Typography>
+                                            </Box>
+                                        </Box>
+                                        <Box className="mr-2">
+                                            {index == 0 ? (
+                                                <Link href={`/search/${item.value}`} variant="h6" color={'#15803d'} sx={{ textDecoration: 'none' }}>
+                                                    {item.value}
+                                                </Link>
+                                            ) : (
+                                                <Typography variant="h6" color={'#166534'}>
+                                                    {item.value}
+                                                </Typography>
+                                            )}
+                                        </Box>
+                                    </Box>
+                                );
+                            })}
+                        </Box>
+
+                        <Box className="mt-5">
+                            <Box>
+                                <Typography fontSize={28} variant="h4">
+                                    قیمت پیشنهادی فروشنده : {cartInfo?.price}
+                                </Typography>
+                                <Typography fontSize={13} className="text-gray-600">
+                                    بروزرسانی : امروز
+                                </Typography>
+                            </Box>
+                            <Box className="mt-3 p-1 text-red-900">
+                                <Typography>توجه : قیمت این محصول توسط فروشنده پیشنهاد شده است. اگر آماده خرید این محصول با قیمت دیگری هستید پیشنهاد دهید</Typography>
+                            </Box>
+                            <Box className="flex items-center justify-center p-1 mt-3">
+                                <Button variant="contained" sx={{ 'width': '90%', 'fontSize': '20px', 'height': '6.5vh', 'color': 'white', 'backgroundColor': 'green', 'borderRadius': '15px', 'border': '2px solid', 'borderColor': 'transparent', ':hover': { backgroundColor: 'transparent', color: 'black', borderColor: 'black' } }} className="scale-[1.1] w-[45%] transition-all duration-300">
+                                    پیشنهاد قیمت بدهید
+                                </Button>
+                            </Box>
+                            <Box className="mt-8">
+                                <Typography color={'black'} className="text-center">
+                                    برای اطلاع از{' '}
+                                    <Link sx={{ textDecoration: 'none' }} fontWeight={'thin'} href={`/search/${cartInfo?.product_type}`} color={'#166534'}>
+                                        قیمت روز سیب زمینی
+                                    </Link>{' '}
+                                    و خرید مستقیم پیام ارسال کنید
+                                </Typography>
+                                <Typography color={'black'} marginTop={2} className="text-center cursor-pointer">
+                                    برای شروع مذاکره دکمه گفتگو با فروشنده را کلیک کنید
+                                </Typography>
+                            </Box>
+                            <Box className="mt-10 flex items-center justify-start p-2">
+                                <Button variant="contained" sx={{ 'color': 'green', 'fontSize': 19, 'height': '6vh', 'backgroundColor': 'transparent', 'borderRadius': '15px', 'border': '1px solid', 'borderColor': 'green', ':hover': { backgroundColor: 'green', color: 'white', borderColor: 'transparent' } }} className="scale-[1.1] w-[45%] transition-all duration-300">
+                                    خرید امن از تناژ
+                                </Button>
+                            </Box>
+                        </Box>
+
+                        <Box className="mt-12 mb-2 flex items-center justify-center">
+                            <Link href={`https://t.me/share/url?url=https://tonnaj.com/details/${cartInfo?.productId}&amp;text=فروش ${findCart?.title}`} marginLeft={1} className="flex items-center justify-center w-fit p-2 rounded bg-gray-400/80" target="_blank">
+                                <p className="text-black">واتساپ</p>
+                                <BsWhatsapp className="text-green-700 mr-1" fontSize={25} />
+                            </Link>
+
+                            <Link href={`https://api.whatsapp.com/send?text=https://tonnaj.com/details/${cartInfo?.productId}/فروش ${findCart?.title}`} className="flex items-center justify-center w-fit p-2 rounded bg-gray-400/80" target="_blank">
+                                <p className="text-black">تلگرام</p>
+                                <BsTelegram className="text-blue-800 mr-1" fontSize={25} />
+                            </Link>
+
+                            <Typography className="text-black" marginRight={2}>
+                                :اشتراک گذاری
+                            </Typography>
                         </Box>
                     </Box>
                 </Box>
             </Box>
 
-            <Box className="w-[49%] flex items-center justify-start">
-                <Box component={'div'} className="w-[78%] bg-white/80 drop-shadow-2xl rounded-lg p-3 *:p-2">
-                    <Box className="mr-2">
-                        <Typography sx={{ color: '#14532d' }} fontSize={40} fontWeight={'bold'} variant="h5">
-                            {findCart?.title}
-                        </Typography>
-                    </Box>
-                    <Box component={'div'} className="flex items-center justify-center border-b-3 border-red-900 w-fit mb-5" dir="ltr">
-                        {Array.from({ length: 5 }).map((_, index) => {
-                            return index != 4 ? <Star sx={{ color: '#b91c1c', fontSize: 17 }} fontSize="small" key={index} /> : <StarBorder sx={{ color: '#b91c1c', fontSize: 17 }} fontSize="small" key={index} />;
-                        })}
-                    </Box>
-                    <Box className="flex items-center justify-around">
-                        <Button variant="contained" sx={{ 'color': 'white', 'backgroundColor': 'green', 'borderRadius': '15px', 'border': '2px solid', 'borderColor': 'transparent', ':hover': { backgroundColor: 'transparent', color: 'black', borderColor: 'black' } }} className="scale-[1.1] w-[45%] transition-all duration-300">
-                            گفتگو با فروشنده
-                        </Button>
-                        <Button variant="contained" sx={{ 'color': 'black', 'backgroundColor': 'transparent', 'borderRadius': '15px', 'border': '2px solid', 'borderColor': 'green', ':hover': { backgroundColor: 'green', color: 'white', borderColor: 'transparent' } }} className="scale-[1.1] w-[45%] transition-all duration-300">
-                            ثبت سفارش
-                        </Button>
-                    </Box>
-                    <Box marginTop={'15px'}>
-                        <Typography variant="subtitle2" className="font-thin font-serif text-gray-600">
-                            {findCart?.pageTitle}
-                        </Typography>
-                    </Box>
-
-                    <Box flex={1} marginTop={5}>
-                        {infos.map((item, index) => {
-                            return (
-                                <Box key={index} className="flex items-center" borderBottom={2} borderColor={'#9ca3af'} padding={1.5}>
-                                    <Box className="flex items-center justify-start text-[20px]">
-                                        <Box className="ml-3 text-green-950">{item.icon}</Box>
-                                        <Box>
-                                            <Typography variant="h5" color={'#052e16'} className="text-green-800" fontWeight={'bold'}>
-                                                {item.title} :
-                                            </Typography>
-                                        </Box>
-                                    </Box>
-                                    <Box className="mr-2">
-                                        {index == 0 ? (
-                                            <Link href={`/search/${item.value}`} variant="h6" color={'#15803d'} className="">
-                                                {item.value}
-                                            </Link>
-                                        ) : (
-                                            <Typography variant="h6" color={'#166534'}>
-                                                {item.value}
-                                            </Typography>
-                                        )}
-                                    </Box>
-                                </Box>
-                            );
-                        })}
-                    </Box>
-
-                    <Box className="mt-5">
-                        <Box>
-                            <Typography fontSize={28} color={'green'} variant="h4">
-                                قیمت پیشنهادی فروشنده : {cartInfo?.price}
-                            </Typography>
-                            <Typography fontSize={13} className="text-gray-600">
-                                بروزرسانی : امروز
-                            </Typography>
-                        </Box>
-                        <Box className="mt-3 p-1 text-red-900">
-                            <Typography>توجه : قیمت این محصول توسط فروشنده پیشنهاد شده است. اگر آماده خرید این محصول با قیمت دیگری هستید پیشنهاد دهید</Typography>
-                        </Box>
-                        <Box className="flex items-center justify-center p-1 mt-3">
-                            <Button variant="contained" sx={{ 'width': '90%', 'fontSize': '20px', 'height': '6.5vh', 'color': 'white', 'backgroundColor': 'green', 'borderRadius': '15px', 'border': '2px solid', 'borderColor': 'transparent', ':hover': { backgroundColor: 'transparent', color: 'black', borderColor: 'black' } }} className="scale-[1.1] w-[45%] transition-all duration-300">
-                                پیشنهاد قیمت بدهید
-                            </Button>
-                        </Box>
-                        <Box className="mt-8">
-                            <Typography color={'black'} className="text-center">
-                                برای اطلاع از{' '}
-                                <Link sx={{ textDecoration: 'none' }} fontWeight={'thin'} href={`/search/${cartInfo?.product_type}`} color={'#166534'}>
-                                    قیمت روز سیب زمینی
-                                </Link>{' '}
-                                و خرید مستقیم پیام ارسال کنید
-                            </Typography>
-                            <Typography color={'black'} marginTop={2} className="text-center cursor-pointer">
-                                برای شروع مذاکره دکمه گفتگو با فروشنده را کلیک کنید
-                            </Typography>
-                        </Box>
-                        <Box className="mt-10 flex items-center justify-start p-2">
-                            <Button variant="contained" sx={{ 'color': 'green', 'fontSize': 19, 'height': '6vh', 'backgroundColor': 'transparent', 'borderRadius': '15px', 'border': '1px solid', 'borderColor': 'green', ':hover': { backgroundColor: 'green', color: 'white', borderColor: 'transparent' } }} className="scale-[1.1] w-[45%] transition-all duration-300">
-                                خرید امن از توناژ
-                            </Button>
-                        </Box>
-                    </Box>
-                    <Box className="mt-12 mb-2 flex items-center justify-center">
-                        <Link href={`https://t.me/share/url?url=https://tonnaj.com/details/${cartInfo?.productId}&amp;text=فروش ${findCart?.title}`} marginLeft={1} className="flex items-center justify-center w-fit p-2 rounded bg-gray-400/80" target="_blank">
-                            <p className="text-black">واتساپ</p>
-                            <BsWhatsapp className="text-green-700 mr-1" fontSize={25} />
+            <Box width={'100%'} className="flex items-center justify-center">
+                <Box width={'75%'} height={'17vh'} className="flex items-center justify-center rounded-lg bg-black/70">
+                    <Box className="w-[20%] flex items-center justify-center">
+                        <Link href="/" className="p-1.5 rounded-xl bg-red-900 text-black border border-transparent transition-all hover:bg-transparent hover:border-white" sx={{ textDecoration: 'none' }}>
+                            ثبت درخواست خرید
                         </Link>
-
-                        <Link href={`https://api.whatsapp.com/send?text=https://tonnaj.com/details/${cartInfo?.productId}/فروش ${findCart?.title}`} className="flex items-center justify-center w-fit p-2 rounded bg-gray-400/80" target="_blank">
-                            <p className="text-black">تلگرام</p>
-                            <BsTelegram className="text-blue-800 mr-1" fontSize={25} />
-                        </Link>
-
-                        <Typography className="text-black" marginRight={2}>
-                            :اشتراک گذاری
-                        </Typography>
+                    </Box>
+                    <Box className="w-[75%] h-full text-center flex items-center justify-start p-2">
+                        <Typography>اگر محصول مورد نظر خود را پیدا نکردید درخواست خرید ثبت کنید تا به بیش از 100 هزار تامین کننده در سامانه سروبان اطلاع رسانی شود و بسیار سریع تر به محصول با قیمت و کیفیت مورد نظر خود برسید.</Typography>
                     </Box>
                 </Box>
+            </Box>
+
+            <Box className="mt-4 w-full flex flex-col items-center justify-center">
+                <Typography>محصولات مشابه در محصولات زراعی</Typography>
+                <div className="w-[6%] h-[.5vh] bg-red-900 mt-2"></div>
             </Box>
         </Stack>
     );
