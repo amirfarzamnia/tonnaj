@@ -80,7 +80,9 @@ const schemeOptions: { dark: ThemeOptions; light: ThemeOptions } = {
 };
 
 export default ({ children }: { children: React.ReactNode }) => {
-    const [selectedTheme, setTheme] = React.useState<'dark' | 'light'>(() => ((localStorage.getItem('selected-theme') as 'dark' | 'light') || matchMedia('(prefers-color-scheme: dark)').matches ? 'dark' : 'light'));
+    const [selectedTheme, setTheme] = React.useState<'dark' | 'light'>('light');
+
+    React.useEffect(() => setTheme((localStorage.getItem('selected-theme') as 'dark' | 'light') || matchMedia('(prefers-color-scheme: dark)').matches ? 'dark' : 'light'), []);
 
     const theme = React.useMemo(() => createTheme(schemeOptions[selectedTheme]), [selectedTheme]);
 
