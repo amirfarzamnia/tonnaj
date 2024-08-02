@@ -4,35 +4,23 @@ import Cart from '@/components/card';
 import { useShop } from '@/context/shopContext';
 import { CartTypes } from '@/types/types';
 import { Call, Check, Person2Sharp, Star, StarBorder } from '@mui/icons-material';
-import { Box, Button, Grid, Link, Stack, Typography } from '@mui/material';
+import { Box, Button, Grid, Link, Paper, Stack, Typography } from '@mui/material';
 import { Image } from '@nextui-org/react';
 import { useEffect, useState } from 'react';
 import { BiUser } from 'react-icons/bi';
 import { BsTelegram, BsWhatsapp } from 'react-icons/bs';
 import { FaBarcode, FaLeaf, FaLocationArrow, FaTag } from 'react-icons/fa';
 import { IoIosLeaf } from 'react-icons/io';
-
-type CartInfoType = {
-    product_type: string;
-    mainLocation: string;
-    childLocation: string;
-    trade: string;
-    qualityGrade: string;
-    source: string;
-    count: string;
-    minimumOrder: boolean;
-    seller: string;
-    productId: string;
-    condition: 'available' | 'unavailable';
-    price: string;
-    rate: 0 | 1 | 2 | 3 | 4 | 5;
-    timestamp: Date | string;
-    timeupdate: Date | string;
-};
+import { A11y, Navigation, Pagination, Scrollbar } from 'swiper/modules';
+import { Swiper, SwiperSlide } from 'swiper/react';
+// Import Swiper styles
+import 'swiper/css';
+import 'swiper/css/navigation';
+import 'swiper/css/pagination';
+import 'swiper/css/scrollbar';
 
 export default ({ params }: { params: { productId: string } }) => {
     const [findCart, setFindCart] = useState<CartTypes>();
-    const [cartInfo, setCartInfo] = useState<CartInfoType>();
     const [offers, setOffers] = useState<CartTypes[]>([]);
     const [error, setError] = useState(false);
     const { cartItems } = useShop();
@@ -40,10 +28,9 @@ export default ({ params }: { params: { productId: string } }) => {
     useEffect(() => {
         if (params.productId) {
             const findCartInContext = cartItems.find((item) => item.id === params.productId);
-            const findOffers = cartItems.filter((item) => item.product_options?.product_type === findCartInContext?.product_options?.product_type);
+            const findOffers = cartItems.filter((item) => item.product_type === findCartInContext?.product_type);
 
             findCartInContext ? setFindCart(findCartInContext) : setError(true);
-            findCartInContext ? setCartInfo(findCartInContext.product_options) : null;
             findOffers ? setOffers(findOffers) : null;
         }
     }, [params]);
@@ -52,61 +39,90 @@ export default ({ params }: { params: { productId: string } }) => {
         {
             icon: <FaLeaf />,
             title: 'نوع محصول',
-            value: cartInfo?.product_type
+            value: findCart?.product_type
         },
         {
             icon: <FaLocationArrow />,
             title: 'موقعیت مکانی',
-            value: `${cartInfo?.mainLocation} - ${cartInfo?.childLocation}`
+            value: `${findCart?.mainLocation} - ${findCart?.childLocation}`
         },
         {
             icon: <Check />,
             title: 'نحوه معامله',
-            value: cartInfo?.trade
+            value: findCart?.trade
         },
         {
             icon: <Check />,
             title: 'درجه کیفی',
-            value: cartInfo?.qualityGrade
+            value: findCart?.qualityGrade
         },
         {
             icon: <Check />,
             title: 'منبع تولید',
-            value: cartInfo?.source
+            value: findCart?.source
         },
         {
             icon: <IoIosLeaf />,
             title: 'تعداد/مقدار',
-            value: cartInfo?.count
+            value: findCart?.count
         },
         {
             icon: <FaBarcode />,
             title: 'حداقل سفارش',
-            value: cartInfo?.minimumOrder ? 'دارد' : 'ندارد'
+            value: findCart?.minimumOrder ? 'دارد' : 'ندارد'
         },
         {
             icon: <BiUser fontWeight={'bold'} />,
             title: 'فروشنده',
-            value: cartInfo?.seller
+            value: findCart?.seller
         },
         {
             icon: <FaTag />,
             title: 'کد محصول',
-            value: cartInfo?.productId
+            value: findCart?.productId
         },
         {
             icon: <Check />,
             title: 'وضعیت',
-            value: cartInfo?.condition === 'available' ? 'موجود' : 'نا موجود'
+            value: findCart?.condition === 'available' ? 'موجود' : 'نا موجود'
         }
     ];
+
+    const sliderSettings = {
+        dots: true,
+        infinite: true,
+        speed: 500,
+        slidesToShow: 1,
+        slidesToScroll: 1,
+        autoplay: true,
+        autoplaySpeed: 2000
+    };
 
     return (
         <Stack direction={'column'} className="items-start justify-center w-full h-auto *:mb-5 *:mt-6">
             <Box flexDirection={'row'} className="flex w-full">
                 <Box component={'section'} className="w-[45%] flex flex-col items-center justify-start">
-                    <Box component={'div'} className="w-fit h-fit">
-                        <Image loading="lazy" src={findCart?.image} className="w-[470px] h-[360px]" />
+                    <Box component={'div'} className="w-fit h-fit flex items-center justify-center">
+                        <Swiper
+                            className="w-[470px]"
+                            // install Swiper modules
+                            modules={[Navigation, Pagination, Scrollbar, A11y]}
+                            spaceBetween={50}
+                            slidesPerView={1}
+                            navigation
+                            pagination={{ clickable: true }}
+                            scrollbar={{ draggable: true }}
+                            onSwiper={(swiper) => console.log(swiper)}
+                            onSlideChange={() => console.log('slide change')}>
+                            {findCart?.image.map((item, index) => {
+                                return (
+                                    <SwiperSlide key={index}>
+                                        <Image loading="lazy" src={item} className="w-[470px] h-[350px]" />
+                                    </SwiperSlide>
+                                );
+                            })}
+                            ...
+                        </Swiper>
                     </Box>
                     <Box component={'div'} className="w-[470px] h-[350px] p-2 rounded-xl mt-2 shadow-bg shadow-black bg-white/85">
                         <Box component={'div'} className="h-auto w-auto mt-4 p-2 flex justify-center pb-5 border-gray-300 border-b-3">
@@ -191,7 +207,7 @@ export default ({ params }: { params: { productId: string } }) => {
                         <Box className="mt-5">
                             <Box>
                                 <Typography fontSize={28} variant="h4">
-                                    قیمت پیشنهادی فروشنده : {cartInfo?.price}
+                                    قیمت پیشنهادی فروشنده : {findCart?.price}
                                 </Typography>
                                 <Typography fontSize={13} className="text-gray-600">
                                     بروزرسانی : امروز
@@ -208,7 +224,7 @@ export default ({ params }: { params: { productId: string } }) => {
                             <Box className="mt-8">
                                 <Typography color={'black'} className="text-center">
                                     برای اطلاع از{' '}
-                                    <Link sx={{ textDecoration: 'none' }} fontWeight={'thin'} href={`/search/${cartInfo?.product_type}`} color={'#166534'}>
+                                    <Link sx={{ textDecoration: 'none' }} fontWeight={'thin'} href={`/search/${findCart?.product_type}`} color={'#166534'}>
                                         قیمت روز سیب زمینی
                                     </Link>{' '}
                                     و خرید مستقیم پیام ارسال کنید
@@ -225,12 +241,12 @@ export default ({ params }: { params: { productId: string } }) => {
                         </Box>
 
                         <Box className="mt-12 mb-2 flex items-center justify-center">
-                            <Link href={`https://t.me/share/url?url=https://tonnaj.com/details/${cartInfo?.productId}&amp;text=فروش ${findCart?.title}`} marginLeft={1} className="flex items-center justify-center w-fit p-2 rounded bg-gray-400/80" target="_blank">
+                            <Link href={`https://t.me/share/url?url=https://tonnaj.com/details/${findCart?.productId}&amp;text=فروش ${findCart?.title}`} marginLeft={1} className="flex items-center justify-center w-fit p-2 rounded bg-gray-400/80" target="_blank">
                                 <p className="text-black">واتساپ</p>
                                 <BsWhatsapp className="text-green-700 mr-1" fontSize={25} />
                             </Link>
 
-                            <Link href={`https://api.whatsapp.com/send?text=https://tonnaj.com/details/${cartInfo?.productId}/فروش ${findCart?.title}`} className="flex items-center justify-center w-fit p-2 rounded bg-gray-400/80" target="_blank">
+                            <Link href={`https://api.whatsapp.com/send?text=https://tonnaj.com/details/${findCart?.productId}/فروش ${findCart?.title}`} className="flex items-center justify-center w-fit p-2 rounded bg-gray-400/80" target="_blank">
                                 <p className="text-black">تلگرام</p>
                                 <BsTelegram className="text-blue-800 mr-1" fontSize={25} />
                             </Link>
@@ -263,13 +279,13 @@ export default ({ params }: { params: { productId: string } }) => {
 
             <div className="grid grid-cols-4 w-[85%] ml-auto mr-auto place-items-center gap-5">
                 {offers.map((item, index) => {
-                    return <Cart author={item.author} title={item.title} description={item.description} buttonHref={`${item.buttonHref}/${item.id}`} locationName={item.locationName} image={item.image} key={index} />;
+                    return <Cart author={item.author} title={item.title} description={item.description} buttonHref={`${item.buttonHref}/${item.id}`} locationName={item.locationName} image={item.image[0]} key={index} />;
                 })}
             </div>
 
             <Box className="w-full h-auto flex items-center justify-center" marginBottom={5}>
-                <Link href={`/search/${cartInfo?.product_type}`} color={'#fca5a5'} className="p-2 rounded-xl scale-[1.1] bg-transparent border border-red-300 transition-all hover:bg-transparent hover:border-transparent hover:text-white hover:bg-red-600" sx={{ textDecoration: 'none' }}>
-                    نمایش همه {cartInfo?.product_type} ها
+                <Link href={`/search/${findCart?.product_type}`} color={'#fca5a5'} className="p-2 rounded-xl scale-[1.1] bg-transparent border border-red-300 transition-all hover:bg-transparent hover:border-transparent hover:text-white hover:bg-red-600" sx={{ textDecoration: 'none' }}>
+                    نمایش همه {findCart?.product_type} ها
                 </Link>
             </Box>
         </Stack>

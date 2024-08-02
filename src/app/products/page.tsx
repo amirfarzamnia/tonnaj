@@ -2,10 +2,16 @@
 
 import { useShop } from '@/context/shopContext';
 import Cart from '@/components/card';
-import React from 'react';
+import React, { useEffect } from 'react';
 
 export default () => {
     const { cartItems } = useShop();
+
+    useEffect(() => {
+        cartItems.map((item, index) => {
+            console.log(item.image);
+        });
+    }, []);
 
     return (
         <div dir="ltr">
@@ -21,7 +27,7 @@ export default () => {
             </div>
             <div className="w-full h-auto grid grid-cols-3 gap-x-3 gap-y-10 whitespace-break-spaces">
                 {cartItems.map((item, index) => {
-                    return <Cart author={item.author} title={item.title} description={item.description} buttonHref={`${item.buttonHref}/${item.id}`} locationName={item.locationName} image={item.image} key={index} />;
+                    return <Cart author={item.author} title={item.title} description={item.description} buttonHref={`${item.buttonHref}/${item.id}`} locationName={item.locationName} image={item.image?.map((items) => items)[0]} key={index} />;
                 })}
             </div>
         </div>
