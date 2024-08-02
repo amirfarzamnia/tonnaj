@@ -1,6 +1,6 @@
 'use client';
 
-import { Button, TextField, Box, Grid, Toolbar, AppBar, Link, Menu, Avatar, Tooltip, MenuItem, Container, Typography, InputAdornment, IconButton, CssBaseline, Shadows } from '@mui/material';
+import { Button, TextField, Box, Grid, Toolbar, AppBar, Link, Avatar, Tooltip, Container, Typography, InputAdornment, IconButton, CssBaseline, Shadows } from '@mui/material';
 import { Search as SearchIcon, LightMode as LightModeIcon, DarkMode as DarkModeIcon } from '@mui/icons-material';
 import { createTheme, ThemeProvider, ThemeOptions } from '@mui/material/styles';
 import { NextUIProvider } from '@nextui-org/react';
@@ -8,9 +8,6 @@ import AuthProvider from '@/context/authContext';
 import ShopProvider from '@/context/shopContext';
 import React from 'react';
 import './index.css';
-
-const pages = ['Products', 'Pricing', 'Blog'];
-const settings = ['Profile', 'Account', 'Dashboard', 'Logout'];
 
 const common = {
     Typography: {
@@ -83,21 +80,11 @@ const schemeOptions: { dark: ThemeOptions; light: ThemeOptions } = {
 };
 
 export default ({ children }: { children: React.ReactNode }) => {
-    const [anchorElNav, setAnchorElNav] = React.useState<null | HTMLElement>(null);
-    const [anchorElUser, setAnchorElUser] = React.useState<null | HTMLElement>(null);
     const [selectedTheme, setTheme] = React.useState<'dark' | 'light'>(() => ((localStorage.getItem('selected-theme') as 'dark' | 'light') || matchMedia('(prefers-color-scheme: dark)').matches ? 'dark' : 'light'));
 
     const theme = React.useMemo(() => createTheme(schemeOptions[selectedTheme]), [selectedTheme]);
 
-    const handleOpenNavMenu = (event: React.MouseEvent<HTMLElement>) => setAnchorElNav(event.currentTarget);
-    const handleOpenUserMenu = (event: React.MouseEvent<HTMLElement>) => {
-        if (true) return (location.href = 'auth');
-
-        setAnchorElUser(event.currentTarget);
-    };
-
-    const handleCloseNavMenu = () => setAnchorElNav(null);
-    const handleCloseUserMenu = () => setAnchorElUser(null);
+    const handleOpenUserMenu = () => (location.href = 'auth');
 
     return (
         <ThemeProvider theme={theme}>
@@ -105,44 +92,32 @@ export default ({ children }: { children: React.ReactNode }) => {
             <html lang="fa-IR" dir="rtl">
                 <body>
                     <AppBar position="static">
-                        <Toolbar className={`border-b ${{ dark: 'border-zinc-700', light: 'border-zinc-200' }[selectedTheme]} px-3`} disableGutters>
+                        <Toolbar className={`flex items-center justify-between border-b ${{ dark: 'border-zinc-700', light: 'border-zinc-200' }[selectedTheme]} px-3`} disableGutters>
                             <Link href="/" underline="none">
                                 <Box width={150} component="img" alt="لوگوی تناژ" src="icons/tonnaj.png"></Box>
                             </Link>
-                            <Box sx={{ flexGrow: 1, display: { xs: 'none', md: 'flex' } }}>
-                                {pages.map((page) => (
-                                    <Button key={page} onClick={handleCloseNavMenu} sx={{ my: 2, display: 'block' }}>
-                                        {page}
-                                    </Button>
-                                ))}
+                            <Box component="div">
+                                <Tooltip title="Toggle theme">
+                                    <IconButton
+                                        onClick={() => {
+                                            setTheme((previousTheme) => {
+                                                const nextTheme = previousTheme === 'dark' ? 'light' : 'dark';
+
+                                                localStorage.setItem('selected-theme', nextTheme);
+
+                                                return nextTheme;
+                                            });
+                                        }}
+                                        sx={{ p: 0 }}>
+                                        {{ dark: <LightModeIcon />, light: <DarkModeIcon /> }[selectedTheme]}
+                                    </IconButton>
+                                </Tooltip>
+                                <Tooltip title="Open settings">
+                                    <IconButton onClick={handleOpenUserMenu} sx={{ p: 0 }}>
+                                        <Avatar alt="ا" src="/static/images/avatar/2.jpg" />
+                                    </IconButton>
+                                </Tooltip>
                             </Box>
-                            <Tooltip title="Toggle theme">
-                                <IconButton
-                                    onClick={() => {
-                                        setTheme((previousTheme) => {
-                                            const nextTheme = previousTheme === 'dark' ? 'light' : 'dark';
-
-                                            localStorage.setItem('selected-theme', nextTheme);
-
-                                            return nextTheme;
-                                        });
-                                    }}
-                                    sx={{ p: 0 }}>
-                                    {{ dark: <LightModeIcon />, light: <DarkModeIcon /> }[selectedTheme]}
-                                </IconButton>
-                            </Tooltip>
-                            <Tooltip title="Open settings">
-                                <IconButton onClick={handleOpenUserMenu} sx={{ p: 0 }}>
-                                    <Avatar alt="ا" src="/static/images/avatar/2.jpg" />
-                                </IconButton>
-                            </Tooltip>
-                            <Menu sx={{ mt: '45px' }} id="menu-appbar" anchorEl={anchorElUser} anchorOrigin={{ vertical: 'top', horizontal: 'right' }} keepMounted transformOrigin={{ vertical: 'top', horizontal: 'right' }} open={Boolean(anchorElUser)} onClose={handleCloseUserMenu}>
-                                {settings.map((setting) => (
-                                    <MenuItem key={setting} onClick={handleCloseUserMenu}>
-                                        <Typography textAlign="center">{setting}</Typography>
-                                    </MenuItem>
-                                ))}
-                            </Menu>
                         </Toolbar>
                         <Toolbar className={`border-b ${{ dark: 'border-zinc-700', light: 'border-zinc-200' }[selectedTheme]}`}>
                             <TextField
