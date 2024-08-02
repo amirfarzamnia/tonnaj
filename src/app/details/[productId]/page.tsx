@@ -2,13 +2,37 @@
 
 import { useShop } from '@/context/shopContext';
 import { CartTypes } from '@/types/types';
-import { Call, Person, Person2Sharp, Star, StarBorder } from '@mui/icons-material';
-import { Box, Button, Container, Stack, Typography } from '@mui/material';
+import { Call, Check, Person2Sharp, Star, StarBorder, Telegram } from '@mui/icons-material';
+import { Box, Button, Link, Stack, Typography } from '@mui/material';
 import { Image } from '@nextui-org/react';
 import { useEffect, useState } from 'react';
+import { BiUser } from 'react-icons/bi';
+import { BsTelegram, BsWhatsapp } from 'react-icons/bs';
+import { FaBarcode, FaLeaf, FaLocationArrow, FaTag } from 'react-icons/fa';
+import { IoIosLeaf } from 'react-icons/io';
+import { PiQrCodeThin } from 'react-icons/pi';
+
+type CartInfoType = {
+    product_type: string;
+    mainLocation: string;
+    childLocation: string;
+    trade: string;
+    qualityGrade: string;
+    source: string;
+    count: string;
+    minimumOrder: boolean;
+    seller: string;
+    productId: string;
+    condition: 'available' | 'unavailable';
+    price: string;
+    rate: 0 | 1 | 2 | 3 | 4 | 5;
+    timestamp: Date | string;
+    timeupdate: Date | string;
+};
 
 export default ({ params }: { params: { productId: string } }) => {
     const [findCart, setFindCart] = useState<CartTypes>();
+    const [cartInfo, setCartInfo] = useState<CartInfoType>();
     const [error, setError] = useState(false);
     const { cartItems } = useShop();
 
@@ -16,8 +40,62 @@ export default ({ params }: { params: { productId: string } }) => {
         if (params.productId) {
             const findCartInContext = cartItems.find((item) => item.id === params.productId);
             findCartInContext ? setFindCart(findCartInContext) : setError(true);
+            findCartInContext ? setCartInfo(findCartInContext.product_options) : null;
         }
     }, [params]);
+
+    const infos = [
+        {
+            icon: <FaLeaf />,
+            title: 'نوع محصول',
+            value: cartInfo?.product_type
+        },
+        {
+            icon: <FaLocationArrow />,
+            title: 'موقعیت مکانی',
+            value: `${cartInfo?.mainLocation} - ${cartInfo?.childLocation}`
+        },
+        {
+            icon: <Check />,
+            title: 'نحوه معامله',
+            value: cartInfo?.trade
+        },
+        {
+            icon: <Check />,
+            title: 'درجه کیفی',
+            value: cartInfo?.qualityGrade
+        },
+        {
+            icon: <Check />,
+            title: 'منبع تولید',
+            value: cartInfo?.source
+        },
+        {
+            icon: <IoIosLeaf />,
+            title: 'تعداد/مقدار',
+            value: cartInfo?.count
+        },
+        {
+            icon: <FaBarcode />,
+            title: 'حداقل سفارش',
+            value: cartInfo?.minimumOrder ? 'دارد' : 'ندارد'
+        },
+        {
+            icon: <BiUser fontWeight={'bold'} />,
+            title: 'فروشنده',
+            value: cartInfo?.seller
+        },
+        {
+            icon: <FaTag />,
+            title: 'کد محصول',
+            value: cartInfo?.productId
+        },
+        {
+            icon: <Check />,
+            title: 'وضعیت',
+            value: cartInfo?.condition === 'available' ? 'موجود' : 'نا موجود'
+        }
+    ];
 
     return (
         <Stack direction={'row'} className="items-start justify-center w-full h-auto *:mb-5 *:mt-6">
@@ -51,10 +129,10 @@ export default ({ params }: { params: { productId: string } }) => {
                 </Box>
             </Box>
 
-            <Box className="w-[45%] flex items-center justify-start">
+            <Box className="w-[49%] flex items-center justify-start">
                 <Box component={'div'} className="w-[78%] bg-white/80 drop-shadow-2xl rounded-lg p-3 *:p-2">
                     <Box className="mr-2">
-                        <Typography sx={{ color: 'rgb(77, 77, 77)' }} fontSize={40} fontWeight={'bold'} variant="h5">
+                        <Typography sx={{ color: '#14532d' }} fontSize={40} fontWeight={'bold'} variant="h5">
                             {findCart?.title}
                         </Typography>
                     </Box>
@@ -67,9 +145,93 @@ export default ({ params }: { params: { productId: string } }) => {
                         <Button variant="contained" sx={{ 'color': 'white', 'backgroundColor': 'green', 'borderRadius': '15px', 'border': '2px solid', 'borderColor': 'transparent', ':hover': { backgroundColor: 'transparent', color: 'black', borderColor: 'black' } }} className="scale-[1.1] w-[45%] transition-all duration-300">
                             گفتگو با فروشنده
                         </Button>
-                        <Button variant="contained" sx={{ 'color': 'black', 'backgroundColor': 'transparent', 'borderRadius': '15px', 'border': '2px solid', 'borderColor': 'black', ':hover': { backgroundColor: 'green', color: 'white', borderColor: 'transparent' } }} className="scale-[1.1] w-[45%] transition-all duration-300">
+                        <Button variant="contained" sx={{ 'color': 'black', 'backgroundColor': 'transparent', 'borderRadius': '15px', 'border': '2px solid', 'borderColor': 'green', ':hover': { backgroundColor: 'green', color: 'white', borderColor: 'transparent' } }} className="scale-[1.1] w-[45%] transition-all duration-300">
                             ثبت سفارش
                         </Button>
+                    </Box>
+                    <Box marginTop={'15px'}>
+                        <Typography variant="subtitle2" className="font-thin font-serif text-gray-600">
+                            {findCart?.pageTitle}
+                        </Typography>
+                    </Box>
+
+                    <Box flex={1} marginTop={5}>
+                        {infos.map((item, index) => {
+                            return (
+                                <Box key={index} className="flex items-center" borderBottom={2} borderColor={'#9ca3af'} padding={1.5}>
+                                    <Box className="flex items-center justify-start text-[20px]">
+                                        <Box className="ml-3 text-green-950">{item.icon}</Box>
+                                        <Box>
+                                            <Typography variant="h5" color={'#052e16'} className="text-green-800" fontWeight={'bold'}>
+                                                {item.title} :
+                                            </Typography>
+                                        </Box>
+                                    </Box>
+                                    <Box className="mr-2">
+                                        {index == 0 ? (
+                                            <Link href={`/search/${item.value}`} variant="h6" color={'#15803d'} className="">
+                                                {item.value}
+                                            </Link>
+                                        ) : (
+                                            <Typography variant="h6" color={'#166534'}>
+                                                {item.value}
+                                            </Typography>
+                                        )}
+                                    </Box>
+                                </Box>
+                            );
+                        })}
+                    </Box>
+
+                    <Box className="mt-5">
+                        <Box>
+                            <Typography fontSize={28} color={'green'} variant="h4">
+                                قیمت پیشنهادی فروشنده : {cartInfo?.price}
+                            </Typography>
+                            <Typography fontSize={13} className="text-gray-600">
+                                بروزرسانی : امروز
+                            </Typography>
+                        </Box>
+                        <Box className="mt-3 p-1 text-red-900">
+                            <Typography>توجه : قیمت این محصول توسط فروشنده پیشنهاد شده است. اگر آماده خرید این محصول با قیمت دیگری هستید پیشنهاد دهید</Typography>
+                        </Box>
+                        <Box className="flex items-center justify-center p-1 mt-3">
+                            <Button variant="contained" sx={{ 'width': '90%', 'fontSize': '20px', 'height': '6.5vh', 'color': 'white', 'backgroundColor': 'green', 'borderRadius': '15px', 'border': '2px solid', 'borderColor': 'transparent', ':hover': { backgroundColor: 'transparent', color: 'black', borderColor: 'black' } }} className="scale-[1.1] w-[45%] transition-all duration-300">
+                                پیشنهاد قیمت بدهید
+                            </Button>
+                        </Box>
+                        <Box className="mt-8">
+                            <Typography color={'black'} className="text-center">
+                                برای اطلاع از{' '}
+                                <Link sx={{ textDecoration: 'none' }} fontWeight={'thin'} href={`/search/${cartInfo?.product_type}`} color={'#166534'}>
+                                    قیمت روز سیب زمینی
+                                </Link>{' '}
+                                و خرید مستقیم پیام ارسال کنید
+                            </Typography>
+                            <Typography color={'black'} marginTop={2} className="text-center cursor-pointer">
+                                برای شروع مذاکره دکمه گفتگو با فروشنده را کلیک کنید
+                            </Typography>
+                        </Box>
+                        <Box className="mt-10 flex items-center justify-start p-2">
+                            <Button variant="contained" sx={{ 'color': 'green', 'fontSize': 19, 'height': '6vh', 'backgroundColor': 'transparent', 'borderRadius': '15px', 'border': '1px solid', 'borderColor': 'green', ':hover': { backgroundColor: 'green', color: 'white', borderColor: 'transparent' } }} className="scale-[1.1] w-[45%] transition-all duration-300">
+                                خرید امن از توناژ
+                            </Button>
+                        </Box>
+                    </Box>
+                    <Box className="mt-12 mb-2 flex items-center justify-center">
+                        <Link href={`https://t.me/share/url?url=https://tonnaj.com/details/${cartInfo?.productId}&amp;text=فروش ${findCart?.title}`} marginLeft={1} className="flex items-center justify-center w-fit p-2 rounded bg-gray-400/80" target="_blank">
+                            <p className="text-black">واتساپ</p>
+                            <BsWhatsapp className="text-green-700 mr-1" fontSize={25} />
+                        </Link>
+
+                        <Link href={`https://api.whatsapp.com/send?text=https://tonnaj.com/details/${cartInfo?.productId}/فروش ${findCart?.title}`} className="flex items-center justify-center w-fit p-2 rounded bg-gray-400/80" target="_blank">
+                            <p className="text-black">تلگرام</p>
+                            <BsTelegram className="text-blue-800 mr-1" fontSize={25} />
+                        </Link>
+
+                        <Typography className="text-black" marginRight={2}>
+                            :اشتراک گذاری
+                        </Typography>
                     </Box>
                 </Box>
             </Box>

@@ -1,5 +1,6 @@
 export type CartTypes = {
     title?: string;
+    pageTitle?: string;
     id?: string;
     image?: string;
     author?: string;
@@ -26,6 +27,6 @@ export type CartTypes = {
 };
 
 export type AuthTypes = {
-    phone_number: string;
-    code?: string;
+    phone_number?: string;
+    verification_code?: string;
 };
