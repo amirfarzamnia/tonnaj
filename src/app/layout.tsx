@@ -1,6 +1,6 @@
 'use client';
 
-import { Button, Box, Grid, Toolbar, AppBar, Link, Menu, Avatar, Tooltip, MenuItem, Container, Typography, IconButton, CssBaseline, Shadows } from '@mui/material';
+import { Button, TextField, Box, Grid, Toolbar, AppBar, Link, Menu, Avatar, Tooltip, MenuItem, Container, Typography, InputAdornment, IconButton, CssBaseline, Shadows } from '@mui/material';
 import { Search as SearchIcon, Menu as MenuIcon, LightMode as LightModeIcon, DarkMode as DarkModeIcon, Adb as AdbIcon } from '@mui/icons-material';
 import { createTheme, ThemeProvider, ThemeOptions } from '@mui/material/styles';
 import { NextUIProvider } from '@nextui-org/react';
@@ -71,13 +71,6 @@ const schemeOptions: { dark: ThemeOptions; light: ThemeOptions } = {
                         backgroundImage: 'radial-gradient(rgba(0, 0, 0, 0.075) 1px, transparent 0)',
                         backgroundSize: '20px 20px',
                         backgroundPosition: '-40px -40px'
-                    }
-                }
-            },
-            MuiCard: {
-                styleOverrides: {
-                    root: {
-                        backgroundColor: 'rgba(0, 0, 0, 0)'
                     }
                 }
             },
@@ -189,12 +182,18 @@ export default ({ children }: { children: React.ReactNode }) => {
                             </Box>
                         </Toolbar>
                         <Toolbar className={`border-b ${darkMode ? 'border-zinc-800' : 'border-zinc-200'}`}>
-                            <div className="relative border rounded-sm border-slate-100 border-opacity-25 w-52 hover:bg-gray-600 hover:bg-opacity-5 hover:w-96 transition-all duration-500">
-                                <div className="px-2 h-full absolute pointer-events-none flex items-center justify-center">
-                                    <SearchIcon />
-                                </div>
-                                <input className="outline-none py-2 pr-4 bg-transparent" placeholder="...جست و جوی محصول" aria-label="search" />
-                            </div>
+                            <TextField
+                                placeholder="جست و جوی محصول..."
+                                InputProps={{
+                                    startAdornment: (
+                                        <InputAdornment position="start">
+                                            <SearchIcon />
+                                        </InputAdornment>
+                                    )
+                                }}
+                                variant="outlined"
+                                size="small"
+                            />
                         </Toolbar>
                         <Toolbar className={`border-b ${darkMode ? 'border-zinc-800' : 'border-zinc-200'}`}>
                             <Box sx={{ flexGrow: 1, display: { xs: 'none', md: 'flex' }, justifyContent: 'center' }}>
