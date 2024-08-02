@@ -23,7 +23,7 @@ const common = {
     },
     MuiCssBaseline: {
         body: {
-            backgroundImage: 'radial-gradient(rgba(0, 0, 0, 0.075) 1px, transparent 0)',
+            backgroundImage: 'radial-gradient(rgba(0, 0, 0, 0.1) 1px, transparent 0)',
             backgroundSize: '20px 20px',
             backgroundPosition: '-40px -40px'
         }
@@ -64,11 +64,7 @@ const schemeOptions: { dark: ThemeOptions; light: ThemeOptions } = {
         components: {
             MuiCssBaseline: {
                 styleOverrides: {
-                    body: {
-                        ...common.MuiCssBaseline.body,
-                        background: 'rgba(245, 245, 245)',
-                        backgroundImage: 'radial-gradient(rgba(0, 0, 0, 0.075) 1px, transparent 0)'
-                    }
+                    body: common.MuiCssBaseline.body
                 }
             },
             MuiTypography: {
