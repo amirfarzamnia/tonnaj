@@ -1,18 +1,25 @@
 import { NextResponse, NextRequest } from 'next/server';
-import { KavenegarApi } from 'kavenegar';
-import { database } from '@/mongodb';
+
+const verificationCodes: { [key: string]: string } = {};
 
 export const POST = async (request: NextRequest) => {
-    const { phone_number, verification_code } = await request.json();
+    const { phone_number, verification_code }: { phone_number: string; verification_code: string } = await request.json();
 
-    if (phone_number) {
-        KavenegarApi({ apikey: '6B57554970696A54724C6536785034716559324A6B78734D734C304E4C4C623073494A4E3574782B4C70303D' }).Send({ message: 'خدمات پیام کوتاه کاوه نگار', sender: '1000689696', receptor: phone_number }, () => {
-            console.log(true);
-        });
-    } else if (verification_code) {
-    } else {
-        return NextResponse.json({ error: 'شماره تماس و یا کد تایید وارد نشده!' });
+    // const req = await fetch('https://api.kavenegar.com/v1/' + process.env.KAVENEGAR_API_KEY + '/sms/send.json', { method: 'POST', body: JSON.stringify({ message: 'خدمات پیام کوتاه کاوه نگار', receptor: phone_number }) });
+    // const json = await req.json();
+
+    if (verification_code) {
+    } else if (phone_number) {
+        if (/^(09\d{9}|98\d{10})$/.test(phone_number)) return NextResponse.json({ error: 'شماره همراه به درستی وارد نشده!' }, { status: 404 });
+
+        const code = Array.from({ length: 4 }, () => Math.floor(Math.random() * 10)).join('');
+
+        console.log(code);
+
+        verificationCodes[phone_number] = code;
+
+        return new NextResponse(null, { status: 204 });
     }
 
-    return NextResponse.json({ error: 'Test' }, { status: 400 });
+    return NextResponse.json({ error: 'شماره همراه وارد نشده!' }, { status: 404 });
 };
