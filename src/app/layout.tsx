@@ -89,16 +89,9 @@ const schemeOptions: { dark: ThemeOptions; light: ThemeOptions } = {
 export default ({ children }: { children: React.ReactNode }) => {
     const [anchorElNav, setAnchorElNav] = React.useState<null | HTMLElement>(null);
     const [anchorElUser, setAnchorElUser] = React.useState<null | HTMLElement>(null);
+    const [selectedTheme, setTheme] = React.useState<'dark' | 'light'>(() => (localStorage.getItem('selected-theme') as 'dark' | 'light') || 'light');
 
-    const [darkMode, setDarkMode] = React.useState<boolean>(() => {
-        const storedPreference = localStorage.getItem('darkMode');
-
-        if (storedPreference !== null) return storedPreference === 'true';
-
-        return matchMedia('(prefers-color-scheme: dark)').matches;
-    });
-
-    const theme = React.useMemo(() => createTheme(schemeOptions[darkMode ? 'dark' : 'light']), [darkMode]);
+    const theme = React.useMemo(() => createTheme(schemeOptions[selectedTheme]), [selectedTheme]);
 
     const handleOpenNavMenu = (event: React.MouseEvent<HTMLElement>) => setAnchorElNav(event.currentTarget);
     const handleOpenUserMenu = (event: React.MouseEvent<HTMLElement>) => {
@@ -110,23 +103,13 @@ export default ({ children }: { children: React.ReactNode }) => {
     const handleCloseNavMenu = () => setAnchorElNav(null);
     const handleCloseUserMenu = () => setAnchorElUser(null);
 
-    const toggleTheme = () => {
-        setDarkMode((prevMode) => {
-            const newMode = !prevMode;
-
-            localStorage.setItem('darkMode', newMode.toString());
-
-            return newMode;
-        });
-    };
-
     return (
         <ThemeProvider theme={theme}>
             <CssBaseline />
             <html lang="fa-IR" dir="rtl">
                 <body>
                     <AppBar position="static">
-                        <Toolbar className={`border-b ${darkMode ? 'border-zinc-700' : 'border-zinc-200'} px-3`} disableGutters>
+                        <Toolbar className={`border-b ${{ dark: 'border-zinc-700', light: 'border-zinc-200' }[selectedTheme]} px-3`} disableGutters>
                             <Link href="/" underline="none">
                                 <Box width={150} component="img" alt="لوگوی تناژ" src="icons/tonnaj.png"></Box>
                             </Link>
@@ -138,8 +121,23 @@ export default ({ children }: { children: React.ReactNode }) => {
                                 ))}
                             </Box>
                             <Tooltip title="Toggle theme">
-                                <IconButton onClick={toggleTheme} sx={{ p: 0 }}>
-                                    {darkMode ? <LightModeIcon /> : <DarkModeIcon />}
+                                <IconButton
+                                    onClick={() => {
+                                        setTheme((previousTheme) => {
+                                            const selectedTheme = { dark: 'light', light: 'dark' }[previousTheme];
+
+                                            localStorage.setItem('selected-theme', selectedTheme.toString());
+
+                                            return selectedTheme;
+                                        });
+                                    }}
+                                    sx={{ p: 0 }}>
+                                    {
+                                        {
+                                            dark: <LightModeIcon />,
+                                            light: <DarkModeIcon />
+                                        }[selectedTheme]
+                                    }
                                 </IconButton>
                             </Tooltip>
                             <Tooltip title="Open settings">
@@ -155,7 +153,7 @@ export default ({ children }: { children: React.ReactNode }) => {
                                 ))}
                             </Menu>
                         </Toolbar>
-                        <Toolbar className={`border-b ${darkMode ? 'border-zinc-700' : 'border-zinc-200'}`}>
+                        <Toolbar className={`border-b ${{ dark: 'border-zinc-700', light: 'border-zinc-200' }[selectedTheme]}`}>
                             <TextField
                                 placeholder="جست و جوی محصول..."
                                 InputProps={{
@@ -170,7 +168,7 @@ export default ({ children }: { children: React.ReactNode }) => {
                             />
                             <Button variant="outlined">Outlined</Button>
                         </Toolbar>
-                        <Toolbar className={`border-b ${darkMode ? 'border-zinc-700' : 'border-zinc-200'}`}>
+                        <Toolbar className={`border-b ${{ dark: 'border-zinc-700', light: 'border-zinc-200' }[selectedTheme]}`}>
                             <Box sx={{ flexGrow: 1, display: { xs: 'none', md: 'flex' }, justifyContent: 'center' }}>
                                 {['محصولات', 'قیمتها', 'تعرفه خدمات', 'تماس با تناژ', 'خدمات تناژ', 'داستان تناژ', 'بازار عمده تناژ'].map((page) => (
                                     <Button key={page} sx={{ my: 2, display: 'block' }}>
@@ -185,7 +183,7 @@ export default ({ children }: { children: React.ReactNode }) => {
                             <ShopProvider>{children}</ShopProvider>
                         </AuthProvider>
                     </NextUIProvider>
-                    <Box className={`border-t ${darkMode ? 'border-zinc-700' : 'border-zinc-200'}`} sx={{ background: darkMode ? theme.palette.grey[900] : '#fafafa', py: 4 }} component="footer">
+                    <Box className={`border-t ${{ dark: 'border-zinc-700', light: 'border-zinc-200' }[selectedTheme]}`} sx={{ background: { dark: theme.palette.grey[900], light: '#fafafa' }[selectedTheme], py: 4 }} component="footer">
                         <Container>
                             <Grid container spacing={4}>
                                 <Grid item xs={12} sm={3}>
