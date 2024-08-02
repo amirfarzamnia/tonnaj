@@ -7,17 +7,9 @@ export default async (req: NextApiRequest, res: NextApiResponse): Promise<void> 
         const { phone_number, verification_code } = req.body;
 
         if (phone_number) {
-            Kavenegar.KavenegarApi({ apikey: '456B516E516264766151537254633677744B5A6F466A3242535963365861754277596E6F47484E4F6A536B3D' }).Send(
-                {
-                    message: 'وب سرویس تخصصی کاوه نگار',
-                    sender: '10004346',
-                    receptor: '989130288776'
-                },
-                (response, status) => {
-                    console.log(response);
-                    console.log(status);
-                }
-            );
+            Kavenegar.KavenegarApi({ apikey: '6B57554970696A54724C6536785034716559324A6B78734D734C304E4C4C623073494A4E3574782B4C70303D' }).Send({ message: 'خدمات پیام کوتاه کاوه نگار', sender: '1000689696', receptor: '09130288776' }, () => {
+                console.log(true);
+            });
         } else if (verification_code) {
         } else {
             res.status(400).json({ error: 'Invalid request' });
