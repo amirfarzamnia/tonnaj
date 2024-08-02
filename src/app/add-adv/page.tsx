@@ -1,14 +1,15 @@
 'use client';
 
-import { Box, Button, TextField, Typography, IconButton, Grid } from '@mui/material';
+import { Box, Button, TextField, Typography, IconButton, Grid, Snackbar, Alert, TextareaAutosize } from '@mui/material';
 import { ChangeEvent, useRef, useState } from 'react';
 import { Add, Remove } from '@mui/icons-material';
-import { TextareaAutosize } from '@mui/material';
 
 export default () => {
     const [imageSrcs, setImageSrcs] = useState<Array<string | ArrayBuffer>>([]);
     const fileInputRef = useRef<HTMLInputElement | null>(null);
     const [description, setDescription] = useState<string>('');
+    const [snackbarMessage, setSnackbarMessage] = useState('');
+    const [snackbarOpen, setSnackbarOpen] = useState(false);
     const [title, setTitle] = useState<string>('');
     const [price, setPrice] = useState<string>('');
 
@@ -18,15 +19,24 @@ export default () => {
         if (e.target.files) {
             const fileArray = Array.from(e.target.files);
 
-            if (imageSrcs.length >= 10) {
-                alert('شما نمی‌توانید بیش از 10 تصویر آپلود کنید.');
+            const imageFiles = fileArray.filter((file) => file.type.startsWith('image/'));
+            const nonImageFiles = fileArray.filter((file) => !file.type.startsWith('image/'));
+
+            if (nonImageFiles.length > 0) {
+                setSnackbarMessage('فقط فایل‌های تصویری مجاز هستند.');
+                setSnackbarOpen(true);
+            }
+
+            if (imageSrcs.length + imageFiles.length > 10) {
+                setSnackbarMessage('شما نمی‌توانید بیش از 10 تصویر آپلود کنید.');
+                setSnackbarOpen(true);
 
                 if (fileInputRef.current) fileInputRef.current.value = '';
 
                 return;
             }
 
-            const readers = fileArray.map((file) => {
+            const readers = imageFiles.map((file) => {
                 return new Promise<string | ArrayBuffer>((resolve, reject) => {
                     const reader = new FileReader();
 
@@ -46,28 +56,23 @@ export default () => {
     const handleSubmit = async (e: React.FormEvent) => {
         e.preventDefault();
 
-        // Upload data to the server
         const formData = new FormData();
-        imageSrcs.forEach((src, index) => {
-            if (typeof src === 'string') {
-                formData.append(`image${index}`, src);
-            }
-        });
+
+        imageSrcs.forEach((src, index) => typeof src === 'string' && formData.append('image' + index, src));
+
         formData.append('title', title);
         formData.append('price', price);
         formData.append('description', description);
 
         try {
-            const response = await fetch('/api/add-adv', {
-                method: 'POST',
-                body: formData
-            });
+            const response = await fetch('/api/add-adv', { method: 'POST', body: formData });
             const result = await response.json();
-            console.log(result);
         } catch (error) {
             console.error('Error uploading data:', error);
         }
     };
+
+    const handleCloseSnackbar = () => setSnackbarOpen(false);
 
     return (
         <form onSubmit={handleSubmit} style={{ width: '100%', marginTop: '10px' }}>
@@ -96,7 +101,7 @@ export default () => {
                         <Typography variant="body2" sx={{ marginTop: '10px', textAlign: 'center' }}>
                             حتما عکس از بسته بندی و یک عکس از نزدیک داخل محصول برای جذب خریدار ثبت کنید
                         </Typography>
-                        <input type="file" id="img" style={{ display: 'none' }} onChange={handleImage} ref={fileInputRef} required />
+                        <input type="file" id="img" style={{ display: 'none' }} multiple accept="image/*" onChange={handleImage} ref={fileInputRef} required />
                     </label>
                 </Box>
                 <Box sx={{ width: '50%', marginTop: '16px' }}>
@@ -114,6 +119,11 @@ export default () => {
                     </Button>
                 </Box>
             </Box>
+            <Snackbar open={snackbarOpen} autoHideDuration={6000} onClose={handleCloseSnackbar}>
+                <Alert onClose={handleCloseSnackbar} severity="warning">
+                    {snackbarMessage}
+                </Alert>
+            </Snackbar>
         </form>
     );
 };
