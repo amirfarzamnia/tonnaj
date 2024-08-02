@@ -26,7 +26,7 @@ export const POST = async (request: NextRequest) => {
 
         const code = Array.from({ length: 4 }, () => Math.floor(Math.random() * 10)).join('');
 
-        console.log(code);
+        console.log('Verification Code Request', phone_number, code);
 
         verificationCodes[phone_number] = code;
 
