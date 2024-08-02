@@ -1,9 +1,8 @@
 'use client';
 
-import { Add, Remove } from '@mui/icons-material';
-import { Box, Button, TextField, Typography } from '@mui/material';
-import { Textarea } from '@nextui-org/react';
+import { Box, Button, TextField, Typography, IconButton, Grid, Snackbar, Alert, TextareaAutosize } from '@mui/material';
 import { ChangeEvent, useRef, useState } from 'react';
+import { Add, Remove } from '@mui/icons-material';
 
 export default () => {
     const [imageSrcs, setImageSrcs] = useState<Array<string | ArrayBuffer>>([]);
@@ -107,11 +106,8 @@ export default () => {
                 <Box sx={{ width: '50%', marginTop: '16px' }}>
                     <TextField label="قیمت محصول" fullWidth required value={price} onChange={(e) => setPrice(e.target.value)} />
                 </Box>
-
-                <Box className="w-full flex items-center justify-center mt-5">
-                    <Box className="w-[50%]">
-                        <Textarea placeholder="توضیحات محصول" classNames={{ base: 'border-gray-300' }} variant="bordered" maxLength={2500} dir="rtl" required value={description} onChange={(e) => setDescription(e.target.value)} />
-                    </Box>
+                <Box sx={{ width: '50%', marginTop: '16px' }}>
+                    <TextareaAutosize minRows={5} placeholder="توضیحات محصول" style={{ width: '100%', borderRadius: '4px', border: '1px solid #ccc', padding: '8px' }} maxLength={2500} dir="rtl" required value={description} onChange={(e) => setDescription(e.target.value)} />
                 </Box>
                 <Box sx={{ marginTop: '16px' }}>
                     <Button type="submit" variant="contained" color="primary">
