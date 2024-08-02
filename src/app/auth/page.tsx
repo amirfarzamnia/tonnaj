@@ -6,12 +6,12 @@ import React from 'react';
 const VerificationStep: React.FC<{
     label: string;
     value: string;
-    onChange: (e: React.ChangeEvent<HTMLInputElement>) => void;
     error: string;
     loading: boolean;
     buttonText: string;
     onSubmit: () => void;
-}> = ({ label, value, onChange, error, loading, buttonText, onSubmit }) => (
+    onChange: (e: React.ChangeEvent<HTMLInputElement>) => void;
+}> = ({ label, value, error, loading, buttonText, onSubmit, onChange }) => (
     <Box component="form" noValidate autoComplete="off">
         <TextField fullWidth label={label} variant="outlined" margin="normal" value={value} onChange={onChange} error={!!error} helperText={error} />
         <Button sx={{ mt: 2, py: 2 }} fullWidth variant="contained" color="primary" disabled={loading} onClick={onSubmit}>
@@ -29,6 +29,7 @@ export default () => {
 
     const handlePhoneNumberSubmit = async () => {
         setLoading(true);
+
         try {
             const response = await fetch('/api/auth', { method: 'POST', headers: { 'Content-Type': 'application/json' }, body: JSON.stringify({ phone_number }) });
 
