@@ -9,6 +9,8 @@ import ShopProvider from '@/context/shopContext';
 import AdbIcon from '@mui/icons-material/Adb';
 import * as React from 'react';
 import './index.css';
+import AuthProvider from '@/context/authContext';
+import ShopProvider from '@/context/shopContext';
 
 const pages = ['Products', 'Pricing', 'Blog'];
 const settings = ['Profile', 'Account', 'Dashboard', 'Logout'];
