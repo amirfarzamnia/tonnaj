@@ -12,14 +12,11 @@ export default () => {
     const handlePhoneNumberSubmit = async () => {
         try {
             const response = await fetch('/api/auth', { method: 'POST', headers: { 'Content-Type': 'application/json' }, body: JSON.stringify({ phone_number }) });
-            const json = await response.json();
 
-            if (json.success) {
-                setStep(2);
-            } else {
-                setError(json.error);
-            }
-        } catch (error) {
+            if (!response.ok) return setError((await response.json()).error);
+
+            setStep(2);
+        } catch {
             setError('ارسال درخواست به سرور با خطا مواجه شد. لطفا بعدا تلاش کنید!');
         }
     };
