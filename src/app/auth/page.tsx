@@ -44,7 +44,7 @@ export default () => {
                 <Typography variant="h4" textAlign="center" component="h1" gutterBottom>
                     ورود به تناژ
                 </Typography>
-                <Typography component="p" textAlign="center" gutterBottom>
+                <Typography variant="subtitle2" textAlign="center" gutterBottom>
                     برای ورود به تناژ لطفا شماره همراه خود را در قسمت زیر وارد کنید
                 </Typography>
                 <Box sx={{ my: 4, width: '25%', mx: 'auto' }}>
