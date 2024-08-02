@@ -26,7 +26,4 @@ export type CartTypes = {
     };
 };
 
-export type AuthTypes = {
-    phone_number?: string;
-    verification_code?: string;
-};
+export type AuthTypes = { phone_number: string } | { phone_number: string; verification_code: string };
