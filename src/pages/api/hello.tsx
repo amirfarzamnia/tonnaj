@@ -1,4 +1,5 @@
 import { NextApiRequest, NextApiResponse } from 'next';
+import { database } from '@/mongodb';
 
 export default (req: NextApiRequest, res: NextApiResponse): void => {
     if (req.method === 'GET') {
