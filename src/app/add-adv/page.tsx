@@ -17,10 +17,8 @@ export default () => {
         e.preventDefault();
 
         if (e.target.files) {
-            const fileArray = Array.from(e.target.files);
-
-            const imageFiles = fileArray.filter((file) => file.type.startsWith('image/'));
-            const nonImageFiles = fileArray.filter((file) => !file.type.startsWith('image/'));
+            const imageFiles = Array.from(e.target.files).filter(({ type }) => type.startsWith('image/'));
+            const nonImageFiles = Array.from(e.target.files).filter(({ type }) => !type.startsWith('image/'));
 
             if (nonImageFiles.length > 0) {
                 setSnackbarMessage('فقط فایل‌های تصویری مجاز هستند.');
