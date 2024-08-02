@@ -7,3 +7,7 @@ export type CartTypes = {
     description?: string;
     buttonHref?: string;
 };
+
+export type AuthTypes = {
+    phone_number: string;
+};
