@@ -1,7 +1,7 @@
 'use client';
 
 import { Button, TextField, Box, Grid, Toolbar, AppBar, Link, Menu, Avatar, Tooltip, MenuItem, Container, Typography, InputAdornment, IconButton, CssBaseline, Shadows } from '@mui/material';
-import { Search as SearchIcon, Menu as MenuIcon, LightMode as LightModeIcon, DarkMode as DarkModeIcon, Adb as AdbIcon } from '@mui/icons-material';
+import { Search as SearchIcon, LightMode as LightModeIcon, DarkMode as DarkModeIcon } from '@mui/icons-material';
 import { createTheme, ThemeProvider, ThemeOptions } from '@mui/material/styles';
 import { NextUIProvider } from '@nextui-org/react';
 import AuthProvider from '@/context/authContext';
@@ -12,6 +12,24 @@ import './index.css';
 const pages = ['Products', 'Pricing', 'Blog'];
 const settings = ['Profile', 'Account', 'Dashboard', 'Logout'];
 
+const common = {
+    Typography: {
+        h1: { color: '#d00434' },
+        h2: { color: '#d00434' },
+        h3: { color: '#d00434' },
+        h4: { color: '#d00434' },
+        h5: { color: '#d00434' },
+        h6: { color: '#d00434' }
+    },
+    MuiCssBaseline: {
+        body: {
+            backgroundImage: 'radial-gradient(rgba(0, 0, 0, 0.075) 1px, transparent 0)',
+            backgroundSize: '20px 20px',
+            backgroundPosition: '-40px -40px'
+        }
+    }
+};
+
 const schemeOptions: { dark: ThemeOptions; light: ThemeOptions } = {
     dark: {
         palette: {
@@ -21,9 +39,8 @@ const schemeOptions: { dark: ThemeOptions; light: ThemeOptions } = {
             MuiCssBaseline: {
                 styleOverrides: {
                     body: {
-                        backgroundImage: 'radial-gradient(rgba(255, 255, 255, 0.05) 1px, transparent 0)',
-                        backgroundSize: '20px 20px',
-                        backgroundPosition: '-40px -40px'
+                        ...common.MuiCssBaseline.body,
+                        backgroundImage: 'radial-gradient(rgba(255, 255, 255, 0.05) 1px, transparent 0)'
                     }
                 }
             },
@@ -35,26 +52,7 @@ const schemeOptions: { dark: ThemeOptions; light: ThemeOptions } = {
                 }
             },
             MuiTypography: {
-                styleOverrides: {
-                    h1: {
-                        color: '#2dd4bf'
-                    },
-                    h2: {
-                        color: '#2dd4bf'
-                    },
-                    h3: {
-                        color: '#2dd4bf'
-                    },
-                    h4: {
-                        color: '#2dd4bf'
-                    },
-                    h5: {
-                        color: '#2dd4bf'
-                    },
-                    h6: {
-                        color: '#2dd4bf'
-                    }
-                }
+                styleOverrides: common.Typography
             }
         },
         shadows: Array(25).fill('none') as Shadows
@@ -67,34 +65,14 @@ const schemeOptions: { dark: ThemeOptions; light: ThemeOptions } = {
             MuiCssBaseline: {
                 styleOverrides: {
                     body: {
+                        ...common.MuiCssBaseline.body,
                         background: 'rgba(245, 245, 245)',
-                        backgroundImage: 'radial-gradient(rgba(0, 0, 0, 0.075) 1px, transparent 0)',
-                        backgroundSize: '20px 20px',
-                        backgroundPosition: '-40px -40px'
+                        backgroundImage: 'radial-gradient(rgba(0, 0, 0, 0.075) 1px, transparent 0)'
                     }
                 }
             },
             MuiTypography: {
-                styleOverrides: {
-                    h1: {
-                        color: '#03a054'
-                    },
-                    h2: {
-                        color: '#03a054'
-                    },
-                    h3: {
-                        color: '#03a054'
-                    },
-                    h4: {
-                        color: '#03a054'
-                    },
-                    h5: {
-                        color: '#03a054'
-                    },
-                    h6: {
-                        color: '#03a054'
-                    }
-                }
+                styleOverrides: common.Typography
             },
             MuiAppBar: {
                 styleOverrides: {
