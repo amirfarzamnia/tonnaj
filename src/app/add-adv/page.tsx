@@ -107,7 +107,7 @@ export default () => {
                 </Box>
 
                 <Box className="mt-10">
-                    <Button type="submit">ثبت محصول</Button>
+                    <Button type="submit">ثبت آگهی</Button>
                 </Box>
             </Box>
         </form>
