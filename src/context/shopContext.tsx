@@ -11,52 +11,50 @@ interface ShopContextProps {
 const ShopContext = createContext<ShopContextProps>({
     cartItems: [
         {
-            author: 'نیما',
+            author: 'رکنی',
             image: ['/card.jpg'],
             pageTitle: 'سیب زمینی تازه موجود شد',
             id: '1',
             title: 'فروش سیب زمینی',
-            locationName: 'شهدا',
             description: 'خرید سیب زمینی...',
             buttonHref: 'details',
             product_type: 'سیب زمینی',
-            mainLocation: 'همدان',
-            childLocation: 'بهار',
             trade: 'تسویه بعذ از بارگیری',
-            qualityGrade: 'صادراتی',
+            quality_grade: 'صادراتی',
             source: 'داخلی',
             count: '100 تن',
-            minimumOrder: false,
-            seller: 'رکنی',
-            productId: '1',
-            condition: 'available',
-            price: '7,500 تومان',
+            minimum_order: false,
+            condition: true,
+            price: 7.5,
             rating: 4,
-            timestamp: '302049290'
+            timestamp: '302049290',
+            location: {
+                city: 'همدان',
+                state: 'بهار'
+            }
         },
         {
-            author: 'نیما',
+            author: 'رکنی',
             image: ['/card.jpg', '/card2.jpg'],
             pageTitle: 'سیب زمینی تازه موجود شد',
             id: '2',
             title: 'فروش سیب زمینی',
-            locationName: 'شهدا',
             description: 'خرید سیب زمینی...',
             buttonHref: 'details',
             product_type: 'سیب زمینی',
-            mainLocation: 'همدان',
-            childLocation: 'بهار',
             trade: 'تسویه بعذ از بارگیری',
-            qualityGrade: 'صادراتی',
+            quality_grade: 'صادراتی',
             source: 'داخلی',
             count: '100 تن',
-            minimumOrder: false,
-            seller: 'رکنی',
-            productId: '1',
-            condition: 'available',
-            price: '7,500 تومان',
+            minimum_order: false,
+            condition: true,
+            price: 7.5,
             rating: 4,
-            timestamp: '302049290'
+            timestamp: '302049290',
+            location: {
+                city: 'همدان',
+                state: 'بهار'
+            }
         }
     ],
     setCartItems: (): CartTypes[] => []
@@ -65,52 +63,50 @@ const ShopContext = createContext<ShopContextProps>({
 export default function ShopProvider({ children }: { children: ReactNode }) {
     const [cartItems, setCartItems] = useState<CartTypes[]>([
         {
-            author: 'نیما',
+            author: 'رکنی',
             image: ['/card.jpg'],
             pageTitle: 'سیب زمینی تازه موجود شد',
             id: '1',
             title: 'فروش سیب زمینی',
-            locationName: 'شهدا',
             description: 'خرید سیب زمینی...',
             buttonHref: 'details',
             product_type: 'سیب زمینی',
-            mainLocation: 'همدان',
-            childLocation: 'بهار',
             trade: 'تسویه بعذ از بارگیری',
-            qualityGrade: 'صادراتی',
+            quality_grade: 'صادراتی',
             source: 'داخلی',
             count: '100 تن',
-            minimumOrder: false,
-            seller: 'رکنی',
-            productId: '1',
-            condition: 'available',
-            price: '7,500 تومان',
+            minimum_order: false,
+            condition: true,
+            price: 7.5,
             rating: 4,
-            timestamp: '302049290'
+            timestamp: '302049290',
+            location: {
+                city: 'همدان',
+                state: 'بهار'
+            }
         },
         {
-            author: 'نیما',
+            author: 'رکنی',
             image: ['/card.jpg', '/card2.jpg'],
             pageTitle: 'سیب زمینی تازه موجود شد',
             id: '2',
             title: 'فروش سیب زمینی',
-            locationName: 'شهدا',
             description: 'خرید سیب زمینی...',
             buttonHref: 'details',
             product_type: 'سیب زمینی',
-            mainLocation: 'همدان',
-            childLocation: 'بهار',
             trade: 'تسویه بعذ از بارگیری',
-            qualityGrade: 'صادراتی',
+            quality_grade: 'صادراتی',
             source: 'داخلی',
             count: '100 تن',
-            minimumOrder: false,
-            seller: 'رکنی',
-            productId: '1',
-            condition: 'available',
-            price: '7,500 تومان',
+            minimum_order: false,
+            condition: true,
+            price: 7.5,
             rating: 4,
-            timestamp: '302049290'
+            timestamp: '302049290',
+            location: {
+                city: 'همدان',
+                state: 'بهار'
+            }
         }
     ]);
 

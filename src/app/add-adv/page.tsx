@@ -1,10 +1,8 @@
 'use client';
 
 import { Add, Remove } from '@mui/icons-material';
-import { Box, Button, TextField, Typography } from '@mui/material';
-import { Textarea } from '@nextui-org/react';
+import { Alert, Box, Button, Grid, IconButton, Snackbar, TextareaAutosize, TextField, Typography } from '@mui/material';
 import { ChangeEvent, useRef, useState } from 'react';
-import { Add, Remove } from '@mui/icons-material';
 
 export default () => {
     const [imageSrcs, setImageSrcs] = useState<Array<string | ArrayBuffer>>([]);

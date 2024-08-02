@@ -44,7 +44,7 @@ export default ({ params }: { params: { productId: string } }) => {
         {
             icon: <FaLocationArrow />,
             title: 'موقعیت مکانی',
-            value: `${findCart?.mainLocation} - ${findCart?.childLocation}`
+            value: `${findCart?.location.city} - ${findCart?.location.state}`
         },
         {
             icon: <Check />,
@@ -54,7 +54,7 @@ export default ({ params }: { params: { productId: string } }) => {
         {
             icon: <Check />,
             title: 'درجه کیفی',
-            value: findCart?.qualityGrade
+            value: findCart?.quality_grade
         },
         {
             icon: <Check />,
@@ -69,22 +69,22 @@ export default ({ params }: { params: { productId: string } }) => {
         {
             icon: <FaBarcode />,
             title: 'حداقل سفارش',
-            value: findCart?.minimumOrder ? 'دارد' : 'ندارد'
+            value: findCart?.minimum_order ? 'دارد' : 'ندارد'
         },
         {
             icon: <BiUser fontWeight={'bold'} />,
             title: 'فروشنده',
-            value: findCart?.seller
+            value: findCart?.author
         },
         {
             icon: <FaTag />,
             title: 'کد محصول',
-            value: findCart?.productId
+            value: findCart?.id
         },
         {
             icon: <Check />,
             title: 'وضعیت',
-            value: findCart?.condition === 'available' ? 'موجود' : 'نا موجود'
+            value: findCart?.condition ? 'موجود' : 'نا موجود'
         }
     ];
 
@@ -241,12 +241,12 @@ export default ({ params }: { params: { productId: string } }) => {
                         </Box>
 
                         <Box className="mt-12 mb-2 flex items-center justify-center">
-                            <Link href={`https://t.me/share/url?url=https://tonnaj.com/details/${findCart?.productId}&amp;text=فروش ${findCart?.title}`} marginLeft={1} className="flex items-center justify-center w-fit p-2 rounded bg-gray-400/80" target="_blank">
+                            <Link href={`https://t.me/share/url?url=https://tonnaj.com/details/${findCart?.id}&amp;text=فروش ${findCart?.title}`} marginLeft={1} className="flex items-center justify-center w-fit p-2 rounded bg-gray-400/80" target="_blank">
                                 <p className="text-black">واتساپ</p>
                                 <BsWhatsapp className="text-green-700 mr-1" fontSize={25} />
                             </Link>
 
-                            <Link href={`https://api.whatsapp.com/send?text=https://tonnaj.com/details/${findCart?.productId}/فروش ${findCart?.title}`} className="flex items-center justify-center w-fit p-2 rounded bg-gray-400/80" target="_blank">
+                            <Link href={`https://api.whatsapp.com/send?text=https://tonnaj.com/details/${findCart?.id}/فروش ${findCart?.title}`} className="flex items-center justify-center w-fit p-2 rounded bg-gray-400/80" target="_blank">
                                 <p className="text-black">تلگرام</p>
                                 <BsTelegram className="text-blue-800 mr-1" fontSize={25} />
                             </Link>
@@ -279,7 +279,7 @@ export default ({ params }: { params: { productId: string } }) => {
 
             <div className="grid grid-cols-4 w-[85%] ml-auto mr-auto place-items-center gap-5">
                 {offers.map((item, index) => {
-                    return <Cart author={item.author} title={item.title} description={item.description} buttonHref={`${item.buttonHref}/${item.id}`} locationName={item.locationName} image={item.image[0]} key={index} />;
+                    return <Cart author={item.author} title={item.title} description={item.description} buttonHref={`${item.buttonHref}/${item.id}`} locationName={item.location.state} image={item.image[0]} key={index} />;
                 })}
             </div>
 
