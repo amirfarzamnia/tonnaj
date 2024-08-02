@@ -14,7 +14,7 @@ interface props {
 
 export default function Cart({ title, image, author, locationName, description, buttonHref }: props) {
     return (
-        <Box component={'a'} href={`/products/details/`} className="cursor-pointer w-[280px] h-[390px] group rounded-t-sm rounded-b-2xl drop-shadow-2xl transition-all duration-300 ease-out shadow-bg shadow-transparent bg-white hover:shadow-black/60" dir="rtl">
+        <Box component={'a'} href={`/products/${buttonHref}`} className="cursor-pointer w-[280px] h-[390px] group rounded-t-sm rounded-b-2xl drop-shadow-2xl transition-all duration-300 ease-out shadow-bg shadow-transparent bg-white hover:shadow-black/60" dir="rtl">
             <div className="object-cover">
                 <img src={image} loading="lazy" className="h-[155px] rounded-t-sm transition-all duration-200" alt="" />
             </div>
@@ -44,7 +44,7 @@ export default function Cart({ title, image, author, locationName, description, 
             </div>
 
             <div className="flex items-center justify-center">
-                <Button href={buttonHref} variant="outlined" color="error" size="large" sx={{ 'borderRadius': '16px', 'scale': '1.2', ':hover': { backgroundColor: '#ef4444', color: 'white' } }}>
+                <Button href={`/products/${buttonHref}`} variant="outlined" color="error" size="large" sx={{ 'borderRadius': '16px', 'scale': '1.2', ':hover': { backgroundColor: '#ef4444', color: 'white' } }}>
                     تماس با فروشنده
                 </Button>
             </div>

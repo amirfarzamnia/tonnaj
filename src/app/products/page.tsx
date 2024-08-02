@@ -13,31 +13,31 @@ export default () => {
     const exportItems: { name: string; link: string }[] = [
         {
             name: 'مام محصولات صادراتی',
-            link: '/'
+            link: 'details/'
         },
         {
             name: 'هندوانه صادراتی',
-            link: '/'
+            link: 'details/'
         },
         {
             name: 'کاهو صادراتی',
-            link: '/'
+            link: 'details/'
         },
         {
             name: 'هویج صادراتی',
-            link: '/'
+            link: 'details/'
         },
         {
             name: 'گوجه فرنگی صادراتی',
-            link: '/'
+            link: 'details/'
         },
         {
             name: 'گل کلم صادراتی',
-            link: '/'
+            link: 'details/'
         },
         {
             name: 'سیب صادراتی',
-            link: '/'
+            link: 'details/'
         }
     ];
 
@@ -193,7 +193,7 @@ export default () => {
                     </div>
                     <div className="w-full h-auto grid grid-cols-3 gap-x-3 gap-y-10 whitespace-break-spaces">
                         {cartItems.map((item, index) => {
-                            return <Cart author={item.author} title={item.title} description={item.description} buttonHref={item.buttonHref} locationName={item.locationName} image={item.image} key={index} />;
+                            return <Cart author={item.author} title={item.title} description={item.description} buttonHref={`${item.buttonHref}/${item.id}`} locationName={item.locationName} image={item.image} key={index} />;
                         })}
                     </div>
                 </div>
