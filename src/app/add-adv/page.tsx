@@ -93,16 +93,16 @@ export default () => {
 
             <Box className="flex flex-col items-center justify-center mt-10 mb-5">
                 <Box className="w-full flex items-center justify-center">
-                    <TextField label="عنوان محصول" className="w-[50%]" required />
+                    <TextField label="عنوان محصول" className="w-[50%]" required value={title} onChange={(e) => setTitle(e.target.value)} />
                 </Box>
 
                 <Box className="w-full flex items-center justify-center mt-5">
-                    <TextField label="قیمت محصول" className="w-[50%]" required />
+                    <TextField label="قیمت محصول" className="w-[50%]" required value={price} onChange={(e) => setPrice(e.target.value)} />
                 </Box>
 
                 <Box className="w-full flex items-center justify-center mt-5">
                     <Box className="w-[50%]">
-                        <Textarea placeholder="توضیحات محصول" maxLength={2500} dir="rtl" required />
+                        <Textarea placeholder="توضیحات محصول" maxLength={2500} dir="rtl" required value={description} onChange={(e) => setDescription(e.target.value)} />
                     </Box>
                 </Box>
 
