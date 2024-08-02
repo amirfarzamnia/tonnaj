@@ -10,6 +10,8 @@ export const POST = async (request: NextRequest) => {
 
     if (verification_code) {
     } else if (phone_number) {
+        if (/^(09\d{9}|98\d{10})$/.test(phone_number)) return NextResponse.json({ error: 'شماره همراه به درستی وارد نشده!' }, { status: 404 });
+
         const code = Array.from({ length: 4 }, () => Math.floor(Math.random() * 10)).join('');
 
         console.log(code);
@@ -19,5 +21,5 @@ export const POST = async (request: NextRequest) => {
         return new NextResponse(null, { status: 204 });
     }
 
-    return NextResponse.json({ error: 'شماره همراه وارد نشده!' });
+    return NextResponse.json({ error: 'شماره همراه وارد نشده!' }, { status: 404 });
 };
