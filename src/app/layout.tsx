@@ -68,7 +68,7 @@ const schemeOptions: { dark: ThemeOptions; light: ThemeOptions } = {
                 styleOverrides: {
                     body: {
                         background: 'rgba(245, 245, 245)',
-                        backgroundImage: 'radial-gradient(rgba(0, 0, 0, 0.1) 1px, transparent 0)',
+                        backgroundImage: 'radial-gradient(rgba(0, 0, 0, 0.075) 1px, transparent 0)',
                         backgroundSize: '20px 20px',
                         backgroundPosition: '-40px -40px'
                     }
@@ -142,11 +142,11 @@ export default ({ children }: { children: React.ReactNode }) => {
                     <AppBar position="static">
                         <Toolbar className={`border-b ${darkMode ? 'border-zinc-800' : 'border-zinc-200'} px-3`} disableGutters>
                             <AdbIcon sx={{ display: { xs: 'none', md: 'flex' }, mr: 1 }} />
-                            <Typography variant="h6" noWrap component="a" href="#app-bar-with-responsive-menu" sx={{ mr: 2, display: { xs: 'none', md: 'flex' }, fontFamily: 'monospace', fontWeight: 700, letterSpacing: '.3rem', color: 'inherit', textDecoration: 'none' }}>
+                            <Typography variant="h6" noWrap component="a" href="#app-bar-with-responsive-menu" sx={{ mr: 2, display: { xs: 'none', md: 'flex' }, fontFamily: 'monospace', fontWeight: 700, letterSpacing: '.3rem', textDecoration: 'none' }}>
                                 LOGO
                             </Typography>
                             <Box sx={{ flexGrow: 1, display: { xs: 'flex', md: 'none' } }}>
-                                <IconButton size="large" aria-label="account of current user" aria-controls="menu-appbar" aria-haspopup="true" onClick={handleOpenNavMenu} color="inherit">
+                                <IconButton size="large" aria-label="account of current user" aria-controls="menu-appbar" aria-haspopup="true" onClick={handleOpenNavMenu}>
                                     <MenuIcon />
                                 </IconButton>
                                 <Menu id="menu-appbar" anchorEl={anchorElNav} anchorOrigin={{ vertical: 'bottom', horizontal: 'left' }} keepMounted transformOrigin={{ vertical: 'top', horizontal: 'left' }} open={Boolean(anchorElNav)} onClose={handleCloseNavMenu} sx={{ display: { xs: 'block', md: 'none' } }}>
@@ -158,12 +158,12 @@ export default ({ children }: { children: React.ReactNode }) => {
                                 </Menu>
                             </Box>
                             <AdbIcon sx={{ display: { xs: 'flex', md: 'none' }, mr: 1 }} />
-                            <Typography variant="h5" noWrap component="a" href="#app-bar-with-responsive-menu" sx={{ mr: 2, display: { xs: 'flex', md: 'none' }, flexGrow: 1, fontFamily: 'monospace', fontWeight: 700, letterSpacing: '.3rem', color: 'inherit', textDecoration: 'none' }}>
+                            <Typography variant="h5" noWrap component="a" href="#app-bar-with-responsive-menu" sx={{ mr: 2, display: { xs: 'flex', md: 'none' }, flexGrow: 1, fontFamily: 'monospace', fontWeight: 700, letterSpacing: '.3rem', textDecoration: 'none' }}>
                                 LOGO
                             </Typography>
                             <Box sx={{ flexGrow: 1, display: { xs: 'none', md: 'flex' } }}>
                                 {pages.map((page) => (
-                                    <Button key={page} onClick={handleCloseNavMenu} sx={{ my: 2, color: 'white', display: 'block' }}>
+                                    <Button key={page} onClick={handleCloseNavMenu} sx={{ my: 2, display: 'block' }}>
                                         {page}
                                     </Button>
                                 ))}
@@ -199,7 +199,7 @@ export default ({ children }: { children: React.ReactNode }) => {
                         <Toolbar className={`border-b ${darkMode ? 'border-zinc-800' : 'border-zinc-200'}`}>
                             <Box sx={{ flexGrow: 1, display: { xs: 'none', md: 'flex' }, justifyContent: 'center' }}>
                                 {['محصولات', 'قیمتها', 'تعرفه خدمات', 'تماس با تناژ', 'خدمات تناژ', 'داستان تناژ', 'بازار عمده تناژ'].map((page) => (
-                                    <Button key={page} sx={{ my: 2, color: 'white', display: 'block' }}>
+                                    <Button key={page} sx={{ my: 2, display: 'block' }}>
                                         {page}
                                     </Button>
                                 ))}
