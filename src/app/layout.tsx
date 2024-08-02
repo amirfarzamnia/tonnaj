@@ -89,7 +89,7 @@ const schemeOptions: { dark: ThemeOptions; light: ThemeOptions } = {
 export default ({ children }: { children: React.ReactNode }) => {
     const [anchorElNav, setAnchorElNav] = React.useState<null | HTMLElement>(null);
     const [anchorElUser, setAnchorElUser] = React.useState<null | HTMLElement>(null);
-    const [selectedTheme, setTheme] = React.useState<'dark' | 'light'>(() => (localStorage.getItem('selected-theme') as 'dark' | 'light') || 'light');
+    const [selectedTheme, setTheme] = React.useState<'dark' | 'light'>(() => ((localStorage.getItem('selected-theme') as 'dark' | 'light') || matchMedia('(prefers-color-scheme: dark)').matches ? 'dark' : 'light'));
 
     const theme = React.useMemo(() => createTheme(schemeOptions[selectedTheme]), [selectedTheme]);
 
