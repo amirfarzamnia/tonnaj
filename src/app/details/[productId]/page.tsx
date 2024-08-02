@@ -52,19 +52,24 @@ export default ({ params }: { params: { productId: string } }) => {
             </Box>
 
             <Box className="w-[45%] flex items-center justify-start">
-                <Box component={'div'} className="w-[78%] bg-white/80 drop-shadow-2xl rounded-lg *:p-2">
+                <Box component={'div'} className="w-[78%] bg-white/80 drop-shadow-2xl rounded-lg p-3 *:p-2">
                     <Box className="mr-2">
                         <Typography sx={{ color: 'rgb(77, 77, 77)' }} fontSize={40} fontWeight={'bold'} variant="h5">
                             {findCart?.title}
                         </Typography>
                     </Box>
-                    <Box component={'div'} className="flex items-center justify-center border-b-3 border-red-900 w-fit" dir="ltr">
+                    <Box component={'div'} className="flex items-center justify-center border-b-3 border-red-900 w-fit mb-5" dir="ltr">
                         {Array.from({ length: 5 }).map((_, index) => {
-                            return index != 4 ? <Star sx={{ color: '#b91c1c' }} key={index} /> : <StarBorder sx={{ color: '#b91c1c' }} key={index} />;
+                            return index != 4 ? <Star sx={{ color: '#b91c1c', fontSize: 17 }} fontSize="small" key={index} /> : <StarBorder sx={{ color: '#b91c1c', fontSize: 17 }} fontSize="small" key={index} />;
                         })}
                     </Box>
                     <Box className="flex items-center justify-around">
-                        <Button>گفتگو با فروشنده</Button>
+                        <Button variant="contained" sx={{ 'color': 'white', 'backgroundColor': 'green', 'borderRadius': '15px', 'border': '2px solid', 'borderColor': 'transparent', ':hover': { backgroundColor: 'transparent', color: 'black', borderColor: 'black' } }} className="scale-[1.1] w-[45%] transition-all duration-300">
+                            گفتگو با فروشنده
+                        </Button>
+                        <Button variant="contained" sx={{ 'color': 'black', 'backgroundColor': 'transparent', 'borderRadius': '15px', 'border': '2px solid', 'borderColor': 'black', ':hover': { backgroundColor: 'green', color: 'white', borderColor: 'transparent' } }} className="scale-[1.1] w-[45%] transition-all duration-300">
+                            ثبت سفارش
+                        </Button>
                     </Box>
                 </Box>
             </Box>
