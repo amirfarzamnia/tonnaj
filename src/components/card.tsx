@@ -14,7 +14,7 @@ interface props {
 
 export default function Cart({ title, image, author, locationName, description, buttonHref }: props) {
     return (
-        <Box component={'a'} href={`/products/${buttonHref}`} className="cursor-pointer w-[280px] h-[390px] group rounded-t-sm rounded-b-2xl drop-shadow-2xl transition-all duration-300 ease-out shadow-bg shadow-transparent bg-white hover:shadow-black/60" dir="rtl">
+        <Box component={'a'} href={`/${buttonHref}`} className="cursor-pointer w-[280px] h-[390px] group rounded-t-sm rounded-b-2xl drop-shadow-2xl transition-all duration-300 ease-out shadow-bg shadow-transparent bg-white hover:shadow-black/60" dir="rtl">
             <div className="object-cover">
                 <img src={image} loading="lazy" className="h-[155px] rounded-t-sm transition-all duration-200" alt="" />
             </div>
