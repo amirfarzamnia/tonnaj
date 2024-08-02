@@ -28,7 +28,7 @@ export default () => {
     const [step, setStep] = React.useState<number>(1);
 
     const handlePhoneNumberSubmit = async () => {
-        if (!Boolean(phone_number)) return setError('لطفا شماره تلفن همراه خود را وارد کنید.');
+        if (!/^(09\d{9}|98\d{10})$/.test(phone_number)) return setError('لطفا شماره تلفن همراه خود را به درستی وارد کنید.');
 
         setLoading(true);
         setError('');
@@ -47,7 +47,7 @@ export default () => {
     };
 
     const handleVerificationCodeSubmit = async () => {
-        if (!Boolean(verification_code)) return setError('لطفا کد تایید چهار رقمی پیامک شده به شماره تلفن همراه خود را وارد کنید.');
+        if (!/^\d{4}$/.test(verification_code)) return setError('لطفا کد تایید چهار رقمی پیامک شده به شماره تلفن همراه خود را به درستی وارد کنید.');
 
         setLoading(true);
         setError('');
