@@ -243,8 +243,8 @@ export default ({ params }: { params: { productId: string } }) => {
                 </Box>
             </Box>
 
-            <Box width={'100%'} className="flex items-center justify-center">
-                <Box width={'75%'} height={'17vh'} className="flex items-center justify-center rounded-lg bg-black/70">
+            <Box width={'100%'} className="flex items-center justify-center mt-5">
+                <Box width={'75%'} height={'17vh'} className="flex items-center justify-center rounded-xl bg-black/50">
                     <Box className="w-[20%] flex items-center justify-center">
                         <Link href="/" className="p-1.5 rounded-xl bg-red-900 text-black border border-transparent transition-all hover:bg-transparent hover:border-white" sx={{ textDecoration: 'none' }}>
                             ثبت درخواست خرید
