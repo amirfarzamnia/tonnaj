@@ -1,12 +1,11 @@
 'use client';
 
 import { Button, Box, Grid, Toolbar, AppBar, Link, Menu, Avatar, Tooltip, MenuItem, Container, Typography, IconButton, CssBaseline, Shadows } from '@mui/material';
-import { Search as SearchIcon, Menu as MenuIcon, LightMode as LightModeIcon, DarkMode as DarkModeIcon } from '@mui/icons-material';
+import { Search as SearchIcon, Menu as MenuIcon, LightMode as LightModeIcon, DarkMode as DarkModeIcon, Adb as AdbIcon } from '@mui/icons-material';
 import { createTheme, ThemeProvider, ThemeOptions } from '@mui/material/styles';
 import { NextUIProvider } from '@nextui-org/react';
 import AuthProvider from '@/context/authContext';
 import ShopProvider from '@/context/shopContext';
-import AdbIcon from '@mui/icons-material/Adb';
 import React from 'react';
 import './index.css';
 
