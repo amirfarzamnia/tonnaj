@@ -28,6 +28,8 @@ export default () => {
     const [step, setStep] = React.useState<number>(1);
 
     const handlePhoneNumberSubmit = async () => {
+        if (!Boolean(phone_number)) return setError('لطفا شماره تلفن همراه خود را وارد کنید.');
+
         setLoading(true);
         setError('');
 
@@ -45,6 +47,8 @@ export default () => {
     };
 
     const handleVerificationCodeSubmit = async () => {
+        if (!Boolean(verification_code)) return setError('لطفا کد تایید چهار رقمی پیامک شده به شماره تلفن همراه خود را وارد کنید.');
+
         setLoading(true);
         setError('');
 
@@ -68,7 +72,7 @@ export default () => {
                     ورود به تناژ
                 </Typography>
                 <Typography variant="subtitle2" textAlign="center" gutterBottom>
-                    {step === 1 ? 'برای ورود، ابتدا شماره تلفن همراه خود را با اعداد انگلیسی وارد کنید.' : 'کد چهار رقمی پیامک شده به شماره تلفن همراه خود را با اعداد انگلیسی وارد کنید.'}
+                    {step === 1 ? 'برای ورود، ابتدا شماره تلفن همراه خود را با اعداد انگلیسی وارد کنید.' : 'کد تایید چهار رقمی پیامک شده به شماره تلفن همراه خود را با اعداد انگلیسی وارد کنید.'}
                 </Typography>
                 <Box sx={{ my: 4, width: '25%', mx: 'auto' }}>
                     <Divider />
