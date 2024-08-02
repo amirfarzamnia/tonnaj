@@ -29,6 +29,7 @@ export default () => {
 
     const handlePhoneNumberSubmit = async () => {
         setLoading(true);
+        setError('');
 
         try {
             const response = await fetch('/api/auth', { method: 'POST', headers: { 'Content-Type': 'application/json' }, body: JSON.stringify({ phone_number }) });
@@ -45,16 +46,14 @@ export default () => {
 
     const handleVerificationCodeSubmit = async () => {
         setLoading(true);
+        setError('');
 
         try {
             const response = await fetch('/api/auth', { method: 'POST', headers: { 'Content-Type': 'application/json' }, body: JSON.stringify({ verification_code }) });
-            const json = await response.json();
 
-            if (json.success) {
-                // handle success
-            } else {
-                setError(json.error || 'Invalid verification code');
-            }
+            if (!response.ok) return setError((await response.json()).error);
+
+            location.href = '/';
         } catch (error) {
             setError('ارسال درخواست به سرور با خطا مواجه شد. لطفا بعدا تلاش کنید!');
         } finally {
