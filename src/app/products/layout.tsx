@@ -1,9 +1,7 @@
 'use client';
 
 import { Accordion, AccordionItem } from '@nextui-org/react';
-import { useShop } from '@/context/shopContext';
 import { Typography } from '@mui/material';
-import Cart from '@/components/card';
 import React, { ReactNode } from 'react';
 
 export default ({ children }: { children: ReactNode }) => {
