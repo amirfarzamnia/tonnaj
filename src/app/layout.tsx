@@ -158,7 +158,7 @@ export default ({ children }: { children: React.ReactNode }) => {
                                     <Typography variant="h6" gutterBottom>
                                         پیشخوان خدمات
                                     </Typography>
-                                    <Box component="ul">
+                                    <Box component="ul" sx={{ padding: 0, margin: 0 }}>
                                         <Box component="li">
                                             <Link underline="hover" href="#">
                                                 بازار فروش عمده
@@ -168,11 +168,13 @@ export default ({ children }: { children: React.ReactNode }) => {
                                             <Link underline="hover" href="#">
                                                 بازار خرده فروشی
                                             </Link>
-                                            <Box component="li"></Box>
+                                        </Box>
+                                        <Box component="li">
                                             <Link underline="hover" href="#">
                                                 روستابان
                                             </Link>
-                                            <Box component="li"></Box>
+                                        </Box>
+                                        <Box component="li">
                                             <Link underline="hover" href="#">
                                                 قیمتبان
                                             </Link>
