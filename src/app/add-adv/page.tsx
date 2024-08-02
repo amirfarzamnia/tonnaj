@@ -37,12 +37,10 @@ export default () => {
             }
 
             const readers = imageFiles.map((file) => {
-                return new Promise<string | ArrayBuffer>((resolve, reject) => {
+                return new Promise<string | ArrayBuffer>((resolve) => {
                     const reader = new FileReader();
 
                     reader.onloadend = () => resolve(reader.result as string | ArrayBuffer);
-
-                    reader.onerror = reject;
                     reader.readAsDataURL(file);
                 });
             });
