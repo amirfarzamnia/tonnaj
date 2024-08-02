@@ -124,20 +124,15 @@ export default ({ children }: { children: React.ReactNode }) => {
                                 <IconButton
                                     onClick={() => {
                                         setTheme((previousTheme) => {
-                                            const selectedTheme = { dark: 'light', light: 'dark' }[previousTheme];
+                                            const nextTheme = previousTheme === 'dark' ? 'light' : 'dark';
 
-                                            localStorage.setItem('selected-theme', selectedTheme.toString());
+                                            localStorage.setItem('selected-theme', nextTheme);
 
-                                            return selectedTheme;
+                                            return nextTheme;
                                         });
                                     }}
                                     sx={{ p: 0 }}>
-                                    {
-                                        {
-                                            dark: <LightModeIcon />,
-                                            light: <DarkModeIcon />
-                                        }[selectedTheme]
-                                    }
+                                    {{ dark: <LightModeIcon />, light: <DarkModeIcon /> }[selectedTheme]}
                                 </IconButton>
                             </Tooltip>
                             <Tooltip title="Open settings">
