@@ -1,9 +1,10 @@
 'use client';
 
+import Cart from '@/components/card';
 import { useShop } from '@/context/shopContext';
 import { CartTypes } from '@/types/types';
 import { Call, Check, Person2Sharp, Star, StarBorder } from '@mui/icons-material';
-import { Box, Button, Link, Stack, Typography } from '@mui/material';
+import { Box, Button, Grid, Link, Stack, Typography } from '@mui/material';
 import { Image } from '@nextui-org/react';
 import { useEffect, useState } from 'react';
 import { BiUser } from 'react-icons/bi';
@@ -32,14 +33,18 @@ type CartInfoType = {
 export default ({ params }: { params: { productId: string } }) => {
     const [findCart, setFindCart] = useState<CartTypes>();
     const [cartInfo, setCartInfo] = useState<CartInfoType>();
+    const [offers, setOffers] = useState<CartTypes[]>([]);
     const [error, setError] = useState(false);
     const { cartItems } = useShop();
 
     useEffect(() => {
         if (params.productId) {
             const findCartInContext = cartItems.find((item) => item.id === params.productId);
+            const findOffers = cartItems.filter((item) => item.product_options?.product_type === findCartInContext?.product_options?.product_type);
+
             findCartInContext ? setFindCart(findCartInContext) : setError(true);
             findCartInContext ? setCartInfo(findCartInContext.product_options) : null;
+            findOffers ? setOffers(findOffers) : null;
         }
     }, [params]);
 
@@ -253,7 +258,19 @@ export default ({ params }: { params: { productId: string } }) => {
 
             <Box className="mt-4 w-full flex flex-col items-center justify-center">
                 <Typography>محصولات مشابه در محصولات زراعی</Typography>
-                <div className="w-[6%] h-[.5vh] bg-red-900 mt-2"></div>
+                <div className="w-[6%] h-[.5vh] rounded bg-red-900 mt-2"></div>
+            </Box>
+
+            <div className="grid grid-cols-4 w-[85%] ml-auto mr-auto place-items-center gap-5">
+                {offers.map((item, index) => {
+                    return <Cart author={item.author} title={item.title} description={item.description} buttonHref={`${item.buttonHref}/${item.id}`} locationName={item.locationName} image={item.image} key={index} />;
+                })}
+            </div>
+
+            <Box className="w-full h-auto flex items-center justify-center" marginBottom={5}>
+                <Link href={`/search/${cartInfo?.product_type}`} color={'#fca5a5'} className="p-2 rounded-xl scale-[1.1] bg-transparent border border-red-300 transition-all hover:bg-transparent hover:border-transparent hover:text-white hover:bg-red-600" sx={{ textDecoration: 'none' }}>
+                    نمایش همه {cartInfo?.product_type} ها
+                </Link>
             </Box>
         </Stack>
     );
