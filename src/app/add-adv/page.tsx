@@ -102,7 +102,7 @@ export default () => {
 
                 <Box className="w-full flex items-center justify-center mt-5">
                     <Box className="w-[50%]">
-                        <Textarea placeholder="توضیحات محصول" maxLength={2500} dir="rtl" required value={description} onChange={(e) => setDescription(e.target.value)} />
+                        <Textarea placeholder="توضیحات محصول" classNames={{ base: 'border-gray-300' }} variant="bordered" maxLength={2500} dir="rtl" required value={description} onChange={(e) => setDescription(e.target.value)} />
                     </Box>
                 </Box>
 
