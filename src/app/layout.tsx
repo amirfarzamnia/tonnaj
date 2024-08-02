@@ -4,11 +4,11 @@ import { Button, Box, Grid, Toolbar, AppBar, Link, Menu, Avatar, Tooltip, MenuIt
 import { Search as SearchIcon, Menu as MenuIcon, LightMode as LightModeIcon, DarkMode as DarkModeIcon } from '@mui/icons-material';
 import { createTheme, ThemeProvider, ThemeOptions } from '@mui/material/styles';
 import { NextUIProvider } from '@nextui-org/react';
+import AuthProvider from '@/context/authContext';
+import ShopProvider from '@/context/shopContext';
 import AdbIcon from '@mui/icons-material/Adb';
 import * as React from 'react';
 import './index.css';
-import AuthProvider from '@/context/authContext';
-import ShopProvider from '@/context/shopContext';
 
 const pages = ['Products', 'Pricing', 'Blog'];
 const settings = ['Profile', 'Account', 'Dashboard', 'Logout'];
