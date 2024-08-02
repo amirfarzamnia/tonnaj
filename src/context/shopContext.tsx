@@ -12,6 +12,7 @@ const ShopContext = createContext<ShopContextProps>({
     cartItems: [
         {
             author: 'نیما',
+            pageTitle: 'سیب زمینی تازه موجود شد',
             image: '/card.jpg',
             id: '1',
             title: 'فروش سیب زمینی',
@@ -123,6 +124,7 @@ export default function ShopProvider({ children }: { children: ReactNode }) {
         {
             author: 'نیما',
             image: '/card.jpg',
+            pageTitle: 'سیب زمینی تازه موجود شد',
             id: '1',
             title: 'فروش سیب زمینی',
             locationName: 'شهدا',
