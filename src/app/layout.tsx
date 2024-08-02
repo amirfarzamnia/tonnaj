@@ -7,6 +7,8 @@ import { NextUIProvider } from '@nextui-org/react';
 import AdbIcon from '@mui/icons-material/Adb';
 import * as React from 'react';
 import './index.css';
+import AuthProvider from '@/context/authContext';
+import ShopProvider from '@/context/shopContext';
 
 const pages = ['Products', 'Pricing', 'Blog'];
 const settings = ['Profile', 'Account', 'Dashboard', 'Logout'];
@@ -196,7 +198,11 @@ export default ({ children }: { children: React.ReactNode }) => {
                             </Box>
                         </Toolbar>
                     </AppBar>
-                    <NextUIProvider>{children}</NextUIProvider>
+                    <NextUIProvider>
+                        <AuthProvider>
+                            <ShopProvider>{children}</ShopProvider>
+                        </AuthProvider>
+                    </NextUIProvider>
                     <Box sx={{ background: theme.palette.grey[900], py: 4 }}>
                         <Container>
                             <Grid container spacing={4}>
