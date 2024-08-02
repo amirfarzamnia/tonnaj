@@ -5,7 +5,7 @@ import { Inventory2, Sell, LocalShipping, Pageview } from '@mui/icons-material';
 import 'slick-carousel/slick/slick-theme.css';
 import 'slick-carousel/slick/slick.css';
 import Slider from 'react-slick';
-import * as React from 'react';
+import React from 'react';
 
 const carouselItems = [
     {

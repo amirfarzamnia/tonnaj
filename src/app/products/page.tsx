@@ -1,11 +1,10 @@
 'use client';
 
-import Cart from '@/components/card';
-import { useShop } from '@/context/shopContext';
-import { CartTypes } from '@/types/types';
-import { Typography } from '@mui/material';
 import { Accordion, AccordionItem } from '@nextui-org/react';
-import * as React from 'react';
+import { useShop } from '@/context/shopContext';
+import { Typography } from '@mui/material';
+import Cart from '@/components/card';
+import React from 'react';
 
 export default () => {
     const { cartItems } = useShop();

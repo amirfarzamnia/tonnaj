@@ -19,6 +19,8 @@
     "@mui/material": "^5.16.6",
     "@nextui-org/react": "^2.4.6",
     "framer-motion": "^11.3.21",
+    "kavenegar": "^1.1.4",
+    "mongodb": "^6.8.0",
     "next": "14.2.5",
     "react": "^18",
     "react-dom": "^18",
@@ -26,6 +28,7 @@
     "slick-carousel": "^1.8.1"
   },
   "devDependencies": {
+    "@types/kavenegar": "^1.1.3",
     "@types/node": "^22",
     "@types/react": "^18",
     "@types/react-dom": "^18",

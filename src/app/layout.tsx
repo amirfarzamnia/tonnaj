@@ -1,14 +1,13 @@
 'use client';
 
-import { Button, Box, Grid, Toolbar, AppBar, Link, Menu, Avatar, Tooltip, MenuItem, Container, Typography, IconButton, CssBaseline, Shadows } from '@mui/material';
-import { Search as SearchIcon, Menu as MenuIcon, LightMode as LightModeIcon, DarkMode as DarkModeIcon } from '@mui/icons-material';
+import { Button, TextField, Box, Grid, Toolbar, AppBar, Link, Menu, Avatar, Tooltip, MenuItem, Container, Typography, InputAdornment, IconButton, CssBaseline, Shadows } from '@mui/material';
+import { Search as SearchIcon, Menu as MenuIcon, LightMode as LightModeIcon, DarkMode as DarkModeIcon, Adb as AdbIcon } from '@mui/icons-material';
 import { createTheme, ThemeProvider, ThemeOptions } from '@mui/material/styles';
 import { NextUIProvider } from '@nextui-org/react';
-import AdbIcon from '@mui/icons-material/Adb';
-import * as React from 'react';
-import './index.css';
 import AuthProvider from '@/context/authContext';
 import ShopProvider from '@/context/shopContext';
+import React from 'react';
+import './index.css';
 
 const pages = ['Products', 'Pricing', 'Blog'];
 const settings = ['Profile', 'Account', 'Dashboard', 'Logout'];
@@ -69,16 +68,9 @@ const schemeOptions: { dark: ThemeOptions; light: ThemeOptions } = {
                 styleOverrides: {
                     body: {
                         background: 'rgba(245, 245, 245)',
-                        backgroundImage: 'radial-gradient(rgba(0, 0, 0, 0.1) 1px, transparent 0)',
+                        backgroundImage: 'radial-gradient(rgba(0, 0, 0, 0.075) 1px, transparent 0)',
                         backgroundSize: '20px 20px',
                         backgroundPosition: '-40px -40px'
-                    }
-                }
-            },
-            MuiCard: {
-                styleOverrides: {
-                    root: {
-                        backgroundColor: 'rgba(0, 0, 0, 0)'
                     }
                 }
             },
@@ -103,6 +95,13 @@ const schemeOptions: { dark: ThemeOptions; light: ThemeOptions } = {
                         color: '#03a054'
                     }
                 }
+            },
+            MuiAppBar: {
+                styleOverrides: {
+                    root: {
+                        background: '#fafafa'
+                    }
+                }
             }
         },
         shadows: Array(25).fill('none') as Shadows
@@ -112,12 +111,16 @@ const schemeOptions: { dark: ThemeOptions; light: ThemeOptions } = {
 export default ({ children }: { children: React.ReactNode }) => {
     const [anchorElNav, setAnchorElNav] = React.useState<null | HTMLElement>(null);
     const [anchorElUser, setAnchorElUser] = React.useState<null | HTMLElement>(null);
-    const [darkMode, setDarkMode] = React.useState<boolean>(window.matchMedia('(prefers-color-scheme: dark)').matches);
+    const [darkMode, setDarkMode] = React.useState<boolean>(matchMedia('(prefers-color-scheme: dark)').matches);
 
     const theme = React.useMemo(() => createTheme(schemeOptions[darkMode ? 'dark' : 'light']), [darkMode]);
 
     const handleOpenNavMenu = (event: React.MouseEvent<HTMLElement>) => setAnchorElNav(event.currentTarget);
-    const handleOpenUserMenu = (event: React.MouseEvent<HTMLElement>) => setAnchorElUser(event.currentTarget);
+    const handleOpenUserMenu = (event: React.MouseEvent<HTMLElement>) => {
+        if (true) return (location.href = 'auth');
+
+        setAnchorElUser(event.currentTarget);
+    };
 
     const handleCloseNavMenu = () => setAnchorElNav(null);
     const handleCloseUserMenu = () => setAnchorElUser(null);
@@ -130,68 +133,53 @@ export default ({ children }: { children: React.ReactNode }) => {
             <html lang="fa-IR" dir="rtl">
                 <body>
                     <AppBar position="static">
-                        <Container maxWidth="xl">
-                            <Toolbar disableGutters>
-                                <AdbIcon sx={{ display: { xs: 'none', md: 'flex' }, mr: 1 }} />
-                                <Typography variant="h6" noWrap component="a" href="#app-bar-with-responsive-menu" sx={{ mr: 2, display: { xs: 'none', md: 'flex' }, fontFamily: 'monospace', fontWeight: 700, letterSpacing: '.3rem', color: 'inherit', textDecoration: 'none' }}>
-                                    LOGO
-                                </Typography>
-                                <Box sx={{ flexGrow: 1, display: { xs: 'flex', md: 'none' } }}>
-                                    <IconButton size="large" aria-label="account of current user" aria-controls="menu-appbar" aria-haspopup="true" onClick={handleOpenNavMenu} color="inherit">
-                                        <MenuIcon />
-                                    </IconButton>
-                                    <Menu id="menu-appbar" anchorEl={anchorElNav} anchorOrigin={{ vertical: 'bottom', horizontal: 'left' }} keepMounted transformOrigin={{ vertical: 'top', horizontal: 'left' }} open={Boolean(anchorElNav)} onClose={handleCloseNavMenu} sx={{ display: { xs: 'block', md: 'none' } }}>
-                                        {pages.map((page) => (
-                                            <MenuItem key={page} onClick={handleCloseNavMenu}>
-                                                <Typography textAlign="center">{page}</Typography>
-                                            </MenuItem>
-                                        ))}
-                                    </Menu>
-                                </Box>
-                                <AdbIcon sx={{ display: { xs: 'flex', md: 'none' }, mr: 1 }} />
-                                <Typography variant="h5" noWrap component="a" href="#app-bar-with-responsive-menu" sx={{ mr: 2, display: { xs: 'flex', md: 'none' }, flexGrow: 1, fontFamily: 'monospace', fontWeight: 700, letterSpacing: '.3rem', color: 'inherit', textDecoration: 'none' }}>
-                                    LOGO
-                                </Typography>
-                                <Box sx={{ flexGrow: 1, display: { xs: 'none', md: 'flex' } }}>
-                                    {pages.map((page) => (
-                                        <Button key={page} onClick={handleCloseNavMenu} sx={{ my: 2, color: 'white', display: 'block' }}>
-                                            {page}
-                                        </Button>
-                                    ))}
-                                </Box>
-                                <Box sx={{ flexGrow: 0 }}>
-                                    <Tooltip title="Toggle theme">
-                                        <IconButton onClick={toggleTheme} sx={{ p: 0 }}>
-                                            {darkMode ? <LightModeIcon /> : <DarkModeIcon />}
-                                        </IconButton>
-                                    </Tooltip>
-                                    <Tooltip title="Open settings">
-                                        <IconButton onClick={handleOpenUserMenu} sx={{ p: 0 }}>
-                                            <Avatar alt="Remy Sharp" src="/static/images/avatar/2.jpg" />
-                                        </IconButton>
-                                    </Tooltip>
-                                    <Menu sx={{ mt: '45px' }} id="menu-appbar" anchorEl={anchorElUser} anchorOrigin={{ vertical: 'top', horizontal: 'right' }} keepMounted transformOrigin={{ vertical: 'top', horizontal: 'right' }} open={Boolean(anchorElUser)} onClose={handleCloseUserMenu}>
-                                        {settings.map((setting) => (
-                                            <MenuItem key={setting} onClick={handleCloseUserMenu}>
-                                                <Typography textAlign="center">{setting}</Typography>
-                                            </MenuItem>
-                                        ))}
-                                    </Menu>
-                                </Box>
-                            </Toolbar>
-                        </Container>
-                        <Toolbar>
-                            <div className="relative border rounded-sm border-slate-100 border-opacity-25 w-52 hover:bg-gray-600 hover:bg-opacity-5 hover:w-96 transition-all duration-500">
-                                <div className="px-2 h-full absolute pointer-events-none flex items-center justify-center">
-                                    <SearchIcon />
-                                </div>
-                                <input className="outline-none py-2 pr-4 bg-transparent" placeholder="...جست و جوی محصول" aria-label="search" />
-                            </div>
+                        <Toolbar className={`border-b ${darkMode ? 'border-zinc-800' : 'border-zinc-200'} px-3`} disableGutters>
+                            <Link href="/" underline="none">
+                                <Box width={150} component="img" alt="لوگوی تناژ" src="icons/tonnaj.png"></Box>
+                            </Link>
+                            <Box sx={{ flexGrow: 1, display: { xs: 'none', md: 'flex' } }}>
+                                {pages.map((page) => (
+                                    <Button key={page} onClick={handleCloseNavMenu} sx={{ my: 2, display: 'block' }}>
+                                        {page}
+                                    </Button>
+                                ))}
+                            </Box>
+                            <Tooltip title="Toggle theme">
+                                <IconButton onClick={toggleTheme} sx={{ p: 0 }}>
+                                    {darkMode ? <LightModeIcon /> : <DarkModeIcon />}
+                                </IconButton>
+                            </Tooltip>
+                            <Tooltip title="Open settings">
+                                <IconButton onClick={handleOpenUserMenu} sx={{ p: 0 }}>
+                                    <Avatar alt="ا" src="/static/images/avatar/2.jpg" />
+                                </IconButton>
+                            </Tooltip>
+                            <Menu sx={{ mt: '45px' }} id="menu-appbar" anchorEl={anchorElUser} anchorOrigin={{ vertical: 'top', horizontal: 'right' }} keepMounted transformOrigin={{ vertical: 'top', horizontal: 'right' }} open={Boolean(anchorElUser)} onClose={handleCloseUserMenu}>
+                                {settings.map((setting) => (
+                                    <MenuItem key={setting} onClick={handleCloseUserMenu}>
+                                        <Typography textAlign="center">{setting}</Typography>
+                                    </MenuItem>
+                                ))}
+                            </Menu>
                         </Toolbar>
-                        <Toolbar>
+                        <Toolbar className={`border-b ${darkMode ? 'border-zinc-800' : 'border-zinc-200'}`}>
+                            <TextField
+                                placeholder="جست و جوی محصول..."
+                                InputProps={{
+                                    startAdornment: (
+                                        <InputAdornment position="start">
+                                            <SearchIcon />
+                                        </InputAdornment>
+                                    )
+                                }}
+                                variant="outlined"
+                                size="small"
+                            />
+                        </Toolbar>
+                        <Toolbar className={`border-b ${darkMode ? 'border-zinc-800' : 'border-zinc-200'}`}>
                             <Box sx={{ flexGrow: 1, display: { xs: 'none', md: 'flex' }, justifyContent: 'center' }}>
                                 {['محصولات', 'قیمتها', 'تعرفه خدمات', 'تماس با تناژ', 'خدمات تناژ', 'داستان تناژ', 'بازار عمده تناژ'].map((page) => (
-                                    <Button key={page} sx={{ my: 2, color: 'white', display: 'block' }}>
+                                    <Button key={page} sx={{ my: 2, display: 'block' }}>
                                         {page}
                                     </Button>
                                 ))}
@@ -203,7 +191,7 @@ export default ({ children }: { children: React.ReactNode }) => {
                             <ShopProvider>{children}</ShopProvider>
                         </AuthProvider>
                     </NextUIProvider>
-                    <Box sx={{ background: theme.palette.grey[900], py: 4 }}>
+                    <Box className={`border-t ${darkMode ? 'border-zinc-800' : 'border-zinc-200'}`} sx={{ background: darkMode ? theme.palette.grey[900] : '#fafafa', py: 4 }} component="footer">
                         <Container>
                             <Grid container spacing={4}>
                                 <Grid item xs={12} sm={3}>
