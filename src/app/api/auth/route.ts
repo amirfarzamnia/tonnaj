@@ -9,8 +9,11 @@ export const POST = async (request: NextRequest) => {
     // const json = await req.json();
 
     if (verification_code) {
+        if (!phone_number) return NextResponse.json({ error: 'شماره تلفن همراه ارسال نشده.' }, { status: 404 });
+
+        if (verificationCodes[phone_number] !== verification_code) return NextResponse.json({ error: 'کد تایید ارسال شده نادرست است.' }, { status: 404 });
     } else if (phone_number) {
-        if (/^(09\d{9}|98\d{10})$/.test(phone_number)) return NextResponse.json({ error: 'شماره همراه به درستی وارد نشده!' }, { status: 404 });
+        if (!/^(09\d{9}|98\d{10})$/.test(phone_number)) return NextResponse.json({ error: 'شماره تلفن همراه به درستی وارد نشده.' }, { status: 404 });
 
         const code = Array.from({ length: 4 }, () => Math.floor(Math.random() * 10)).join('');
 
@@ -21,5 +24,5 @@ export const POST = async (request: NextRequest) => {
         return new NextResponse(null, { status: 204 });
     }
 
-    return NextResponse.json({ error: 'شماره همراه وارد نشده!' }, { status: 404 });
+    return NextResponse.json({ error: 'پارامترهای ارسالی قابل قبول نیستند.' }, { status: 404 });
 };
