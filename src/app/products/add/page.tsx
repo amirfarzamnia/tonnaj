@@ -2,7 +2,7 @@
 
 import { Alert, Box, Button, FormControl, Grid, IconButton, InputLabel, MenuItem, Select, SelectChangeEvent, Snackbar, TextareaAutosize, TextField, Typography } from '@mui/material';
 import { Add, Remove } from '@mui/icons-material';
-import cats from '@/constants/categories';
+import categories from '@/constants/categories';
 import React from 'react';
 
 export default () => {
@@ -10,7 +10,7 @@ export default () => {
     const fileInputRef = React.useRef<HTMLInputElement | null>(null);
     const [description, setDescription] = React.useState<string>('');
     const [snackbarMessage, setSnackbarMessage] = React.useState('');
-    const [categories, setCategories] = React.useState<string[]>([]);
+    const [selectedCategories, setCategories] = React.useState<string[]>([]);
     const [authorName, setAuthorName] = React.useState<string>('');
     const [snackbarOpen, setSnackbarOpen] = React.useState(false);
     const [title, setTitle] = React.useState<string>('');
@@ -53,19 +53,8 @@ export default () => {
     const handleSubmit = async (e: React.FormEvent) => {
         e.preventDefault();
 
-        const data = {
-            title,
-            price,
-            description,
-            categories,
-            images: imageFiles,
-            name: 'ali',
-            phone_number: '4305303',
-            available: true,
-            rating: 5
-        };
-
         try {
+            const data = { title, price, description, categories: selectedCategories, images: imageFiles, name: 'ali', phone_number: '4305303', available: true, rating: 5 };
             const response = await fetch('/api/product', { method: 'POST', headers: { 'Content-Type': 'application/json' }, body: JSON.stringify(data) });
             const result = await response.json();
 
@@ -76,7 +65,7 @@ export default () => {
     };
 
     const handleCloseSnackbar = () => setSnackbarOpen(false);
-    const handleChange = (event: SelectChangeEvent<typeof categories>) => setCategories(typeof event.target.value === 'string' ? event.target.value.split(',') : event.target.value);
+    const handleChange = (event: SelectChangeEvent<typeof selectedCategories>) => setCategories(typeof event.target.value === 'string' ? event.target.value.split(',') : event.target.value);
 
     return (
         <form onSubmit={handleSubmit} style={{ width: '100%', marginTop: '10px' }}>
@@ -109,26 +98,26 @@ export default () => {
                     </label>
                 </Box>
                 <Box sx={{ width: '50%', marginTop: '16px' }}>
-                    <TextField type="text" label="عنوان محصول" fullWidth required value={title} onChange={(e) => setTitle(e.target.value)} />
+                    <TextField type="text" label="عنوان محصول" fullWidth required value={title} onChange={({ target }) => setTitle(target.value)} />
                 </Box>
                 <Box sx={{ width: '50%', marginTop: '16px' }}>
-                    <TextField type="number" label="قیمت محصول" fullWidth required value={price} onChange={(e) => setPrice(e.target.value)} />
+                    <TextField type="number" label="قیمت محصول" fullWidth required value={price} onChange={({ target }) => setPrice(target.value)} />
                 </Box>
                 <Box sx={{ width: '50%', marginTop: '16px' }}>
-                    <TextField type="text" label="نام شخص یا شرکت" fullWidth required value={authorName} onChange={(e) => setAuthorName(e.target.value)} />
+                    <TextField type="text" label="نام شخص یا شرکت" fullWidth required value={authorName} onChange={({ target }) => setAuthorName(target.value)} />
                 </Box>
                 <Box sx={{ width: '50%', marginTop: '16px' }}>
                     <FormControl fullWidth>
-                        <InputLabel id="demo-multiple-select-label">دسته بندی</InputLabel>
-                        <Select labelId="demo-multiple-select-label" id="demo-multiple-select" multiple value={categories} onChange={handleChange} renderValue={(selected) => selected.join(', ')}>
-                            {cats.map((category) => (
+                        <InputLabel id="categories-select-label">دسته بندی</InputLabel>
+                        <Select labelId="categories-select-label" id="categories-select" multiple value={selectedCategories} onChange={handleChange} renderValue={(selected) => selected.join(', ')}>
+                            {categories.map((category) => (
                                 <MenuItem value={category}>{category}</MenuItem>
                             ))}
                         </Select>
                     </FormControl>
                 </Box>
                 <Box sx={{ width: '50%', marginTop: '16px' }}>
-                    <TextareaAutosize minRows={5} placeholder="توضیحات محصول" style={{ width: '100%', borderRadius: '4px', border: '1px solid #ccc', padding: '8px', backgroundColor: 'transparent', resize: 'none' }} maxLength={2500} dir="rtl" required value={description} onChange={(e) => setDescription(e.target.value)} />
+                    <TextareaAutosize minRows={5} placeholder="توضیحات محصول" style={{ width: '100%', borderRadius: '4px', border: '1px solid #ccc', padding: '8px', backgroundColor: 'transparent', resize: 'none' }} maxLength={2500} required value={description} onChange={({ target }) => setDescription(target.value)} />
                 </Box>
                 <Box sx={{ marginTop: '16px' }}>
                     <Button type="submit" variant="contained" color="primary">
