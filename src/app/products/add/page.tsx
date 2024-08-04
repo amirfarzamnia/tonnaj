@@ -4,6 +4,7 @@ import { Alert, Box, Button, FormControl, Grid, IconButton, InputLabel, MenuItem
 import { Add, Remove } from '@mui/icons-material';
 import categories from '@/constants/categories';
 import React from 'react';
+import { useRouter } from 'next/navigation';
 
 export default () => {
     const [imageFiles, setImageFiles] = React.useState<{ name: string; base64: string }[]>([]);
@@ -15,6 +16,7 @@ export default () => {
     const [snackbarOpen, setSnackbarOpen] = React.useState(false);
     const [title, setTitle] = React.useState<string>('');
     const [price, setPrice] = React.useState<string>('');
+    const router = useRouter()
 
     const handleImage = (e: React.ChangeEvent<HTMLInputElement>) => {
         e.preventDefault();
@@ -52,13 +54,28 @@ export default () => {
 
     const handleSubmit = async (e: React.FormEvent) => {
         e.preventDefault();
+        if (imageFiles.length == 0) {
+            setSnackbarMessage('باید حداقل یک عکس برای محصول خود انتخاب کنید')
+            setSnackbarOpen(true)
+            return
+        }
 
         try {
-            const data = { title, price, description, categories: selectedCategories, images: imageFiles, name: 'ali', phone_number: '4305303', available: true, rating: 5 };
+            const data = { title, price, description, categories: selectedCategories, name: 'ali', phone_number: '4305303', images: imageFiles, available: true, rating: 5 };
             const response = await fetch('/api/product', { method: 'POST', headers: { 'Content-Type': 'application/json' }, body: JSON.stringify(data) });
-            const result = await response.json();
 
-            console.log(result);
+            if (response.status === 200) {
+                setSnackbarMessage('محصول شما با موفقیت ثبت شد')
+                setSnackbarOpen(true)
+                setImageFiles([])
+                setPrice("")
+                setAuthorName("")
+                setCategories([])
+                setDescription("")
+                setTitle("")
+                setTimeout(() => router.push('/'), 2000)
+            }
+
         } catch (error) {
             console.error('Error uploading data:', error);
         }
@@ -117,7 +134,7 @@ export default () => {
                     </FormControl>
                 </Box>
                 <Box sx={{ width: '50%', marginTop: '16px' }}>
-                    <TextareaAutosize minRows={5} placeholder="توضیحات محصول" style={{ width: '100%', borderRadius: '4px', border: '1px solid #ccc', padding: '8px', backgroundColor: 'transparent', resize: 'none' }} maxLength={2500} required value={description} onChange={({ target }) => setDescription(target.value)} />
+                    <TextareaAutosize minRows={5} spellCheck={false} placeholder="توضیحات محصول" style={{ width: '100%', borderRadius: '4px', border: '1px solid #ccc', padding: '8px', backgroundColor: 'transparent', resize: 'none', color: 'white' }} maxLength={2500} required value={description} onChange={({ target }) => setDescription(target.value)} />
                 </Box>
                 <Box sx={{ marginTop: '16px' }}>
                     <Button type="submit" variant="contained" color="primary">

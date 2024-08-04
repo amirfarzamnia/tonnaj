@@ -17,7 +17,7 @@ interface props {
 export const POST = async (req: NextRequest) => {
     try {
         const { title, description, images, categories, price, rating, available, name, phone_number }: props = await req.json();
-        if (!title || !description || !price || !available || !rating || !name || !phone_number) return NextResponse.json({ message: 'Validation Error' }, { status: 400 });
+        if (!title || !description || !price || images.length == 0 || !available || !rating || !name || !phone_number) return NextResponse.json({ message: 'Validation Error' }, { status: 400 });
 
         const id = randomBytes(3).toString('hex');
 
@@ -25,8 +25,9 @@ export const POST = async (req: NextRequest) => {
             id,
             title,
             description,
-            images,
+            price,
             categories,
+            images,
             available,
             rating,
             author: {
@@ -39,5 +40,15 @@ export const POST = async (req: NextRequest) => {
         return NextResponse.json({ message: 'Product added successfully' }, { status: 200 });
     } catch (error) {
         return NextResponse.json({ message: error }, { status: 404 });
+    }
+};
+
+export const GET = async (req: NextRequest) => {
+    try {
+        const products = await database.collection('products').find().toArray();
+        return NextResponse.json({ data: products }, { status: 200 });
+    } catch (error) {
+        console.error('Error fetching products:', error);
+        return NextResponse.json({ message: 'Error fetching products' }, { status: 500 });
     }
 };

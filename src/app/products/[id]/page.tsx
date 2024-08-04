@@ -4,8 +4,8 @@ import { ArrowDownward, ArrowUpward, Category, Telegram, WhatsApp, LocationOn, T
 import { Box, Button, Grid, Typography, Paper, Link, IconButton, CircularProgress } from '@mui/material';
 import { Navigation, Pagination, Scrollbar } from 'swiper/modules';
 import { Swiper, SwiperSlide } from 'swiper/react';
+import { ProductTypes } from '@/types/product';
 import { Person } from '@mui/icons-material';
-import { ProductTypes } from '@/types/types';
 import { useShop } from '@/contexts/shop';
 import React from 'react';
 
@@ -19,17 +19,21 @@ export default ({ params }: { params: { id: string } }) => {
     const [product, setProduct] = React.useState<ProductTypes | null>(null);
     const [error, setError] = React.useState<boolean>(false);
 
-    const { products } = useShop();
+    const { products, loading } = useShop();
 
     React.useEffect(() => {
         if (!params.id) return;
+        if (!loading) {
+            const product = products.find(pr => pr.id === params.id)
 
-        const product = products.find(({ id }) => id === Number(params.id));
+            console.log(product)
 
-        if (!product) return setError(true);
+            if (!product) return setError(true);
 
-        setProduct(product);
-        setRelatedProducts(products.filter(({ id, categories }) => categories.some((category) => product.categories.includes(category)) && id !== product.id));
+            setProduct(product);
+            setRelatedProducts(products.filter(({ id, categories }) => categories.some((category) => product.categories.includes(category)) && id !== product.id));
+        }
+
     }, [params.id, products]);
 
     if (error) {
@@ -48,15 +52,15 @@ export default ({ params }: { params: { id: string } }) => {
         );
     }
 
-    const infoItems = [
-        { icon: <Category />, label: 'دسته بندی ها', value: product.categories.join() },
-        { icon: <LocationOn />, label: 'موقعیت مکانی', value: `${product.location.city} - ${product.location.state}` },
-        { icon: <ArrowDownward />, label: 'حداقل سفارش', value: product.min ?? 'ندارد' },
-        { icon: <ArrowUpward />, label: 'حداکثر سفارش', value: product.max ?? 'ندارد' },
-        { icon: <Person />, label: 'فروشنده', value: product.author.name },
-        { icon: <Tag />, label: 'کد محصول', value: product.id },
-        { icon: <StarIcon />, label: 'وضعیت', value: product.available ? 'موجود' : 'ناموجود' }
-    ];
+    // const infoItems = [
+    //     { icon: <Category />, label: 'دسته بندی ها', value: product.categories.join() },
+    //     { icon: <LocationOn />, label: 'موقعیت مکانی', value: `${product.location.city} - ${product.location.state}` },
+    //     { icon: <ArrowDownward />, label: 'حداقل سفارش', value: product.min ?? 'ندارد' },
+    //     { icon: <ArrowUpward />, label: 'حداکثر سفارش', value: product.max ?? 'ندارد' },
+    //     { icon: <Person />, label: 'فروشنده', value: product.author.name },
+    //     { icon: <Tag />, label: 'کد محصول', value: product.id },
+    //     { icon: <StarIcon />, label: 'وضعیت', value: product.available ? 'موجود' : 'ناموجود' }
+    // ];
 
     return (
         <Box sx={{ padding: 3 }}>
@@ -65,7 +69,7 @@ export default ({ params }: { params: { id: string } }) => {
                     <Swiper modules={[Navigation, Pagination, Scrollbar]} spaceBetween={10} slidesPerView={1} navigation pagination={{ clickable: true }} scrollbar={{ draggable: true }}>
                         {product.images.map((img, idx) => (
                             <SwiperSlide key={idx}>
-                                <img src={img} alt={`Product image ${idx + 1}`} style={{ width: '100%', height: 'auto', objectFit: 'cover' }} />
+                                <img src={img.base64} alt={`Product image ${idx + 1}`} style={{ width: '100%', height: 'auto', objectFit: 'cover' }} />
                             </SwiperSlide>
                         ))}
                     </Swiper>
@@ -83,7 +87,7 @@ export default ({ params }: { params: { id: string } }) => {
                         <Button variant="contained" color="primary" sx={{ mt: 2 }}>
                             تماس با فروشنده
                         </Button>
-                        <Box sx={{ mt: 2 }}>
+                        {/* <Box sx={{ mt: 2 }}>
                             {infoItems.map((item, index) => (
                                 <Box key={index} sx={{ display: 'flex', alignItems: 'center', mb: 1 }}>
                                     <Box sx={{ mr: 1 }}>{item.icon}</Box>
@@ -95,7 +99,7 @@ export default ({ params }: { params: { id: string } }) => {
                                     </Typography>
                                 </Box>
                             ))}
-                        </Box>
+                        </Box> */}
                     </Paper>
                 </Grid>
             </Grid>
@@ -105,7 +109,7 @@ export default ({ params }: { params: { id: string } }) => {
                     {relatedProducts.map((item) => (
                         <Grid item xs={12} sm={6} md={4} key={item.id}>
                             <Paper sx={{ padding: 2, borderRadius: 2, textAlign: 'center' }}>
-                                <img src={item.images[0]} alt={item.title} style={{ width: '100%', height: 'auto', objectFit: 'cover' }} />
+                                <img src={item.images[0].base64} alt={item.title} style={{ width: '100%', height: 'auto', objectFit: 'cover' }} />
                                 <Typography variant="h6" sx={{ mt: 1 }}>
                                     {item.title}
                                 </Typography>
