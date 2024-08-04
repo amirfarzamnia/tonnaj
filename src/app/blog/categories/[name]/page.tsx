@@ -26,10 +26,17 @@ export default ({ params }: { params: { name: string } }) => {
             <Grid container spacing={2} maxWidth={'100%'} sx={{ padding: 4, placeContent: "end" }}>
                 {categoriesItems?.map((item, index) => {
                     return <Grid item key={index}>
-                        <Card sx={{ maxWidth: 345 }} key={index}>
-                            <CardMedia component="img" alt="img" height={140} image={item.image} sx={{ borderRadius: '10px' }} />
+                        <Card sx={{ width: 345, height: 375 }}>
+                            <CardMedia component="img" alt="img" sx={{ objectFit: "cover", height: 200 }} image={item.image} />
                             <CardContent>
-                                <Typography variant="body2" color="text.secondary">
+                                <Typography variant="body2" color="text.secondary" sx={{
+                                    overflow: "hidden",
+                                    textOverflow: "ellipsis",
+                                    display: "-webkit-box",
+                                    WebkitLineClamp: 4,  // تعداد خطوطی که می‌خواهید نمایش داده شود
+                                    WebkitBoxOrient: "vertical",
+                                    height: 95,
+                                }}>
                                     {item.description}
                                 </Typography>
                             </CardContent>
