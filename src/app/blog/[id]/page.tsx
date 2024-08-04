@@ -2,7 +2,7 @@
 
 import { useBlog } from '@/contexts/blog';
 import { BlogTypes } from '@/types/types';
-import { Container, Link, Stack, Typography } from '@mui/material';
+import { Container, Divider, Link, Stack, Typography } from '@mui/material';
 import { useEffect, useState } from 'react';
 
 export default ({ params }: { params: { id: string } }) => {
@@ -26,13 +26,19 @@ export default ({ params }: { params: { id: string } }) => {
                     بلاگ پیدا نشد
                 </Typography>
             </Container> : <Container sx={{ minHeight: "60vh", margin: '0px', padding: '0px', }} maxWidth={'xl'}>
-                <Container sx={{ minHeight: '80vh' }} maxWidth={'lg'}>
-                    {blog?.page}
+                <Container sx={{ minHeight: '80vh' }} maxWidth={'xl'}>
+                    <Container maxWidth={'xl'} sx={{ height: "auto", display: "flex", alignItems: "center", justifyContent: "center" }}>
+                        <Typography variant='h3' >{blog?.title}</Typography>
+                    </Container>
+                    <Divider sx={{ width: "100%", mt: "10px", mb: "20px" }} />
+                    <Container maxWidth={'xl'}>
+                        {blog?.page}
+                    </Container>
                 </Container>
-
+                <Divider sx={{ width: "100%", mt: "10px", mb: "20px" }} />
                 <Container>
 
-                    <Container sx={{ backgroundColor: "blanchedalmond", padding: '3px', marginBottom: "15px" }} dir='ltr'>
+                    <Container sx={{ backgroundColor: "blanchedalmond", padding: '3px', marginBottom: "15px", borderRadius: "10px" }} dir='ltr'>
                         {blog?.categories.map((item, index) => {
                             return <Link variant='h4' sx={{ color: "blue" }} href={`/blog/categories/${encodeURI(item)}`} key={index}>{item}</Link>
                         })}
