@@ -44,7 +44,7 @@ export default ({ params }: { params: { name: string } }) => {
                                     {item.description}
                                 </Typography>
                             </CardContent>
-                            <CardActions className="flex items-center justify-center">
+                            <CardActions sx={{ display: 'flex', justifyContent: "center", alignItems: "center" }}>
                                 <Button href={`/blog/${item.id}`}>
                                     ادامه
                                 </Button>
