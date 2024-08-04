@@ -26,13 +26,13 @@ export default ({ params }: { params: { id: string } }) => {
                     بلاگ پیدا نشد
                 </Typography>
             </Container> : <Container sx={{ minHeight: "60vh", margin: '0px', padding: '0px', }} maxWidth={'xl'}>
-                <Container sx={{ minHeight: '80vh' }} maxWidth={'lg'}>
+                <Container sx={{ minHeight: '80vh' }} maxWidth={'xl'}>
                     {blog?.page}
                 </Container>
 
                 <Container>
 
-                    <Container sx={{ backgroundColor: "blanchedalmond", padding: '3px', marginBottom: "15px" }} dir='ltr'>
+                    <Container sx={{ backgroundColor: "blanchedalmond", padding: '3px', marginBottom: "15px", borderRadius: "10px" }} dir='ltr'>
                         {blog?.categories.map((item, index) => {
                             return <Link variant='h4' sx={{ color: "blue" }} href={`/blog/categories/${encodeURI(item)}`} key={index}>{item}</Link>
                         })}

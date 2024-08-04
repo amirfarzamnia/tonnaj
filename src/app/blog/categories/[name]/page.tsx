@@ -22,7 +22,11 @@ export default ({ params }: { params: { name: string } }) => {
 
 
     return <Stack maxWidth={'100%'}>
-        {error ? <Container></Container> :
+        {error ? <Container component={'div'} maxWidth={'xl'} sx={{ display: "flex", justifyItems: "center", alignItems: 'center', maxHeight: "50vh" }}>
+            <Typography variant="h4">
+                چیزی یافت نشد
+            </Typography>
+        </Container> :
             <Grid container spacing={2} maxWidth={'100%'} sx={{ padding: 4, placeContent: "end" }}>
                 {categoriesItems?.map((item, index) => {
                     return <Grid item key={index}>
