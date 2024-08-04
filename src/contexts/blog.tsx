@@ -1,5 +1,5 @@
 import BlogOne from '@/posts/one';
-import { BlogTypes } from '@/types/types';
+import { BlogTypes } from '@/types/blog';
 import React from 'react';
 
 const BlogContext = React.createContext<{ blogItems: BlogTypes[]; setBlogItems: React.Dispatch<React.SetStateAction<BlogTypes[]>> }>

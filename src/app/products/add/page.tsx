@@ -1,5 +1,7 @@
 'use client';
 
+import { ProductTypes } from '@/types/types';
+import { Add, Remove } from '@mui/icons-material';
 import { Alert, Box, Button, FormControl, Grid, IconButton, InputLabel, MenuItem, Select, SelectChangeEvent, Snackbar, TextareaAutosize, TextField, Typography } from '@mui/material';
 import { Add, Remove } from '@mui/icons-material';
 import categories from '@/constants/categories';

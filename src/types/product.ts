@@ -1,5 +1,3 @@
-import React from 'react';
-
 export type ProductTypes = {
     rating: 1 | 2 | 3 | 4 | 5;
     categories: string[];
@@ -21,14 +19,3 @@ export type ProductTypes = {
         name: string;
     };
 };
-
-export type BlogTypes = {
-    page: React.ReactNode;
-    categories: string[];
-    description: string;
-    title: string;
-    image: string;
-    id: string;
-};
-
-export type AuthTypes = { phone_number?: string; verification_code?: string };

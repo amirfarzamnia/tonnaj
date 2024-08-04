@@ -1,6 +1,7 @@
 'use client';
 
-import { ProductTypes } from '@/types/types';
+
+import { ProductTypes } from '@/types/product';
 import React from 'react';
 
 const ShopContext = React.createContext<{ products: ProductTypes[]; setProducts: React.Dispatch<React.SetStateAction<ProductTypes[]>> }>({

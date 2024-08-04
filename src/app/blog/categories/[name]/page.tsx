@@ -1,7 +1,7 @@
 'use client'
 
 import { useBlog } from "@/contexts/blog"
-import { BlogTypes } from "@/types/types"
+import { BlogTypes } from "@/types/blog"
 import { Button, Card, CardActions, CardContent, CardMedia, Container, Grid, Stack, Typography } from "@mui/material"
 import { useEffect, useState } from "react"
 
