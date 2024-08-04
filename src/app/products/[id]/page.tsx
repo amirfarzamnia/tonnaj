@@ -14,7 +14,7 @@ import 'swiper/css/pagination';
 import 'swiper/css/scrollbar';
 import 'swiper/css';
 
-export default function ProductPage({ params }: { params: { id: string } }) {
+export default ({ params }: { params: { id: string } }) => {
     const [relatedProducts, setRelatedProducts] = React.useState<ProductTypes[]>([]);
     const [product, setProduct] = React.useState<ProductTypes | null>(null);
     const [error, setError] = React.useState<boolean>(false);

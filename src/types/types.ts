@@ -1,4 +1,4 @@
-import { ReactNode } from 'react';
+import React from 'react';
 
 export type ProductTypes = {
     rating: 1 | 2 | 3 | 4 | 5;
@@ -21,10 +21,11 @@ export type ProductTypes = {
 };
 
 export type BlogTypes = {
-    blog_page: ReactNode;
+    id: string;
     description: string;
     image: string;
-    id: string;
+    page: React.ReactNode;
+    categories: string[];
 };
 
-export type AuthTypes = { phone_number: string } | { phone_number: string; verification_code: string };
+export type AuthTypes = { phone_number?: string; verification_code?: string };
