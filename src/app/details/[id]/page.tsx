@@ -1,15 +1,13 @@
 'use client';
 
-import { Box, Button, Grid, Typography, Paper, Link, IconButton } from '@mui/material';
-import { FaBarcode, FaLeaf, FaLocationArrow, FaTag } from 'react-icons/fa';
+import { ArrowDownward, ArrowUpward, Category, Telegram, WhatsApp, LocationOn, Tag, Star as StarIcon, StarBorder } from '@mui/icons-material';
+import { Box, Button, Grid, Typography, Paper, Link, IconButton, CircularProgress } from '@mui/material';
 import { Navigation, Pagination, Scrollbar } from 'swiper/modules';
-import { BsWhatsapp, BsTelegram } from 'react-icons/bs';
-import { Star, StarBorder } from '@mui/icons-material';
 import { Swiper, SwiperSlide } from 'swiper/react';
 import { useShop } from '@/context/shopContext';
 import { useEffect, useState } from 'react';
 import { CartTypes } from '@/types/types';
-import { BiUser } from 'react-icons/bi';
+import { Person } from '@mui/icons-material';
 import 'swiper/css/navigation';
 import 'swiper/css/pagination';
 import 'swiper/css/scrollbar';
@@ -32,17 +30,30 @@ export default function ProductPage({ params }: { params: { id: string } }) {
         setRelatedProducts(cartItems.filter(({ id, category }) => category === product.category && id !== product.id));
     }, [params.id, cartItems]);
 
-    if (error) return <Typography variant="h4">محصول مورد نظر یافت نشد</Typography>;
-    if (!product) return <Typography variant="h4">در حال بارگذاری...</Typography>;
+    if (error) {
+        return (
+            <Typography variant="h4" color="red">
+                محصول مورد نظر یافت نشد
+            </Typography>
+        );
+    }
+
+    if (!product) {
+        return (
+            <Box sx={{ display: 'flex', justifyContent: 'center', alignItems: 'center', height: '100vh' }}>
+                <CircularProgress />
+            </Box>
+        );
+    }
 
     const infoItems = [
-        { icon: <FaLeaf />, label: 'نوع محصول', value: product.category },
-        { icon: <FaLocationArrow />, label: 'موقعیت مکانی', value: `${product.location.city} - ${product.location.state}` },
-        { icon: <FaBarcode />, label: 'حداقل سفارش', value: product.min ?? 'ندارد' },
-        { icon: <FaBarcode />, label: 'حداکثر سفارش', value: product.max ?? 'ندارد' },
-        { icon: <BiUser />, label: 'فروشنده', value: product.author },
-        { icon: <FaTag />, label: 'کد محصول', value: product.id },
-        { icon: <Star />, label: 'وضعیت', value: product.available ? 'موجود' : 'ناموجود' }
+        { icon: <Category />, label: 'دسته بندی', value: product.category },
+        { icon: <LocationOn />, label: 'موقعیت مکانی', value: `${product.location.city} - ${product.location.state}` },
+        { icon: <ArrowDownward />, label: 'حداقل سفارش', value: product.min ?? 'ندارد' },
+        { icon: <ArrowUpward />, label: 'حداکثر سفارش', value: product.max ?? 'ندارد' },
+        { icon: <Person />, label: 'فروشنده', value: product.author },
+        { icon: <Tag />, label: 'کد محصول', value: product.id },
+        { icon: <StarIcon />, label: 'وضعیت', value: product.available ? 'موجود' : 'ناموجود' }
     ];
 
     return (
@@ -60,7 +71,7 @@ export default function ProductPage({ params }: { params: { id: string } }) {
                 <Grid item xs={12} md={6}>
                     <Paper sx={{ padding: 2, borderRadius: 2 }}>
                         <Typography variant="h4">{product.title}</Typography>
-                        <Box sx={{ display: 'flex', alignItems: 'center', mb: 2 }}>{Array.from({ length: 5 }, (_, index) => (index < product.rating ? <Star key={index} color="primary" /> : <StarBorder key={index} color="primary" />))}</Box>
+                        <Box sx={{ display: 'flex', alignItems: 'center', mb: 2 }}>{Array.from({ length: 5 }, (_, index) => (index < product.rating ? <StarIcon key={index} color="primary" /> : <StarBorder key={index} color="primary" />))}</Box>
                         <Typography variant="h6" color="textSecondary" paragraph>
                             {product.description}
                         </Typography>
@@ -107,12 +118,12 @@ export default function ProductPage({ params }: { params: { id: string } }) {
             <Box sx={{ mt: 4, textAlign: 'center' }}>
                 <Link href={`https://api.whatsapp.com/send?text=${encodeURIComponent(`برای مشاهده جزئیات ${product.title} به لینک زیر مراجعه کنید: https://example.com/product/${product.id}`)}`} target="_blank" sx={{ mr: 1 }}>
                     <IconButton color="primary">
-                        <BsWhatsapp size={24} />
+                        <WhatsApp />
                     </IconButton>
                 </Link>
                 <Link href={`https://t.me/share/url?url=${encodeURIComponent(`https://example.com/product/${product.id}`)}&text=${encodeURIComponent(`مشاهده محصول ${product.title}`)}`} target="_blank">
                     <IconButton color="primary">
-                        <BsTelegram size={24} />
+                        <Telegram />
                     </IconButton>
                 </Link>
             </Box>
