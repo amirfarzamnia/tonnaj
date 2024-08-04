@@ -111,11 +111,11 @@ export default ({ children }: { children: React.ReactNode }) => {
                     ) : (
                         <>
                             <AppBar position="static">
-                                <Toolbar className={`flex items-center justify-between border-b ${{ dark: 'border-zinc-700', light: 'border-zinc-200' }[selectedTheme]} px-3`} disableGutters>
+                                <Toolbar sx={{ display: 'flex', justifyContent: 'space-between', borderBottom: 1, borderColor: selectedTheme === 'dark' ? '#3f3f46' : '#e4e4e7', px: 3 }}>
                                     <Link href="/" underline="none">
                                         <Box width={150} component="img" alt="لوگوی تناژ" src="/icons/tonnaj.png"></Box>
                                     </Link>
-                                    <Box component="div">
+                                    <Box>
                                         <Tooltip title="Toggle theme">
                                             <IconButton
                                                 onClick={() => {
@@ -126,7 +126,7 @@ export default ({ children }: { children: React.ReactNode }) => {
                                                     });
                                                 }}
                                                 sx={{ p: 0 }}>
-                                                {{ dark: <LightModeIcon />, light: <DarkModeIcon /> }[selectedTheme]}
+                                                {selectedTheme === 'dark' ? <LightModeIcon /> : <DarkModeIcon />}
                                             </IconButton>
                                         </Tooltip>
                                         <Tooltip title="Open settings">
@@ -136,7 +136,7 @@ export default ({ children }: { children: React.ReactNode }) => {
                                         </Tooltip>
                                     </Box>
                                 </Toolbar>
-                                <Toolbar className={`border-b ${{ dark: 'border-zinc-700', light: 'border-zinc-200' }[selectedTheme]}`}>
+                                <Toolbar sx={{ borderBottom: 1, borderColor: selectedTheme === 'dark' ? '#3f3f46' : '#e4e4e7' }}>
                                     <TextField
                                         placeholder="جست و جوی محصول..."
                                         InputProps={{
@@ -151,8 +151,8 @@ export default ({ children }: { children: React.ReactNode }) => {
                                     />
                                     <Button variant="outlined">Outlined</Button>
                                 </Toolbar>
-                                <Toolbar className={`border-b ${{ dark: 'border-zinc-700', light: 'border-zinc-200' }[selectedTheme]}`}>
-                                    <Box sx={{ flexGrow: 1, display: { xs: 'none', md: 'flex' }, justifyContent: 'center' }}>
+                                <Toolbar sx={{ borderBottom: 1, borderColor: selectedTheme === 'dark' ? '#3f3f46' : '#e4e4e7', justifyContent: 'center' }}>
+                                    <Box sx={{ display: { xs: 'none', md: 'flex' } }}>
                                         {['محصولات', 'قیمتها', 'تعرفه خدمات', 'تماس با تناژ', 'خدمات تناژ', 'داستان تناژ', 'بازار عمده تناژ'].map((page) => (
                                             <Button key={page} sx={{ my: 2, display: 'block' }}>
                                                 {page}
@@ -165,12 +165,14 @@ export default ({ children }: { children: React.ReactNode }) => {
                                 <AuthProvider>
                                     <ShopProvider>
                                         <BlogProvider>
-                                            <Container sx={{ padding: 2, borderRadius: 4 }} maxWidth={'xl'}>{children}</Container>
+                                            <Container sx={{ padding: 2, borderRadius: 4 }} maxWidth={'xl'}>
+                                                {children}
+                                            </Container>
                                         </BlogProvider>
                                     </ShopProvider>
                                 </AuthProvider>
                             </NextUIProvider>
-                            <Box className={`border-t ${{ dark: 'border-zinc-700', light: 'border-zinc-200' }[selectedTheme]}`} sx={{ background: { dark: theme.palette.grey[900], light: '#fafafa' }[selectedTheme], py: 4 }} component="footer">
+                            <Box sx={{ borderTop: 1, borderColor: selectedTheme === 'dark' ? '#3f3f46' : '#e4e4e7', background: selectedTheme === 'dark' ? theme.palette.grey[900] : '#fafafa', py: 4 }} component="footer">
                                 <Container>
                                     <Grid container spacing={4}>
                                         <Grid item xs={12} sm={3}>
