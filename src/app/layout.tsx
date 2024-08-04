@@ -165,7 +165,7 @@ export default ({ children }: { children: React.ReactNode }) => {
                                 <AuthProvider>
                                     <ShopProvider>
                                         <BlogProvider>
-                                            <Container sx={{ padding: 4, my: 10, borderRadius: 4 }}>{children}</Container>
+                                            <Container sx={{ padding: 2, borderRadius: 4 }} maxWidth={'xl'}>{children}</Container>
                                         </BlogProvider>
                                     </ShopProvider>
                                 </AuthProvider>

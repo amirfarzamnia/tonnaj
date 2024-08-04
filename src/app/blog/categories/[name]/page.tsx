@@ -5,14 +5,14 @@ import { BlogTypes } from "@/types/types"
 import { Button, Card, CardActions, CardContent, CardMedia, Container, Grid, Stack, Typography } from "@mui/material"
 import { useEffect, useState } from "react"
 
-export default ({ params }: { params: { categories: string } }) => {
+export default ({ params }: { params: { name: string } }) => {
     const { blogItems } = useBlog()
     const [categoriesItems, setCategoriesItems] = useState<BlogTypes[]>()
     const [error, setError] = useState(false)
 
     useEffect(() => {
-        if (params.categories) {
-            const param = decodeURI(params.categories)
+        if (params.name) {
+            const param = decodeURI(params.name)
 
             const findCategories = blogItems.filter(item => item.categories.includes(param))
 
