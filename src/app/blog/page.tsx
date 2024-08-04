@@ -1,7 +1,37 @@
 'use client'
 
 import { useBlog } from '@/contexts/blog';
-import { Button, Card, CardActions, CardContent, CardMedia, Container, Divider, Grid, Stack, Typography } from '@mui/material';
+import { Button, Card, CardActions, CardContent, CardMedia, CardMediaProps, Container, Divider, Grid, Stack, styled, Typography } from '@mui/material';
+
+
+
+const StyledCard = styled(Card)(({ theme }) => ({
+    display: 'flex',
+    flexDirection: 'column',
+    justifyContent: 'space-between',
+    height: '100%',
+    boxShadow: theme.shadows[3],
+    borderRadius: theme.shape.borderRadius * 2,
+    transition: 'transform 0.3s, box-shadow 0.3s',
+    '&:hover': {
+        transform: 'scale(1.02)',
+        boxShadow: theme.shadows[6],
+    },
+}));
+
+const StyledCardMedia = styled(CardMedia)<CardMediaProps>(({ theme }) => ({
+    height: 200,
+    objectFit: 'cover',
+    borderTopLeftRadius: theme.shape.borderRadius * 2,
+    borderTopRightRadius: theme.shape.borderRadius * 2,
+}));
+
+const StyledButton = styled(Button)(({ theme }) => ({
+    width: '100%',
+    borderRadius: theme.shape.borderRadius * 2,
+    textTransform: 'uppercase',
+    fontWeight: theme.typography.fontWeightBold,
+}));
 
 export default () => {
     const { blogItems } = useBlog()
@@ -10,13 +40,16 @@ export default () => {
         <Stack maxWidth={'100%'} >
 
 
-            <Grid container spacing={2} dir="ltr" maxWidth={'100%'}>
-                {blogItems.map((item, index) => {
-                    return <Grid item key={index}>
-                        <Card sx={{ width: 345, height: 420 }}>
-                            <CardMedia component="img" alt="img" sx={{ objectFit: "cover", height: 200 }} image={item.image} />
+            <Grid container spacing={3} justifyContent="center">
+                {blogItems.map((item, index) => (
+                    <Grid item key={index} xs={12} sm={6} md={4} lg={3}>
+                        <StyledCard>
+                            <StyledCardMedia
+                                component="img"
+                                image={item.image}
+                            />
                             <CardContent>
-                                <Typography variant='h6' sx={{ textAlign: 'center' }}>
+                                <Typography variant='h6' sx={{ textAlign: 'center', mb: 1 }}>
                                     {item.title}
                                 </Typography>
                                 <Divider sx={{ mb: 2 }} />
@@ -24,7 +57,7 @@ export default () => {
                                     overflow: "hidden",
                                     textOverflow: "ellipsis",
                                     display: "-webkit-box",
-                                    WebkitLineClamp: 4,  // تعداد خطوطی که می‌خواهید نمایش داده شود
+                                    WebkitLineClamp: 4,
                                     WebkitBoxOrient: "vertical",
                                     height: 95,
                                 }}>
@@ -32,14 +65,14 @@ export default () => {
                                 </Typography>
                             </CardContent>
                             <Divider />
-                            <CardActions className="flex items-center justify-center">
-                                <Button href={`/blog/${item.id}`}>
+                            <CardActions sx={{ p: 2 }}>
+                                <StyledButton href={`/blog/${item.id}`} variant="contained" color="primary">
                                     ادامه
-                                </Button>
+                                </StyledButton>
                             </CardActions>
-                        </Card>
+                        </StyledCard>
                     </Grid>
-                })}
+                ))}
             </Grid>
         </Stack>
     );
