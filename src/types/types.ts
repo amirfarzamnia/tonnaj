@@ -8,7 +8,7 @@ export type ProductTypes = {
     images: string[];
     categories: string[];
     title: string;
-    price: number;
+    price: string;
     min?: number;
     max?: number;
     id: number;

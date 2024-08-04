@@ -38,7 +38,7 @@ export default () => {
                                 {description}
                             </Typography>
                             <Typography variant="h6" color="primary" gutterBottom>
-                                ${price.toFixed(2)}
+                                {price}
                             </Typography>
                         </Box>
                     </Grid>

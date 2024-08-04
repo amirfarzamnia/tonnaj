@@ -17,7 +17,7 @@ const ShopContext = React.createContext<{ products: ProductTypes[]; setProducts:
             categories: ['سیب زمینی'],
             min: 10,
             available: true,
-            price: 7.5,
+            price: '7.5',
             rating: 4,
             timestamp: 302049290,
             location: {
@@ -36,7 +36,7 @@ const ShopContext = React.createContext<{ products: ProductTypes[]; setProducts:
             description: 'خرید سیب زمینی...',
             categories: ['سیب زمینی'],
             available: true,
-            price: 7.5,
+            price: '7.5',
             rating: 4,
             timestamp: 302049290,
             location: {
@@ -61,7 +61,7 @@ export default function ShopProvider({ children }: { children: React.ReactNode }
             description: 'خرید سیب زمینی...',
             categories: ['سیب زمینی'],
             available: true,
-            price: 7.5,
+            price: '7.5',
             rating: 4,
             timestamp: 302049290,
             location: {
@@ -80,7 +80,7 @@ export default function ShopProvider({ children }: { children: React.ReactNode }
             description: 'خرید سیب زمینی...',
             categories: ['سیب زمینی'],
             available: true,
-            price: 7.5,
+            price: '7.5',
             rating: 4,
             timestamp: 302049290,
             location: {
