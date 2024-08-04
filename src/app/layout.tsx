@@ -4,9 +4,9 @@ import { Button, CircularProgress, TextField, Box, Grid, Toolbar, AppBar, Link, 
 import { Search as SearchIcon, LightMode as LightModeIcon, DarkMode as DarkModeIcon } from '@mui/icons-material';
 import { createTheme, ThemeProvider, ThemeOptions } from '@mui/material/styles';
 import { NextUIProvider } from '@nextui-org/react';
-import AuthProvider from '@/context/authContext';
-import ShopProvider from '@/context/shopContext';
-import BlogProvider from '@/context/blogContext';
+import AuthProvider from '@/contexts/auth';
+import ShopProvider from '@/contexts/shop';
+import BlogProvider from '@/contexts/blog';
 import React from 'react';
 import './index.css';
 

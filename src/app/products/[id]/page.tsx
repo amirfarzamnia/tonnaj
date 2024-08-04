@@ -4,9 +4,9 @@ import { ArrowDownward, ArrowUpward, Category, Telegram, WhatsApp, LocationOn, T
 import { Box, Button, Grid, Typography, Paper, Link, IconButton, CircularProgress } from '@mui/material';
 import { Navigation, Pagination, Scrollbar } from 'swiper/modules';
 import { Swiper, SwiperSlide } from 'swiper/react';
-import { useShop } from '@/context/shopContext';
-import { ProductTypes } from '@/types/types';
 import { Person } from '@mui/icons-material';
+import { ProductTypes } from '@/types/types';
+import { useShop } from '@/contexts/shop';
 import React from 'react';
 
 import 'swiper/css/navigation';
