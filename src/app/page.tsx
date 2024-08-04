@@ -11,12 +11,7 @@ export default () => {
     const { products } = useShop();
     const [selectedCategories, setSelectedCategories] = React.useState<string[]>([]);
 
-    React.useEffect(() => {
-        const categories = new URLSearchParams(window.location.search).get('categories');
-
-        if (categories) setSelectedCategories(categories.split(','));
-    }, []);
-
+    React.useEffect(() => setSelectedCategories(new URLSearchParams(window.location.search).get('categories')?.split(',') || []), []);
     React.useEffect(() => {
         const urlParams = new URLSearchParams(window.location.search);
 
@@ -29,15 +24,6 @@ export default () => {
         window.history.replaceState({}, '', window.location.pathname + '?' + urlParams.toString());
     }, [selectedCategories]);
 
-    const handleCategoryChange = (event: React.ChangeEvent<HTMLInputElement>) => {
-        const category = event.target.value;
-
-        setSelectedCategories((prev) => (event.target.checked ? [...prev, category] : prev.filter((item) => item !== category)));
-    };
-
-    const queryCategories = new URLSearchParams(window.location.search).get('categories')?.split(',');
-    const filteredProducts = queryCategories ? products.filter((product) => product.categories.some((category) => queryCategories.includes(category))) : products;
-
     return (
         <>
             <Box sx={{ marginBottom: 4 }}>
@@ -46,7 +32,7 @@ export default () => {
                 </Typography>
                 <FormGroup row>
                     {Array.from(new Set(products.flatMap(({ categories }) => categories))).map((category) => (
-                        <FormControlLabel key={category} control={<Checkbox checked={selectedCategories.includes(category)} onChange={handleCategoryChange} value={category} />} label={category} />
+                        <FormControlLabel key={category} control={<Checkbox checked={selectedCategories.includes(category)} onChange={(event: React.ChangeEvent<HTMLInputElement>) => setSelectedCategories((prev) => (event.target.checked ? [...prev, event.target.value] : prev.filter((item) => item !== event.target.value)))} value={category} />} label={category} />
                     ))}
                 </FormGroup>
             </Box>
@@ -54,7 +40,7 @@ export default () => {
                 محصولات
             </Typography>
             <Grid container spacing={3}>
-                {filteredProducts.map(({ price, description, images, title, id }) => (
+                {(selectedCategories.length > 0 ? products.filter((product) => product.categories.some((category) => selectedCategories.includes(category))) : products).map(({ price, description, images, title, id }) => (
                     <Grid item xs={12} sm={6} md={2} key={id}>
                         <Link href={`/products/${id}`} passHref>
                             <Card>
