@@ -51,9 +51,9 @@ export default () => {
             </Typography>
             <Grid container spacing={3}>
                 {filteredProducts.map(({ price, description, images, title, id }) => (
-                    <Grid item xs={12} sm={6} md={4} key={id}>
+                    <Grid item xs={12} sm={6} md={2} key={id}>
                         <Link href={`/products/${id}`} passHref>
-                            <Box sx={{ 'border': '1px solid #ddd', 'borderRadius': 2, 'padding': 2, 'display': 'flex', 'flexDirection': 'column', 'alignItems': 'center', 'textDecoration': 'none', 'color': 'inherit', 'transition': 'transform 0.3s, box-shadow 0.3s', '&:hover': { transform: 'scale(1.05)', boxShadow: '0 4px 8px rgba(0, 0, 0, 0.2)' } }}>
+                            <Box sx={{ 'border': '1px solid #ddd', 'borderRadius': 2, 'padding': 2, 'display': 'flex', 'flexDirection': 'column', 'alignItems': 'center', 'textDecoration': 'none', 'color': 'inherit', 'transition': 'transform 0.2s, box-shadow 0.2s', '&:hover': { transform: 'scale(1.025)', boxShadow: '0 4px 8px rgba(0, 0, 0, 0.2)' } }}>
                                 <Swiper spaceBetween={10} slidesPerView={1} pagination={{ clickable: true }} style={{ width: '100%', height: 'auto' }}>
                                     {images.map((image, index) => (
                                         <SwiperSlide key={index}>
