@@ -1,12 +1,12 @@
 import { BlogTypes } from '@/types/types';
-import { createContext, Dispatch, ReactNode, SetStateAction, useContext, useState } from 'react';
+import React from 'react';
 
-const BlogContext = createContext<{ blogItems: BlogTypes[]; setBlogItems: Dispatch<SetStateAction<BlogTypes[]>> }>({ blogItems: [], setBlogItems: (): BlogTypes[] => [] });
+const BlogContext = React.createContext<{ blogItems: BlogTypes[]; setBlogItems: React.Dispatch<React.SetStateAction<BlogTypes[]>> }>({ blogItems: [], setBlogItems: (): BlogTypes[] => [] });
 
-export default function BlogProvider({ children }: { children: ReactNode }) {
-    const [blogItems, setBlogItems] = useState<BlogTypes[]>([]);
+export default function BlogProvider({ children }: { children: React.ReactNode }) {
+    const [blogItems, setBlogItems] = React.useState<BlogTypes[]>([]);
 
     return <BlogContext.Provider value={{ blogItems, setBlogItems }}>{children}</BlogContext.Provider>;
 }
 
-export const useBlog = () => useContext(BlogContext);
+export const useBlog = () => React.useContext(BlogContext);

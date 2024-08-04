@@ -1,9 +1,9 @@
 'use client';
 
-import { createContext, Dispatch, ReactNode, SetStateAction, useContext, useState } from 'react';
 import { ProductTypes } from '@/types/types';
+import React from 'react';
 
-const ShopContext = createContext<{ products: ProductTypes[]; setProducts: Dispatch<SetStateAction<ProductTypes[]>> }>({
+const ShopContext = React.createContext<{ products: ProductTypes[]; setProducts: React.Dispatch<React.SetStateAction<ProductTypes[]>> }>({
     products: [
         {
             author: '09130288776',
@@ -44,8 +44,8 @@ const ShopContext = createContext<{ products: ProductTypes[]; setProducts: Dispa
     setProducts: (): ProductTypes[] => []
 });
 
-export default function ShopProvider({ children }: { children: ReactNode }) {
-    const [products, setProducts] = useState<ProductTypes[]>([
+export default function ShopProvider({ children }: { children: React.ReactNode }) {
+    const [products, setProducts] = React.useState<ProductTypes[]>([
         {
             author: '09130288776',
             images: ['/card.jpg', '/card.jpg'],
@@ -85,4 +85,4 @@ export default function ShopProvider({ children }: { children: ReactNode }) {
     return <ShopContext.Provider value={{ products, setProducts }}>{children}</ShopContext.Provider>;
 }
 
-export const useShop = () => useContext(ShopContext);
+export const useShop = () => React.useContext(ShopContext);

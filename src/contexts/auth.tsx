@@ -1,14 +1,14 @@
 'use client';
 
 import { AuthTypes } from '@/types/types';
-import { createContext, Dispatch, ReactNode, SetStateAction, useContext, useState } from 'react';
+import React from 'react';
 
-const AuthContext = createContext<{ user: AuthTypes; setUser: Dispatch<SetStateAction<AuthTypes>> }>({ user: { phone_number: '' }, setUser: () => {} });
+const AuthContext = React.createContext<{ user: AuthTypes; setUser: React.Dispatch<React.SetStateAction<AuthTypes>> }>({ user: { phone_number: '' }, setUser: () => {} });
 
-export default function AuthProvider({ children }: { children: ReactNode }) {
-    const [user, setUser] = useState<AuthTypes>({ phone_number: '' });
+export default function AuthProvider({ children }: { children: React.ReactNode }) {
+    const [user, setUser] = React.useState<AuthTypes>({ phone_number: '' });
 
     return <AuthContext.Provider value={{ user, setUser }}>{children}</AuthContext.Provider>;
 }
 
-export const useAuth = () => useContext(AuthContext);
+export const useAuth = () => React.useContext(AuthContext);
