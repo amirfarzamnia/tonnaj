@@ -14,7 +14,7 @@ export default () => {
         <>
             <Box sx={{ marginBottom: 4 }}>
                 <Typography variant="h4" gutterBottom>
-                    Product Categories
+                    دسته بندی ها
                 </Typography>
                 <Box sx={{ display: 'flex', flexWrap: 'wrap', gap: 2 }}>
                     {Array.from(new Set(products.flatMap(({ categories }) => categories))).map((category) => (
@@ -25,13 +25,13 @@ export default () => {
                 </Box>
             </Box>
             <Typography variant="h4" gutterBottom>
-                Products
+                محصولات
             </Typography>
             <Grid container spacing={3}>
                 {products.map(({ price, description, images, title, id }) => (
                     <Grid item xs={12} sm={6} md={4} key={id}>
                         <Link href={`/products/${id}`} passHref>
-                            <Box sx={{ border: '1px solid #ddd', borderRadius: 2, padding: 2, display: 'flex', flexDirection: 'column', alignItems: 'center', textDecoration: 'none', color: 'inherit' }}>
+                            <Box sx={{ 'border': '1px solid #ddd', 'borderRadius': 2, 'padding': 2, 'display': 'flex', 'flexDirection': 'column', 'alignItems': 'center', 'textDecoration': 'none', 'color': 'inherit', 'transition': 'transform 0.3s, box-shadow 0.3s', '&:hover': { transform: 'scale(1.05)', boxShadow: '0 4px 8px rgba(0, 0, 0, 0.2)' } }}>
                                 <Swiper spaceBetween={10} slidesPerView={1} pagination={{ clickable: true }} style={{ width: '100%', height: 'auto' }}>
                                     {images.map((image, index) => (
                                         <SwiperSlide key={index}>
