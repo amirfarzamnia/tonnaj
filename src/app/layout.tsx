@@ -164,7 +164,9 @@ export default ({ children }: { children: React.ReactNode }) => {
                             <NextUIProvider>
                                 <AuthProvider>
                                     <ShopProvider>
-                                        <BlogProvider>{children}</BlogProvider>
+                                        <BlogProvider>
+                                            <Container sx={{ padding: 4, my: 10, borderRadius: 4 }}>{children}</Container>
+                                        </BlogProvider>
                                     </ShopProvider>
                                 </AuthProvider>
                             </NextUIProvider>

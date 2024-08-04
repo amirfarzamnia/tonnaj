@@ -1,8 +1,8 @@
-import { Container, Typography, Box, Paper } from '@mui/material';
+import { Typography, Box, Paper } from '@mui/material';
 
 export default () => {
     return (
-        <Container>
+        <>
             <Paper elevation={3} sx={{ padding: 4, my: 10, borderRadius: 4 }}>
                 <Typography variant="h4" component="h1" gutterBottom>
                     قوانین استفاده از سرویس
@@ -55,6 +55,6 @@ export default () => {
                     </Typography>
                 </Box>
             </Paper>
-        </Container>
+        </>
     );
 };

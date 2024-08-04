@@ -1,6 +1,6 @@
 'use client';
 
-import { Container, Typography, TextField, Button, Box, Divider, CircularProgress } from '@mui/material';
+import { Typography, TextField, Button, Box, Divider, CircularProgress } from '@mui/material';
 import React from 'react';
 
 const VerificationStep: React.FC<{
@@ -66,7 +66,7 @@ export default () => {
     };
 
     return (
-        <Container maxWidth="sm">
+        <>
             <Box sx={{ my: 4 }}>
                 <Typography variant="h4" textAlign="center" component="h1" gutterBottom>
                     ورود به تناژ
@@ -79,6 +79,6 @@ export default () => {
                 </Box>
                 {step === 1 ? <VerificationStep label="شماره تلفن همراه" value={phone_number} onChange={(e) => setPhoneNumber(e.target.value)} error={error} loading={loading} buttonText="ادامه و ارسال کد تایید" onSubmit={handlePhoneNumberSubmit} /> : <VerificationStep label="کد تایید" value={verification_code} onChange={(e) => setVerificationCode(e.target.value)} error={error} loading={loading} buttonText="تایید کد" onSubmit={handleVerificationCodeSubmit} />}
             </Box>
-        </Container>
+        </>
     );
 };
