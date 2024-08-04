@@ -6,7 +6,7 @@ export type ProductTypes = {
     available: boolean;
     timestamp: number;
     images: string[];
-    category: string;
+    categories: string[];
     title: string;
     price: number;
     min?: number;

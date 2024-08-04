@@ -29,7 +29,7 @@ export default ({ params }: { params: { id: string } }) => {
         if (!product) return setError(true);
 
         setProduct(product);
-        setRelatedProducts(products.filter(({ id, category }) => category === product.category && id !== product.id));
+        setRelatedProducts(products.filter(({ id, categories }) => categories.some((category) => product.categories.includes(category)) && id !== product.id));
     }, [params.id, products]);
 
     if (error) {
@@ -49,7 +49,7 @@ export default ({ params }: { params: { id: string } }) => {
     }
 
     const infoItems = [
-        { icon: <Category />, label: 'دسته بندی', value: product.category },
+        { icon: <Category />, label: 'دسته بندی ها', value: product.categories.join() },
         { icon: <LocationOn />, label: 'موقعیت مکانی', value: `${product.location.city} - ${product.location.state}` },
         { icon: <ArrowDownward />, label: 'حداقل سفارش', value: product.min ?? 'ندارد' },
         { icon: <ArrowUpward />, label: 'حداکثر سفارش', value: product.max ?? 'ندارد' },
