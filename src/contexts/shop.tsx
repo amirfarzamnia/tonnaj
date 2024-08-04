@@ -3,12 +3,7 @@
 import { createContext, Dispatch, ReactNode, SetStateAction, useContext, useState } from 'react';
 import { ProductTypes } from '@/types/types';
 
-interface ShopContextProps {
-    products: ProductTypes[];
-    setProducts: Dispatch<SetStateAction<ProductTypes[]>>;
-}
-
-const ShopContext = createContext<ShopContextProps>({
+const ShopContext = createContext<{ products: ProductTypes[]; setProducts: Dispatch<SetStateAction<ProductTypes[]>> }>({
     products: [
         {
             author: '09130288776',
