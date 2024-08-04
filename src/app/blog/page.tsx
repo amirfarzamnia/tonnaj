@@ -28,9 +28,15 @@ const StyledCardMedia = styled(CardMedia)<CardMediaProps>(({ theme }) => ({
 
 const StyledButton = styled(Button)(({ theme }) => ({
     width: '100%',
+    border: '2.5px solid transparent',
     borderRadius: theme.shape.borderRadius * 2,
     textTransform: 'uppercase',
     fontWeight: theme.typography.fontWeightBold,
+    transition: 'all 0.2s ease-in',
+    '&:hover': {
+        width: "90%",
+        borderColor: "white"
+    }
 }));
 
 export default () => {
@@ -38,8 +44,6 @@ export default () => {
 
     return (
         <Stack maxWidth={'100%'} >
-
-
             <Grid container spacing={3} justifyContent="center">
                 {blogItems.map((item, index) => (
                     <Grid item key={index} xs={12} sm={6} md={4} lg={3}>
@@ -65,7 +69,7 @@ export default () => {
                                 </Typography>
                             </CardContent>
                             <Divider />
-                            <CardActions sx={{ p: 2 }}>
+                            <CardActions sx={{ p: 2, display: 'flex', justifyContent: 'center', alignItems: 'center' }}>
                                 <StyledButton href={`/blog/${item.id}`} variant="contained" color="primary">
                                     ادامه
                                 </StyledButton>
