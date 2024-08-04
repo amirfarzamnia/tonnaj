@@ -53,7 +53,7 @@ export default function ProductPage({ params }: { params: { id: string } }) {
         { icon: <LocationOn />, label: 'موقعیت مکانی', value: `${product.location.city} - ${product.location.state}` },
         { icon: <ArrowDownward />, label: 'حداقل سفارش', value: product.min ?? 'ندارد' },
         { icon: <ArrowUpward />, label: 'حداکثر سفارش', value: product.max ?? 'ندارد' },
-        { icon: <Person />, label: 'فروشنده', value: product.author },
+        { icon: <Person />, label: 'فروشنده', value: product.author.name },
         { icon: <Tag />, label: 'کد محصول', value: product.id },
         { icon: <StarIcon />, label: 'وضعیت', value: product.available ? 'موجود' : 'ناموجود' }
     ];

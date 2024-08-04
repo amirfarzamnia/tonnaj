@@ -7,7 +7,6 @@ export type ProductTypes = {
     timestamp: number;
     images: string[];
     category: string;
-    author: string;
     title: string;
     count: number;
     price: number;
@@ -15,8 +14,12 @@ export type ProductTypes = {
     max?: number;
     id: number;
     location: {
-        city: string;
         state: string;
+        city: string;
+    };
+    author: {
+        phone_number: string;
+        name: string;
     };
 };
 

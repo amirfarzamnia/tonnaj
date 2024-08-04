@@ -6,7 +6,10 @@ import React from 'react';
 const ShopContext = React.createContext<{ products: ProductTypes[]; setProducts: React.Dispatch<React.SetStateAction<ProductTypes[]>> }>({
     products: [
         {
-            author: '09130288776',
+            author: {
+                name: 'سارا مرادی',
+                phone_number: '09130288776'
+            },
             images: ['/card.jpg'],
             id: 1,
             title: 'فروش سیب زمینی',
@@ -24,7 +27,10 @@ const ShopContext = React.createContext<{ products: ProductTypes[]; setProducts:
             }
         },
         {
-            author: '09130288776',
+            author: {
+                name: 'سارا مرادی',
+                phone_number: '09130288776'
+            },
             images: ['/card.jpg', '/card2.jpg'],
             id: 2,
             title: 'فروش سیب زمینی',
@@ -47,7 +53,10 @@ const ShopContext = React.createContext<{ products: ProductTypes[]; setProducts:
 export default function ShopProvider({ children }: { children: React.ReactNode }) {
     const [products, setProducts] = React.useState<ProductTypes[]>([
         {
-            author: '09130288776',
+            author: {
+                name: 'سارا مرادی',
+                phone_number: '09130288776'
+            },
             images: ['/card.jpg', '/card.jpg'],
             id: 1,
             title: 'فروش سیب زمینی',
@@ -64,7 +73,10 @@ export default function ShopProvider({ children }: { children: React.ReactNode }
             }
         },
         {
-            author: '09130288776',
+            author: {
+                name: 'سارا مرادی',
+                phone_number: '09130288776'
+            },
             images: ['/card.jpg', '/card2.jpg'],
             id: 2,
             title: 'فروش سیب زمینی',
