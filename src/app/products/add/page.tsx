@@ -1,49 +1,48 @@
 'use client';
 
+import { ProductTypes } from '@/types/types';
 import { Add, Remove } from '@mui/icons-material';
-import { Alert, Box, Button, Grid, IconButton, Snackbar, TextareaAutosize, TextField, Typography } from '@mui/material';
+import { Alert, Box, Button, FormControl, Grid, IconButton, InputLabel, MenuItem, Select, SelectChangeEvent, Snackbar, TextareaAutosize, TextField, Typography } from '@mui/material';
 import { ChangeEvent, useRef, useState } from 'react';
 
 export default () => {
-    const [imageSrcs, setImageSrcs] = useState<Array<string | ArrayBuffer>>([]);
+    const [imageFiles, setImageFiles] = useState<{ name: string; base64: string }[]>([]);
     const fileInputRef = useRef<HTMLInputElement | null>(null);
     const [description, setDescription] = useState<string>('');
     const [snackbarMessage, setSnackbarMessage] = useState('');
     const [snackbarOpen, setSnackbarOpen] = useState(false);
     const [title, setTitle] = useState<string>('');
     const [price, setPrice] = useState<string>('');
+    const [authorName, setAuthorName] = useState<string>('');
+    const [categories, setCategories] = useState<string[]>([])
 
     const handleImage = (e: ChangeEvent<HTMLInputElement>) => {
         e.preventDefault();
 
         if (e.target.files) {
-            const imageFiles = Array.from(e.target.files).filter(({ type }) => type.startsWith('image/'));
+            const selectedFiles = Array.from(e.target.files).filter(({ type }) => type.startsWith('image/')) as File[];
             const nonImageFiles = Array.from(e.target.files).filter(({ type }) => !type.startsWith('image/'));
 
             if (nonImageFiles.length > 0) {
                 setSnackbarMessage('فقط فایل‌های تصویری مجاز هستند.');
                 setSnackbarOpen(true);
-            }
-
-            if (imageSrcs.length + imageFiles.length > 10) {
-                setSnackbarMessage('شما نمی‌توانید بیش از 10 تصویر آپلود کنید.');
-                setSnackbarOpen(true);
-
-                if (fileInputRef.current) fileInputRef.current.value = '';
-
                 return;
             }
 
-            const readers = imageFiles.map((file) => {
-                return new Promise<string | ArrayBuffer>((resolve) => {
-                    const reader = new FileReader();
+            if (imageFiles.length + selectedFiles.length > 10) {
+                setSnackbarMessage('شما نمی‌توانید بیش از 10 تصویر آپلود کنید.');
+                setSnackbarOpen(true);
+                if (fileInputRef.current) fileInputRef.current.value = '';
+                return;
+            }
 
-                    reader.onloadend = () => resolve(reader.result as string | ArrayBuffer);
-                    reader.readAsDataURL(file);
-                });
+            selectedFiles.forEach((file) => {
+                const reader = new FileReader();
+                reader.onloadend = () => {
+                    setImageFiles((prevFiles) => [...prevFiles, { name: file.name, base64: reader.result as string }]);
+                };
+                reader.readAsDataURL(file);
             });
-
-            Promise.all(readers).then((results) => setImageSrcs((prevSrcs) => [...prevSrcs, ...results].slice(0, 10)));
         }
 
         if (fileInputRef.current) fileInputRef.current.value = '';
@@ -52,17 +51,26 @@ export default () => {
     const handleSubmit = async (e: React.FormEvent) => {
         e.preventDefault();
 
-        const formData = new FormData();
-
-        imageSrcs.forEach((src, index) => typeof src === 'string' && formData.append('image' + index, src));
-
-        formData.append('title', title);
-        formData.append('price', price);
-        formData.append('description', description);
+        const data = {
+            title,
+            price,
+            description,
+            categories,
+            images: imageFiles,
+            name: 'ali',
+            phone_number: '4305303',
+            available: true,
+            rating: 5
+        };
 
         try {
-            const response = await fetch('/api/add-adv', { method: 'POST', body: formData });
+            const response = await fetch('/api/product', {
+                method: 'POST',
+                headers: { 'Content-Type': 'application/json' },
+                body: JSON.stringify(data),
+            });
             const result = await response.json();
+            console.log(result);
         } catch (error) {
             console.error('Error uploading data:', error);
         }
@@ -70,17 +78,25 @@ export default () => {
 
     const handleCloseSnackbar = () => setSnackbarOpen(false);
 
+    const handleChange = (event: SelectChangeEvent<typeof categories>) => {
+        const {
+            target: { value },
+        } = event;
+        setCategories(typeof value === 'string' ? value.split(',') : value);
+    };
+
+
     return (
         <form onSubmit={handleSubmit} style={{ width: '100%', marginTop: '10px' }}>
             <Box sx={{ width: '100%', display: 'flex', flexDirection: 'column', alignItems: 'center', padding: '16px' }}>
                 <Grid container spacing={2}>
-                    {imageSrcs.map((src, index) => (
+                    {imageFiles.map((src, index) => (
                         <Grid item xs={2} key={index}>
                             <Box sx={{ position: 'relative' }}>
-                                <IconButton onClick={() => setImageSrcs((prev) => prev.filter((_, i) => i !== index))} sx={{ position: 'absolute', top: 0, right: 0, zIndex: 1 }}>
+                                <IconButton onClick={() => setImageFiles((prev) => prev.filter((_, i) => i !== index))} sx={{ position: 'absolute', top: 0, right: 0, zIndex: 1 }}>
                                     <Remove />
                                 </IconButton>
-                                <img src={src as string} alt={`Uploaded ${index}`} style={{ width: '100%', height: 'auto', borderRadius: '8px' }} />
+                                <img src={src.base64} alt={`Uploaded ${index}`} style={{ width: '100%', height: 'auto', borderRadius: '8px' }} />
                             </Box>
                         </Grid>
                     ))}
@@ -97,17 +113,41 @@ export default () => {
                         <Typography variant="body2" sx={{ marginTop: '10px', textAlign: 'center' }}>
                             حتما عکس از بسته بندی و یک عکس از نزدیک داخل محصول برای جذب خریدار ثبت کنید
                         </Typography>
-                        <input type="file" id="img" style={{ display: 'none' }} multiple accept="image/*" onChange={handleImage} ref={fileInputRef} required />
+                        <input type="file" id="img" style={{ opacity: 0, position: 'absolute', zIndex: -1 }} multiple accept="image/*" onChange={handleImage} ref={fileInputRef} />
+
                     </label>
                 </Box>
                 <Box sx={{ width: '50%', marginTop: '16px' }}>
-                    <TextField label="عنوان محصول" fullWidth required value={title} onChange={(e) => setTitle(e.target.value)} />
+                    <TextField type='text' label="عنوان محصول" fullWidth required value={title} onChange={(e) => setTitle(e.target.value)} />
                 </Box>
                 <Box sx={{ width: '50%', marginTop: '16px' }}>
-                    <TextField label="قیمت محصول" fullWidth required value={price} onChange={(e) => setPrice(e.target.value)} />
+                    <TextField type='number' label="قیمت محصول" fullWidth required value={price} onChange={(e) => setPrice(e.target.value)} />
                 </Box>
                 <Box sx={{ width: '50%', marginTop: '16px' }}>
-                    <TextareaAutosize minRows={5} placeholder="توضیحات محصول" style={{ width: '100%', borderRadius: '4px', border: '1px solid #ccc', padding: '8px' }} maxLength={2500} dir="rtl" required value={description} onChange={(e) => setDescription(e.target.value)} />
+                    <TextField type='text' label='نام شخص یا شرکت' fullWidth required value={authorName} onChange={(e) => setAuthorName(e.target.value)} />
+                </Box>
+
+                <Box sx={{ width: '50%', marginTop: '16px' }}>
+                    <FormControl fullWidth>
+                        <InputLabel id="demo-multiple-select-label">دسته بندی</InputLabel>
+                        <Select
+                            labelId="demo-multiple-select-label"
+                            id="demo-multiple-select"
+                            multiple
+                            value={categories}
+                            onChange={handleChange}
+                            renderValue={(selected) => selected.join(', ')}
+                        >
+                            <MenuItem value={'صنعتی'}>صنعتی</MenuItem>
+                            <MenuItem value={'کشاورزی'}>کشاورزی</MenuItem>
+                            <MenuItem value={'تجاری'}>تجاری</MenuItem>
+                            <MenuItem value={'خدماتی'}>خدماتی</MenuItem>
+                        </Select>
+                    </FormControl>
+                </Box>
+
+                <Box sx={{ width: '50%', marginTop: '16px' }}>
+                    <TextareaAutosize minRows={5} placeholder="توضیحات محصول" style={{ width: '100%', borderRadius: '4px', border: '1px solid #ccc', padding: '8px', backgroundColor: "transparent", resize: 'none' }} maxLength={2500} dir="rtl" required value={description} onChange={(e) => setDescription(e.target.value)} />
                 </Box>
                 <Box sx={{ marginTop: '16px' }}>
                     <Button type="submit" variant="contained" color="primary">
