@@ -53,7 +53,7 @@ export default function ShopProvider({ children }: { children: ReactNode }) {
     const [cartItems, setCartItems] = useState<CartTypes[]>([
         {
             author: '09130288776',
-            images: ['/card.jpg'],
+            images: ['/card.jpg', '/card.jpg'],
             id: 1,
             title: 'فروش سیب زمینی',
             description: 'خرید سیب زمینی...',

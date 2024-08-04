@@ -1,50 +1,39 @@
 'use client';
 
-import { useEffect, useState } from 'react';
-import { useShop } from '@/context/shopContext';
-import { CartTypes } from '@/types/types';
 import { Box, Button, Grid, Typography, Paper, Link, IconButton } from '@mui/material';
+import { FaBarcode, FaLeaf, FaLocationArrow, FaTag } from 'react-icons/fa';
+import { Navigation, Pagination, Scrollbar } from 'swiper/modules';
+import { BsWhatsapp, BsTelegram } from 'react-icons/bs';
+import { Star, StarBorder } from '@mui/icons-material';
 import { Swiper, SwiperSlide } from 'swiper/react';
-import 'swiper/css';
+import { useShop } from '@/context/shopContext';
+import { useEffect, useState } from 'react';
+import { CartTypes } from '@/types/types';
+import { BiUser } from 'react-icons/bi';
 import 'swiper/css/navigation';
 import 'swiper/css/pagination';
 import 'swiper/css/scrollbar';
-import { Navigation, Pagination, Scrollbar } from 'swiper/modules';
-import { FaBarcode, FaLeaf, FaLocationArrow, FaTag } from 'react-icons/fa';
-import { BiUser } from 'react-icons/bi';
-import { Star, StarBorder } from '@mui/icons-material';
-import { BsWhatsapp, BsTelegram } from 'react-icons/bs';
+import 'swiper/css';
 
-export default function ProductPage({ params }: { params: { id: number } }) {
+export default function ProductPage({ params }: { params: { id: string } }) {
     const [product, setProduct] = useState<CartTypes | null>(null);
     const [relatedProducts, setRelatedProducts] = useState<CartTypes[]>([]);
     const [error, setError] = useState<boolean>(false);
     const { cartItems } = useShop();
 
     useEffect(() => {
-        if (params.id) {
-            const foundProduct = cartItems.find((item) => item.id === Number(params.id));
-            if (foundProduct) {
-                setProduct(foundProduct);
-                const related = cartItems.filter((item) => item.category === foundProduct.category && item.id !== foundProduct.id);
-                setRelatedProducts(related);
-            } else {
-                setError(true);
-            }
-        }
+        if (!params.id) return;
+
+        const product = cartItems.find(({ id }) => id === Number(params.id));
+
+        if (!product) return setError(true);
+
+        setProduct(product);
+        setRelatedProducts(cartItems.filter(({ id, category }) => category === product.category && id !== product.id));
     }, [params.id, cartItems]);
 
-    if (error) {
-        return (
-            <Typography variant="h4" color="error">
-                محصول مورد نظر یافت نشد
-            </Typography>
-        );
-    }
-
-    if (!product) {
-        return <Typography variant="h4">در حال بارگذاری...</Typography>;
-    }
+    if (error) return <Typography variant="h4">محصول مورد نظر یافت نشد</Typography>;
+    if (!product) return <Typography variant="h4">در حال بارگذاری...</Typography>;
 
     const infoItems = [
         { icon: <FaLeaf />, label: 'نوع محصول', value: product.category },
