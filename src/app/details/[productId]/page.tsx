@@ -143,7 +143,7 @@ export default ({ params }: { params: { productId: string } }) => {
                             <Box component={'div'} className="w-full flex items-center justify-center">
                                 <Button size="large" variant="contained" color="error" className="w-[90%] h-[7vh] flex items-center justify-center text-[20px]" sx={{ borderRadius: '15px' }}>
                                     <p>تماس با فروشنده</p>
-                                    <Call className="absolute mr-48 animate-bounce scale-[1.3] p-1 bg-red-600 rounded-lg" sx={{ fontSize: 50 }} />
+                                    <Call className="absolute mr-56 animate-bounce scale-[1.3] p-1 bg-red-600 rounded-lg" sx={{ fontSize: 50 }} />
                                 </Button>
                             </Box>
                         </Box>
@@ -262,7 +262,7 @@ export default ({ params }: { params: { productId: string } }) => {
             <Box width={'100%'} className="flex items-center justify-center mt-5">
                 <Box width={'75%'} height={'17vh'} className="flex items-center justify-center rounded-xl bg-black/50">
                     <Box className="w-[20%] flex items-center justify-center">
-                        <Link href="/" className="p-1.5 rounded-xl bg-red-900 text-black border border-transparent transition-all hover:bg-transparent hover:border-white" sx={{ textDecoration: 'none' }}>
+                        <Link href="/" className="p-1.5 rounded-xl bg-red-900 text-white border border-transparent transition-all hover:bg-transparent hover:border-white" sx={{ textDecoration: 'none' }}>
                             ثبت درخواست خرید
                         </Link>
                     </Box>

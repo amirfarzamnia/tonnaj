@@ -1,3 +1,5 @@
+import { ReactNode } from 'react';
+
 export type CartTypes = {
     title?: string;
     pageTitle?: string;
@@ -20,6 +22,13 @@ export type CartTypes = {
         city: string;
         state: string;
     };
+};
+
+export type BlogTypes = {
+    id: string;
+    image: string;
+    description: string;
+    blog_page: ReactNode;
 };
 
 export type AuthTypes = { phone_number: string } | { phone_number: string; verification_code: string };

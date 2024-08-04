@@ -8,6 +8,7 @@ import AuthProvider from '@/context/authContext';
 import ShopProvider from '@/context/shopContext';
 import React from 'react';
 import './index.css';
+import BlogProvider from '@/context/blogContext';
 
 const common = {
     Typography: {
@@ -148,7 +149,9 @@ export default ({ children }: { children: React.ReactNode }) => {
                     </AppBar>
                     <NextUIProvider>
                         <AuthProvider>
-                            <ShopProvider>{children}</ShopProvider>
+                            <ShopProvider>
+                                <BlogProvider>{children}</BlogProvider>
+                            </ShopProvider>
                         </AuthProvider>
                     </NextUIProvider>
                     <Box className={`border-t ${{ dark: 'border-zinc-700', light: 'border-zinc-200' }[selectedTheme]}`} sx={{ background: { dark: theme.palette.grey[900], light: '#fafafa' }[selectedTheme], py: 4 }} component="footer">
