@@ -35,3 +35,8 @@ export const POST = async (request: NextRequest) => {
 
     return NextResponse.json({ error: 'پارامترهای ارسالی قابل قبول نیستند.' }, { status: 404 });
 };
+
+export const GET = async (request:NextRequest) => {
+    new NextResponse(null,{}).
+
+}
