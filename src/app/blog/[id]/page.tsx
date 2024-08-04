@@ -2,7 +2,7 @@
 
 import { useBlog } from '@/contexts/blog';
 import { BlogTypes } from '@/types/types';
-import { Container, Link, Stack, Typography } from '@mui/material';
+import { Container, Divider, Link, Stack, Typography } from '@mui/material';
 import { useEffect, useState } from 'react';
 
 export default ({ params }: { params: { id: string } }) => {
@@ -27,9 +27,15 @@ export default ({ params }: { params: { id: string } }) => {
                 </Typography>
             </Container> : <Container sx={{ minHeight: "60vh", margin: '0px', padding: '0px', }} maxWidth={'xl'}>
                 <Container sx={{ minHeight: '80vh' }} maxWidth={'xl'}>
-                    {blog?.page}
+                    <Container maxWidth={'xl'} sx={{ height: "auto", display: "flex", alignItems: "center", justifyContent: "center" }}>
+                        <Typography variant='h3' >{blog?.title}</Typography>
+                    </Container>
+                    <Divider sx={{ width: "100%", mt: "10px", mb: "20px" }} />
+                    <Container maxWidth={'xl'}>
+                        {blog?.page}
+                    </Container>
                 </Container>
-
+                <Divider sx={{ width: "100%", mt: "10px", mb: "20px" }} />
                 <Container>
 
                     <Container sx={{ backgroundColor: "blanchedalmond", padding: '3px', marginBottom: "15px", borderRadius: "10px" }} dir='ltr'>

@@ -24,6 +24,7 @@ export type ProductTypes = {
 
 export type BlogTypes = {
     id: string;
+    title: string;
     description: string;
     image: string;
     page: React.ReactNode;

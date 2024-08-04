@@ -7,6 +7,7 @@ const BlogContext = React.createContext<{ blogItems: BlogTypes[]; setBlogItems: 
         blogItems: [
             {
                 categories: ["سیب زمینی"],
+                title: 'بزن روش',
                 description: 's',
                 id: "1",
                 image: "/card2.jpg",
@@ -14,27 +15,31 @@ const BlogContext = React.createContext<{ blogItems: BlogTypes[]; setBlogItems: 
             },
             {
                 categories: ["سیب زمینی"],
+                title: 'بزن روش',
                 description: 'سیب زمینی',
                 id: "2",
                 image: "/card.jpg",
                 page: <BlogOne />
             }, {
+                title: 'بزن روش',
                 categories: ["سیب زمینی"],
                 description: 'سیب زمینی',
-                id: "2",
+                id: "3",
                 image: "/card.jpg",
                 page: <BlogOne />
             }, {
+                title: 'بزن روش',
                 categories: ["سیب زمینی"],
                 description: 'سیب زمینی',
-                id: "2",
+                id: "4",
                 image: "/card.jpg",
                 page: <BlogOne />
             },
             {
+                title: 'بزن روش',
                 categories: ["میوه"],
                 description: 'میوه',
-                id: "2",
+                id: "5",
                 image: "/card.jpg",
                 page: <BlogOne />
             },
@@ -46,6 +51,7 @@ export default function BlogProvider({ children }: { children: React.ReactNode }
     const [blogItems, setBlogItems] = React.useState<BlogTypes[]>([
         {
             categories: ["سیب زمینی"],
+            title: 'بزن روش',
             description: 's',
             id: "1",
             image: "/card2.jpg",
@@ -53,17 +59,20 @@ export default function BlogProvider({ children }: { children: React.ReactNode }
         },
         {
             categories: ["سیب زمینی"],
+            title: 'بزن روش',
             description: 'سیب زمینی',
             id: "2",
             image: "/card.jpg",
             page: <BlogOne />
         }, {
+            title: 'بزن روش',
             categories: ["سیب زمینی"],
             description: 'سیب زمینی',
             id: "3",
             image: "/card.jpg",
             page: <BlogOne />
         }, {
+            title: 'بزن روش',
             categories: ["سیب زمینی"],
             description: 'سیب زمینی',
             id: "4",
@@ -71,6 +80,7 @@ export default function BlogProvider({ children }: { children: React.ReactNode }
             page: <BlogOne />
         },
         {
+            title: 'بزن روش',
             categories: ["میوه"],
             description: 'میوه',
             id: "5",

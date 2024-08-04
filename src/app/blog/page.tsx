@@ -1,19 +1,25 @@
 'use client'
 
 import { useBlog } from '@/contexts/blog';
-import { Button, Card, CardActions, CardContent, CardMedia, Grid, Stack, Typography } from '@mui/material';
+import { Button, Card, CardActions, CardContent, CardMedia, Container, Grid, Stack, Typography } from '@mui/material';
 
 export default () => {
     const { blogItems } = useBlog()
 
     return (
         <Stack maxWidth={'100%'} >
+
+
             <Grid container spacing={2} dir="ltr" maxWidth={'100%'}>
                 {blogItems.map((item, index) => {
                     return <Grid item key={index}>
-                        <Card sx={{ width: 345, height: 375 }}>
+                        <Card sx={{ width: 345, height: 420 }}>
                             <CardMedia component="img" alt="img" sx={{ objectFit: "cover", height: 200 }} image={item.image} />
                             <CardContent>
+                                <Typography variant='h6' sx={{ textAlign: 'center', mb: 2 }}>
+                                    {item.title}
+                                </Typography>
+
                                 <Typography variant="body2" color="text.secondary" sx={{
                                     overflow: "hidden",
                                     textOverflow: "ellipsis",
