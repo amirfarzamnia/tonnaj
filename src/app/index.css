@@ -1,7 +1,3 @@
-@tailwind components;
-@tailwind utilities;
-@tailwind base;
-
 @font-face {
     src: url(https://fonts.gstatic.com/s/roboto/v32/KFOlCnqEu92Fr1MmEU9fCRc4EsA.woff2) format("woff2");
     font-family: "Roboto";

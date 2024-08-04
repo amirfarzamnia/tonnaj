@@ -3,7 +3,6 @@
 import { Button, CircularProgress, TextField, Box, Grid, Toolbar, AppBar, Link, Avatar, Tooltip, Container, Typography, InputAdornment, IconButton, CssBaseline, Shadows } from '@mui/material';
 import { Search as SearchIcon, LightMode as LightModeIcon, DarkMode as DarkModeIcon } from '@mui/icons-material';
 import { createTheme, ThemeProvider, ThemeOptions } from '@mui/material/styles';
-import { NextUIProvider } from '@nextui-org/react';
 import AuthProvider from '@/contexts/auth';
 import ShopProvider from '@/contexts/shop';
 import BlogProvider from '@/contexts/blog';
@@ -161,17 +160,15 @@ export default ({ children }: { children: React.ReactNode }) => {
                                     </Box>
                                 </Toolbar>
                             </AppBar>
-                            <NextUIProvider>
-                                <AuthProvider>
-                                    <ShopProvider>
-                                        <BlogProvider>
-                                            <Container sx={{ padding: 2, borderRadius: 4 }} maxWidth={'xl'}>
-                                                {children}
-                                            </Container>
-                                        </BlogProvider>
-                                    </ShopProvider>
-                                </AuthProvider>
-                            </NextUIProvider>
+                            <AuthProvider>
+                                <ShopProvider>
+                                    <BlogProvider>
+                                        <Container sx={{ padding: 2, borderRadius: 4 }} maxWidth={'xl'}>
+                                            {children}
+                                        </Container>
+                                    </BlogProvider>
+                                </ShopProvider>
+                            </AuthProvider>
                             <Box sx={{ borderTop: 1, borderColor: selectedTheme === 'dark' ? '#3f3f46' : '#e4e4e7', background: selectedTheme === 'dark' ? theme.palette.grey[900] : '#fafafa', py: 4 }} component="footer">
                                 <Container>
                                     <Grid container spacing={4}>
