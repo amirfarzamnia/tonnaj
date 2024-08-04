@@ -1,6 +1,6 @@
 'use client';
 
-import { Grid, Typography, Button, Box } from '@mui/material';
+import { Grid, Typography, Box, FormGroup, FormControlLabel, Checkbox } from '@mui/material';
 import { Swiper, SwiperSlide } from 'swiper/react';
 import { useShop } from '@/contexts/shop';
 import Link from 'next/link';
@@ -9,6 +9,30 @@ import 'swiper/css';
 
 export default () => {
     const { products } = useShop();
+    const [selectedCategories, setSelectedCategories] = React.useState<string[]>([]);
+
+    React.useEffect(() => {
+        const categories = new URLSearchParams(window.location.search).get('categories');
+
+        if (categories) setSelectedCategories(categories.split(','));
+    }, []);
+
+    React.useEffect(() => {
+        const urlParams = new URLSearchParams(window.location.search);
+
+        if (selectedCategories.length > 0) {
+            urlParams.set('categories', selectedCategories.join(','));
+        } else {
+            urlParams.delete('categories');
+        }
+
+        window.history.replaceState({}, '', window.location.pathname + '?' + urlParams.toString());
+    }, [selectedCategories]);
+
+    const handleCategoryChange = (event: React.ChangeEvent<HTMLInputElement>) => setSelectedCategories((prev) => (event.target.checked ? [...prev, event.target.value] : prev.filter((category) => category !== event.target.value)));
+
+    const queryCategories = new URLSearchParams(window.location.search).get('categories')?.split(',');
+    const filteredProducts = queryCategories ? products.filter((product) => product.categories.some((category) => queryCategories.includes(category))) : products;
 
     return (
         <>
@@ -16,19 +40,17 @@ export default () => {
                 <Typography variant="h4" gutterBottom>
                     دسته بندی ها
                 </Typography>
-                <Box sx={{ display: 'flex', flexWrap: 'wrap', gap: 2 }}>
+                <FormGroup row>
                     {Array.from(new Set(products.flatMap(({ categories }) => categories))).map((category) => (
-                        <Button key={category} variant="outlined" component={Link} href={`/categories/${encodeURI(category)}`}>
-                            {category}
-                        </Button>
+                        <FormControlLabel key={category} control={<Checkbox checked={selectedCategories.includes(category)} onChange={handleCategoryChange} value={category} />} label={category} />
                     ))}
-                </Box>
+                </FormGroup>
             </Box>
             <Typography variant="h4" gutterBottom>
                 محصولات
             </Typography>
             <Grid container spacing={3}>
-                {products.map(({ price, description, images, title, id }) => (
+                {filteredProducts.map(({ price, description, images, title, id }) => (
                     <Grid item xs={12} sm={6} md={4} key={id}>
                         <Link href={`/products/${id}`} passHref>
                             <Box sx={{ 'border': '1px solid #ddd', 'borderRadius': 2, 'padding': 2, 'display': 'flex', 'flexDirection': 'column', 'alignItems': 'center', 'textDecoration': 'none', 'color': 'inherit', 'transition': 'transform 0.3s, box-shadow 0.3s', '&:hover': { transform: 'scale(1.05)', boxShadow: '0 4px 8px rgba(0, 0, 0, 0.2)' } }}>
