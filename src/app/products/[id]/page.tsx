@@ -5,21 +5,23 @@ import { Box, Button, Grid, Typography, Paper, Link, IconButton, CircularProgres
 import { Navigation, Pagination, Scrollbar } from 'swiper/modules';
 import { Swiper, SwiperSlide } from 'swiper/react';
 import { useShop } from '@/context/shopContext';
-import { useEffect, useState } from 'react';
 import { CartTypes } from '@/types/types';
 import { Person } from '@mui/icons-material';
+import React from 'react';
+
 import 'swiper/css/navigation';
 import 'swiper/css/pagination';
 import 'swiper/css/scrollbar';
 import 'swiper/css';
 
 export default function ProductPage({ params }: { params: { id: string } }) {
-    const [relatedProducts, setRelatedProducts] = useState<CartTypes[]>([]);
-    const [product, setProduct] = useState<CartTypes | null>(null);
-    const [error, setError] = useState<boolean>(false);
+    const [relatedProducts, setRelatedProducts] = React.useState<CartTypes[]>([]);
+    const [product, setProduct] = React.useState<CartTypes | null>(null);
+    const [error, setError] = React.useState<boolean>(false);
+
     const { cartItems } = useShop();
 
-    useEffect(() => {
+    React.useEffect(() => {
         if (!params.id) return;
 
         const product = cartItems.find(({ id }) => id === Number(params.id));

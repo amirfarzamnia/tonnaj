@@ -87,8 +87,6 @@ export default ({ children }: { children: React.ReactNode }) => {
 
     const theme = React.useMemo(() => createTheme(schemeOptions[selectedTheme]), [selectedTheme]);
 
-    const handleOpenUserMenu = () => (location.href = 'auth');
-
     return (
         <ThemeProvider theme={theme}>
             <CssBaseline />
@@ -97,7 +95,7 @@ export default ({ children }: { children: React.ReactNode }) => {
                     <AppBar position="static">
                         <Toolbar className={`flex items-center justify-between border-b ${{ dark: 'border-zinc-700', light: 'border-zinc-200' }[selectedTheme]} px-3`} disableGutters>
                             <Link href="/" underline="none">
-                                <Box width={150} component="img" alt="لوگوی تناژ" src="icons/tonnaj.png"></Box>
+                                <Box width={150} component="img" alt="لوگوی تناژ" src="/icons/tonnaj.png"></Box>
                             </Link>
                             <Box component="div">
                                 <Tooltip title="Toggle theme">
@@ -116,7 +114,7 @@ export default ({ children }: { children: React.ReactNode }) => {
                                     </IconButton>
                                 </Tooltip>
                                 <Tooltip title="Open settings">
-                                    <IconButton onClick={handleOpenUserMenu} sx={{ p: 0 }}>
+                                    <IconButton onClick={() => (location.href = '/auth')} sx={{ p: 0 }}>
                                         <Avatar alt="ا" src="/static/images/avatar/2.jpg" />
                                     </IconButton>
                                 </Tooltip>

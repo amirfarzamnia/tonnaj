@@ -2,10 +2,11 @@
 
 import { Grid, Box, Button, Card, Paper, ImageList, ImageListItem, ImageListItemBar, CardContent, Typography, Container, Divider, CardActionArea, CardActions, CardMedia } from '@mui/material';
 import { Inventory2, Sell, LocalShipping, Pageview } from '@mui/icons-material';
-import 'slick-carousel/slick/slick-theme.css';
-import 'slick-carousel/slick/slick.css';
 import Slider from 'react-slick';
 import React from 'react';
+
+import 'slick-carousel/slick/slick-theme.css';
+import 'slick-carousel/slick/slick.css';
 
 const carouselItems = [
     {
