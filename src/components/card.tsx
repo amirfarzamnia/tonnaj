@@ -11,15 +11,14 @@ interface props {
     author?: string;
     locationName?: string;
     description?: string;
-    buttonHref?: string;
 }
 
-export default function Cart({ title, image, author, locationName, description, buttonHref }: props) {
+export default function Cart({ title, image, author, locationName, description }: props) {
     const router = useRouter();
 
     return (
         <Tooltip title="برای دیدن اطلاعات کلیک کنید" placement="bottom" slotProps={{ tooltip: { className: 'bg-black' } }}>
-            <Box component="div" className="cursor-pointer w-[280px] h-[390px] group rounded-t-sm rounded-b-2xl drop-shadow-2xl transition-all duration-300 ease-out shadow-bg shadow-transparent bg-white hover:shadow-black/60" dir="rtl" onClick={() => router.push(`${buttonHref}`)}>
+            <Box component="div" className="cursor-pointer w-[280px] h-[390px] group rounded-t-sm rounded-b-2xl drop-shadow-2xl transition-all duration-300 ease-out shadow-bg shadow-transparent bg-white hover:shadow-black/60" dir="rtl">
                 <div className="object-cover overflow-hidden">
                     <img src={image} loading="lazy" className="h-[155px] rounded-t-sm transition-transform duration-300 group-hover:scale-125 group-hover:rotate-3" alt="" />
                 </div>
@@ -48,7 +47,7 @@ export default function Cart({ title, image, author, locationName, description, 
                     </Box>
                 </div>
                 <div className="flex items-center justify-center">
-                    <Button href={`/products/${buttonHref}`} variant="outlined" color="error" size="large" sx={{ 'borderRadius': '16px', 'scale': '1.2', ':hover': { backgroundColor: '#ef4444', color: 'white' } }}>
+                    <Button variant="outlined" color="error" size="large" sx={{ 'borderRadius': '16px', 'scale': '1.2', ':hover': { backgroundColor: '#ef4444', color: 'white' } }}>
                         تماس با فروشنده
                     </Button>
                 </div>

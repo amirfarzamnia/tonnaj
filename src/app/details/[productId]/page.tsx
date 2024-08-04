@@ -19,7 +19,7 @@ import 'swiper/css/navigation';
 import 'swiper/css/pagination';
 import 'swiper/css/scrollbar';
 
-export default ({ params }: { params: { productId: string } }) => {
+export default ({ params }: { params: { productId: number } }) => {
     const [findCart, setFindCart] = useState<CartTypes>();
     const [offers, setOffers] = useState<CartTypes[]>([]);
     const [error, setError] = useState(false);
@@ -28,7 +28,7 @@ export default ({ params }: { params: { productId: string } }) => {
     useEffect(() => {
         if (params.productId) {
             const findCartInContext = cartItems.find((item) => item.id === params.productId);
-            const findOffers = cartItems.filter((item) => item.product_type === findCartInContext?.product_type);
+            const findOffers = cartItems.filter((item) => item.category === findCartInContext?.category);
 
             findCartInContext ? setFindCart(findCartInContext) : setError(true);
             findOffers ? setOffers(findOffers) : null;
@@ -39,7 +39,7 @@ export default ({ params }: { params: { productId: string } }) => {
         {
             icon: <FaLeaf />,
             title: 'نوع محصول',
-            value: findCart?.product_type
+            value: findCart?.category
         },
         {
             icon: <FaLocationArrow />,
@@ -47,29 +47,14 @@ export default ({ params }: { params: { productId: string } }) => {
             value: `${findCart?.location.city} - ${findCart?.location.state}`
         },
         {
-            icon: <Check />,
-            title: 'نحوه معامله',
-            value: findCart?.trade
-        },
-        {
-            icon: <Check />,
-            title: 'درجه کیفی',
-            value: findCart?.quality_grade
-        },
-        {
-            icon: <Check />,
-            title: 'منبع تولید',
-            value: findCart?.source
-        },
-        {
-            icon: <IoIosLeaf />,
-            title: 'تعداد/مقدار',
-            value: findCart?.count
+            icon: <FaBarcode />,
+            title: 'حداقل سفارش',
+            value: findCart?.min || 'ندارد'
         },
         {
             icon: <FaBarcode />,
-            title: 'حداقل سفارش',
-            value: findCart?.minimum_order ? 'دارد' : 'ندارد'
+            title: 'حداکثر سفارش',
+            value: findCart?.max || 'ندارد'
         },
         {
             icon: <BiUser fontWeight={'bold'} />,
@@ -84,7 +69,7 @@ export default ({ params }: { params: { productId: string } }) => {
         {
             icon: <Check />,
             title: 'وضعیت',
-            value: findCart?.condition ? 'موجود' : 'نا موجود'
+            value: findCart?.available ? 'موجود' : 'نا موجود'
         }
     ];
 
@@ -114,7 +99,7 @@ export default ({ params }: { params: { productId: string } }) => {
                             scrollbar={{ draggable: true }}
                             onSwiper={(swiper) => console.log(swiper)}
                             onSlideChange={() => console.log('slide change')}>
-                            {findCart?.image.map((item, index) => {
+                            {findCart?.images.map((item, index) => {
                                 return (
                                     <SwiperSlide key={index}>
                                         <Image loading="lazy" src={item} className="w-[470px] h-[350px]" />
@@ -131,8 +116,7 @@ export default ({ params }: { params: { productId: string } }) => {
                             </Box>
                             <Box className="mt-6 text-center">
                                 <Typography color={'black'} sx={{ lineHeight: 1.5 }} variant="h5">
-                                    {' '}
-                                    من یک کشاورز و عضو سروبان هستم. محصول من سیب زمینی از همدان بهار است.
+                                    {findCart?.description}
                                 </Typography>
                                 <Typography color={'black'} sx={{ lineHeight: 1.5 }} variant="h5">
                                     خوشحال میشم برای ارتباط مستقیم با من از طریق دکمه زیر اقدام کنید
@@ -170,12 +154,6 @@ export default ({ params }: { params: { productId: string } }) => {
                                 ثبت سفارش
                             </Button>
                         </Box>
-                        <Box marginTop={'15px'}>
-                            <Typography variant="subtitle2" className="font-thin font-serif text-gray-600">
-                                {findCart?.pageTitle}
-                            </Typography>
-                        </Box>
-
                         <Box flex={1} marginTop={5}>
                             {infos.map((item, index) => {
                                 return (
@@ -224,7 +202,7 @@ export default ({ params }: { params: { productId: string } }) => {
                             <Box className="mt-8">
                                 <Typography color={'black'} className="text-center">
                                     برای اطلاع از{' '}
-                                    <Link sx={{ textDecoration: 'none' }} fontWeight={'thin'} href={`/search/${findCart?.product_type}`} color={'#166534'}>
+                                    <Link sx={{ textDecoration: 'none' }} fontWeight={'thin'} href={`/search/${findCart?.category}`} color={'#166534'}>
                                         قیمت روز سیب زمینی
                                     </Link>{' '}
                                     و خرید مستقیم پیام ارسال کنید
@@ -279,13 +257,13 @@ export default ({ params }: { params: { productId: string } }) => {
 
             <div className="grid grid-cols-4 w-[85%] ml-auto mr-auto place-items-center gap-5">
                 {offers.map((item, index) => {
-                    return <Cart author={item.author} title={item.title} description={item.description} buttonHref={`${item.buttonHref}/${item.id}`} locationName={item.location.state} image={item.image[0]} key={index} />;
+                    return <Cart author={item.author} title={item.title} description={item.description} locationName={item.location.state} image={item.images[0]} key={index} />;
                 })}
             </div>
 
             <Box className="w-full h-auto flex items-center justify-center" marginBottom={5}>
-                <Link href={`/search/${findCart?.product_type}`} color={'#fca5a5'} className="p-2 rounded-xl scale-[1.1] bg-transparent border border-red-300 transition-all hover:bg-transparent hover:border-transparent hover:text-white hover:bg-red-600" sx={{ textDecoration: 'none' }}>
-                    نمایش همه {findCart?.product_type} ها
+                <Link href={`/search/${findCart?.category}`} color={'#fca5a5'} className="p-2 rounded-xl scale-[1.1] bg-transparent border border-red-300 transition-all hover:bg-transparent hover:border-transparent hover:text-white hover:bg-red-600" sx={{ textDecoration: 'none' }}>
+                    نمایش همه {findCart?.category} ها
                 </Link>
             </Box>
         </Stack>
