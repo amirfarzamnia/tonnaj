@@ -1,15 +1,15 @@
 'use client';
 
-import { CartTypes } from '@/types/types';
 import { createContext, Dispatch, ReactNode, SetStateAction, useContext, useState } from 'react';
+import { ProductTypes } from '@/types/types';
 
 interface ShopContextProps {
-    cartItems: CartTypes[];
-    setCartItems: Dispatch<SetStateAction<CartTypes[]>>;
+    products: ProductTypes[];
+    setProducts: Dispatch<SetStateAction<ProductTypes[]>>;
 }
 
 const ShopContext = createContext<ShopContextProps>({
-    cartItems: [
+    products: [
         {
             author: '09130288776',
             images: ['/card.jpg'],
@@ -46,11 +46,11 @@ const ShopContext = createContext<ShopContextProps>({
             }
         }
     ],
-    setCartItems: (): CartTypes[] => []
+    setProducts: (): ProductTypes[] => []
 });
 
 export default function ShopProvider({ children }: { children: ReactNode }) {
-    const [cartItems, setCartItems] = useState<CartTypes[]>([
+    const [products, setProducts] = useState<ProductTypes[]>([
         {
             author: '09130288776',
             images: ['/card.jpg', '/card.jpg'],
@@ -87,7 +87,7 @@ export default function ShopProvider({ children }: { children: ReactNode }) {
         }
     ]);
 
-    return <ShopContext.Provider value={{ cartItems, setCartItems }}>{children}</ShopContext.Provider>;
+    return <ShopContext.Provider value={{ products, setProducts }}>{children}</ShopContext.Provider>;
 }
 
 export const useShop = () => useContext(ShopContext);

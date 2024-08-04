@@ -5,7 +5,7 @@ import { Box, Button, Grid, Typography, Paper, Link, IconButton, CircularProgres
 import { Navigation, Pagination, Scrollbar } from 'swiper/modules';
 import { Swiper, SwiperSlide } from 'swiper/react';
 import { useShop } from '@/context/shopContext';
-import { CartTypes } from '@/types/types';
+import { ProductTypes } from '@/types/types';
 import { Person } from '@mui/icons-material';
 import React from 'react';
 
@@ -15,22 +15,22 @@ import 'swiper/css/scrollbar';
 import 'swiper/css';
 
 export default function ProductPage({ params }: { params: { id: string } }) {
-    const [relatedProducts, setRelatedProducts] = React.useState<CartTypes[]>([]);
-    const [product, setProduct] = React.useState<CartTypes | null>(null);
+    const [relatedProducts, setRelatedProducts] = React.useState<ProductTypes[]>([]);
+    const [product, setProduct] = React.useState<ProductTypes | null>(null);
     const [error, setError] = React.useState<boolean>(false);
 
-    const { cartItems } = useShop();
+    const { products } = useShop();
 
     React.useEffect(() => {
         if (!params.id) return;
 
-        const product = cartItems.find(({ id }) => id === Number(params.id));
+        const product = products.find(({ id }) => id === Number(params.id));
 
         if (!product) return setError(true);
 
         setProduct(product);
-        setRelatedProducts(cartItems.filter(({ id, category }) => category === product.category && id !== product.id));
-    }, [params.id, cartItems]);
+        setRelatedProducts(products.filter(({ id, category }) => category === product.category && id !== product.id));
+    }, [params.id, products]);
 
     if (error) {
         return (
@@ -118,12 +118,12 @@ export default function ProductPage({ params }: { params: { id: string } }) {
                 </Grid>
             </Box>
             <Box sx={{ mt: 4, textAlign: 'center' }}>
-                <Link href={`https://api.whatsapp.com/send?text=${encodeURIComponent(`برای مشاهده جزئیات ${product.title} به لینک زیر مراجعه کنید: https://example.com/product/${product.id}`)}`} target="_blank" sx={{ mr: 1 }}>
+                <Link href={`https://api.whatsapp.com/send?text=${encodeURIComponent(`برای مشاهده جزئیات ${product.title} به لینک زیر مراجعه کنید: https://tonnaj.com/products/${product.id}`)}`} target="_blank" sx={{ mr: 1 }}>
                     <IconButton color="primary">
                         <WhatsApp />
                     </IconButton>
                 </Link>
-                <Link href={`https://t.me/share/url?url=${encodeURIComponent(`https://example.com/product/${product.id}`)}&text=${encodeURIComponent(`مشاهده محصول ${product.title}`)}`} target="_blank">
+                <Link href={`https://t.me/share/url?url=${encodeURIComponent(`https://tonnaj.com/products/${product.id}`)}&text=${encodeURIComponent(`مشاهده محصول ${product.title}`)}`} target="_blank">
                     <IconButton color="primary">
                         <Telegram />
                     </IconButton>

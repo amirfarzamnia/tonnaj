@@ -1,6 +1,6 @@
 import { ReactNode } from 'react';
 
-export type CartTypes = {
+export type ProductTypes = {
     rating: 1 | 2 | 3 | 4 | 5;
     description: string;
     available: boolean;
