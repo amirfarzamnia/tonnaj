@@ -176,7 +176,7 @@ export default ({ children }: { children: React.ReactNode }) => {
                                             <Typography variant="h6" gutterBottom>
                                                 پیشخوان خدمات
                                             </Typography>
-                                            <Box component="ul" sx={{ padding: 0, margin: 0 }}>
+                                            <Box component="ul" sx={{ listStyleType: 'none', padding: 0, margin: 0 }}>
                                                 <Box component="li">
                                                     <Link underline="hover" href="#">
                                                         بازار فروش عمده
@@ -203,7 +203,7 @@ export default ({ children }: { children: React.ReactNode }) => {
                                             <Typography variant="h6" gutterBottom>
                                                 پیوندهای مفید
                                             </Typography>
-                                            <Box component="ul">
+                                            <Box component="ul" sx={{ listStyleType: 'none', padding: 0, margin: 0 }}>
                                                 <Box component="li">
                                                     <Link underline="hover" href="#">
                                                         خانه
