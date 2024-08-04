@@ -14,8 +14,8 @@ import 'swiper/css/scrollbar';
 import 'swiper/css';
 
 export default function ProductPage({ params }: { params: { id: string } }) {
-    const [product, setProduct] = useState<CartTypes | null>(null);
     const [relatedProducts, setRelatedProducts] = useState<CartTypes[]>([]);
+    const [product, setProduct] = useState<CartTypes | null>(null);
     const [error, setError] = useState<boolean>(false);
     const { cartItems } = useShop();
 
