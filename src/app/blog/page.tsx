@@ -1,7 +1,7 @@
 'use client'
 
 import { useBlog } from '@/contexts/blog';
-import { Button, Card, CardActions, CardContent, CardMedia, Container, Grid, Stack, Typography } from '@mui/material';
+import { Button, Card, CardActions, CardContent, CardMedia, Container, Divider, Grid, Stack, Typography } from '@mui/material';
 
 export default () => {
     const { blogItems } = useBlog()
@@ -16,10 +16,10 @@ export default () => {
                         <Card sx={{ width: 345, height: 420 }}>
                             <CardMedia component="img" alt="img" sx={{ objectFit: "cover", height: 200 }} image={item.image} />
                             <CardContent>
-                                <Typography variant='h6' sx={{ textAlign: 'center', mb: 2 }}>
+                                <Typography variant='h6' sx={{ textAlign: 'center' }}>
                                     {item.title}
                                 </Typography>
-
+                                <Divider sx={{ mb: 2 }} />
                                 <Typography variant="body2" color="text.secondary" sx={{
                                     overflow: "hidden",
                                     textOverflow: "ellipsis",
@@ -31,6 +31,7 @@ export default () => {
                                     {item.description}
                                 </Typography>
                             </CardContent>
+                            <Divider />
                             <CardActions className="flex items-center justify-center">
                                 <Button href={`/blog/${item.id}`}>
                                     ادامه
