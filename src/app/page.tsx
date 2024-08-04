@@ -1,6 +1,6 @@
 'use client';
 
-import { Grid, Typography, Box, FormGroup, FormControlLabel, Checkbox } from '@mui/material';
+import { Grid, Typography, Box, Card, CardContent, CardMedia, FormGroup, FormControlLabel, Checkbox } from '@mui/material';
 import { Swiper, SwiperSlide } from 'swiper/react';
 import { useShop } from '@/contexts/shop';
 import Link from 'next/link';
@@ -29,7 +29,11 @@ export default () => {
         window.history.replaceState({}, '', window.location.pathname + '?' + urlParams.toString());
     }, [selectedCategories]);
 
-    const handleCategoryChange = (event: React.ChangeEvent<HTMLInputElement>) => setSelectedCategories((prev) => (event.target.checked ? [...prev, event.target.value] : prev.filter((category) => category !== event.target.value)));
+    const handleCategoryChange = (event: React.ChangeEvent<HTMLInputElement>) => {
+        const category = event.target.value;
+
+        setSelectedCategories((prev) => (event.target.checked ? [...prev, category] : prev.filter((item) => item !== category)));
+    };
 
     const queryCategories = new URLSearchParams(window.location.search).get('categories')?.split(',');
     const filteredProducts = queryCategories ? products.filter((product) => product.categories.some((category) => queryCategories.includes(category))) : products;
@@ -53,26 +57,26 @@ export default () => {
                 {filteredProducts.map(({ price, description, images, title, id }) => (
                     <Grid item xs={12} sm={6} md={2} key={id}>
                         <Link href={`/products/${id}`} passHref>
-                            <Box sx={{ 'border': '1px solid #ddd', 'borderRadius': 2, 'padding': 2, 'display': 'flex', 'flexDirection': 'column', 'alignItems': 'center', 'textDecoration': 'none', 'color': 'inherit', 'transition': 'transform 0.2s, box-shadow 0.2s', '&:hover': { transform: 'scale(1.025)', boxShadow: '0 4px 8px rgba(0, 0, 0, 0.2)' } }}>
+                            <Card>
                                 <Swiper spaceBetween={10} slidesPerView={1} pagination={{ clickable: true }} style={{ width: '100%', height: 'auto' }}>
                                     {images.map((image, index) => (
                                         <SwiperSlide key={index}>
-                                            <Box sx={{ position: 'relative', width: '100%', paddingTop: '75%' }}>
-                                                <img src={image} alt={`${title} image ${index + 1}`} style={{ position: 'absolute', top: 0, left: 0, width: '100%', height: '100%', objectFit: 'cover', borderRadius: 4 }} />
-                                            </Box>
+                                            <CardMedia component="img" src={image} alt={`${title} image ${index + 1}`} sx={{ height: '200px', objectFit: 'cover' }} />
                                         </SwiperSlide>
                                     ))}
                                 </Swiper>
-                                <Typography variant="h6" gutterBottom>
-                                    {title}
-                                </Typography>
-                                <Typography variant="body2" color="textSecondary">
-                                    {description}
-                                </Typography>
-                                <Typography variant="h6" color="primary" gutterBottom>
-                                    {price}
-                                </Typography>
-                            </Box>
+                                <CardContent>
+                                    <Typography variant="h6" gutterBottom>
+                                        {title}
+                                    </Typography>
+                                    <Typography variant="body2" color="textSecondary">
+                                        {description}
+                                    </Typography>
+                                    <Typography variant="h6" color="primary" gutterBottom>
+                                        {price}
+                                    </Typography>
+                                </CardContent>
+                            </Card>
                         </Link>
                     </Grid>
                 ))}
