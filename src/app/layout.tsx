@@ -113,38 +113,41 @@ export default ({ children }: { children: React.ReactNode }) => {
                     ) : (
                         <>
                             <AppBar position="static">
-                                <Toolbar sx={{ display: 'flex', justifyContent: 'space-between', borderBottom: 1, borderColor: selectedTheme === 'dark' ? '#3f3f46' : '#e4e4e7', px: 3 }}>
+                                <Toolbar sx={{ display: 'flex', gap: 2, justifyContent: 'space-between', borderBottom: 1, borderColor: selectedTheme === 'dark' ? '#3f3f46' : '#e4e4e7', px: 3 }}>
                                     <Link href="/" underline="none">
-                                        <Box width={100} component="img" loading="lazy" alt="لوگوی تناژ" src="/icons/tonnaj.png" />
+                                        <Box width={85} component="img" loading="lazy" alt="لوگوی تناژ" src="/icons/tonnaj.png" />
                                     </Link>
-                                    <Box sx={{ display: 'flex', gap: 2, alignItems: 'center', flexGrow: 1 }}>
-                                        <TextField
-                                            placeholder="جست و جوی محصول..."
-                                            InputProps={{
-                                                startAdornment: <InputAdornment position="start"></InputAdornment>
-                                            }}
-                                            variant="outlined"
-                                            size="small"
-                                            sx={{ mr: 2, flexGrow: 1, background: 'rgba(0, 0, 0, 0.025)' }}
-                                        />
-                                        <Button endIcon={<Person />} href="/auth" variant="outlined" color="secondary" sx={{ display: 'flex', alignItems: 'center', gap: 1 }}>
-                                            حساب کاربری
-                                        </Button>
-                                        <Button
-                                            variant="outlined"
-                                            color="secondary"
-                                            onClick={() => {
-                                                setTheme((previousTheme) => {
-                                                    const nextTheme = previousTheme === 'dark' ? 'light' : 'dark';
+                                    <TextField
+                                        placeholder="جست و جوی محصول..."
+                                        InputProps={{
+                                            startAdornment: (
+                                                <InputAdornment position="start">
+                                                    <SearchIcon />
+                                                </InputAdornment>
+                                            )
+                                        }}
+                                        variant="outlined"
+                                        size="small"
+                                        sx={{ mr: 2, flexGrow: 1, background: 'rgba(0, 0, 0, 0.025)' }}
+                                    />
+                                    <Button endIcon={<Person />} href="/auth" variant="outlined" color="secondary" sx={{ display: 'flex', alignItems: 'center', gap: 1, py: 0.82 }}>
+                                        حساب کاربری
+                                    </Button>
+                                    <Button
+                                        sx={{ py: 0.82 }}
+                                        variant="outlined"
+                                        color="secondary"
+                                        onClick={() => {
+                                            setTheme((previousTheme) => {
+                                                const nextTheme = previousTheme === 'dark' ? 'light' : 'dark';
 
-                                                    localStorage.setItem('selected-theme', nextTheme);
+                                                localStorage.setItem('selected-theme', nextTheme);
 
-                                                    return nextTheme;
-                                                });
-                                            }}>
-                                            {selectedTheme === 'dark' ? <LightModeIcon /> : <DarkModeIcon />}
-                                        </Button>
-                                    </Box>
+                                                return nextTheme;
+                                            });
+                                        }}>
+                                        {selectedTheme === 'dark' ? <LightModeIcon /> : <DarkModeIcon />}
+                                    </Button>
                                 </Toolbar>
                                 <Toolbar sx={{ borderBottom: 1, borderColor: selectedTheme === 'dark' ? '#3f3f46' : '#e4e4e7', justifyContent: 'center' }}>
                                     <Box sx={{ display: 'flex', overflowX: 'auto', whiteSpace: 'nowrap' }}>
