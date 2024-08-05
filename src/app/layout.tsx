@@ -1,7 +1,7 @@
 'use client';
 
 import { Button, CircularProgress, TextField, Box, Grid, Toolbar, AppBar, Link, Avatar, Tooltip, Container, Typography, InputAdornment, IconButton, CssBaseline, Shadows } from '@mui/material';
-import { Search as SearchIcon, LightMode as LightModeIcon, DarkMode as DarkModeIcon } from '@mui/icons-material';
+import { Search as SearchIcon, LightMode as LightModeIcon, DarkMode as DarkModeIcon, Person } from '@mui/icons-material';
 import { createTheme, ThemeProvider, ThemeOptions } from '@mui/material/styles';
 import { TypographyOptions } from '@mui/material/styles/createTypography';
 import React from 'react';
@@ -131,26 +131,23 @@ export default ({ children }: { children: React.ReactNode }) => {
                                             size="small"
                                             sx={{ mr: 2, flexGrow: 1 }}
                                         />
-                                        <Tooltip title="Toggle theme">
-                                            <IconButton
-                                                onClick={() => {
-                                                    setTheme((previousTheme) => {
-                                                        const nextTheme = previousTheme === 'dark' ? 'light' : 'dark';
+                                        <Button endIcon={<Person />} href="/auth" variant="outlined" color="secondary" sx={{ display: 'flex', alignItems: 'center', gap: 1 }}>
+                                            حساب کاربری
+                                        </Button>
+                                        <Button
+                                            variant="outlined"
+                                            color="secondary"
+                                            onClick={() => {
+                                                setTheme((previousTheme) => {
+                                                    const nextTheme = previousTheme === 'dark' ? 'light' : 'dark';
 
-                                                        localStorage.setItem('selected-theme', nextTheme);
+                                                    localStorage.setItem('selected-theme', nextTheme);
 
-                                                        return nextTheme;
-                                                    });
-                                                }}
-                                                sx={{ p: 0 }}>
-                                                {selectedTheme === 'dark' ? <LightModeIcon /> : <DarkModeIcon />}
-                                            </IconButton>
-                                        </Tooltip>
-                                        <Tooltip title="Open settings">
-                                            <IconButton onClick={() => (location.href = '/auth')} sx={{ p: 0 }}>
-                                                <Avatar alt="ا" src="/static/images/avatar/2.jpg" />
-                                            </IconButton>
-                                        </Tooltip>
+                                                    return nextTheme;
+                                                });
+                                            }}>
+                                            {selectedTheme === 'dark' ? <LightModeIcon /> : <DarkModeIcon />}
+                                        </Button>
                                     </Box>
                                 </Toolbar>
                                 <Toolbar sx={{ borderBottom: 1, borderColor: selectedTheme === 'dark' ? '#3f3f46' : '#e4e4e7', justifyContent: 'center' }}>
