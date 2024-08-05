@@ -28,7 +28,7 @@ const schemeOptions: { dark: ThemeOptions; light: ThemeOptions } = {
         palette: {
             mode: 'dark',
             background: {
-                default: 'black'
+                default: '#28282B'
             }
         },
         components: {
