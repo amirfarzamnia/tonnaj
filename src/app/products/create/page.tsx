@@ -87,7 +87,7 @@ export default () => {
     const handleChange = (event: SelectChangeEvent<typeof selectedCategories>) => setCategories(typeof event.target.value === 'string' ? event.target.value.split(',') : event.target.value);
 
     return (
-        <Box component="form" onSubmit={handleSubmit} sx={{ width: '100%', marginTop: '10px' }}>
+        <Box component="form" onSubmit={handleSubmit} sx={{ width: '100%' }}>
             <Box sx={{ width: '100%', display: 'flex', flexDirection: 'column', alignItems: 'center', padding: '16px' }}>
                 <Grid container spacing={2}>
                     {imageFiles.map((src, index) => (

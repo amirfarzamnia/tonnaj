@@ -67,18 +67,16 @@ export default () => {
 
     return (
         <>
-            <Box sx={{ my: 4 }}>
-                <Typography variant="h4" textAlign="center" component="h1" gutterBottom>
-                    ورود به تناژ
-                </Typography>
-                <Typography variant="subtitle2" textAlign="center" gutterBottom>
-                    {step === 1 ? 'برای ورود، ابتدا شماره تلفن همراه خود را با اعداد انگلیسی وارد کنید.' : 'کد تایید چهار رقمی پیامک شده به شماره تلفن همراه خود را با اعداد انگلیسی وارد کنید.'}
-                </Typography>
-                <Box sx={{ my: 4, width: '25%', mx: 'auto' }}>
-                    <Divider />
-                </Box>
-                {step === 1 ? <VerificationStep label="شماره تلفن همراه" value={phone_number} onChange={(e) => setPhoneNumber(e.target.value)} error={error} loading={loading} buttonText="ادامه و ارسال کد تایید" onSubmit={handlePhoneNumberSubmit} /> : <VerificationStep label="کد تایید" value={verification_code} onChange={(e) => setVerificationCode(e.target.value)} error={error} loading={loading} buttonText="تایید کد" onSubmit={handleVerificationCodeSubmit} />}
+            <Typography variant="h4" textAlign="center" component="h1" gutterBottom>
+                ورود به تناژ
+            </Typography>
+            <Typography variant="subtitle2" textAlign="center" gutterBottom>
+                {step === 1 ? 'برای ورود، ابتدا شماره تلفن همراه خود را با اعداد انگلیسی وارد کنید.' : 'کد تایید چهار رقمی پیامک شده به شماره تلفن همراه خود را با اعداد انگلیسی وارد کنید.'}
+            </Typography>
+            <Box sx={{ my: 4, width: '25%', mx: 'auto' }}>
+                <Divider />
             </Box>
+            {step === 1 ? <VerificationStep label="شماره تلفن همراه" value={phone_number} onChange={(e) => setPhoneNumber(e.target.value)} error={error} loading={loading} buttonText="ادامه و ارسال کد تایید" onSubmit={handlePhoneNumberSubmit} /> : <VerificationStep label="کد تایید" value={verification_code} onChange={(e) => setVerificationCode(e.target.value)} error={error} loading={loading} buttonText="تایید کد" onSubmit={handleVerificationCodeSubmit} />}
         </>
     );
 };

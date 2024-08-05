@@ -154,7 +154,7 @@ export default ({ children }: { children: React.ReactNode }) => {
                                 </Toolbar>
                                 <Toolbar sx={{ borderBottom: 1, borderColor: selectedTheme === 'dark' ? '#3f3f46' : '#e4e4e7', justifyContent: 'center' }}>
                                     <Box sx={{ display: 'flex', overflowX: 'auto', whiteSpace: 'nowrap' }}>
-                                        {Object.entries({ 'بلاگ تناژ': 'blog', 'قوانین استفاده از تناژ': 'terms-of-use', 'تماس با تناژ': 'contact-us', 'درباره تناژ': 'about-us' }).map(([name, url]) => (
+                                        {Object.entries({ 'بلاگ تناژ': 'blog', 'قوانین استفاده از تناژ': 'terms-of-service', 'تماس با تناژ': 'contact-us', 'درباره تناژ': 'about-us' }).map(([name, url]) => (
                                             <Button href={url} key={name} sx={{ mx: 1 }}>
                                                 {name}
                                             </Button>
