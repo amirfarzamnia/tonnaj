@@ -90,7 +90,6 @@ const schemeOptions: { dark: ThemeOptions; light: ThemeOptions } = {
 
 export default ({ children }: { children: React.ReactNode }) => {
     const [selectedTheme, setTheme] = React.useState<'dark' | 'light'>('light');
-    const [hideToolbar, setHideToolbar] = React.useState(false);
     const [loading, setLoading] = React.useState(true);
 
     React.useEffect(() => {
@@ -98,12 +97,6 @@ export default ({ children }: { children: React.ReactNode }) => {
 
         setTheme(theme);
         setLoading(false);
-
-        const handleScroll = () => setHideToolbar(scrollY > 100);
-
-        addEventListener('scroll', handleScroll);
-
-        return () => removeEventListener('scroll', handleScroll);
     }, []);
 
     const theme = React.useMemo(() => createTheme(schemeOptions[selectedTheme]), [selectedTheme]);
@@ -155,21 +148,19 @@ export default ({ children }: { children: React.ReactNode }) => {
                                     <Button endIcon={<Person />} href="/auth" variant="outlined" color="info" sx={{ display: 'flex', alignItems: 'center', gap: 1, py: 0.82 }}>
                                         حساب کاربری
                                     </Button>
-                                    <Button endIcon={<Inventory />} href="/products/create" variant="contained" color="success" sx={{ display: 'flex', alignItems: 'center', gap: 1, py: 0.82 }}>
+                                    <Button endIcon={<Inventory />} href="/products/create" variant="contained" color="success" sx={{ display: 'flex', alignItems: 'center', gap: 1.25, py: 0.82 }}>
                                         ثبت محصول
                                     </Button>
                                 </Toolbar>
-                                {!hideToolbar && (
-                                    <Toolbar sx={{ borderBottom: 1, borderColor: selectedTheme === 'dark' ? '#3f3f46' : '#e4e4e7', justifyContent: 'center' }}>
-                                        <Box sx={{ display: 'flex', overflowX: 'auto', whiteSpace: 'nowrap' }}>
-                                            {Object.entries({ 'بلاگ تناژ': 'blog', 'قوانین استفاده از تناژ': 'terms-of-use', 'تماس با تناژ': 'contact-us', 'درباره تناژ': 'about-us' }).map(([name, url]) => (
-                                                <Button href={url} key={name} sx={{ mx: 1 }}>
-                                                    {name}
-                                                </Button>
-                                            ))}
-                                        </Box>
-                                    </Toolbar>
-                                )}
+                                <Toolbar sx={{ borderBottom: 1, borderColor: selectedTheme === 'dark' ? '#3f3f46' : '#e4e4e7', justifyContent: 'center' }}>
+                                    <Box sx={{ display: 'flex', overflowX: 'auto', whiteSpace: 'nowrap' }}>
+                                        {Object.entries({ 'بلاگ تناژ': 'blog', 'قوانین استفاده از تناژ': 'terms-of-use', 'تماس با تناژ': 'contact-us', 'درباره تناژ': 'about-us' }).map(([name, url]) => (
+                                            <Button href={url} key={name} sx={{ mx: 1 }}>
+                                                {name}
+                                            </Button>
+                                        ))}
+                                    </Box>
+                                </Toolbar>
                             </AppBar>
                             <Container sx={{ padding: 2, borderRadius: 4, mt: 4 }} maxWidth={'xl'}>
                                 {children}
