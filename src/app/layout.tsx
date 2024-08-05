@@ -3,14 +3,15 @@
 import { Button, CircularProgress, TextField, Box, Grid, Toolbar, AppBar, Link, Avatar, Tooltip, Container, Typography, InputAdornment, IconButton, CssBaseline, Shadows } from '@mui/material';
 import { Search as SearchIcon, LightMode as LightModeIcon, DarkMode as DarkModeIcon } from '@mui/icons-material';
 import { createTheme, ThemeProvider, ThemeOptions } from '@mui/material/styles';
+import { TypographyOptions } from '@mui/material/styles/createTypography';
 import AuthProvider from '@/contexts/auth';
 import ShopProvider from '@/contexts/shop';
 import BlogProvider from '@/contexts/blog';
 import React from 'react';
 import './index.css';
 
-const common = {
-    Typography: {
+const common: { typography: TypographyOptions; css: React.CSSProperties } = {
+    typography: {
         h1: { color: '#d00434' },
         h2: { color: '#d00434' },
         h3: { color: '#d00434' },
@@ -18,12 +19,10 @@ const common = {
         h5: { color: '#d00434' },
         h6: { color: '#d00434' }
     },
-    MuiCssBaseline: {
-        body: {
-            backgroundImage: 'radial-gradient(rgba(0, 0, 0, 0.1) 1px, transparent 0)',
-            backgroundSize: '20px 20px',
-            backgroundPosition: '-40px -40px'
-        }
+    css: {
+        backgroundImage: 'radial-gradient(rgba(0, 0, 0, 0.1) 1px, transparent 0)',
+        backgroundSize: '20px 20px',
+        backgroundPosition: '-40px -40px'
     }
 };
 
@@ -39,20 +38,13 @@ const schemeOptions: { dark: ThemeOptions; light: ThemeOptions } = {
             MuiCssBaseline: {
                 styleOverrides: {
                     body: {
-                        ...common.MuiCssBaseline.body,
+                        ...common.css,
                         backgroundImage: 'radial-gradient(rgba(255, 255, 255, 0.05) 1px, transparent 0)'
                     }
                 }
             },
-            MuiCard: {
-                styleOverrides: {
-                    root: {
-                        backgroundColor: 'rgba(255, 255, 255, 0)'
-                    }
-                }
-            },
             MuiTypography: {
-                styleOverrides: common.Typography
+                styleOverrides: common.typography
             }
         },
         shadows: Array(25).fill('none') as Shadows
@@ -61,17 +53,17 @@ const schemeOptions: { dark: ThemeOptions; light: ThemeOptions } = {
         palette: {
             mode: 'light',
             background: {
-                default: 'white'
+                default: '#EDEADE'
             }
         },
         components: {
             MuiCssBaseline: {
                 styleOverrides: {
-                    body: common.MuiCssBaseline.body
+                    body: common.css
                 }
             },
             MuiTypography: {
-                styleOverrides: common.Typography
+                styleOverrides: common.typography
             },
             MuiAppBar: {
                 styleOverrides: {
