@@ -1,97 +1,31 @@
 'use client';
 
-
 import { ProductTypes } from '@/types/product';
-import React from 'react';
+import React, { useEffect, useState } from 'react';
 
-const ShopContext = React.createContext<{ products: ProductTypes[]; setProducts: React.Dispatch<React.SetStateAction<ProductTypes[]>> }>({
-    products: [
-        {
-            author: {
-                name: 'سارا مرادی',
-                phone_number: '09130288776'
-            },
-            images: ['/card.jpg'],
-            id: 1,
-            title: 'فروش سیب زمینی',
-            description: 'خرید سیب زمینی...',
-            categories: ['سیب زمینی'],
-            min: 10,
-            available: true,
-            price: '7.5',
-            rating: 4,
-            timestamp: 302049290,
-            location: {
-                city: 'همدان',
-                state: 'بهار'
-            }
-        },
-        {
-            author: {
-                name: 'سارا مرادی',
-                phone_number: '09130288776'
-            },
-            images: ['/card.jpg', '/card2.jpg'],
-            id: 2,
-            title: 'فروش سیب زمینی',
-            description: 'خرید سیب زمینی...',
-            categories: ['کشاورزی'],
-            available: true,
-            price: '7.5',
-            rating: 4,
-            timestamp: 302049290,
-            location: {
-                city: 'همدان',
-                state: 'بهار'
-            }
-        }
-    ],
-    setProducts: (): ProductTypes[] => []
+const ShopContext = React.createContext<{ products: ProductTypes[]; setProducts: React.Dispatch<React.SetStateAction<ProductTypes[]>>; loading: boolean }>({
+    products: [],
+    setProducts: (): ProductTypes[] => [],
+    loading: true,
 });
 
 export default function ShopProvider({ children }: { children: React.ReactNode }) {
-    const [products, setProducts] = React.useState<ProductTypes[]>([
-        {
-            author: {
-                name: 'سارا مرادی',
-                phone_number: '09130288776'
-            },
-            images: ['/card.jpg', '/card.jpg'],
-            id: 1,
-            title: 'فروش سیب زمینی',
-            description: 'خرید سیب زمینی...',
-            categories: ['سیب زمینی'],
-            available: true,
-            price: '7.5',
-            rating: 4,
-            timestamp: 302049290,
-            location: {
-                city: 'همدان',
-                state: 'بهار'
-            }
-        },
-        {
-            author: {
-                name: 'سارا مرادی',
-                phone_number: '09130288776'
-            },
-            images: ['/card.jpg', '/card2.jpg'],
-            id: 2,
-            title: 'فروش سیب زمینی',
-            description: 'خرید سیب زمینی...',
-            categories: ['کشاورزی'],
-            available: true,
-            price: '7.5',
-            rating: 4,
-            timestamp: 302049290,
-            location: {
-                city: 'همدان',
-                state: 'بهار'
-            }
-        }
-    ]);
+    const [products, setProducts] = React.useState<ProductTypes[]>([]);
+    const [loading, setLoading] = useState<boolean>(false)
 
-    return <ShopContext.Provider value={{ products, setProducts }}>{children}</ShopContext.Provider>;
+    useEffect(() => {
+        const request = async () => {
+            const res = await fetch('/api/product', { method: "GET" })
+            const json = await res.json()
+
+            setProducts(json.data)
+            setLoading(false)
+        }
+
+        request()
+    }, [])
+
+    return <ShopContext.Provider value={{ products, setProducts, loading }}>{children}</ShopContext.Provider>;
 }
 
 export const useShop = () => React.useContext(ShopContext);
