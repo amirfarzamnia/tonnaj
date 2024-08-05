@@ -1,6 +1,6 @@
 'use client';
 
-import { Grid, Typography, Box, Card, CardContent, CardMedia, FormGroup, FormControlLabel, Checkbox } from '@mui/material';
+import { Grid, Typography, Box, Card, CardContent, CardMedia, FormGroup, FormControlLabel, Checkbox, CircularProgress } from '@mui/material';
 import { Swiper, SwiperSlide } from 'swiper/react';
 import categories from '@/constants/categories';
 import { ProductTypes } from '@/types/product';
@@ -14,19 +14,37 @@ import 'swiper/css';
 export default () => {
     const [selectedCategories, setSelectedCategories] = React.useState<string[]>([]);
     const [products, setProducts] = React.useState<ProductTypes[]>([]);
+    const [error, setError] = React.useState<string | null>(null);
+    const [loading, setLoading] = React.useState<boolean>(true);
 
     React.useEffect(() => {
         (async () => {
-            const urlParams = new URLSearchParams();
+            try {
+                const urlParams = new URLSearchParams();
 
-            if (selectedCategories.length > 0) urlParams.set('categories', selectedCategories.join(','));
+                if (selectedCategories.length > 0) urlParams.set('categories', selectedCategories.join(','));
 
-            const response = await fetch('/api/products?' + urlParams.toString());
-            const data = await response.json();
+                const response = await fetch('/api/products?' + urlParams.toString());
+                const data = await response.json();
 
-            setProducts(data);
+                setProducts(data);
+            } catch {
+                setError('دریافت اطلاعات از دیتابیس با خطا مواجه شد.');
+            } finally {
+                setLoading(false);
+            }
         })();
     }, [selectedCategories]);
+
+    if (loading) {
+        return (
+            <Box sx={{ display: 'flex', justifyContent: 'center', alignItems: 'center', height: '100vh' }}>
+                <CircularProgress />
+            </Box>
+        );
+    }
+
+    if (error) return <Typography variant="h4">{error}</Typography>;
 
     return (
         <>
