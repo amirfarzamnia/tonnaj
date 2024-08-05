@@ -86,7 +86,7 @@ export default ({ params }: { params: { id: string } }) => {
                 </Grid>
                 <Grid item xs={12} md={6}>
                     <Card sx={{ padding: 2, borderRadius: 1 }}>
-                        <Box component="div" sx={{ width: '100%', display: 'flex', alignItems: 'center', gap: 2, justifyContent: 'space-between' }}>
+                        <Box sx={{ width: '100%', display: 'flex', alignItems: 'center', gap: 2, justifyContent: 'space-between' }}>
                             <Typography variant="h4">{product.title}</Typography>
                             <Box sx={{ display: 'flex', alignItems: 'center' }}>{Array.from({ length: 5 }, (_, index) => (index < product.rating ? <StarIcon key={index} color="warning" /> : <StarBorder key={index} color="inherit" />))}</Box>
                         </Box>
@@ -109,6 +109,26 @@ export default ({ params }: { params: { id: string } }) => {
                                 </Box>
                             ))}
                         </Box>
+                        <Box sx={{ my: 2 }}>
+                            <Divider />
+                        </Box>
+                        <Box sx={{ width: '100%', display: 'flex', alignItems: 'center', gap: 2, justifyContent: 'space-between' }}>
+                            <Typography variant="h6" color="textPrimary" sx={{ textWrap: 'nowrap' }}>
+                                اشتراک گذاری
+                            </Typography>
+                            <Box sx={{ display: 'flex', alignItems: 'center', gap: 1 }}>
+                                <Link href={`https://api.whatsapp.com/send?text=${encodeURIComponent(`برای مشاهده جزئیات ${product.title} به لینک زیر مراجعه کنید: https://tonnaj.com/products/${product.id}`)}`} target="_blank" sx={{ mr: 1 }}>
+                                    <IconButton color="success">
+                                        <WhatsApp />
+                                    </IconButton>
+                                </Link>
+                                <Link href={`https://t.me/share/url?url=${encodeURIComponent(`https://tonnaj.com/products/${product.id}`)}&text=${encodeURIComponent(`مشاهده محصول ${product.title}`)}`} target="_blank">
+                                    <IconButton color="success">
+                                        <Telegram />
+                                    </IconButton>
+                                </Link>
+                            </Box>
+                        </Box>
                     </Card>
                 </Grid>
             </Grid>
@@ -129,18 +149,6 @@ export default ({ params }: { params: { id: string } }) => {
                         </Grid>
                     ))}
                 </Grid>
-            </Box>
-            <Box sx={{ mt: 4, textAlign: 'center' }}>
-                <Link href={`https://api.whatsapp.com/send?text=${encodeURIComponent(`برای مشاهده جزئیات ${product.title} به لینک زیر مراجعه کنید: https://tonnaj.com/products/${product.id}`)}`} target="_blank" sx={{ mr: 1 }}>
-                    <IconButton color="primary">
-                        <WhatsApp />
-                    </IconButton>
-                </Link>
-                <Link href={`https://t.me/share/url?url=${encodeURIComponent(`https://tonnaj.com/products/${product.id}`)}&text=${encodeURIComponent(`مشاهده محصول ${product.title}`)}`} target="_blank">
-                    <IconButton color="primary">
-                        <Telegram />
-                    </IconButton>
-                </Link>
             </Box>
         </Box>
     );
