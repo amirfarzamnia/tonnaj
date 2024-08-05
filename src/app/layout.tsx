@@ -103,7 +103,7 @@ export default ({ children }: { children: React.ReactNode }) => {
 
     return (
         <ThemeProvider theme={theme}>
-            <CssBaseline />
+            <CssBaseline enableColorScheme />
             <Box component="html" lang="fa-IR" dir="rtl">
                 <Box component="body" style={{ backgroundColor: theme.palette.background.default }}>
                     {loading ? (
