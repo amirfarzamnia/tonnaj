@@ -80,14 +80,14 @@ export default ({ params }: { params: { id: string } }) => {
                             تماس با فروشنده
                         </Button>
                         <Box sx={{ mt: 2 }}>
-                            {infoItems.map((item, index) => (
+                            {infoItems.map(({ icon, label, value }, index) => (
                                 <Box key={index} sx={{ display: 'flex', alignItems: 'center', mb: 1 }}>
-                                    <Box sx={{ mr: 1 }}>{item.icon}</Box>
+                                    <Box sx={{ mr: 1 }}>{icon}</Box>
                                     <Typography variant="body1" sx={{ fontWeight: 'bold' }}>
-                                        {item.label}:{' '}
+                                        {label}:{' '}
                                     </Typography>
                                     <Typography variant="body1" sx={{ ml: 1 }}>
-                                        {item.value}
+                                        {value}
                                     </Typography>
                                 </Box>
                             ))}
@@ -98,15 +98,15 @@ export default ({ params }: { params: { id: string } }) => {
             <Box sx={{ mt: 4 }}>
                 <Typography variant="h6">محصولات مشابه</Typography>
                 <Grid container spacing={2}>
-                    {relatedProducts.map((item) => (
-                        <Grid item xs={12} sm={6} md={4} key={item.id}>
+                    {relatedProducts.map(({ id, images, title, description }) => (
+                        <Grid item xs={12} sm={6} md={4} key={id}>
                             <Paper sx={{ padding: 2, borderRadius: 2, textAlign: 'center' }}>
-                                <Box component="img" loading="lazy" src={item.images[0]} alt={item.title} sx={{ width: '100%', height: 'auto', objectFit: 'cover' }} />
+                                <Box component="img" loading="lazy" src={images[0]} alt={title} sx={{ width: '100%', height: 'auto', objectFit: 'cover' }} />
                                 <Typography variant="h6" sx={{ mt: 1 }}>
-                                    {item.title}
+                                    {title}
                                 </Typography>
                                 <Typography variant="body2" color="textSecondary">
-                                    {item.description}
+                                    {description}
                                 </Typography>
                             </Paper>
                         </Grid>
