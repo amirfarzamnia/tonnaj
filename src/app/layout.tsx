@@ -45,6 +45,13 @@ const schemeOptions: { dark: ThemeOptions; light: ThemeOptions } = {
             },
             MuiTypography: {
                 styleOverrides: common.typography
+            },
+            MuiCard: {
+                styleOverrides: {
+                    root: {
+                        border: '1px solid #3f3f46'
+                    }
+                }
             }
         },
         shadows: Array(25).fill('none') as Shadows
@@ -53,7 +60,7 @@ const schemeOptions: { dark: ThemeOptions; light: ThemeOptions } = {
         palette: {
             mode: 'light',
             background: {
-                default: '#EDEADE'
+                default: '#f0f0f0'
             }
         },
         components: {
@@ -69,6 +76,13 @@ const schemeOptions: { dark: ThemeOptions; light: ThemeOptions } = {
                 styleOverrides: {
                     root: {
                         background: '#fafafa'
+                    }
+                }
+            },
+            MuiCard: {
+                styleOverrides: {
+                    root: {
+                        border: '1px solid #e4e4e7'
                     }
                 }
             }
