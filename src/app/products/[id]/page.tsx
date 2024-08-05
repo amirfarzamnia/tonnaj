@@ -86,9 +86,11 @@ export default ({ params }: { params: { id: string } }) => {
                 </Grid>
                 <Grid item xs={12} md={6}>
                     <Card sx={{ padding: 2, borderRadius: 2 }}>
-                        <Typography variant="h4">{product.title}</Typography>
-                        <Box sx={{ display: 'flex', alignItems: 'center', my: 2 }}>{Array.from({ length: 5 }, (_, index) => (index < product.rating ? <StarIcon key={index} color="warning" /> : <StarBorder key={index} color="inherit" />))}</Box>
-                        <Typography variant="h5" color="textPrimary">
+                        <Box component="div" sx={{ width: '100%', display: 'flex', alignItems: 'center', gap: 2, justifyContent: 'space-between' }}>
+                            <Typography variant="h4">{product.title}</Typography>
+                            <Box sx={{ display: 'flex', alignItems: 'center' }}>{Array.from({ length: 5 }, (_, index) => (index < product.rating ? <StarIcon key={index} color="warning" /> : <StarBorder key={index} color="inherit" />))}</Box>
+                        </Box>
+                        <Typography sx={{ my: 2 }} variant="h6" color="textPrimary">
                             قیمت: {product.price} تومان
                         </Typography>
                         <Button endIcon={<Phone />} href={'tel:' + product.author.phone_number} variant="outlined" color="success" sx={{ mt: 2, width: '100%', py: 2, display: 'flex', alignItems: 'center', gap: 1 }}>
