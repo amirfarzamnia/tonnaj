@@ -1,17 +1,17 @@
 'use client';
 
 import { Alert, Box, Button, FormControl, Grid, IconButton, InputLabel, MenuItem, Select, SelectChangeEvent, Snackbar, TextareaAutosize, TextField, Typography } from '@mui/material';
-import { Add, Label, Remove } from '@mui/icons-material';
+import { Add, Remove } from '@mui/icons-material';
 import categories from '@/constants/categories';
-import React from 'react';
 import { useRouter } from 'next/navigation';
+import React from 'react';
 
 export default () => {
     const [imageFiles, setImageFiles] = React.useState<{ name: string; base64: string }[]>([]);
+    const [selectedCategories, setCategories] = React.useState<string[]>([]);
     const fileInputRef = React.useRef<HTMLInputElement | null>(null);
     const [description, setDescription] = React.useState<string>('');
     const [snackbarMessage, setSnackbarMessage] = React.useState('');
-    const [selectedCategories, setCategories] = React.useState<string[]>([]);
     const [authorName, setAuthorName] = React.useState<string>('');
     const [snackbarOpen, setSnackbarOpen] = React.useState(false);
     const [title, setTitle] = React.useState<string>('');
@@ -54,9 +54,11 @@ export default () => {
 
     const handleSubmit = async (e: React.FormEvent) => {
         e.preventDefault();
+
         if (imageFiles.length == 0) {
             setSnackbarMessage('باید حداقل یک عکس برای محصول خود انتخاب کنید');
             setSnackbarOpen(true);
+
             return;
         }
 
@@ -67,12 +69,13 @@ export default () => {
             if (response.status === 200) {
                 setSnackbarMessage('محصول شما با موفقیت ثبت شد');
                 setSnackbarOpen(true);
+                setDescription('');
                 setImageFiles([]);
-                setPrice('');
                 setAuthorName('');
                 setCategories([]);
-                setDescription('');
+                setPrice('');
                 setTitle('');
+
                 setTimeout(() => router.push('/'), 2000);
             }
         } catch (error) {
