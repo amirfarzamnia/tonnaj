@@ -9,9 +9,7 @@ import { Pagination } from 'swiper/modules';
 import { useShop } from '@/contexts/shop';
 import React from 'react';
 
-import 'swiper/css/navigation';
 import 'swiper/css/pagination';
-import 'swiper/css/scrollbar';
 import 'swiper/css';
 
 export default ({ params }: { params: { id: string } }) => {

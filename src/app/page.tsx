@@ -2,9 +2,12 @@
 
 import { Grid, Typography, Box, Card, CardContent, CardMedia, FormGroup, FormControlLabel, Checkbox } from '@mui/material';
 import { Swiper, SwiperSlide } from 'swiper/react';
+import { Pagination } from 'swiper/modules';
 import { useShop } from '@/contexts/shop';
 import Link from 'next/link';
 import React from 'react';
+
+import 'swiper/css/pagination';
 import 'swiper/css';
 
 export default () => {
@@ -44,7 +47,7 @@ export default () => {
                     <Grid item xs={12} sm={6} md={3} key={id}>
                         <Link href={`/products/${id}`} passHref style={{ textDecoration: 'none' }}>
                             <Card>
-                                <Swiper spaceBetween={10} slidesPerView={1} pagination={{ clickable: true }} style={{ width: '100%', height: 'auto' }}>
+                                <Swiper modules={[Pagination]} spaceBetween={10} slidesPerView={1} pagination={{ clickable: true }}>
                                     {images.map((image, index) => (
                                         <SwiperSlide key={index}>
                                             <CardMedia component="img" src={image} alt={`${title} image ${index + 1}`} sx={{ height: '200px', objectFit: 'cover' }} />
