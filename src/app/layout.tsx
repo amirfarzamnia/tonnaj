@@ -162,7 +162,7 @@ export default ({ children }: { children: React.ReactNode }) => {
                                     </Box>
                                 </Toolbar>
                             </AppBar>
-                            <Container sx={{ padding: 2, borderRadius: 4, mt: 4 }} maxWidth={'xl'}>
+                            <Container sx={{ padding: 2, borderRadius: 4, mt: 20 }} maxWidth={'xl'}>
                                 {children}
                             </Container>
                             <Box sx={{ borderTop: 1, borderColor: selectedTheme === 'dark' ? '#3f3f46' : '#e4e4e7', background: selectedTheme === 'dark' ? theme.palette.grey[900] : '#fafafa', py: 4 }} component="footer">
