@@ -99,10 +99,7 @@ export default ({ params }: { params: { id: string } }) => {
                                 <Box key={index} sx={{ display: 'flex', alignItems: 'center', mb: 1 }}>
                                     <Box sx={{ mr: 1 }}>{icon}</Box>
                                     <Typography variant="body1" sx={{ fontWeight: 'bold' }}>
-                                        {label}:{' '}
-                                    </Typography>
-                                    <Typography variant="body1" sx={{ ml: 1 }}>
-                                        {value}
+                                        {label}: {value}
                                     </Typography>
                                 </Box>
                             ))}
