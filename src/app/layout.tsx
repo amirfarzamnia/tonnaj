@@ -100,17 +100,10 @@ export default ({ children }: { children: React.ReactNode }) => {
         setTheme(theme);
         setLoading(false);
 
-        fetch('/api/sessions')
-            .then((response) => {
-                if (response.status === 200) {
-                    setIsAuthenticated(true);
-                } else {
-                    setIsAuthenticated(false);
-                }
-            })
-            .catch(() => {
-                setIsAuthenticated(false);
-            });
+        const thenAct = async (response: Response) => setIsAuthenticated((await response.json()) instanceof Object);
+        const catchAct = () => setIsAuthenticated(false);
+
+        fetch('/api/sessions').then(thenAct).catch(catchAct);
     }, []);
 
     const theme = React.useMemo(() => createTheme(schemeOptions[selectedTheme]), [selectedTheme]);

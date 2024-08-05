@@ -1,22 +1,10 @@
 import { NextRequest, NextResponse } from 'next/server';
 import { database } from '@/mongodb';
 
-export const GET = async (request: NextRequest) => {
-    const session = await findSession(request);
-
-    if (!session) return new NextResponse(null, { status: 400 });
-
-    return NextResponse.json(session, { status: 200 });
-};
+export const GET = async (request: NextRequest) => NextResponse.json(await database.collection('sessions').findOne({ session: request.cookies.get('session')?.value }), { status: 200 });
 
 export const DELETE = async (request: NextRequest) => {
-    const session = await findSession(request);
+    await database.collection('sessions').deleteOne({ session: request.cookies.get('session')?.value });
 
-    if (!session) return new NextResponse(null, { status: 403 });
-
-    return NextResponse.json(session, { status: 200 });
+    return new NextResponse(null, { status: 204 });
 };
-
-async function findSession(request: NextRequest) {
-    return await database.collection('sessions').findOne({ session: request.cookies.get('session')?.value });
-}
