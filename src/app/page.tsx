@@ -14,17 +14,17 @@ export default () => {
     const [selectedCategories, setSelectedCategories] = React.useState<string[]>([]);
     const [products, setProducts] = React.useState<ProductTypes[]>([]);
 
-    React.useEffect(() => (fetch('/api/products').then(async (res) => setProducts(await res.json())), undefined), []);
     React.useEffect(() => {
-        const urlParams = new URLSearchParams(location.search);
+        (async () => {
+            const urlParams = new URLSearchParams();
 
-        if (selectedCategories.length > 0) {
-            urlParams.set('categories', selectedCategories.join(','));
-        } else {
-            urlParams.delete('categories');
-        }
+            if (selectedCategories.length > 0) urlParams.set('categories', selectedCategories.join(','));
 
-        history.replaceState({}, '', location.pathname + '?' + urlParams.toString());
+            const response = await fetch(`/api/products?${urlParams.toString()}`);
+            const data = await response.json();
+
+            setProducts(data);
+        })();
     }, [selectedCategories]);
 
     return (
@@ -43,7 +43,7 @@ export default () => {
                 محصولات
             </Typography>
             <Grid container spacing={3}>
-                {(selectedCategories.length > 0 ? products.filter((product) => product.categories.some((category) => selectedCategories.includes(category))) : products).map(({ price, description, images, title, id }) => (
+                {products.map(({ price, description, images, title, id }) => (
                     <Grid item xs={12} sm={6} md={3} key={id}>
                         <Link href={`/products/${id}`} passHref style={{ textDecoration: 'none' }}>
                             <Card>
