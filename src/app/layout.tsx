@@ -94,18 +94,16 @@ export default ({ children }: { children: React.ReactNode }) => {
     const [loading, setLoading] = React.useState(true);
 
     React.useEffect(() => {
+        const theme = (localStorage.getItem('selected-theme') as 'dark' | 'light') || (matchMedia('(prefers-color-scheme: dark)').matches ? 'dark' : 'light');
+
+        setTheme(theme);
+        setLoading(false);
+
         const handleScroll = () => setHideToolbar(scrollY > 100);
 
         addEventListener('scroll', handleScroll);
 
         return () => removeEventListener('scroll', handleScroll);
-    }, []);
-
-    React.useEffect(() => {
-        const theme = (localStorage.getItem('selected-theme') as 'dark' | 'light') || (matchMedia('(prefers-color-scheme: dark)').matches ? 'dark' : 'light');
-
-        setTheme(theme);
-        setLoading(false);
     }, []);
 
     const theme = React.useMemo(() => createTheme(schemeOptions[selectedTheme]), [selectedTheme]);
