@@ -1,7 +1,7 @@
 'use client';
 
 import { Alert, Box, Button, FormControl, Grid, IconButton, InputLabel, MenuItem, Select, SelectChangeEvent, Snackbar, TextareaAutosize, TextField, Typography } from '@mui/material';
-import { Add, Remove } from '@mui/icons-material';
+import { Add, Label, Remove } from '@mui/icons-material';
 import categories from '@/constants/categories';
 import React from 'react';
 import { useRouter } from 'next/navigation';
@@ -84,7 +84,7 @@ export default () => {
     const handleChange = (event: SelectChangeEvent<typeof selectedCategories>) => setCategories(typeof event.target.value === 'string' ? event.target.value.split(',') : event.target.value);
 
     return (
-        <form onSubmit={handleSubmit} style={{ width: '100%', marginTop: '10px' }}>
+        <Box component="form" onSubmit={handleSubmit} sx={{ width: '100%', marginTop: '10px' }}>
             <Box sx={{ width: '100%', display: 'flex', flexDirection: 'column', alignItems: 'center', padding: '16px' }}>
                 <Grid container spacing={2}>
                     {imageFiles.map((src, index) => (
@@ -93,13 +93,13 @@ export default () => {
                                 <IconButton onClick={() => setImageFiles((prev) => prev.filter((_, i) => i !== index))} sx={{ position: 'absolute', top: 0, right: 0, zIndex: 1 }}>
                                     <Remove />
                                 </IconButton>
-                                <img loading="lazy" src={src.base64} alt={`Uploaded ${index}`} style={{ width: '100%', height: 'auto', borderRadius: '8px' }} />
+                                <Box component="img" loading="lazy" src={src.base64} alt={`Uploaded ${index}`} sx={{ width: '100%', height: 'auto', borderRadius: '8px' }} />
                             </Box>
                         </Grid>
                     ))}
                 </Grid>
                 <Box sx={{ width: '90%', height: '30vh', display: 'flex', alignItems: 'center', justifyContent: 'center', border: '3px dashed gray', borderRadius: '8px', padding: '16px', marginTop: '16px' }}>
-                    <label htmlFor="img" style={{ width: '100%', display: 'flex', flexDirection: 'column', alignItems: 'center', justifyContent: 'center' }}>
+                    <Box component="label" htmlFor="img" sx={{ width: '100%', display: 'flex', flexDirection: 'column', alignItems: 'center', justifyContent: 'center' }}>
                         <Add fontSize="large" color="success" sx={{ fontWeight: 'bold', scale: '1.1' }} />
                         <Typography variant="h6" sx={{ marginTop: '10px' }}>
                             اضافه کردن عکس محصول
@@ -110,8 +110,8 @@ export default () => {
                         <Typography variant="body2" sx={{ marginTop: '10px', textAlign: 'center' }}>
                             حتما عکس از بسته بندی و یک عکس از نزدیک داخل محصول برای جذب خریدار ثبت کنید
                         </Typography>
-                        <input type="file" id="img" style={{ opacity: 0, position: 'absolute', zIndex: -1 }} multiple accept="image/*" onChange={handleImage} ref={fileInputRef} />
-                    </label>
+                        <Box component="input" type="file" id="img" sx={{ opacity: 0, position: 'absolute', zIndex: -1 }} multiple accept="image/*" onChange={handleImage} ref={fileInputRef} />
+                    </Box>
                 </Box>
                 <Box sx={{ width: '50%', marginTop: '16px' }}>
                     <TextField type="text" label="عنوان محصول" fullWidth required value={title} onChange={({ target }) => setTitle(target.value)} />
@@ -133,7 +133,7 @@ export default () => {
                     </FormControl>
                 </Box>
                 <Box sx={{ width: '50%', marginTop: '16px' }}>
-                    <TextareaAutosize minRows={5} spellCheck={false} placeholder="توضیحات محصول" style={{ width: '100%', borderRadius: '4px', border: '1px solid #ccc', padding: '8px', backgroundColor: 'transparent', resize: 'none', color: 'white' }} maxLength={2500} required value={description} onChange={({ target }) => setDescription(target.value)} />
+                    <TextareaAutosize minRows={5} spellCheck={false} placeholder="توضیحات محصول" maxLength={2500} required value={description} onChange={({ target }) => setDescription(target.value)} />
                 </Box>
                 <Box sx={{ marginTop: '16px' }}>
                     <Button type="submit" variant="contained" color="primary">
@@ -146,6 +146,6 @@ export default () => {
                     {snackbarMessage}
                 </Alert>
             </Snackbar>
-        </form>
+        </Box>
     );
 };

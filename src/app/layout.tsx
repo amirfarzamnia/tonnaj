@@ -104,8 +104,8 @@ export default ({ children }: { children: React.ReactNode }) => {
     return (
         <ThemeProvider theme={theme}>
             <CssBaseline />
-            <html lang="fa-IR" dir="rtl">
-                <body style={{ backgroundColor: theme.palette.background.default }}>
+            <Box component="html" lang="fa-IR" dir="rtl">
+                <Box component="body" style={{ backgroundColor: theme.palette.background.default }}>
                     {loading ? (
                         <Box sx={{ display: 'flex', flexDirection: 'column', alignItems: 'center', justifyContent: 'center', height: '100vh', backgroundColor: theme.palette.background.default }}>
                             <CircularProgress color="primary" />
@@ -242,8 +242,8 @@ export default ({ children }: { children: React.ReactNode }) => {
                             </Box>
                         </>
                     )}
-                </body>
-            </html>
+                </Box>
+            </Box>
         </ThemeProvider>
     );
 };
