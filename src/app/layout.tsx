@@ -90,7 +90,16 @@ const schemeOptions: { dark: ThemeOptions; light: ThemeOptions } = {
 
 export default ({ children }: { children: React.ReactNode }) => {
     const [selectedTheme, setTheme] = React.useState<'dark' | 'light'>('light');
+    const [hideToolbar, setHideToolbar] = React.useState(false);
     const [loading, setLoading] = React.useState(true);
+
+    React.useEffect(() => {
+        const handleScroll = () => setHideToolbar(scrollY > 100);
+
+        addEventListener('scroll', handleScroll);
+
+        return () => removeEventListener('scroll', handleScroll);
+    }, []);
 
     React.useEffect(() => {
         const theme = (localStorage.getItem('selected-theme') as 'dark' | 'light') || (matchMedia('(prefers-color-scheme: dark)').matches ? 'dark' : 'light');
@@ -112,7 +121,7 @@ export default ({ children }: { children: React.ReactNode }) => {
                         </Box>
                     ) : (
                         <>
-                            <AppBar position="static">
+                            <AppBar position="fixed">
                                 <Toolbar sx={{ display: 'flex', gap: 2, justifyContent: 'space-between', borderBottom: 1, borderColor: selectedTheme === 'dark' ? '#3f3f46' : '#e4e4e7', px: 3 }}>
                                     <Link href="/" underline="none">
                                         <Box width={85} component="img" loading="lazy" alt="لوگوی تناژ" src="/icons/tonnaj.png" />
@@ -152,21 +161,23 @@ export default ({ children }: { children: React.ReactNode }) => {
                                         ثبت محصول
                                     </Button>
                                 </Toolbar>
-                                <Toolbar sx={{ borderBottom: 1, borderColor: selectedTheme === 'dark' ? '#3f3f46' : '#e4e4e7', justifyContent: 'center' }}>
-                                    <Box sx={{ display: 'flex', overflowX: 'auto', whiteSpace: 'nowrap' }}>
-                                        {[
-                                            ['وبلاگ', 'blog'],
-                                            ['قوانین استفاده', 'terms-of-service'],
-                                            ['تماس با ما', 'contact-us']
-                                        ].map(([name, url]) => (
-                                            <Button href={url} key={name} sx={{ mx: 1 }}>
-                                                {name}
-                                            </Button>
-                                        ))}
-                                    </Box>
-                                </Toolbar>
+                                {!hideToolbar && (
+                                    <Toolbar sx={{ borderBottom: 1, borderColor: selectedTheme === 'dark' ? '#3f3f46' : '#e4e4e7', justifyContent: 'center' }}>
+                                        <Box sx={{ display: 'flex', overflowX: 'auto', whiteSpace: 'nowrap' }}>
+                                            {[
+                                                ['وبلاگ', 'blog'],
+                                                ['قوانین استفاده', 'terms-of-service'],
+                                                ['تماس با ما', 'contact-us']
+                                            ].map(([name, url]) => (
+                                                <Button href={url} key={name} sx={{ mx: 1 }}>
+                                                    {name}
+                                                </Button>
+                                            ))}
+                                        </Box>
+                                    </Toolbar>
+                                )}
                             </AppBar>
-                            <Container sx={{ padding: 2, borderRadius: 4 }} maxWidth={'xl'}>
+                            <Container sx={{ padding: 2, borderRadius: 4, mt: 4 }} maxWidth={'xl'}>
                                 {children}
                             </Container>
                             <Box sx={{ borderTop: 1, borderColor: selectedTheme === 'dark' ? '#3f3f46' : '#e4e4e7', background: selectedTheme === 'dark' ? theme.palette.grey[900] : '#fafafa', py: 4 }} component="footer">
