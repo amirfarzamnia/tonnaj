@@ -12,13 +12,13 @@ export const POST = async (request: NextRequest) => {
 
         if (verificationCodes[phone_number] !== verification_code) return NextResponse.json({ error: 'کد تایید ارسال شده نادرست است.' }, { status: 404 });
 
-        const session_id = randomBytes(16).toString('hex');
+        const session = randomBytes(16).toString('hex');
 
-        await database.collection('sessions').insertOne({ phone_number, session_id, created_at: new Date() });
+        await database.collection('sessions').insertOne({ phone_number, session, created_at: Date.now() });
 
         const response = new NextResponse(null, { status: 204 });
 
-        response.cookies.set('session', session_id, { httpOnly: true, sameSite: 'strict', maxAge: 86400000 });
+        response.cookies.set('session', session, { httpOnly: true, sameSite: 'strict', maxAge: 86400000 });
 
         return response;
     } else if (phone_number) {

@@ -1,7 +1,7 @@
 'use client';
 
-import { Button, CircularProgress, TextField, Box, Grid, Toolbar, AppBar, Link, Container, Typography, InputAdornment, CssBaseline, Shadows } from '@mui/material';
-import { Search, LightMode, DarkMode, Person, Inventory } from '@mui/icons-material';
+import { Button, CircularProgress, TextField, Box, Grid, Toolbar, AppBar, Link, Container, Typography, InputAdornment, CssBaseline, Shadows, Menu, MenuItem } from '@mui/material';
+import { Search, LightMode, DarkMode, Person, Inventory, Logout } from '@mui/icons-material';
 import { createTheme, ThemeProvider, ThemeOptions } from '@mui/material/styles';
 import { TypographyOptions } from '@mui/material/styles/createTypography';
 import React from 'react';
@@ -90,6 +90,8 @@ const schemeOptions: { dark: ThemeOptions; light: ThemeOptions } = {
 
 export default ({ children }: { children: React.ReactNode }) => {
     const [selectedTheme, setTheme] = React.useState<'dark' | 'light'>('light');
+    const [anchorEl, setAnchorEl] = React.useState<HTMLElement | null>(null);
+    const [isAuthenticated, setIsAuthenticated] = React.useState(false);
     const [loading, setLoading] = React.useState(true);
 
     React.useEffect(() => {
@@ -97,9 +99,28 @@ export default ({ children }: { children: React.ReactNode }) => {
 
         setTheme(theme);
         setLoading(false);
+
+        fetch('/api/fetch-information')
+            .then((response) => {
+                if (response.status === 200) {
+                    setIsAuthenticated(true);
+                } else {
+                    setIsAuthenticated(false);
+                }
+            })
+            .catch(() => {
+                setIsAuthenticated(false);
+            });
     }, []);
 
     const theme = React.useMemo(() => createTheme(schemeOptions[selectedTheme]), [selectedTheme]);
+
+    const handleUserButtonClick = (event: React.MouseEvent<HTMLButtonElement, MouseEvent>) => (isAuthenticated ? setAnchorEl(event.currentTarget) : (window.location.href = '/auth'));
+    const handleMenuClose = () => setAnchorEl(null);
+    const handleLogout = () => {
+        setIsAuthenticated(false);
+        setAnchorEl(null);
+    };
 
     return (
         <ThemeProvider theme={theme}>
@@ -145,7 +166,7 @@ export default ({ children }: { children: React.ReactNode }) => {
                                         }}>
                                         {selectedTheme === 'dark' ? <LightMode /> : <DarkMode />}
                                     </Button>
-                                    <Button endIcon={<Person />} href="/auth" variant="outlined" color="info" sx={{ display: 'flex', alignItems: 'center', gap: 1, py: 0.82 }}>
+                                    <Button endIcon={<Person />} onClick={handleUserButtonClick} variant="outlined" color="info" sx={{ display: 'flex', alignItems: 'center', gap: 1, py: 0.82 }}>
                                         حساب کاربری
                                     </Button>
                                     <Button endIcon={<Inventory />} href="/products/create" variant="contained" color="success" sx={{ display: 'flex', alignItems: 'center', gap: 1.25, py: 0.82 }}>
@@ -241,6 +262,12 @@ export default ({ children }: { children: React.ReactNode }) => {
                             </Box>
                         </>
                     )}
+                    <Menu anchorEl={anchorEl} open={Boolean(anchorEl)} onClose={handleMenuClose}>
+                        <MenuItem onClick={handleLogout} sx={{ display: 'flex', alignItems: 'center', gap: 1, color: theme.palette.error.main }}>
+                            <Logout />
+                            خروج
+                        </MenuItem>
+                    </Menu>
                 </Box>
             </Box>
         </ThemeProvider>
