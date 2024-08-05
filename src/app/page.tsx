@@ -2,8 +2,8 @@
 
 import { Grid, Typography, Box, Card, CardContent, CardMedia, FormGroup, FormControlLabel, Checkbox } from '@mui/material';
 import { Swiper, SwiperSlide } from 'swiper/react';
+import { ProductTypes } from '@/types/product';
 import { Pagination } from 'swiper/modules';
-import products from '@/constants/products';
 import Link from 'next/link';
 import React from 'react';
 
@@ -12,8 +12,9 @@ import 'swiper/css';
 
 export default () => {
     const [selectedCategories, setSelectedCategories] = React.useState<string[]>([]);
+    const [products, setProducts] = React.useState<ProductTypes[]>([]);
 
-    React.useEffect(() => setSelectedCategories(new URLSearchParams(window.location.search).get('categories')?.split(',') || []), []);
+    React.useEffect(() => (fetch('/api/products').then(async (res) => setProducts(await res.json())), undefined), []);
     React.useEffect(() => {
         const urlParams = new URLSearchParams(window.location.search);
 
