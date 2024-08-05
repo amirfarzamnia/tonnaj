@@ -21,8 +21,8 @@ const common: { typography: TypographyOptions; css: React.CSSProperties } = {
     },
     css: {
         backgroundImage: 'radial-gradient(rgba(0, 0, 0, 0.1) 1px, transparent 0)',
-        backgroundSize: '20px 20px',
-        backgroundPosition: '-40px -40px'
+        backgroundPosition: '-40px -40px',
+        backgroundSize: '20px 20px'
     }
 };
 
