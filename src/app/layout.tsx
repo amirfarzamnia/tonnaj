@@ -128,7 +128,7 @@ export default ({ children }: { children: React.ReactNode }) => {
                                         }}
                                         variant="outlined"
                                         size="small"
-                                        sx={{ mr: 2, flexGrow: 1, background: 'rgba(0, 0, 0, 0.025)' }}
+                                        sx={{ flexGrow: 1, background: 'rgba(0, 0, 0, 0.025)' }}
                                     />
                                     <Button endIcon={<Person />} href="/auth" variant="outlined" color="secondary" sx={{ display: 'flex', alignItems: 'center', gap: 1, py: 0.82 }}>
                                         حساب کاربری
