@@ -132,24 +132,26 @@ export default ({ params }: { params: { id: string } }) => {
                     </Card>
                 </Grid>
             </Grid>
-            <Box sx={{ mt: 4 }}>
-                <Typography variant="h6">محصولات مشابه</Typography>
-                <Grid container spacing={2}>
-                    {relatedProducts.map(({ id, images, title, description }) => (
-                        <Grid item xs={12} sm={6} md={4} key={id}>
-                            <Card sx={{ padding: 2, borderRadius: 1, textAlign: 'center' }}>
-                                <Box component="img" loading="lazy" src={images[0]} alt={title} sx={{ width: '100%', height: 'auto', objectFit: 'cover' }} />
-                                <Typography variant="h6" sx={{ mt: 1 }}>
-                                    {title}
-                                </Typography>
-                                <Typography variant="body2" color="textSecondary">
-                                    {description}
-                                </Typography>
-                            </Card>
-                        </Grid>
-                    ))}
-                </Grid>
-            </Box>
+            {relatedProducts.length > 0 && (
+                <Box sx={{ mt: 4 }}>
+                    <Typography variant="h6">محصولات مشابه</Typography>
+                    <Grid container spacing={2}>
+                        {relatedProducts.map(({ id, images, title, description }) => (
+                            <Grid item xs={12} sm={6} md={4} key={id}>
+                                <Card sx={{ padding: 2, borderRadius: 1, textAlign: 'center' }}>
+                                    <Box component="img" loading="lazy" src={images[0]} alt={title} sx={{ width: '100%', height: 'auto', objectFit: 'cover' }} />
+                                    <Typography variant="h6" sx={{ mt: 1 }}>
+                                        {title}
+                                    </Typography>
+                                    <Typography variant="body2" color="textSecondary">
+                                        {description}
+                                    </Typography>
+                                </Card>
+                            </Grid>
+                        ))}
+                    </Grid>
+                </Box>
+            )}
         </Box>
     );
 };
