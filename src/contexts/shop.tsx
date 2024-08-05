@@ -11,7 +11,7 @@ const ShopContext = React.createContext<{ products: ProductTypes[]; setProducts:
 
 export default function ShopProvider({ children }: { children: React.ReactNode }) {
     const [products, setProducts] = React.useState<ProductTypes[]>([]);
-    const [loading, setLoading] = useState<boolean>(true)
+    const [loading, setLoading] = useState<boolean>(false)
 
     useEffect(() => {
         const request = async () => {
