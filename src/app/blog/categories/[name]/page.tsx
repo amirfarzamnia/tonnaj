@@ -1,12 +1,11 @@
 'use client';
 
 import { Button, Card, CardActions, CardContent, CardMedia, Container, Grid, Stack, Typography } from '@mui/material';
-import { useBlog } from '@/contexts/blog';
-import { BlogTypes } from '@/types/blog';
 import { useEffect, useState } from 'react';
+import blogItems from '@/constants/posts';
+import { BlogTypes } from '@/types/blog';
 
 export default ({ params }: { params: { name: string } }) => {
-    const { blogItems } = useBlog();
     const [categoriesItems, setCategoriesItems] = useState<BlogTypes[]>();
     const [error, setError] = useState(false);
 

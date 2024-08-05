@@ -3,7 +3,7 @@
 import { Grid, Typography, Box, Card, CardContent, CardMedia, FormGroup, FormControlLabel, Checkbox } from '@mui/material';
 import { Swiper, SwiperSlide } from 'swiper/react';
 import { Pagination } from 'swiper/modules';
-import { useShop } from '@/contexts/shop';
+import products from '@/constants/products';
 import Link from 'next/link';
 import React from 'react';
 
@@ -11,7 +11,6 @@ import 'swiper/css/pagination';
 import 'swiper/css';
 
 export default () => {
-    const { products } = useShop();
     const [selectedCategories, setSelectedCategories] = React.useState<string[]>([]);
 
     React.useEffect(() => setSelectedCategories(new URLSearchParams(window.location.search).get('categories')?.split(',') || []), []);

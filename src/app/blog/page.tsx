@@ -1,7 +1,7 @@
 'use client';
 
-import { Button, Box, Card, CardActions, CardContent, CardMedia, CardMediaProps, Divider, Grid, Stack, styled, Typography } from '@mui/material';
-import { useBlog } from '@/contexts/blog';
+import { Button, Box, Card, CardActions, CardContent, Divider, Grid, Stack, styled, Typography } from '@mui/material';
+import blogItems from '@/constants/posts';
 
 const StyledCard = styled(Card)(({ theme }) => ({
     'display': 'flex',
@@ -31,8 +31,6 @@ const StyledButton = styled(Button)(({ theme }) => ({
 }));
 
 export default () => {
-    const { blogItems } = useBlog();
-
     return (
         <Stack maxWidth={'100%'}>
             <Grid container spacing={3} justifyContent="center">
@@ -45,17 +43,7 @@ export default () => {
                                     {item.title}
                                 </Typography>
                                 <Divider sx={{ mb: 2 }} />
-                                <Typography
-                                    variant="body2"
-                                    color="text.secondary"
-                                    sx={{
-                                        overflow: 'hidden',
-                                        textOverflow: 'ellipsis',
-                                        display: '-webkit-box',
-                                        WebkitLineClamp: 4,
-                                        WebkitBoxOrient: 'vertical',
-                                        height: 95
-                                    }}>
+                                <Typography variant="body2" color="text.secondary" sx={{ overflow: 'hidden', textOverflow: 'ellipsis', display: '-webkit-box', WebkitLineClamp: 4, WebkitBoxOrient: 'vertical', height: 95 }}>
                                     {item.description}
                                 </Typography>
                             </CardContent>

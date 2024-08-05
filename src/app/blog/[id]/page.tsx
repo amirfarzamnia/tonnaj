@@ -1,21 +1,20 @@
 'use client';
 
-import { useBlog } from '@/contexts/blog';
-import { BlogTypes } from '@/types/blog';
 import { Box, CardMedia, Container, Divider, Link, Stack, Typography } from '@mui/material';
 import { useEffect, useState } from 'react';
+import blogItems from '@/constants/posts';
+import { BlogTypes } from '@/types/blog';
 
 export default ({ params }: { params: { id: string } }) => {
-    const { blogItems } = useBlog();
     const [blog, setBlog] = useState<BlogTypes>();
     const [error, setError] = useState<boolean>(false);
 
     useEffect(() => {
-        if (params.id) {
-            const findBlog = blogItems.find((item) => item.id == params.id);
+        if (!params.id) return;
 
-            findBlog != undefined ? setBlog(findBlog) : setError(true);
-        }
+        const blog = blogItems.find(({ id }) => id == params.id);
+
+        blog ? setBlog(blog) : setError(true);
     }, [params.id]);
 
     return (
@@ -34,17 +33,7 @@ export default ({ params }: { params: { id: string } }) => {
                         <Divider sx={{ width: '100%', my: 2 }} />
                         <Box sx={{ minHeight: '50vh' }}>{blog?.page}</Box>
                         <Divider sx={{ width: '100%', my: 2 }} />
-                        <Box
-                            sx={{
-                                backgroundColor: 'blanchedalmond',
-                                padding: '3px',
-                                marginBottom: '15px',
-                                borderRadius: '10px',
-                                display: 'flex',
-                                flexWrap: 'wrap',
-                                gap: '10px'
-                            }}
-                            dir="ltr">
+                        <Box sx={{ backgroundColor: 'blanchedalmond', padding: '3px', marginBottom: '15px', borderRadius: '10px', display: 'flex', flexWrap: 'wrap', gap: '10px' }} dir="ltr">
                             {blog?.categories.map((item, index) => (
                                 <Link variant="h4" sx={{ color: 'blue' }} href={`/blog/categories/${encodeURI(item)}`} key={index}>
                                     {item}

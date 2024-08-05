@@ -4,9 +4,6 @@ import { Button, CircularProgress, TextField, Box, Grid, Toolbar, AppBar, Link, 
 import { Search as SearchIcon, LightMode as LightModeIcon, DarkMode as DarkModeIcon } from '@mui/icons-material';
 import { createTheme, ThemeProvider, ThemeOptions } from '@mui/material/styles';
 import { TypographyOptions } from '@mui/material/styles/createTypography';
-import AuthProvider from '@/contexts/auth';
-import ShopProvider from '@/contexts/shop';
-import BlogProvider from '@/contexts/blog';
 import React from 'react';
 import './index.css';
 
@@ -166,15 +163,9 @@ export default ({ children }: { children: React.ReactNode }) => {
                                     </Box>
                                 </Toolbar>
                             </AppBar>
-                            <AuthProvider>
-                                <ShopProvider>
-                                    <BlogProvider>
-                                        <Container sx={{ padding: 2, borderRadius: 4 }} maxWidth={'xl'}>
-                                            {children}
-                                        </Container>
-                                    </BlogProvider>
-                                </ShopProvider>
-                            </AuthProvider>
+                            <Container sx={{ padding: 2, borderRadius: 4 }} maxWidth={'xl'}>
+                                {children}
+                            </Container>
                             <Box sx={{ borderTop: 1, borderColor: selectedTheme === 'dark' ? '#3f3f46' : '#e4e4e7', background: selectedTheme === 'dark' ? theme.palette.grey[900] : '#fafafa', py: 4 }} component="footer">
                                 <Container>
                                     <Grid container spacing={4}>

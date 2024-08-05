@@ -6,7 +6,7 @@ import { Swiper, SwiperSlide } from 'swiper/react';
 import { ProductTypes } from '@/types/product';
 import { Person } from '@mui/icons-material';
 import { Pagination } from 'swiper/modules';
-import { useShop } from '@/contexts/shop';
+import products from '@/constants/products';
 import React from 'react';
 
 import 'swiper/css/pagination';
@@ -16,8 +16,6 @@ export default ({ params }: { params: { id: string } }) => {
     const [relatedProducts, setRelatedProducts] = React.useState<ProductTypes[]>([]);
     const [product, setProduct] = React.useState<ProductTypes | null>(null);
     const [error, setError] = React.useState<boolean>(false);
-
-    const { products } = useShop();
 
     React.useEffect(() => {
         if (!params.id) return;
