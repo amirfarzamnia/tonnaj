@@ -2,10 +2,10 @@
 
 import { ArrowDownward, ArrowUpward, Category, Telegram, WhatsApp, LocationOn, Tag, Star as StarIcon, StarBorder } from '@mui/icons-material';
 import { Box, Button, Grid, Typography, Paper, Link, IconButton, CircularProgress } from '@mui/material';
-import { Navigation, Pagination, Scrollbar } from 'swiper/modules';
 import { Swiper, SwiperSlide } from 'swiper/react';
 import { ProductTypes } from '@/types/product';
 import { Person } from '@mui/icons-material';
+import { Pagination } from 'swiper/modules';
 import { useShop } from '@/contexts/shop';
 import React from 'react';
 
@@ -62,10 +62,10 @@ export default ({ params }: { params: { id: string } }) => {
         <Box sx={{ padding: 3 }}>
             <Grid container spacing={3}>
                 <Grid item xs={12} md={6}>
-                    <Swiper modules={[Navigation, Pagination, Scrollbar]} spaceBetween={10} slidesPerView={1} navigation pagination={{ clickable: true }} scrollbar={{ draggable: true }}>
+                    <Swiper modules={[Pagination]} spaceBetween={10} slidesPerView={1} pagination={{ clickable: true }}>
                         {product.images.map((img, idx) => (
                             <SwiperSlide key={idx}>
-                                <img src={img} alt={`Product image ${idx + 1}`} style={{ width: '100%', height: 'auto', objectFit: 'cover' }} />
+                                <img src={img} alt={`Product image ${idx + 1}`} style={{ width: '100%', height: '20rem', objectFit: 'cover' }} />
                             </SwiperSlide>
                         ))}
                     </Swiper>

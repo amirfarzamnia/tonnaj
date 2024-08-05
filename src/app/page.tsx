@@ -41,7 +41,7 @@ export default () => {
             </Typography>
             <Grid container spacing={3}>
                 {(selectedCategories.length > 0 ? products.filter((product) => product.categories.some((category) => selectedCategories.includes(category))) : products).map(({ price, description, images, title, id }) => (
-                    <Grid item xs={12} sm={6} md={2} key={id}>
+                    <Grid item xs={12} sm={6} md={3} key={id}>
                         <Link href={`/products/${id}`} passHref style={{ textDecoration: 'none' }}>
                             <Card>
                                 <Swiper spaceBetween={10} slidesPerView={1} pagination={{ clickable: true }} style={{ width: '100%', height: 'auto' }}>
