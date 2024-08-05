@@ -16,7 +16,7 @@ export default () => {
 
     React.useEffect(() => (fetch('/api/products').then(async (res) => setProducts(await res.json())), undefined), []);
     React.useEffect(() => {
-        const urlParams = new URLSearchParams(window.location.search);
+        const urlParams = new URLSearchParams(location.search);
 
         if (selectedCategories.length > 0) {
             urlParams.set('categories', selectedCategories.join(','));
@@ -24,7 +24,7 @@ export default () => {
             urlParams.delete('categories');
         }
 
-        window.history.replaceState({}, '', window.location.pathname + '?' + urlParams.toString());
+        history.replaceState({}, '', location.pathname + '?' + urlParams.toString());
     }, [selectedCategories]);
 
     return (
