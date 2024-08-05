@@ -1,7 +1,7 @@
 'use client';
 
-import { ArrowDownward, Person, ArrowUpward, Category, Telegram, WhatsApp, LocationOn, Tag, Star as StarIcon, StarBorder } from '@mui/icons-material';
-import { Box, Button, Grid, Typography, Paper, Link, IconButton, CircularProgress } from '@mui/material';
+import { ArrowDownward, Person, ArrowUpward, Category, Telegram, WhatsApp, LocationOn, Tag, Star as StarIcon, StarBorder, Phone } from '@mui/icons-material';
+import { Box, Button, Grid, Typography, Paper, Link, IconButton, CircularProgress, Divider } from '@mui/material';
 import { Swiper, SwiperSlide } from 'swiper/react';
 import { ProductTypes } from '@/types/product';
 import { Pagination } from 'swiper/modules';
@@ -84,16 +84,19 @@ export default ({ params }: { params: { id: string } }) => {
                 <Grid item xs={12} md={6}>
                     <Paper sx={{ padding: 2, borderRadius: 2 }}>
                         <Typography variant="h4">{product.title}</Typography>
-                        <Box sx={{ display: 'flex', alignItems: 'center', mb: 2 }}>{Array.from({ length: 5 }, (_, index) => (index < product.rating ? <StarIcon key={index} color="primary" /> : <StarBorder key={index} color="primary" />))}</Box>
+                        <Box sx={{ display: 'flex', alignItems: 'center', my: 2 }}>{Array.from({ length: 5 }, (_, index) => (index < product.rating ? <StarIcon key={index} color="warning" /> : <StarBorder key={index} color="inherit" />))}</Box>
                         <Typography variant="h6" color="textSecondary" paragraph>
                             {product.description}
                         </Typography>
                         <Typography variant="h5" color="textPrimary">
                             قیمت: {product.price} تومان
                         </Typography>
-                        <Button variant="contained" color="primary" sx={{ mt: 2 }}>
+                        <Button endIcon={<Phone />} href={'tel:' + product.author.phone_number} variant="outlined" color="success" sx={{ mt: 2, width: '100%', py: 2, display: 'flex', alignItems: 'center', gap: 1 }}>
                             تماس با فروشنده
                         </Button>
+                        <Box sx={{ my: 2 }}>
+                            <Divider />
+                        </Box>
                         <Box sx={{ mt: 2 }}>
                             {infoItems.map(({ icon, label, value }, index) => (
                                 <Box key={index} sx={{ display: 'flex', alignItems: 'center', mb: 1 }}>
