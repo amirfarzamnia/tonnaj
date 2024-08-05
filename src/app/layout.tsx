@@ -128,7 +128,7 @@ export default ({ children }: { children: React.ReactNode }) => {
                                         }}
                                         variant="outlined"
                                         size="small"
-                                        sx={{ flexGrow: 1, background: 'rgba(0, 0, 0, 0.025)' }}
+                                        sx={{ flexGrow: 1, background: theme.palette.background.default }}
                                     />
                                     <Button endIcon={<Person />} href="/auth" variant="outlined" color="secondary" sx={{ display: 'flex', alignItems: 'center', gap: 1, py: 0.82 }}>
                                         حساب کاربری
@@ -151,9 +151,13 @@ export default ({ children }: { children: React.ReactNode }) => {
                                 </Toolbar>
                                 <Toolbar sx={{ borderBottom: 1, borderColor: selectedTheme === 'dark' ? '#3f3f46' : '#e4e4e7', justifyContent: 'center' }}>
                                     <Box sx={{ display: 'flex', overflowX: 'auto', whiteSpace: 'nowrap' }}>
-                                        {['محصولات', 'قیمتها', 'تعرفه خدمات', 'تماس با تناژ', 'خدمات تناژ', 'داستان تناژ', 'بازار عمده تناژ'].map((page) => (
-                                            <Button key={page} sx={{ mx: 1 }}>
-                                                {page}
+                                        {[
+                                            ['وبلاگ', 'blog'],
+                                            ['قوانین استفاده', 'terms-of-service'],
+                                            ['تماس با ما', 'contact-us']
+                                        ].map(([name, url]) => (
+                                            <Button href={url} key={name} sx={{ mx: 1 }}>
+                                                {name}
                                             </Button>
                                         ))}
                                     </Box>
