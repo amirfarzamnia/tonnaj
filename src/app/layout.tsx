@@ -100,7 +100,7 @@ export default ({ children }: { children: React.ReactNode }) => {
         setTheme(theme);
         setLoading(false);
 
-        fetch('/api/fetch-information')
+        fetch('/api/sessions')
             .then((response) => {
                 if (response.status === 200) {
                     setIsAuthenticated(true);
