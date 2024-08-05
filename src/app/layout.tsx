@@ -1,7 +1,7 @@
 'use client';
 
-import { Button, CircularProgress, TextField, Box, Grid, Toolbar, AppBar, Link, Avatar, Tooltip, Container, Typography, InputAdornment, IconButton, CssBaseline, Shadows } from '@mui/material';
-import { Search as SearchIcon, LightMode as LightModeIcon, DarkMode as DarkModeIcon, Person } from '@mui/icons-material';
+import { Button, CircularProgress, TextField, Box, Grid, Toolbar, AppBar, Link, Container, Typography, InputAdornment, CssBaseline, Shadows } from '@mui/material';
+import { Search, LightMode, DarkMode, Person, Inventory } from '@mui/icons-material';
 import { createTheme, ThemeProvider, ThemeOptions } from '@mui/material/styles';
 import { TypographyOptions } from '@mui/material/styles/createTypography';
 import React from 'react';
@@ -122,7 +122,7 @@ export default ({ children }: { children: React.ReactNode }) => {
                                         InputProps={{
                                             startAdornment: (
                                                 <InputAdornment position="start">
-                                                    <SearchIcon />
+                                                    <Search />
                                                 </InputAdornment>
                                             )
                                         }}
@@ -130,13 +130,10 @@ export default ({ children }: { children: React.ReactNode }) => {
                                         size="small"
                                         sx={{ flexGrow: 1, background: theme.palette.background.default }}
                                     />
-                                    <Button endIcon={<Person />} href="/auth" variant="outlined" color="secondary" sx={{ display: 'flex', alignItems: 'center', gap: 1, py: 0.82 }}>
-                                        حساب کاربری
-                                    </Button>
                                     <Button
                                         sx={{ py: 0.82 }}
                                         variant="outlined"
-                                        color="secondary"
+                                        color="info"
                                         onClick={() => {
                                             setTheme((previousTheme) => {
                                                 const nextTheme = previousTheme === 'dark' ? 'light' : 'dark';
@@ -146,7 +143,13 @@ export default ({ children }: { children: React.ReactNode }) => {
                                                 return nextTheme;
                                             });
                                         }}>
-                                        {selectedTheme === 'dark' ? <LightModeIcon /> : <DarkModeIcon />}
+                                        {selectedTheme === 'dark' ? <LightMode /> : <DarkMode />}
+                                    </Button>
+                                    <Button endIcon={<Person />} href="/auth" variant="outlined" color="info" sx={{ display: 'flex', alignItems: 'center', gap: 1, py: 0.82 }}>
+                                        حساب کاربری
+                                    </Button>
+                                    <Button endIcon={<Inventory />} href="/products/create" variant="contained" color="success" sx={{ display: 'flex', alignItems: 'center', gap: 1, py: 0.82 }}>
+                                        ثبت محصول
                                     </Button>
                                 </Toolbar>
                                 <Toolbar sx={{ borderBottom: 1, borderColor: selectedTheme === 'dark' ? '#3f3f46' : '#e4e4e7', justifyContent: 'center' }}>
