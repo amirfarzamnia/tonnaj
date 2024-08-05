@@ -22,7 +22,7 @@ export default ({ params }: { params: { id: string } }) => {
     React.useEffect(() => {
         if (!params.id) return;
 
-        const product = products.find(({ id }) => id === Number(params.id));
+        const product = products.find(({ id }) => id === params.id);
 
         if (!product) return setError(true);
 

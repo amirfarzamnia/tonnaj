@@ -1,6 +1,6 @@
 'use client';
 
-import { ProductTypes } from '@/types/types';
+import { ProductTypes } from '@/types/product';
 import React from 'react';
 
 const ShopContext = React.createContext<{ products: ProductTypes[]; setProducts: React.Dispatch<React.SetStateAction<ProductTypes[]>> }>({
@@ -11,7 +11,7 @@ const ShopContext = React.createContext<{ products: ProductTypes[]; setProducts:
                 phone_number: '09130288776'
             },
             images: ['/card.jpg'],
-            id: 1,
+            id: '1',
             title: 'فروش سیب زمینی',
             description: 'خرید سیب زمینی...',
             categories: ['سیب زمینی'],
@@ -31,7 +31,7 @@ const ShopContext = React.createContext<{ products: ProductTypes[]; setProducts:
                 phone_number: '09130288776'
             },
             images: ['/card.jpg', '/card2.jpg'],
-            id: 2,
+            id: '2',
             title: 'فروش سیب زمینی',
             description: 'خرید سیب زمینی...',
             categories: ['کشاورزی'],
@@ -56,7 +56,7 @@ export default function ShopProvider({ children }: { children: React.ReactNode }
                 phone_number: '09130288776'
             },
             images: ['/card.jpg', '/card.jpg'],
-            id: 1,
+            id: '1',
             title: 'فروش سیب زمینی',
             description: 'خرید سیب زمینی...',
             categories: ['سیب زمینی'],
@@ -75,7 +75,7 @@ export default function ShopProvider({ children }: { children: React.ReactNode }
                 phone_number: '09130288776'
             },
             images: ['/card.jpg', '/card2.jpg'],
-            id: 2,
+            id: '2',
             title: 'فروش سیب زمینی',
             description: 'خرید سیب زمینی...',
             categories: ['کشاورزی'],
