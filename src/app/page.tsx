@@ -2,6 +2,7 @@
 
 import { Grid, Typography, Box, Card, CardContent, CardMedia, FormGroup, FormControlLabel, Checkbox } from '@mui/material';
 import { Swiper, SwiperSlide } from 'swiper/react';
+import categories from '@/constants/categories';
 import { ProductTypes } from '@/types/product';
 import { Pagination } from 'swiper/modules';
 import Link from 'next/link';
@@ -34,7 +35,7 @@ export default () => {
                     دسته بندی ها
                 </Typography>
                 <FormGroup row>
-                    {Array.from(new Set(products.flatMap(({ categories }) => categories))).map((category) => (
+                    {categories.map((category) => (
                         <FormControlLabel key={category} control={<Checkbox checked={selectedCategories.includes(category)} onChange={(event: React.ChangeEvent<HTMLInputElement>) => setSelectedCategories((prev) => (event.target.checked ? [...prev, event.target.value] : prev.filter((item) => item !== event.target.value)))} value={category} />} label={category} />
                     ))}
                 </FormGroup>
