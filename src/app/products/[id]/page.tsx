@@ -76,16 +76,16 @@ export default ({ params }: { params: { id: string } }) => {
                     <Swiper modules={[Pagination]} spaceBetween={10} slidesPerView={1} pagination={{ clickable: true }}>
                         {product.images.map((image, idx) => (
                             <SwiperSlide key={idx}>
-                                <Box style={{ borderRadius: '8px' }} component="img" src={image} loading="lazy" alt={`Product image ${idx + 1}`} sx={{ width: '100%', height: '20rem', objectFit: 'cover' }} />
+                                <Box style={{ borderRadius: '4px' }} component="img" src={image} loading="lazy" alt={`Product image ${idx + 1}`} sx={{ width: '100%', height: '20rem', objectFit: 'cover' }} />
                             </SwiperSlide>
                         ))}
                     </Swiper>
                     <Typography variant="h6" color="textSecondary" paragraph>
-                        <Card sx={{ padding: 2, borderRadius: 2 }}>{product.description}</Card>
+                        <Card sx={{ padding: 2, borderRadius: 1 }}>{product.description}</Card>
                     </Typography>
                 </Grid>
                 <Grid item xs={12} md={6}>
-                    <Card sx={{ padding: 2, borderRadius: 2 }}>
+                    <Card sx={{ padding: 2, borderRadius: 1 }}>
                         <Box component="div" sx={{ width: '100%', display: 'flex', alignItems: 'center', gap: 2, justifyContent: 'space-between' }}>
                             <Typography variant="h4">{product.title}</Typography>
                             <Box sx={{ display: 'flex', alignItems: 'center' }}>{Array.from({ length: 5 }, (_, index) => (index < product.rating ? <StarIcon key={index} color="warning" /> : <StarBorder key={index} color="inherit" />))}</Box>
@@ -93,7 +93,7 @@ export default ({ params }: { params: { id: string } }) => {
                         <Typography sx={{ my: 2 }} variant="h6" color="textPrimary">
                             قیمت: {product.price} تومان
                         </Typography>
-                        <Button endIcon={<Phone />} href={'tel:' + product.author.phone_number} variant="outlined" color="success" sx={{ mt: 2, width: '100%', py: 2, display: 'flex', alignItems: 'center', gap: 1 }}>
+                        <Button endIcon={<Phone />} href={'tel:' + product.author.phone_number} variant="outlined" color="success" sx={{ mt: 2, width: '100%', py: 2, display: 'flex', alignItems: 'center', gap: 1, borderRadius: 1 }}>
                             تماس با فروشنده
                         </Button>
                         <Box sx={{ my: 2 }}>
@@ -101,8 +101,8 @@ export default ({ params }: { params: { id: string } }) => {
                         </Box>
                         <Box sx={{ mt: 2 }}>
                             {infoItems.map(({ icon, label, value }, index) => (
-                                <Box key={index} sx={{ display: 'flex', alignItems: 'center', mb: 1 }}>
-                                    <Box sx={{ mr: 1 }}>{icon}</Box>
+                                <Box key={index} sx={{ display: 'flex', alignItems: 'center', mb: 1, background: 'rgba(0, 0, 0, 0.05)', p: 1, borderRadius: 1 }}>
+                                    <Box sx={{ ml: 1 }}>{icon}</Box>
                                     <Typography variant="body1" sx={{ fontWeight: 'bold' }}>
                                         {label}: {value}
                                     </Typography>
@@ -117,7 +117,7 @@ export default ({ params }: { params: { id: string } }) => {
                 <Grid container spacing={2}>
                     {relatedProducts.map(({ id, images, title, description }) => (
                         <Grid item xs={12} sm={6} md={4} key={id}>
-                            <Card sx={{ padding: 2, borderRadius: 2, textAlign: 'center' }}>
+                            <Card sx={{ padding: 2, borderRadius: 1, textAlign: 'center' }}>
                                 <Box component="img" loading="lazy" src={images[0]} alt={title} sx={{ width: '100%', height: 'auto', objectFit: 'cover' }} />
                                 <Typography variant="h6" sx={{ mt: 1 }}>
                                     {title}

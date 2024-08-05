@@ -96,12 +96,12 @@ export default () => {
                                 <IconButton onClick={() => setImageFiles((prev) => prev.filter((_, i) => i !== index))} sx={{ position: 'absolute', top: 0, right: 0, zIndex: 1 }}>
                                     <Remove />
                                 </IconButton>
-                                <Box component="img" loading="lazy" src={src.base64} alt={`Uploaded ${index}`} sx={{ width: '100%', height: 'auto', borderRadius: '8px' }} />
+                                <Box component="img" loading="lazy" src={src.base64} alt={`Uploaded ${index}`} sx={{ width: '100%', height: 'auto', borderRadius: '4px' }} />
                             </Box>
                         </Grid>
                     ))}
                 </Grid>
-                <Box sx={{ width: '90%', height: '30vh', display: 'flex', alignItems: 'center', justifyContent: 'center', border: '3px dashed gray', borderRadius: '8px', padding: '16px', marginTop: '16px' }}>
+                <Box sx={{ width: '90%', height: '30vh', display: 'flex', alignItems: 'center', justifyContent: 'center', border: '3px dashed gray', borderRadius: '4px', padding: '16px', marginTop: '16px' }}>
                     <Box component="label" htmlFor="img" sx={{ width: '100%', display: 'flex', flexDirection: 'column', alignItems: 'center', justifyContent: 'center' }}>
                         <Add fontSize="large" color="success" sx={{ fontWeight: 'bold', scale: '1.1' }} />
                         <Typography variant="h6" sx={{ marginTop: '10px' }}>
