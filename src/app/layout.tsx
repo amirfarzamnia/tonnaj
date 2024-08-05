@@ -115,9 +115,22 @@ export default ({ children }: { children: React.ReactNode }) => {
                             <AppBar position="static">
                                 <Toolbar sx={{ display: 'flex', justifyContent: 'space-between', borderBottom: 1, borderColor: selectedTheme === 'dark' ? '#3f3f46' : '#e4e4e7', px: 3 }}>
                                     <Link href="/" underline="none">
-                                        <Box width={150} component="img" loading="lazy" alt="لوگوی تناژ" src="/icons/tonnaj.png"></Box>
+                                        <Box width={100} component="img" loading="lazy" alt="لوگوی تناژ" src="/icons/tonnaj.png" />
                                     </Link>
-                                    <Box>
+                                    <Box sx={{ display: 'flex', alignItems: 'center', flexGrow: 1 }}>
+                                        <TextField
+                                            placeholder="جست و جوی محصول..."
+                                            InputProps={{
+                                                startAdornment: (
+                                                    <InputAdornment position="start">
+                                                        <SearchIcon />
+                                                    </InputAdornment>
+                                                )
+                                            }}
+                                            variant="outlined"
+                                            size="small"
+                                            sx={{ mr: 2, flexGrow: 1 }}
+                                        />
                                         <Tooltip title="Toggle theme">
                                             <IconButton
                                                 onClick={() => {
@@ -140,25 +153,10 @@ export default ({ children }: { children: React.ReactNode }) => {
                                         </Tooltip>
                                     </Box>
                                 </Toolbar>
-                                <Toolbar sx={{ borderBottom: 1, borderColor: selectedTheme === 'dark' ? '#3f3f46' : '#e4e4e7' }}>
-                                    <TextField
-                                        placeholder="جست و جوی محصول..."
-                                        InputProps={{
-                                            startAdornment: (
-                                                <InputAdornment position="start">
-                                                    <SearchIcon />
-                                                </InputAdornment>
-                                            )
-                                        }}
-                                        variant="outlined"
-                                        size="small"
-                                    />
-                                    <Button variant="outlined">Outlined</Button>
-                                </Toolbar>
                                 <Toolbar sx={{ borderBottom: 1, borderColor: selectedTheme === 'dark' ? '#3f3f46' : '#e4e4e7', justifyContent: 'center' }}>
-                                    <Box sx={{ display: { xs: 'none', md: 'flex' } }}>
+                                    <Box sx={{ display: 'flex', overflowX: 'auto', whiteSpace: 'nowrap' }}>
                                         {['محصولات', 'قیمتها', 'تعرفه خدمات', 'تماس با تناژ', 'خدمات تناژ', 'داستان تناژ', 'بازار عمده تناژ'].map((page) => (
-                                            <Button key={page} sx={{ my: 2, display: 'block' }}>
+                                            <Button key={page} sx={{ mx: 1 }}>
                                                 {page}
                                             </Button>
                                         ))}
