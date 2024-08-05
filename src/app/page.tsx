@@ -21,7 +21,7 @@ export default () => {
 
             if (selectedCategories.length > 0) urlParams.set('categories', selectedCategories.join(','));
 
-            const response = await fetch(`/api/products?${urlParams.toString()}`);
+            const response = await fetch('/api/products?' + urlParams.toString());
             const data = await response.json();
 
             setProducts(data);
@@ -46,7 +46,7 @@ export default () => {
             <Grid container spacing={3}>
                 {products.map(({ price, description, images, title, id }) => (
                     <Grid item xs={12} sm={6} md={3} key={id}>
-                        <Link href={`/products/${id}`} passHref style={{ textDecoration: 'none' }}>
+                        <Link href={'/products/' + id} passHref style={{ textDecoration: 'none' }}>
                             <Card>
                                 <Swiper modules={[Pagination]} spaceBetween={10} slidesPerView={1} pagination={{ clickable: true }}>
                                     {images.map((image, index) => (
