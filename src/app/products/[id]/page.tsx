@@ -1,12 +1,10 @@
 'use client';
 
-import { ArrowDownward, ArrowUpward, Category, Telegram, WhatsApp, LocationOn, Tag, Star as StarIcon, StarBorder } from '@mui/icons-material';
+import { ArrowDownward, Person, ArrowUpward, Category, Telegram, WhatsApp, LocationOn, Tag, Star as StarIcon, StarBorder } from '@mui/icons-material';
 import { Box, Button, Grid, Typography, Paper, Link, IconButton, CircularProgress } from '@mui/material';
 import { Swiper, SwiperSlide } from 'swiper/react';
 import { ProductTypes } from '@/types/product';
-import { Person } from '@mui/icons-material';
 import { Pagination } from 'swiper/modules';
-import products from '@/constants/products';
 import React from 'react';
 
 import 'swiper/css/pagination';
@@ -15,28 +13,42 @@ import 'swiper/css';
 export default ({ params }: { params: { id: string } }) => {
     const [relatedProducts, setRelatedProducts] = React.useState<ProductTypes[]>([]);
     const [product, setProduct] = React.useState<ProductTypes | null>(null);
-    const [error, setError] = React.useState<boolean>(false);
+    const [error, setError] = React.useState<string | null>(null);
+    const [loading, setLoading] = React.useState<boolean>(true);
 
     React.useEffect(() => {
         if (!params.id) return;
 
-        const product = products.find(({ id }) => id === params.id);
+        const fetchProductData = async () => {
+            setLoading(true);
 
-        if (!product) return setError(true);
+            try {
+                const productResponse = await fetch(`/api/products?id=${params.id}`);
 
-        setProduct(product);
-        setRelatedProducts(products.filter(({ id, categories }) => categories.some((category) => product.categories.includes(category)) && id !== product.id));
-    }, [params.id, products]);
+                if (!productResponse.ok) throw new Error('محصول مورد نظر یافت نشد.');
 
-    if (error) {
-        return (
-            <Typography variant="h4" color="red">
-                محصول مورد نظر یافت نشد
-            </Typography>
-        );
-    }
+                const productData = (await productResponse.json())[0];
 
-    if (!product) {
+                setProduct(productData);
+
+                const relatedProductsResponse = await fetch(`/api/products?categories=${productData.categories.join(',')}`);
+
+                if (!relatedProductsResponse.ok) throw new Error('دریافت محصولات مشابه با خطا مواجه شد.');
+
+                const relatedProductsData = await relatedProductsResponse.json();
+
+                setRelatedProducts(relatedProductsData.filter(({ id }: ProductTypes) => id !== productData.id));
+            } catch (e) {
+                setError(e instanceof Error ? e.message : 'دریافت اطلاعات از دیتابیس با خطا مواجه شد.');
+            } finally {
+                setLoading(false);
+            }
+        };
+
+        fetchProductData();
+    }, [params.id]);
+
+    if (loading) {
         return (
             <Box sx={{ display: 'flex', justifyContent: 'center', alignItems: 'center', height: '100vh' }}>
                 <CircularProgress />
@@ -44,8 +56,11 @@ export default ({ params }: { params: { id: string } }) => {
         );
     }
 
+    if (error) return <Typography variant="h4">{error}</Typography>;
+    if (!product) return <Typography variant="h4">محصول مورد نظر یافت نشد</Typography>;
+
     const infoItems = [
-        { icon: <Category />, label: 'دسته بندی ها', value: product.categories.join() },
+        { icon: <Category />, label: 'دسته بندی ها', value: product.categories.join(', ') },
         { icon: <LocationOn />, label: 'موقعیت مکانی', value: `${product.location.city} - ${product.location.state}` },
         { icon: <ArrowDownward />, label: 'حداقل سفارش', value: product.min ?? 'ندارد' },
         { icon: <ArrowUpward />, label: 'حداکثر سفارش', value: product.max ?? 'ندارد' },
