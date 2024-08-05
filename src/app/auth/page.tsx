@@ -34,7 +34,7 @@ export default () => {
         setError('');
 
         try {
-            const response = await fetch('/api/auth', { method: 'POST', headers: { 'Content-Type': 'application/json' }, body: JSON.stringify({ phone_number }) });
+            const response = await fetch('/api/sessions', { method: 'POST', headers: { 'Content-Type': 'application/json' }, body: JSON.stringify({ phone_number }) });
 
             if (!response.ok) return setError((await response.json()).error);
 
@@ -53,7 +53,7 @@ export default () => {
         setError('');
 
         try {
-            const response = await fetch('/api/auth', { method: 'POST', headers: { 'Content-Type': 'application/json' }, body: JSON.stringify({ phone_number, verification_code }) });
+            const response = await fetch('/api/sessions', { method: 'POST', headers: { 'Content-Type': 'application/json' }, body: JSON.stringify({ phone_number, verification_code }) });
 
             if (!response.ok) return setError((await response.json()).error);
 
