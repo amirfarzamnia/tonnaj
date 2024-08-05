@@ -50,7 +50,7 @@ export default () => {
                                 <Swiper modules={[Pagination]} spaceBetween={10} slidesPerView={1} pagination={{ clickable: true }}>
                                     {images.map((image, index) => (
                                         <SwiperSlide key={index}>
-                                            <CardMedia component="img" src={image} alt={`${title} image ${index + 1}`} sx={{ height: '200px', objectFit: 'cover' }} />
+                                            <CardMedia component="img" loading="lazy" src={image} alt={`${title} image ${index + 1}`} sx={{ height: '200px', objectFit: 'cover' }} />
                                         </SwiperSlide>
                                     ))}
                                 </Swiper>

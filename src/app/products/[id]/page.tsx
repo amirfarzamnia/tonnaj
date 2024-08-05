@@ -61,9 +61,9 @@ export default ({ params }: { params: { id: string } }) => {
             <Grid container spacing={3}>
                 <Grid item xs={12} md={6}>
                     <Swiper modules={[Pagination]} spaceBetween={10} slidesPerView={1} pagination={{ clickable: true }}>
-                        {product.images.map((img, idx) => (
+                        {product.images.map((image, idx) => (
                             <SwiperSlide key={idx}>
-                                <img src={img} alt={`Product image ${idx + 1}`} style={{ width: '100%', height: '20rem', objectFit: 'cover' }} />
+                                <img src={image} loading="lazy" alt={`Product image ${idx + 1}`} style={{ width: '100%', height: '20rem', objectFit: 'cover' }} />
                             </SwiperSlide>
                         ))}
                     </Swiper>
@@ -103,7 +103,7 @@ export default ({ params }: { params: { id: string } }) => {
                     {relatedProducts.map((item) => (
                         <Grid item xs={12} sm={6} md={4} key={item.id}>
                             <Paper sx={{ padding: 2, borderRadius: 2, textAlign: 'center' }}>
-                                <img src={item.images[0]} alt={item.title} style={{ width: '100%', height: 'auto', objectFit: 'cover' }} />
+                                <img loading="lazy" src={item.images[0]} alt={item.title} style={{ width: '100%', height: 'auto', objectFit: 'cover' }} />
                                 <Typography variant="h6" sx={{ mt: 1 }}>
                                     {item.title}
                                 </Typography>

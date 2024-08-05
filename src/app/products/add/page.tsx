@@ -16,7 +16,7 @@ export default () => {
     const [snackbarOpen, setSnackbarOpen] = React.useState(false);
     const [title, setTitle] = React.useState<string>('');
     const [price, setPrice] = React.useState<string>('');
-    const router = useRouter()
+    const router = useRouter();
 
     const handleImage = (e: React.ChangeEvent<HTMLInputElement>) => {
         e.preventDefault();
@@ -55,9 +55,9 @@ export default () => {
     const handleSubmit = async (e: React.FormEvent) => {
         e.preventDefault();
         if (imageFiles.length == 0) {
-            setSnackbarMessage('باید حداقل یک عکس برای محصول خود انتخاب کنید')
-            setSnackbarOpen(true)
-            return
+            setSnackbarMessage('باید حداقل یک عکس برای محصول خود انتخاب کنید');
+            setSnackbarOpen(true);
+            return;
         }
 
         try {
@@ -65,17 +65,16 @@ export default () => {
             const response = await fetch('/api/product', { method: 'POST', headers: { 'Content-Type': 'application/json' }, body: JSON.stringify(data) });
 
             if (response.status === 200) {
-                setSnackbarMessage('محصول شما با موفقیت ثبت شد')
-                setSnackbarOpen(true)
-                setImageFiles([])
-                setPrice("")
-                setAuthorName("")
-                setCategories([])
-                setDescription("")
-                setTitle("")
-                setTimeout(() => router.push('/'), 2000)
+                setSnackbarMessage('محصول شما با موفقیت ثبت شد');
+                setSnackbarOpen(true);
+                setImageFiles([]);
+                setPrice('');
+                setAuthorName('');
+                setCategories([]);
+                setDescription('');
+                setTitle('');
+                setTimeout(() => router.push('/'), 2000);
             }
-
         } catch (error) {
             console.error('Error uploading data:', error);
         }
@@ -94,7 +93,7 @@ export default () => {
                                 <IconButton onClick={() => setImageFiles((prev) => prev.filter((_, i) => i !== index))} sx={{ position: 'absolute', top: 0, right: 0, zIndex: 1 }}>
                                     <Remove />
                                 </IconButton>
-                                <img src={src.base64} alt={`Uploaded ${index}`} style={{ width: '100%', height: 'auto', borderRadius: '8px' }} />
+                                <img loading="lazy" src={src.base64} alt={`Uploaded ${index}`} style={{ width: '100%', height: 'auto', borderRadius: '8px' }} />
                             </Box>
                         </Grid>
                     ))}

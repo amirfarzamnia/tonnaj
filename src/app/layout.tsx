@@ -118,7 +118,7 @@ export default ({ children }: { children: React.ReactNode }) => {
                             <AppBar position="static">
                                 <Toolbar sx={{ display: 'flex', justifyContent: 'space-between', borderBottom: 1, borderColor: selectedTheme === 'dark' ? '#3f3f46' : '#e4e4e7', px: 3 }}>
                                     <Link href="/" underline="none">
-                                        <Box width={150} component="img" alt="لوگوی تناژ" src="/icons/tonnaj.png"></Box>
+                                        <Box width={150} component="img" loading="lazy" alt="لوگوی تناژ" src="/icons/tonnaj.png"></Box>
                                     </Link>
                                     <Box>
                                         <Tooltip title="Toggle theme">
@@ -242,9 +242,9 @@ export default ({ children }: { children: React.ReactNode }) => {
                                             <Typography variant="h6" gutterBottom>
                                                 همکاریها و مجوزها
                                             </Typography>
-                                            <Box component="img" src="https://via.placeholder.com/40" alt="Facebook" sx={{ width: 40, height: 40, margin: 1 }} />
-                                            <Box component="img" src="https://via.placeholder.com/40" alt="Twitter" sx={{ width: 40, height: 40, margin: 1 }} />
-                                            <Box component="img" src="https://via.placeholder.com/40" alt="Instagram" sx={{ width: 40, height: 40, margin: 1 }} />
+                                            <Box component="img" loading="lazy" src="https://via.placeholder.com/40" alt="Facebook" sx={{ width: 40, height: 40, margin: 1 }} />
+                                            <Box component="img" loading="lazy" src="https://via.placeholder.com/40" alt="Twitter" sx={{ width: 40, height: 40, margin: 1 }} />
+                                            <Box component="img" loading="lazy" src="https://via.placeholder.com/40" alt="Instagram" sx={{ width: 40, height: 40, margin: 1 }} />
                                         </Grid>
                                     </Grid>
                                 </Container>

@@ -1,4 +1,4 @@
-'use client'
+'use client';
 
 import { useBlog } from '@/contexts/blog';
 import { BlogTypes } from '@/types/blog';
@@ -6,37 +6,33 @@ import { Box, CardMedia, Container, Divider, Link, Stack, Typography } from '@mu
 import { useEffect, useState } from 'react';
 
 export default ({ params }: { params: { id: string } }) => {
-    const { blogItems } = useBlog()
-    const [blog, setBlog] = useState<BlogTypes>()
-    const [error, setError] = useState<boolean>(false)
+    const { blogItems } = useBlog();
+    const [blog, setBlog] = useState<BlogTypes>();
+    const [error, setError] = useState<boolean>(false);
 
     useEffect(() => {
         if (params.id) {
-            const findBlog = blogItems.find(item => item.id == params.id)
+            const findBlog = blogItems.find((item) => item.id == params.id);
 
-            findBlog != undefined ? setBlog(findBlog) : setError(true)
+            findBlog != undefined ? setBlog(findBlog) : setError(true);
         }
-    }, [params.id])
+    }, [params.id]);
 
     return (
         <Stack justifyContent="center" alignItems="center" sx={{ width: '100%' }}>
             {error ? (
-                <Container sx={{ width: '100%', height: "40vh", display: "flex", alignItems: 'center', justifyContent: 'center' }}>
-                    <Typography variant='h3'>بلاگ پیدا نشد</Typography>
+                <Container sx={{ width: '100%', height: '40vh', display: 'flex', alignItems: 'center', justifyContent: 'center' }}>
+                    <Typography variant="h3">بلاگ پیدا نشد</Typography>
                 </Container>
             ) : (
-                <Container sx={{ minHeight: "60vh", padding: '0px', margin: '0px' }} maxWidth='xl'>
+                <Container sx={{ minHeight: '60vh', padding: '0px', margin: '0px' }} maxWidth="xl">
                     <Box sx={{ minHeight: '80vh', display: 'flex', flexDirection: 'column', alignItems: 'center', justifyContent: 'center' }}>
-                        <CardMedia
-                            component='img'
-                            src={blog?.image}
-                            sx={{ height: 250, width: 400, mb: 2, borderRadius: '10px', border: '3px solid' }}
-                        />
-                        <Typography variant='h3' sx={{ mb: 2 }}>{blog?.title}</Typography>
+                        <CardMedia component="img" loading="lazy" src={blog?.image} sx={{ height: 250, width: 400, mb: 2, borderRadius: '10px', border: '3px solid' }} />
+                        <Typography variant="h3" sx={{ mb: 2 }}>
+                            {blog?.title}
+                        </Typography>
                         <Divider sx={{ width: '100%', my: 2 }} />
-                        <Box sx={{ minHeight: '50vh' }}>
-                            {blog?.page}
-                        </Box>
+                        <Box sx={{ minHeight: '50vh' }}>{blog?.page}</Box>
                         <Divider sx={{ width: '100%', my: 2 }} />
                         <Box
                             sx={{
@@ -48,15 +44,9 @@ export default ({ params }: { params: { id: string } }) => {
                                 flexWrap: 'wrap',
                                 gap: '10px'
                             }}
-                            dir='ltr'
-                        >
+                            dir="ltr">
                             {blog?.categories.map((item, index) => (
-                                <Link
-                                    variant='h4'
-                                    sx={{ color: 'blue', }}
-                                    href={`/blog/categories/${encodeURI(item)}`}
-                                    key={index}
-                                >
+                                <Link variant="h4" sx={{ color: 'blue' }} href={`/blog/categories/${encodeURI(item)}`} key={index}>
                                     {item}
                                 </Link>
                             ))}
