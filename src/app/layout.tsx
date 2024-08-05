@@ -117,19 +117,15 @@ export default ({ children }: { children: React.ReactNode }) => {
                                     <Link href="/" underline="none">
                                         <Box width={100} component="img" loading="lazy" alt="لوگوی تناژ" src="/icons/tonnaj.png" />
                                     </Link>
-                                    <Box sx={{ display: 'flex', alignItems: 'center', flexGrow: 1 }}>
+                                    <Box sx={{ display: 'flex', gap: 2, alignItems: 'center', flexGrow: 1 }}>
                                         <TextField
                                             placeholder="جست و جوی محصول..."
                                             InputProps={{
-                                                startAdornment: (
-                                                    <InputAdornment position="start">
-                                                        <SearchIcon />
-                                                    </InputAdornment>
-                                                )
+                                                startAdornment: <InputAdornment position="start"></InputAdornment>
                                             }}
                                             variant="outlined"
                                             size="small"
-                                            sx={{ mr: 2, flexGrow: 1 }}
+                                            sx={{ mr: 2, flexGrow: 1, background: 'rgba(0, 0, 0, 0.025)' }}
                                         />
                                         <Button endIcon={<Person />} href="/auth" variant="outlined" color="secondary" sx={{ display: 'flex', alignItems: 'center', gap: 1 }}>
                                             حساب کاربری
