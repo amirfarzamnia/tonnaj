@@ -1,7 +1,7 @@
 'use client';
 
-import { Grid, Typography, Box, Card, CardContent, CardMedia, FormGroup, FormControlLabel, Checkbox, CircularProgress, Divider, Button } from '@mui/material';
-import { Phone, Sell, ShoppingBasket } from '@mui/icons-material';
+import { Grid, Typography, Box, Card, CardContent, CardMedia, CircularProgress, Divider, Button } from '@mui/material';
+import { Phone, Sell, ShoppingBasket, Close } from '@mui/icons-material';
 import { Swiper, SwiperSlide } from 'swiper/react';
 import categories from '@/constants/categories';
 import { ProductTypes } from '@/types/product';
@@ -63,16 +63,20 @@ export default () => {
                 </Box>
             </Box>
             <Box sx={{ marginBottom: 4, marginTop: 4 }}>
-                <Typography variant="h4" gutterBottom>
+                <Typography variant="h4" sx={{ mb: 4 }}>
                     دسته بندی ها
                 </Typography>
-                <FormGroup row>
+                <Grid container spacing={2}>
                     {categories.map((category) => (
-                        <FormControlLabel key={category} control={<Checkbox checked={selectedCategories.includes(category)} onChange={(event: React.ChangeEvent<HTMLInputElement>) => setSelectedCategories((prev) => (event.target.checked ? [...prev, event.target.value] : prev.filter((item) => item !== event.target.value)))} value={category} />} label={category} />
+                        <Grid item key={category}>
+                            <Button sx={{ display: 'flex', alignItems: 'center', gap: 1 }} variant={selectedCategories.includes(category) ? 'contained' : 'outlined'} color={selectedCategories.includes(category) ? 'success' : 'info'} onClick={() => setSelectedCategories((prev) => (prev.includes(category) ? prev.filter((item) => item !== category) : [...prev, category]))} endIcon={selectedCategories.includes(category) && <Close />}>
+                                {category}
+                            </Button>
+                        </Grid>
                     ))}
-                </FormGroup>
+                </Grid>
             </Box>
-            <Typography variant="h4" gutterBottom>
+            <Typography variant="h4" sx={{ mb: 4 }}>
                 محصولات
             </Typography>
             <Grid container spacing={3}>
