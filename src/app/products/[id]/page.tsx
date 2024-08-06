@@ -4,6 +4,7 @@ import { ArrowDownward, Person, ArrowUpward, Category, Telegram, WhatsApp, Locat
 import { Box, Button, Grid, Typography, Card, Link, IconButton, CircularProgress, Divider } from '@mui/material';
 import { Swiper, SwiperSlide } from 'swiper/react';
 import { ProductTypes } from '@/types/product';
+import StarRatings from 'react-star-ratings';
 import { Pagination } from 'swiper/modules';
 import React from 'react';
 
@@ -13,6 +14,7 @@ import 'swiper/css';
 export default ({ params }: { params: { id: string } }) => {
     const [relatedProducts, setRelatedProducts] = React.useState<ProductTypes[]>([]);
     const [product, setProduct] = React.useState<ProductTypes | null>(null);
+    const [rating, setRating] = React.useState<ProductTypes['rating']>(5);
     const [error, setError] = React.useState<string | null>(null);
     const [loading, setLoading] = React.useState<boolean>(true);
 
@@ -23,7 +25,7 @@ export default ({ params }: { params: { id: string } }) => {
             setLoading(true);
 
             try {
-                const productResponse = await fetch(`/api/products?id=${params.id}`);
+                const productResponse = await fetch('/api/products?id=' + params.id);
 
                 if (!productResponse.ok) throw new Error('محصول مورد نظر یافت نشد.');
 
@@ -152,6 +154,22 @@ export default ({ params }: { params: { id: string } }) => {
                     </Grid>
                 </Box>
             )}
+            <Box sx={{ display: 'flex', justifyContent: 'center', mt: 4 }}>
+                <StarRatings
+                    rating={rating}
+                    starRatedColor="gold"
+                    starHoverColor="gold"
+                    changeRating={async (rating: number) => {
+                        try {
+                            const response = await fetch('/api/products?id=' + params.id, { method: 'PATCH', headers: { 'Content-Type': 'application/json' }, body: JSON.stringify({ rating }) });
+
+                            setRating(rating);
+                        } catch {
+                            setError('به‌روزرسانی امتیاز با خطا مواجه شد.');
+                        }
+                    }}
+                />
+            </Box>
         </Box>
     );
 };
