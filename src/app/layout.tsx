@@ -43,10 +43,18 @@ const schemeOptions: { dark: ThemeOptions; light: ThemeOptions } = {
             MuiTypography: {
                 styleOverrides: common.typography
             },
+            MuiAppBar: {
+                styleOverrides: {
+                    root: {
+                        background: '#212121'
+                    }
+                }
+            },
             MuiCard: {
                 styleOverrides: {
                     root: {
-                        border: '1px solid #3f3f46'
+                        border: '1px solid #3f3f46',
+                        background: '#212121'
                     }
                 }
             }
