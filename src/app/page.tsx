@@ -81,11 +81,11 @@ export default () => {
                                     <Box sx={{ my: 2 }}>
                                         <Divider />
                                     </Box>
-                                    <Typography variant="body1" color="textSecondary">
+                                    <Typography variant="body1" color="textSecondary" gutterBottom>
                                         {description.slice(0, 165)}...
                                     </Typography>
-                                    <Typography variant="h6" color="primary" gutterBottom>
-                                        {price}
+                                    <Typography variant="body2" color="textSecondary" gutterBottom sx={{ mt: 2, fontSize: 'small' }}>
+                                        به قیمت {price} تومان
                                     </Typography>
                                     <Button endIcon={<Phone />} href={'tel:' + author.phone_number} variant="outlined" color="success" sx={{ mt: 2, width: '100%', py: 2, display: 'flex', alignItems: 'center', gap: 1, borderRadius: 1 }}>
                                         تماس با فروشنده
