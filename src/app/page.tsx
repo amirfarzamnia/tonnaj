@@ -1,9 +1,10 @@
 'use client';
 
-import { Grid, Typography, Box, Card, CardContent, CardMedia, FormGroup, FormControlLabel, Checkbox, CircularProgress } from '@mui/material';
+import { Grid, Typography, Box, Card, CardContent, CardMedia, FormGroup, FormControlLabel, Checkbox, CircularProgress, Divider, Button } from '@mui/material';
 import { Swiper, SwiperSlide } from 'swiper/react';
 import categories from '@/constants/categories';
 import { ProductTypes } from '@/types/product';
+import { Phone } from '@mui/icons-material';
 import { Pagination } from 'swiper/modules';
 import Link from 'next/link';
 import React from 'react';
@@ -62,10 +63,10 @@ export default () => {
                 محصولات
             </Typography>
             <Grid container spacing={3}>
-                {products.map(({ price, description, images, title, id }) => (
+                {products.map(({ price, description, images, title, id, author, categories }) => (
                     <Grid item xs={12} sm={6} md={3} key={id}>
                         <Link href={'/products/' + id} passHref style={{ textDecoration: 'none' }}>
-                            <Card sx={{ 'transition': 'transform 0.3s ease, box-shadow 0.3s ease', '&:hover': { transform: 'scale(1.01)', boxShadow: '0 4px 8px rgba(0, 0, 0, 0.2)' } }}>
+                            <Card>
                                 <Swiper modules={[Pagination]} spaceBetween={10} slidesPerView={1} pagination={{ clickable: true }}>
                                     {images.map((image, index) => (
                                         <SwiperSlide key={index}>
@@ -77,11 +78,22 @@ export default () => {
                                     <Typography variant="h6" gutterBottom>
                                         {title}
                                     </Typography>
-                                    <Typography variant="body2" color="textSecondary">
-                                        {description}
+                                    <Typography variant="body1" color="textSecondary">
+                                        {description.slice(0, 165)}...
                                     </Typography>
                                     <Typography variant="h6" color="primary" gutterBottom>
                                         {price}
+                                    </Typography>
+                                    <Button endIcon={<Phone />} href={'tel:' + author.phone_number} variant="outlined" color="success" sx={{ mt: 2, width: '100%', py: 2, display: 'flex', alignItems: 'center', gap: 1, borderRadius: 1 }}>
+                                        تماس با فروشنده
+                                    </Button>
+                                    <Box sx={{ my: 2 }}>
+                                        <Divider />
+                                    </Box>
+                                    <Typography variant="body2" color="textSecondary">
+                                        {categories.map((category) => (
+                                            <Box component="small">{category}</Box>
+                                        ))}
                                     </Typography>
                                 </CardContent>
                             </Card>
