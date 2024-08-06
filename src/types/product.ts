@@ -5,8 +5,8 @@ export type ProductTypes = {
     timestamp: number;
     images: string[];
     rating: number;
-    title: string;
     price: string;
+    name: string;
     min?: number;
     max?: number;
     id: string;

@@ -26,7 +26,7 @@ async function getCityAndState(lat: number, lng: number) {
     const data = await response.json();
     return {
         city: data.address.city || data.address.town || data.address.village,
-        state: data.address.state,
+        state: data.address.state
     };
 }
 
@@ -35,12 +35,11 @@ function LocationMarker({ setLocation }: { setLocation: (location: Location) => 
         async click(e) {
             const address = await getCityAndState(e.latlng.lat, e.latlng.lng);
             setLocation({ latlng: e.latlng, address });
-        },
+        }
     });
 
     return null;
 }
-
 
 export default () => {
     const [imageFiles, setImageFiles] = React.useState<string[]>([]);
@@ -50,7 +49,7 @@ export default () => {
     const [snackbarMessage, setSnackbarMessage] = React.useState('');
     const [authorName, setAuthorName] = React.useState<string>('');
     const [snackbarOpen, setSnackbarOpen] = React.useState(false);
-    const [title, setTitle] = React.useState<string>('');
+    const [name, setTitle] = React.useState<string>('');
     const [price, setPrice] = React.useState<string>('');
     const [location, setLocation] = React.useState<Location | null>(null);
     const router = useRouter();
@@ -100,7 +99,7 @@ export default () => {
         }
 
         try {
-            const data = { title, price, description, categories: selectedCategories, name: authorName, images: imageFiles, available: true, rating: 5, city: location?.address.city, state: location?.address.state };
+            const data = { name, price, description, categories: selectedCategories, images: imageFiles, available: true, rating: 5, city: location?.address.city, state: location?.address.state };
             const response = await fetch('/api/products', { method: 'POST', headers: { 'Content-Type': 'application/json' }, body: JSON.stringify(data) });
 
             if (response.status === 200) {
@@ -127,18 +126,15 @@ export default () => {
         <Box component="form" onSubmit={handleSubmit} sx={{ width: '100%' }}>
             <Box sx={{ width: '100%', display: 'flex', flexDirection: 'column', alignItems: 'center', padding: '16px' }}>
                 <Box width={'100%'}>
-                    <MapContainer center={[32.4279, 53.6880]} zoom={5} style={{ height: '500px', width: '100%' }}>
-                        <TileLayer
-                            url="https://{s}.tile.openstreetmap.org/{z}/{x}/{y}.png"
-                            attribution='&copy; <a href="https://www.openstreetmap.org/copyright">OpenStreetMap</a> contributors'
-                        />
+                    <MapContainer center={[32.4279, 53.688]} zoom={5} style={{ height: '500px', width: '100%' }}>
+                        <TileLayer url="https://{s}.tile.openstreetmap.org/{z}/{x}/{y}.png" attribution='&copy; <a href="https://www.openstreetmap.org/copyright">OpenStreetMap</a> contributors' />
                         <LocationMarker setLocation={setLocation} />
                     </MapContainer>
                     {location && (
                         <div>
                             Latitude: {location.latlng.lat}, Longitude: {location.latlng.lng}
                             <br />
-                            City: {location.address.city || "N/A"}, State: {location.address.state || "N/A"}
+                            City: {location.address.city || 'N/A'}, State: {location.address.state || 'N/A'}
                         </div>
                     )}
                 </Box>
@@ -171,7 +167,7 @@ export default () => {
                     </Box>
                 </Box>
                 <Box sx={{ width: '50%', marginTop: '16px' }}>
-                    <TextField type="text" label="عنوان محصول" fullWidth required value={title} onChange={({ target }) => setTitle(target.value)} />
+                    <TextField type="text" label="عنوان محصول" fullWidth required value={name} onChange={({ target }) => setTitle(target.value)} />
                 </Box>
                 <Box sx={{ width: '50%', marginTop: '16px' }}>
                     <TextField type="number" label="قیمت محصول" fullWidth required value={price} onChange={({ target }) => setPrice(target.value)} />

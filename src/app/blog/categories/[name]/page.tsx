@@ -58,7 +58,7 @@ export default ({ params }: { params: { name: string } }) => {
                         return (
                             <Grid item key={index} xs={12} sm={6} md={4} lg={3}>
                                 <StyledCard>
-                                    <Box component="img" src={item.image} loading="lazy" height={'30vh'} sx={{ border: "1px solid white", borderRadius: '10px' }} />
+                                    <Box component="img" src={item.image} loading="lazy" height={'30vh'} sx={{ border: '1px solid white', borderRadius: '10px' }} />
                                     <CardContent>
                                         <Typography variant="h6" sx={{ textAlign: 'center', mb: 1 }}>
                                             {item.title}

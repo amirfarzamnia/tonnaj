@@ -5,9 +5,9 @@ import { database } from '@/mongodb';
 import { randomBytes } from 'crypto';
 
 export const POST = async (request: NextRequest) => {
-    const { title, description, images, categories, price, max, min, name, city, state }: productsProps = await request.json();
+    const { name, description, images, categories, price, max, min, name, city, state }: productsProps = await request.json();
 
-    if (!title || !description || !price) return NextResponse.json({ message: 'Validation Error' }, { status: 400 });
+    if (!name || !description || !price) return NextResponse.json({ message: 'Validation Error' }, { status: 400 });
 
     const { phone_number } = (await findSession(request)) || {};
 
@@ -15,7 +15,7 @@ export const POST = async (request: NextRequest) => {
 
     await database.collection('products').insertOne({
         id: randomBytes(4).toString('hex'),
-        title,
+        name,
         description,
         price,
         categories,
