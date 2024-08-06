@@ -1,6 +1,7 @@
 'use client';
 
 import { Typography, TextField, Button, Box, Divider, CircularProgress } from '@mui/material';
+import { AuthTypes } from '@/types/auth';
 import React from 'react';
 
 const VerificationStep: React.FC<{
@@ -21,8 +22,8 @@ const VerificationStep: React.FC<{
 );
 
 export default () => {
-    const [verification_code, setVerificationCode] = React.useState<string>('');
-    const [phone_number, setPhoneNumber] = React.useState<string>('');
+    const [verification_code, setVerificationCode] = React.useState<AuthTypes['verification_code']>('');
+    const [phone_number, setPhoneNumber] = React.useState<AuthTypes['phone_number']>('');
     const [loading, setLoading] = React.useState<boolean>(false);
     const [error, setError] = React.useState<string>('');
     const [step, setStep] = React.useState<number>(1);
