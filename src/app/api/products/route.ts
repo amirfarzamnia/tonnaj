@@ -1,44 +1,42 @@
 import { NextResponse, NextRequest } from 'next/server';
+import findSession from '@/functions/find-session';
+import { ProductTypes } from '@/types/product';
 import { database } from '@/mongodb';
 import { randomBytes } from 'crypto';
-import { productsProps, ProductTypes } from '@/types/product';
-import { findSessions } from '@/functions/sessions';
-import { AuthTypes } from '@/types/auth';
 
-export const POST = async (req: NextRequest) => {
-    const { title, description, images, categories, price, max, min, name, city, state }: productsProps = await req.json();
-    if (!title || !description || !price) return NextResponse.json({ message: 'Validation Error' }, { status: 400 });
+export const POST = async (request: NextRequest) => {
+    return;
+    // const { name, description, images, categories, price, max, min, name, city, state }: ProductTypes = await request.json();
 
-    const id = randomBytes(4).toString('hex');
-    const userSessions = await findSessions(req);
+    // if (!name || !description || !price) return NextResponse.json({ message: 'Validation Error' }, { status: 400 });
 
-    const { phone_number } = userSessions;
+    // const { phone_number } = (await findSession(request)) || {};
 
-    if (!phone_number) return NextResponse.json({ message: 'Error' }, { status: 400 });
+    // if (!phone_number) return new NextResponse(null, { status: 403 });
 
-    await database.collection('products').insertOne({
-        id,
-        title,
-        description,
-        price,
-        categories,
-        images,
-        available: true,
-        rating: 5,
-        max,
-        min,
-        author: {
-            name,
-            phone_number
-        },
-        location: {
-            city,
-            state
-        },
-        timestamp: Date.now()
-    } as ProductTypes);
+    // await database.collection('products').insertOne({
+    //     id: randomBytes(4).toString('hex'),
+    //     name,
+    //     description,
+    //     price,
+    //     categories,
+    //     images,
+    //     available: true,
+    //     rating: 5,
+    //     max,
+    //     min,
+    //     author: {
+    //         name,
+    //         phone_number
+    //     },
+    //     location: {
+    //         city,
+    //         state
+    //     },
+    //     timestamp: Date.now()
+    // } as ProductTypes);
 
-    return NextResponse.json({ message: 'Product added successfully' }, { status: 200 });
+    // return NextResponse.json({ message: 'Product added successfully' }, { status: 200 });
 };
 
 export const GET = async (request: NextRequest) => {

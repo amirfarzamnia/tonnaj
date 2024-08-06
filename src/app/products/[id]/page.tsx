@@ -4,6 +4,7 @@ import { ArrowDownward, Person, ArrowUpward, Category, Telegram, WhatsApp, Locat
 import { Box, Button, Grid, Typography, Card, Link, IconButton, CircularProgress, Divider } from '@mui/material';
 import { Swiper, SwiperSlide } from 'swiper/react';
 import { ProductTypes } from '@/types/product';
+import StarRatings from 'react-star-ratings';
 import { Pagination } from 'swiper/modules';
 import React from 'react';
 
@@ -13,6 +14,7 @@ import 'swiper/css';
 export default ({ params }: { params: { id: string } }) => {
     const [relatedProducts, setRelatedProducts] = React.useState<ProductTypes[]>([]);
     const [product, setProduct] = React.useState<ProductTypes | null>(null);
+    const [rating, setRating] = React.useState<ProductTypes['rating']>(5);
     const [error, setError] = React.useState<string | null>(null);
     const [loading, setLoading] = React.useState<boolean>(true);
 
@@ -23,7 +25,7 @@ export default ({ params }: { params: { id: string } }) => {
             setLoading(true);
 
             try {
-                const productResponse = await fetch(`/api/products?id=${params.id}`);
+                const productResponse = await fetch('/api/products?id=' + params.id);
 
                 if (!productResponse.ok) throw new Error('محصول مورد نظر یافت نشد.');
 
@@ -87,7 +89,7 @@ export default ({ params }: { params: { id: string } }) => {
                 <Grid item xs={12} md={6}>
                     <Card sx={{ padding: 2, borderRadius: 1 }}>
                         <Box sx={{ width: '100%', display: 'flex', alignItems: 'center', gap: 2, justifyContent: 'space-between' }}>
-                            <Typography variant="h4">{product.title}</Typography>
+                            <Typography variant="h4">{product.name}</Typography>
                             <Box sx={{ display: 'flex', alignItems: 'center' }}>{Array.from({ length: 5 }, (_, index) => (index < product.rating ? <StarIcon key={index} color="warning" /> : <StarBorder key={index} color="inherit" />))}</Box>
                         </Box>
                         <Typography sx={{ my: 2 }} variant="h6" color="textPrimary">
@@ -136,12 +138,12 @@ export default ({ params }: { params: { id: string } }) => {
                 <Box sx={{ mt: 4 }}>
                     <Typography variant="h6">محصولات مشابه</Typography>
                     <Grid container spacing={2}>
-                        {relatedProducts.map(({ id, images, title, description }) => (
+                        {relatedProducts.map(({ id, images, name, description }) => (
                             <Grid item xs={12} sm={6} md={4} key={id}>
                                 <Card sx={{ padding: 2, borderRadius: 1, textAlign: 'center' }}>
-                                    <Box component="img" loading="lazy" src={images[0]} alt={title} sx={{ width: '100%', height: 'auto', objectFit: 'cover' }} />
+                                    <Box component="img" loading="lazy" src={images[0]} alt={name} sx={{ width: '100%', height: 'auto', objectFit: 'cover' }} />
                                     <Typography variant="h6" sx={{ mt: 1 }}>
-                                        {title}
+                                        {name}
                                     </Typography>
                                     <Typography variant="body2" color="textSecondary">
                                         {description}
@@ -152,6 +154,22 @@ export default ({ params }: { params: { id: string } }) => {
                     </Grid>
                 </Box>
             )}
+            <Box sx={{ display: 'flex', justifyContent: 'center', mt: 4 }}>
+                <StarRatings
+                    rating={rating}
+                    starRatedColor="gold"
+                    starHoverColor="gold"
+                    changeRating={async (rating: number) => {
+                        try {
+                            const response = await fetch('/api/products?id=' + params.id, { method: 'PATCH', headers: { 'Content-Type': 'application/json' }, body: JSON.stringify({ rating }) });
+
+                            setRating(rating);
+                        } catch {
+                            setError('به‌روزرسانی امتیاز با خطا مواجه شد.');
+                        }
+                    }}
+                />
+            </Box>
         </Box>
     );
 };

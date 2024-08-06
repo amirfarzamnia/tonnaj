@@ -20,8 +20,8 @@ export default ({ params }: { params: { name: string } }) => {
         const req = async () => {
             const url = `/api/blog?name=${decodeURI(pathname.split('/')[2])}`
             const res = await fetch(url)
-            const data = await res.json()
-            console.log(data)
+            const json = await res.json()
+            setBlog(json.data)
         }
 
         req()

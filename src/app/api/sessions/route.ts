@@ -1,12 +1,13 @@
 import { NextRequest, NextResponse } from 'next/server';
+import findSession from '@/functions/find-session';
+import { AuthTypes } from '@/types/auth';
 import { database } from '@/mongodb';
 import { randomBytes } from 'crypto';
-import { findSessions } from '@/functions/sessions';
 
-const verificationCodes: { [key: string]: string } = {};
+const verificationCodes: { [key: string]: AuthTypes['verification_code'] } = {};
 
 export const POST = async (request: NextRequest) => {
-    const { phone_number, verification_code }: { phone_number: string; verification_code: string } = await request.json();
+    const { phone_number, verification_code }: { phone_number: AuthTypes['phone_number']; verification_code: AuthTypes['verification_code'] } = await request.json();
 
     if (verification_code) {
         if (!phone_number) return NextResponse.json({ error: 'شماره تلفن همراه ارسال نشده.' }, { status: 404 });
@@ -37,7 +38,7 @@ export const POST = async (request: NextRequest) => {
     return NextResponse.json({ error: 'پارامترهای ارسالی قابل قبول نیستند.' }, { status: 404 });
 };
 
-export const GET = async (request: NextRequest) => NextResponse.json(findSessions(request), { status: 200 });
+export const GET = async (request: NextRequest) => NextResponse.json(findSession(request), { status: 200 });
 
 export const DELETE = async (request: NextRequest) => {
     await database.collection('sessions').deleteOne({ session: request.cookies.get('session')?.value });

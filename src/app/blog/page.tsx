@@ -3,7 +3,8 @@
 import { Button, Box, Card, CardActions, CardContent, Divider, Grid, Stack, styled, Typography } from '@mui/material';
 import blogItems from '@/constants/posts';
 import { usePathname, useSearchParams } from 'next/navigation';
-import { useEffect } from 'react';
+import { useEffect, useState } from 'react';
+import { BlogTypes } from '@/types/blog';
 
 const StyledCard = styled(Card)(({ theme }) => ({
     'display': 'flex',
@@ -33,26 +34,23 @@ const StyledButton = styled(Button)(({ theme }) => ({
 }));
 
 export default () => {
-
-    useEffect(() => {
-
-    }, [])
+    const [blogs, setBlogs] = useState<BlogTypes[]>([])
 
     const searchParams = useSearchParams()
     const categories = searchParams.get("categories")
-    const pathname = usePathname()
 
     useEffect(() => {
         if (categories) {
             const sendRequest = async () => {
-                const url = new URL('/api/products', window.location.origin);
+                const url = new URL('/api/blog', window.location.origin);
                 url.searchParams.append('categories', categories);
 
                 try {
                     const response = await fetch(url.toString());
                     if (response.ok) {
                         const data = await response.json();
-                        console.log(data);
+                        console.log(data)
+                        setBlogs(data)
                     } else {
                         console.error('Error fetching data:', response.status);
                     }
@@ -66,12 +64,14 @@ export default () => {
     }, [categories]);
 
     useEffect(() => {
+        if (categories) return
+
         const sendRequest = async () => {
             try {
                 const response = await fetch('api/blog');
                 if (response.ok) {
-                    const data = await response.json();
-                    console.log(data);
+                    const json = await response.json();
+                    setBlogs(json.data)
                 } else {
                     console.error('Error fetching data:', response.status);
                 }
@@ -86,7 +86,7 @@ export default () => {
     return (
         <Stack maxWidth={'100%'}>
             <Grid container spacing={3} justifyContent="center">
-                {blogItems.map((item, index) => (
+                {blogs.map((item, index) => (
                     <Grid item key={index} xs={12} sm={6} md={4} lg={3}>
                         <StyledCard>
                             <Box component="img" src={item.image} loading="lazy" height={'30vh'} sx={{ border: "1px solid white", borderRadius: '10px' }} />

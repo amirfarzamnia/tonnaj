@@ -9,7 +9,7 @@ import React from 'react';
 import 'swiper/css/pagination';
 import 'swiper/css';
 
-export default ({ price, description, images, title, id, author, categories, location }: ProductTypes) => {
+export default ({ price, description, images, name, id, author, categories, location }: ProductTypes) => {
     return (
         <Grid item xs={12} sm={6} md={3} key={id}>
             <Link href={'/products/' + id} passHref style={{ textDecoration: 'none' }}>
@@ -17,13 +17,13 @@ export default ({ price, description, images, title, id, author, categories, loc
                     <Swiper modules={[Pagination]} spaceBetween={10} slidesPerView={1} pagination={{ clickable: true }}>
                         {images.map((image, index) => (
                             <SwiperSlide key={index}>
-                                <CardMedia component="img" loading="lazy" src={image} alt={`${title} (تصویر شماره ${index + 1})`} sx={{ height: '200px', objectFit: 'cover' }} />
+                                <CardMedia component="img" loading="lazy" src={image} alt={`${name} (تصویر شماره ${index + 1})`} sx={{ height: '200px', objectFit: 'cover' }} />
                             </SwiperSlide>
                         ))}
                     </Swiper>
                     <CardContent>
                         <Typography variant="h6" gutterBottom textAlign="center">
-                            {title} در {location.city}
+                            {name} در {location.city}
                         </Typography>
                         <Box sx={{ my: 2 }}>
                             <Divider />

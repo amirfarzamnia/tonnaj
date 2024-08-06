@@ -44,10 +44,18 @@ const schemeOptions: { dark: ThemeOptions; light: ThemeOptions } = {
             MuiTypography: {
                 styleOverrides: common.typography
             },
+            MuiAppBar: {
+                styleOverrides: {
+                    root: {
+                        background: '#212121'
+                    }
+                }
+            },
             MuiCard: {
                 styleOverrides: {
                     root: {
-                        border: '1px solid #3f3f46'
+                        border: '1px solid #3f3f46',
+                        background: '#212121'
                     }
                 }
             }
@@ -90,10 +98,10 @@ const schemeOptions: { dark: ThemeOptions; light: ThemeOptions } = {
 };
 
 export default ({ children }: { children: React.ReactNode }) => {
+    const [isAuthenticated, setIsAuthenticated] = React.useState<boolean>(false);
     const [selectedTheme, setTheme] = React.useState<'dark' | 'light'>('light');
     const [anchorEl, setAnchorEl] = React.useState<HTMLElement | null>(null);
-    const [isAuthenticated, setIsAuthenticated] = React.useState(false);
-    const [loading, setLoading] = React.useState(true);
+    const [loading, setLoading] = React.useState<boolean>(true);
 
     React.useEffect(() => {
         const theme = (localStorage.getItem('selected-theme') as 'dark' | 'light') || (matchMedia('(prefers-color-scheme: dark)').matches ? 'dark' : 'light');
