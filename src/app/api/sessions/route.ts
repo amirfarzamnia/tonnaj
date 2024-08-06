@@ -1,6 +1,7 @@
 import { NextRequest, NextResponse } from 'next/server';
 import { database } from '@/mongodb';
 import { randomBytes } from 'crypto';
+import { findSessions } from '@/functions/sessions';
 
 const verificationCodes: { [key: string]: string } = {};
 
@@ -36,7 +37,7 @@ export const POST = async (request: NextRequest) => {
     return NextResponse.json({ error: 'پارامترهای ارسالی قابل قبول نیستند.' }, { status: 404 });
 };
 
-export const GET = async (request: NextRequest) => NextResponse.json(await database.collection('sessions').findOne({ session: request.cookies.get('session')?.value }), { status: 200 });
+export const GET = async (request: NextRequest) => NextResponse.json(findSessions(request), { status: 200 });
 
 export const DELETE = async (request: NextRequest) => {
     await database.collection('sessions').deleteOne({ session: request.cookies.get('session')?.value });

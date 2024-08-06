@@ -1,13 +1,15 @@
 'use client';
 
-import { Box, CardMedia, Container, Divider, Link, Stack, Typography } from '@mui/material';
+import { Box, Button, CardMedia, Container, Divider, Link, Stack, Typography } from '@mui/material';
 import { useEffect, useState } from 'react';
 import blogItems from '@/constants/posts';
 import { BlogTypes } from '@/types/blog';
+import { useRouter } from 'next/navigation';
 
 export default ({ params }: { params: { id: string } }) => {
     const [blog, setBlog] = useState<BlogTypes>();
     const [error, setError] = useState<boolean>(false);
+    const router = useRouter()
 
     useEffect(() => {
         if (!params.id) return;
@@ -33,11 +35,11 @@ export default ({ params }: { params: { id: string } }) => {
                         <Divider sx={{ width: '100%', my: 2 }} />
                         <Box sx={{ minHeight: '50vh' }}>{blog?.page}</Box>
                         <Divider sx={{ width: '100%', my: 2 }} />
-                        <Box sx={{ backgroundColor: 'blanchedalmond', padding: '3px', marginBottom: '15px', borderRadius: '10px', display: 'flex', flexWrap: 'wrap', gap: '10px' }} dir="ltr">
+                        <Box sx={{ backgroundColor: 'blanchedalmond', padding: '5px', marginBottom: '15px', borderRadius: '10px', display: 'flex', flexWrap: 'wrap', gap: '10px', minWidth: '50%' }} dir="ltr">
                             {blog?.categories.map((item, index) => (
-                                <Link variant="h4" sx={{ color: 'blue' }} href={`/blog/categories/${encodeURI(item)}`} key={index}>
+                                <Button size='large' sx={{ color: 'blue', fontSize: '20px' }} variant='contained' key={index} onClick={() => router.push(`/blog/categories/${encodeURI(item)}`)}>
                                     {item}
-                                </Link>
+                                </Button>
                             ))}
                         </Box>
                     </Box>

@@ -1,9 +1,36 @@
 'use client';
 
-import { Button, Card, CardActions, CardContent, CardMedia, Container, Grid, Stack, Typography } from '@mui/material';
+import { Box, Button, Card, CardActions, CardContent, CardMedia, Container, Divider, Grid, Stack, styled, Typography } from '@mui/material';
 import { useEffect, useState } from 'react';
 import blogItems from '@/constants/posts';
 import { BlogTypes } from '@/types/blog';
+
+const StyledCard = styled(Card)(({ theme }) => ({
+    'display': 'flex',
+    'flexDirection': 'column',
+    'justifyContent': 'space-between',
+    'height': '100%',
+    'boxShadow': theme.shadows[3],
+    'borderRadius': theme.shape.borderRadius * 2,
+    'transition': 'transform 0.3s, box-shadow 0.3s',
+    '&:hover': {
+        transform: 'scale(1.02)',
+        boxShadow: theme.shadows[6]
+    }
+}));
+
+const StyledButton = styled(Button)(({ theme }) => ({
+    'width': '100%',
+    'border': '2.5px solid transparent',
+    'borderRadius': theme.shape.borderRadius * 2,
+    'textTransform': 'uppercase',
+    'fontWeight': theme.typography.fontWeightBold,
+    'transition': 'all 0.2s ease-in',
+    '&:hover': {
+        width: '90%',
+        borderColor: 'white'
+    }
+}));
 
 export default ({ params }: { params: { name: string } }) => {
     const [categoriesItems, setCategoriesItems] = useState<BlogTypes[]>();
@@ -29,18 +56,25 @@ export default ({ params }: { params: { name: string } }) => {
                 <Grid container spacing={2} maxWidth={'100%'} sx={{ padding: 4, placeContent: 'end' }}>
                     {categoriesItems?.map((item, index) => {
                         return (
-                            <Grid item key={index}>
-                                <Card sx={{ width: 345, height: 375 }}>
-                                    <CardMedia component="img" alt="img" loading="lazy" sx={{ objectFit: 'cover', height: 200 }} image={item.image} />
+                            <Grid item key={index} xs={12} sm={6} md={4} lg={3}>
+                                <StyledCard>
+                                    <Box component="img" src={item.image} loading="lazy" height={'30vh'} sx={{ border: "1px solid white", borderRadius: '10px' }} />
                                     <CardContent>
+                                        <Typography variant="h6" sx={{ textAlign: 'center', mb: 1 }}>
+                                            {item.title}
+                                        </Typography>
+                                        <Divider sx={{ mb: 2 }} />
                                         <Typography variant="body2" color="text.secondary" sx={{ overflow: 'hidden', textOverflow: 'ellipsis', display: '-webkit-box', WebkitLineClamp: 4, WebkitBoxOrient: 'vertical', height: 95 }}>
                                             {item.description}
                                         </Typography>
                                     </CardContent>
-                                    <CardActions sx={{ display: 'flex', justifyContent: 'center', alignItems: 'center' }}>
-                                        <Button href={`/blog/${item.id}`}>ادامه</Button>
+                                    <Divider />
+                                    <CardActions sx={{ p: 2, display: 'flex', justifyContent: 'center', alignItems: 'center' }}>
+                                        <StyledButton href={`/blog/${item.id}`} variant="contained" color="primary">
+                                            ادامه
+                                        </StyledButton>
                                     </CardActions>
-                                </Card>
+                                </StyledCard>
                             </Grid>
                         );
                     })}

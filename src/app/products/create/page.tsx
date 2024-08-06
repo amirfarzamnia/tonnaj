@@ -4,10 +4,46 @@ import { Alert, Box, Button, FormControl, Grid, IconButton, InputLabel, MenuItem
 import { Add, Remove } from '@mui/icons-material';
 import categories from '@/constants/categories';
 import { useRouter } from 'next/navigation';
+import { MapContainer, TileLayer, useMapEvents } from 'react-leaflet';
+import L from 'leaflet';
 import React from 'react';
 
+interface LatLng {
+    lat: number;
+    lng: number;
+}
+
+interface Location {
+    latlng: LatLng;
+    address: {
+        city?: string;
+        state?: string;
+    };
+}
+
+async function getCityAndState(lat: number, lng: number) {
+    const response = await fetch(`https://nominatim.openstreetmap.org/reverse?format=jsonv2&lat=${lat}&lon=${lng}&accept-language=fa`);
+    const data = await response.json();
+    return {
+        city: data.address.city || data.address.town || data.address.village,
+        state: data.address.state,
+    };
+}
+
+function LocationMarker({ setLocation }: { setLocation: (location: Location) => void }) {
+    useMapEvents({
+        async click(e) {
+            const address = await getCityAndState(e.latlng.lat, e.latlng.lng);
+            setLocation({ latlng: e.latlng, address });
+        },
+    });
+
+    return null;
+}
+
+
 export default () => {
-    const [imageFiles, setImageFiles] = React.useState<{ name: string; base64: string }[]>([]);
+    const [imageFiles, setImageFiles] = React.useState<string[]>([]);
     const [selectedCategories, setCategories] = React.useState<string[]>([]);
     const fileInputRef = React.useRef<HTMLInputElement | null>(null);
     const [description, setDescription] = React.useState<string>('');
@@ -16,6 +52,7 @@ export default () => {
     const [snackbarOpen, setSnackbarOpen] = React.useState(false);
     const [title, setTitle] = React.useState<string>('');
     const [price, setPrice] = React.useState<string>('');
+    const [location, setLocation] = React.useState<Location | null>(null);
     const router = useRouter();
 
     const handleImage = (e: React.ChangeEvent<HTMLInputElement>) => {
@@ -44,7 +81,7 @@ export default () => {
             selectedFiles.forEach((file) => {
                 const reader = new FileReader();
 
-                reader.onloadend = () => setImageFiles((prevFiles) => [...prevFiles, { name: file.name, base64: reader.result as string }]);
+                reader.onloadend = () => setImageFiles((prevFiles) => [...prevFiles, reader.result as string]);
                 reader.readAsDataURL(file);
             });
         }
@@ -63,8 +100,8 @@ export default () => {
         }
 
         try {
-            const data = { title, price, description, categories: selectedCategories, name: 'ali', phone_number: '4305303', images: imageFiles, available: true, rating: 5 };
-            const response = await fetch('/api/product', { method: 'POST', headers: { 'Content-Type': 'application/json' }, body: JSON.stringify(data) });
+            const data = { title, price, description, categories: selectedCategories, name: authorName, images: imageFiles, available: true, rating: 5, city: location?.address.city, state: location?.address.state };
+            const response = await fetch('/api/products', { method: 'POST', headers: { 'Content-Type': 'application/json' }, body: JSON.stringify(data) });
 
             if (response.status === 200) {
                 setSnackbarMessage('محصول شما با موفقیت ثبت شد');
@@ -89,14 +126,31 @@ export default () => {
     return (
         <Box component="form" onSubmit={handleSubmit} sx={{ width: '100%' }}>
             <Box sx={{ width: '100%', display: 'flex', flexDirection: 'column', alignItems: 'center', padding: '16px' }}>
-                <Grid container spacing={2}>
+                <Box width={'100%'}>
+                    <MapContainer center={[32.4279, 53.6880]} zoom={5} style={{ height: '500px', width: '100%' }}>
+                        <TileLayer
+                            url="https://{s}.tile.openstreetmap.org/{z}/{x}/{y}.png"
+                            attribution='&copy; <a href="https://www.openstreetmap.org/copyright">OpenStreetMap</a> contributors'
+                        />
+                        <LocationMarker setLocation={setLocation} />
+                    </MapContainer>
+                    {location && (
+                        <div>
+                            Latitude: {location.latlng.lat}, Longitude: {location.latlng.lng}
+                            <br />
+                            City: {location.address.city || "N/A"}, State: {location.address.state || "N/A"}
+                        </div>
+                    )}
+                </Box>
+
+                <Grid container spacing={2} mt={10}>
                     {imageFiles.map((src, index) => (
                         <Grid item xs={2} key={index}>
                             <Box sx={{ position: 'relative' }}>
                                 <IconButton onClick={() => setImageFiles((prev) => prev.filter((_, i) => i !== index))} sx={{ position: 'absolute', top: 0, right: 0, zIndex: 1 }}>
                                     <Remove />
                                 </IconButton>
-                                <Box component="img" loading="lazy" src={src.base64} alt={`Uploaded ${index}`} sx={{ width: '100%', height: 'auto', borderRadius: '4px' }} />
+                                <Box component="img" loading="lazy" src={src} alt={`Uploaded ${index}`} sx={{ width: '100%', height: 'auto', borderRadius: '4px' }} />
                             </Box>
                         </Grid>
                     ))}
