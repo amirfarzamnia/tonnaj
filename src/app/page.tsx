@@ -105,7 +105,7 @@ export default () => {
                 {products.map(({ price, description, images, title, id, author, categories, location }) => (
                     <Grid item xs={12} sm={6} md={3} key={id}>
                         <Link href={'/products/' + id} passHref style={{ textDecoration: 'none' }}>
-                            <Card>
+                            <Card sx={{ borderRadius: 4 }}>
                                 <Swiper modules={[Pagination]} spaceBetween={10} slidesPerView={1} pagination={{ clickable: true }}>
                                     {images.map((image, index) => (
                                         <SwiperSlide key={index}>
