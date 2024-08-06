@@ -6,6 +6,7 @@ import { createTheme, ThemeProvider, ThemeOptions } from '@mui/material/styles';
 import { TypographyOptions } from '@mui/material/styles/createTypography';
 import React from 'react';
 import './index.css';
+import 'leaflet/dist/leaflet.css';
 
 const common: { typography: TypographyOptions; css: React.CSSProperties } = {
     typography: {
