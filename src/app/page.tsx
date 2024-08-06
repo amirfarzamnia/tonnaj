@@ -1,10 +1,10 @@
 'use client';
 
 import { Grid, Typography, Box, Card, CardContent, CardMedia, FormGroup, FormControlLabel, Checkbox, CircularProgress, Divider, Button } from '@mui/material';
+import { Phone, Sell, ShoppingBasket } from '@mui/icons-material';
 import { Swiper, SwiperSlide } from 'swiper/react';
 import categories from '@/constants/categories';
 import { ProductTypes } from '@/types/product';
-import { Phone } from '@mui/icons-material';
 import { Pagination } from 'swiper/modules';
 import Link from 'next/link';
 import React from 'react';
@@ -49,7 +49,20 @@ export default () => {
 
     return (
         <>
-            <Box sx={{ marginBottom: 4 }}>
+            <Box sx={{ 'height': '300px', 'backgroundImage': 'url("/banner.jpeg")', 'backgroundSize': 'cover', 'backgroundPosition': 'center', 'position': 'relative', 'display': 'flex', 'flexDirection': 'column', 'alignItems': 'start', 'justifyContent': 'center', 'paddingRight': 4, 'borderRadius': 4, '::before': { content: '""', position: 'absolute', top: 0, left: 0, width: '100%', height: '100%', backgroundColor: 'rgba(0, 0, 0, 0.25)', borderRadius: 'inherit' } }}>
+                <Typography variant="h6" color="white" gutterBottom>
+                    تناژ، بزرگترین سایت خرید و فروش عمده در کشور
+                </Typography>
+                <Box sx={{ mt: 1, display: 'flex', alignItems: 'center', gap: 1 }}>
+                    <Button href="products/create" startIcon={<Sell />} variant="contained" color="success" sx={{ borderRadius: 2, display: 'flex', alignItems: 'center', gap: 2 }}>
+                        ثبت محصول
+                    </Button>
+                    <Button href="products/request" startIcon={<ShoppingBasket />} variant="contained" color="secondary" sx={{ borderRadius: 2, display: 'flex', alignItems: 'center', gap: 2 }}>
+                        درخواست محصول
+                    </Button>
+                </Box>
+            </Box>
+            <Box sx={{ marginBottom: 4, marginTop: 4 }}>
                 <Typography variant="h4" gutterBottom>
                     دسته بندی ها
                 </Typography>
