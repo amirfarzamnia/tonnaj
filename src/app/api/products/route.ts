@@ -1,8 +1,8 @@
+import { productsProps, ProductTypes } from '@/types/product';
 import { NextResponse, NextRequest } from 'next/server';
+import findSession from '@/functions/find-session';
 import { database } from '@/mongodb';
 import { randomBytes } from 'crypto';
-import { productsProps, ProductTypes } from '@/types/product';
-import { findSessions } from '@/functions/sessions';
 import { AuthTypes } from '@/types/auth';
 
 export const POST = async (req: NextRequest) => {
@@ -10,7 +10,7 @@ export const POST = async (req: NextRequest) => {
     if (!title || !description || !price) return NextResponse.json({ message: 'Validation Error' }, { status: 400 });
 
     const id = randomBytes(4).toString('hex');
-    const userSessions = await findSessions(req);
+    const userSessions = await findSession(req);
 
     const { phone_number } = userSessions;
 
