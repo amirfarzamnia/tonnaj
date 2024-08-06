@@ -2,6 +2,8 @@
 
 import { Button, Box, Card, CardActions, CardContent, Divider, Grid, Stack, styled, Typography } from '@mui/material';
 import blogItems from '@/constants/posts';
+import { usePathname, useSearchParams } from 'next/navigation';
+import { useEffect } from 'react';
 
 const StyledCard = styled(Card)(({ theme }) => ({
     'display': 'flex',
@@ -31,6 +33,56 @@ const StyledButton = styled(Button)(({ theme }) => ({
 }));
 
 export default () => {
+
+    useEffect(() => {
+
+    }, [])
+
+    const searchParams = useSearchParams()
+    const categories = searchParams.get("categories")
+    const pathname = usePathname()
+
+    useEffect(() => {
+        if (categories) {
+            const sendRequest = async () => {
+                const url = new URL('/api/products', window.location.origin);
+                url.searchParams.append('categories', categories);
+
+                try {
+                    const response = await fetch(url.toString());
+                    if (response.ok) {
+                        const data = await response.json();
+                        console.log(data);
+                    } else {
+                        console.error('Error fetching data:', response.status);
+                    }
+                } catch (error) {
+                    console.error('Fetch error:', error);
+                }
+            };
+
+            sendRequest();
+        }
+    }, [categories]);
+
+    useEffect(() => {
+        const sendRequest = async () => {
+            try {
+                const response = await fetch('api/blog');
+                if (response.ok) {
+                    const data = await response.json();
+                    console.log(data);
+                } else {
+                    console.error('Error fetching data:', response.status);
+                }
+            } catch (error) {
+                console.error('Fetch error:', error);
+            }
+        };
+
+        sendRequest()
+    }, [])
+
     return (
         <Stack maxWidth={'100%'}>
             <Grid container spacing={3} justifyContent="center">
@@ -40,16 +92,16 @@ export default () => {
                             <Box component="img" src={item.image} loading="lazy" height={'30vh'} sx={{ border: "1px solid white", borderRadius: '10px' }} />
                             <CardContent>
                                 <Typography variant="h6" sx={{ textAlign: 'center', mb: 1 }}>
-                                    {item.title}
+                                    {item.name}
                                 </Typography>
                                 <Divider sx={{ mb: 2 }} />
                                 <Typography variant="body2" color="text.secondary" sx={{ overflow: 'hidden', textOverflow: 'ellipsis', display: '-webkit-box', WebkitLineClamp: 4, WebkitBoxOrient: 'vertical', height: 95 }}>
-                                    {item.description}
+                                    {item.content}
                                 </Typography>
                             </CardContent>
                             <Divider />
                             <CardActions sx={{ p: 2, display: 'flex', justifyContent: 'center', alignItems: 'center' }}>
-                                <StyledButton href={`/blog/${item.id}`} variant="contained" color="primary">
+                                <StyledButton href={`/blog/${encodeURI(item.name)}`} variant="contained" color="primary">
                                     ادامه
                                 </StyledButton>
                             </CardActions>

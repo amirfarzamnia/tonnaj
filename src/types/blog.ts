@@ -1,8 +1,6 @@
 export type BlogTypes = {
-    page: React.ReactNode;
     categories: string[];
-    description: string;
-    title: string;
+    content: string;
+    name: string;
     image: string;
-    id: string;
 };
