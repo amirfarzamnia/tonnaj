@@ -1,18 +1,17 @@
 import { productsProps, ProductTypes } from '@/types/product';
 import { NextResponse, NextRequest } from 'next/server';
 import findSession from '@/functions/find-session';
-import { AuthTypes } from '@/types/auth';
 import { database } from '@/mongodb';
 import { randomBytes } from 'crypto';
 
-export const POST = async (req: NextRequest) => {
-    const { title, description, images, categories, price, max, min, name, city, state }: productsProps = await req.json();
+export const POST = async (request: NextRequest) => {
+    const { title, description, images, categories, price, max, min, name, city, state }: productsProps = await request.json();
 
     if (!title || !description || !price) return NextResponse.json({ message: 'Validation Error' }, { status: 400 });
 
-    const { phone_number } = (await findSession(req)) || {};
+    const { phone_number } = (await findSession(request)) || {};
 
-    if (!phone_number) return new NextResponse(null, { status: 404 });
+    if (!phone_number) return new NextResponse(null, { status: 403 });
 
     await database.collection('products').insertOne({
         id: randomBytes(4).toString('hex'),
