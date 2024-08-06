@@ -87,15 +87,17 @@ export default () => {
                                     <Typography variant="body2" color="textSecondary" gutterBottom sx={{ mt: 2, fontSize: 'small' }}>
                                         به قیمت {price} تومان
                                     </Typography>
-                                    <Button endIcon={<Phone />} href={'tel:' + author.phone_number} variant="outlined" color="success" sx={{ mt: 2, width: '100%', py: 2, display: 'flex', alignItems: 'center', gap: 1, borderRadius: 1 }}>
+                                    <Button endIcon={<Phone />} href={'tel:' + author.phone_number} variant="outlined" color="success" sx={{ mt: 2, width: '100%', py: 2, display: 'flex', alignItems: 'center', gap: 1, borderRadius: 1 }} onClick={(event) => event.stopPropagation()}>
                                         تماس با فروشنده
                                     </Button>
                                     <Box sx={{ my: 2 }}>
                                         <Divider />
                                     </Box>
                                     <Typography variant="body2" color="textSecondary">
-                                        {categories.map((category) => (
-                                            <Box component="small">{category}</Box>
+                                        {categories.map((category, index) => (
+                                            <Box component="small" key={index}>
+                                                {category}
+                                            </Box>
                                         ))}
                                     </Typography>
                                 </CardContent>
