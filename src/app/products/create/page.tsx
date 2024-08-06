@@ -35,18 +35,18 @@ export default () => {
             .addTo(mapInstance.current);
 
         const handleMapClick = async (e: leaflet.LeafletMouseEvent) => {
-            const latlng = e.latlng;
             const response = await fetch(`https://nominatim.openstreetmap.org/reverse?format=jsonv2&lat=${e.latlng.lat}&lon=${e.latlng.lng}&accept-language=fa`);
-            const data = await response.json();
+            const { address } = await response.json();
 
-            const address = {
-                city: data.address.city || data.address.town || data.address.village,
-                state: data.address.state
-            };
+            setLocation({
+                latlng: e.latlng,
+                address: {
+                    city: address.city || address.town || address.village,
+                    state: address.state
+                }
+            });
 
-            setLocation({ latlng, address });
-
-            leaflet.marker(latlng).addTo(mapInstance.current!).bindPopup(`Latitude: ${latlng.lat}<br>Longitude: ${latlng.lng}`).openPopup();
+            leaflet.marker(e.latlng).addTo(mapInstance.current!).bindPopup(`Latitude: ${e.latlng.lat}<br>Longitude: ${e.latlng.lng}`).openPopup();
         };
 
         mapInstance.current.on('click', handleMapClick);
@@ -98,6 +98,7 @@ export default () => {
         if (imageFiles.length === 0) {
             setSnackbarMessage('باید حداقل یک عکس برای محصول خود انتخاب کنید');
             setSnackbarOpen(true);
+
             return;
         }
 
@@ -138,7 +139,6 @@ export default () => {
     };
 
     const handleCloseSnackbar = () => setSnackbarOpen(false);
-    const handleChange = (event: SelectChangeEvent<typeof selectedCategories>) => setCategories(typeof event.target.value === 'string' ? event.target.value.split(',') : event.target.value);
 
     return (
         <Box component="form" onSubmit={handleSubmit} sx={{ width: '100%' }}>
@@ -190,7 +190,7 @@ export default () => {
                 <Box sx={{ width: '50%', marginTop: '16px' }}>
                     <FormControl fullWidth>
                         <InputLabel id="categories-select-label">دسته بندی</InputLabel>
-                        <Select labelId="categories-select-label" id="categories-select" multiple value={selectedCategories} onChange={handleChange} renderValue={(selected) => selected.join(', ')}>
+                        <Select labelId="categories-select-label" id="categories-select" multiple value={selectedCategories} onChange={(event: SelectChangeEvent<typeof selectedCategories>) => setCategories(typeof event.target.value === 'string' ? event.target.value.split(',') : event.target.value)} renderValue={(selected) => selected.join(', ')}>
                             {categories.map((category) => (
                                 <MenuItem key={category} value={category}>
                                     {category}
