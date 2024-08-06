@@ -5,37 +5,38 @@ import { database } from '@/mongodb';
 import { randomBytes } from 'crypto';
 
 export const POST = async (request: NextRequest) => {
-    const { name, description, images, categories, price, max, min, name, city, state }: ProductTypes = await request.json();
+    return;
+    // const { name, description, images, categories, price, max, min, name, city, state }: ProductTypes = await request.json();
 
-    if (!name || !description || !price) return NextResponse.json({ message: 'Validation Error' }, { status: 400 });
+    // if (!name || !description || !price) return NextResponse.json({ message: 'Validation Error' }, { status: 400 });
 
-    const { phone_number } = (await findSession(request)) || {};
+    // const { phone_number } = (await findSession(request)) || {};
 
-    if (!phone_number) return new NextResponse(null, { status: 403 });
+    // if (!phone_number) return new NextResponse(null, { status: 403 });
 
-    await database.collection('products').insertOne({
-        id: randomBytes(4).toString('hex'),
-        name,
-        description,
-        price,
-        categories,
-        images,
-        available: true,
-        rating: 5,
-        max,
-        min,
-        author: {
-            name,
-            phone_number
-        },
-        location: {
-            city,
-            state
-        },
-        timestamp: Date.now()
-    } as ProductTypes);
+    // await database.collection('products').insertOne({
+    //     id: randomBytes(4).toString('hex'),
+    //     name,
+    //     description,
+    //     price,
+    //     categories,
+    //     images,
+    //     available: true,
+    //     rating: 5,
+    //     max,
+    //     min,
+    //     author: {
+    //         name,
+    //         phone_number
+    //     },
+    //     location: {
+    //         city,
+    //         state
+    //     },
+    //     timestamp: Date.now()
+    // } as ProductTypes);
 
-    return NextResponse.json({ message: 'Product added successfully' }, { status: 200 });
+    // return NextResponse.json({ message: 'Product added successfully' }, { status: 200 });
 };
 
 export const GET = async (request: NextRequest) => {

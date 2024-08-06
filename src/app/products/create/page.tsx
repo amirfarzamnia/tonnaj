@@ -1,17 +1,12 @@
 'use client';
 
+import React, { useEffect, useRef, useState } from 'react';
 import { Alert, Box, Button, FormControl, Grid, IconButton, InputLabel, MenuItem, Select, SelectChangeEvent, Snackbar, TextareaAutosize, TextField, Typography } from '@mui/material';
 import { Add, Remove } from '@mui/icons-material';
 import categories from '@/constants/categories';
 import { useRouter } from 'next/navigation';
-import { MapContainer, TileLayer, useMapEvents } from 'react-leaflet';
-import L from 'leaflet';
-import React from 'react';
-
-interface LatLng {
-    lat: number;
-    lng: number;
-}
+import L, { LatLng } from 'leaflet';
+import 'leaflet/dist/leaflet.css';
 
 interface Location {
     latlng: LatLng;
@@ -30,29 +25,47 @@ async function getCityAndState(lat: number, lng: number) {
     };
 }
 
-function LocationMarker({ setLocation }: { setLocation: (location: Location) => void }) {
-    useMapEvents({
-        async click(e) {
-            const address = await getCityAndState(e.latlng.lat, e.latlng.lng);
-            setLocation({ latlng: e.latlng, address });
-        }
-    });
-
-    return null;
-}
-
 export default () => {
-    const [imageFiles, setImageFiles] = React.useState<string[]>([]);
-    const [selectedCategories, setCategories] = React.useState<string[]>([]);
-    const fileInputRef = React.useRef<HTMLInputElement | null>(null);
-    const [description, setDescription] = React.useState<string>('');
-    const [snackbarMessage, setSnackbarMessage] = React.useState('');
-    const [authorName, setAuthorName] = React.useState<string>('');
-    const [snackbarOpen, setSnackbarOpen] = React.useState(false);
-    const [name, setTitle] = React.useState<string>('');
-    const [price, setPrice] = React.useState<string>('');
-    const [location, setLocation] = React.useState<Location | null>(null);
+    const [imageFiles, setImageFiles] = useState<string[]>([]);
+    const [selectedCategories, setCategories] = useState<string[]>([]);
+    const fileInputRef = useRef<HTMLInputElement | null>(null);
+    const [description, setDescription] = useState<string>('');
+    const [snackbarMessage, setSnackbarMessage] = useState('');
+    const [authorName, setAuthorName] = useState<string>('');
+    const [snackbarOpen, setSnackbarOpen] = useState(false);
+    const [name, setTitle] = useState<string>('');
+    const [price, setPrice] = useState<string>('');
+    const [location, setLocation] = useState<Location | null>(null);
     const router = useRouter();
+
+    const mapRef = useRef<HTMLDivElement | null>(null);
+    const mapInstance = useRef<L.Map | null>(null);
+
+    useEffect(() => {
+        if (mapRef.current && !mapInstance.current) {
+            mapInstance.current = L.map(mapRef.current).setView([32.4279, 53.688], 5);
+
+            L.tileLayer('https://{s}.tile.openstreetmap.org/{z}/{x}/{y}.png', {
+                attribution: '&copy; <a href="https://www.openstreetmap.org/copyright">OpenStreetMap</a> contributors'
+            }).addTo(mapInstance.current);
+
+            const handleMapClick = async (e: L.LeafletMouseEvent) => {
+                const latlng = e.latlng;
+                const address = await getCityAndState(latlng.lat, latlng.lng);
+                setLocation({ latlng, address });
+
+                L.marker(latlng).addTo(mapInstance.current!).bindPopup(`Latitude: ${latlng.lat}<br>Longitude: ${latlng.lng}`).openPopup();
+            };
+
+            mapInstance.current.on('click', handleMapClick);
+
+            return () => {
+                mapInstance.current?.off('click', handleMapClick);
+                mapInstance.current?.remove(); // Cleanup the map instance
+                mapInstance.current = null;
+            };
+        }
+    }, []);
 
     const handleImage = (e: React.ChangeEvent<HTMLInputElement>) => {
         e.preventDefault();
@@ -64,16 +77,13 @@ export default () => {
             if (nonImageFiles.length > 0) {
                 setSnackbarMessage('فقط فایل‌های تصویری مجاز هستند.');
                 setSnackbarOpen(true);
-
                 return;
             }
 
             if (imageFiles.length + selectedFiles.length > 10) {
                 setSnackbarMessage('شما نمی‌توانید بیش از 10 تصویر آپلود کنید.');
                 setSnackbarOpen(true);
-
                 if (fileInputRef.current) fileInputRef.current.value = '';
-
                 return;
             }
 
@@ -91,16 +101,30 @@ export default () => {
     const handleSubmit = async (e: React.FormEvent) => {
         e.preventDefault();
 
-        if (imageFiles.length == 0) {
+        if (imageFiles.length === 0) {
             setSnackbarMessage('باید حداقل یک عکس برای محصول خود انتخاب کنید');
             setSnackbarOpen(true);
-
             return;
         }
 
         try {
-            const data = { name, price, description, categories: selectedCategories, images: imageFiles, available: true, rating: 5, city: location?.address.city, state: location?.address.state };
-            const response = await fetch('/api/products', { method: 'POST', headers: { 'Content-Type': 'application/json' }, body: JSON.stringify(data) });
+            const data = {
+                name,
+                price,
+                description,
+                categories: selectedCategories,
+                images: imageFiles,
+                available: true,
+                rating: 5,
+                city: location?.address.city,
+                state: location?.address.state
+            };
+
+            const response = await fetch('/api/products', {
+                method: 'POST',
+                headers: { 'Content-Type': 'application/json' },
+                body: JSON.stringify(data)
+            });
 
             if (response.status === 200) {
                 setSnackbarMessage('محصول شما با موفقیت ثبت شد');
@@ -125,20 +149,14 @@ export default () => {
     return (
         <Box component="form" onSubmit={handleSubmit} sx={{ width: '100%' }}>
             <Box sx={{ width: '100%', display: 'flex', flexDirection: 'column', alignItems: 'center', padding: '16px' }}>
-                <Box width={'100%'}>
-                    <MapContainer center={[32.4279, 53.688]} zoom={5} style={{ height: '500px', width: '100%' }}>
-                        <TileLayer url="https://{s}.tile.openstreetmap.org/{z}/{x}/{y}.png" attribution='&copy; <a href="https://www.openstreetmap.org/copyright">OpenStreetMap</a> contributors' />
-                        <LocationMarker setLocation={setLocation} />
-                    </MapContainer>
-                    {location && (
-                        <div>
-                            Latitude: {location.latlng.lat}, Longitude: {location.latlng.lng}
-                            <br />
-                            City: {location.address.city || 'N/A'}, State: {location.address.state || 'N/A'}
-                        </div>
-                    )}
-                </Box>
-
+                <Box width={'100%'} ref={mapRef} sx={{ height: '500px', width: '100%' }}></Box>
+                {location && (
+                    <div>
+                        Latitude: {location.latlng.lat}, Longitude: {location.latlng.lng}
+                        <br />
+                        City: {location.address.city || 'N/A'}, State: {location.address.state || 'N/A'}
+                    </div>
+                )}
                 <Grid container spacing={2} mt={10}>
                     {imageFiles.map((src, index) => (
                         <Grid item xs={2} key={index}>
@@ -180,7 +198,9 @@ export default () => {
                         <InputLabel id="categories-select-label">دسته بندی</InputLabel>
                         <Select labelId="categories-select-label" id="categories-select" multiple value={selectedCategories} onChange={handleChange} renderValue={(selected) => selected.join(', ')}>
                             {categories.map((category) => (
-                                <MenuItem value={category}>{category}</MenuItem>
+                                <MenuItem key={category} value={category}>
+                                    {category}
+                                </MenuItem>
                             ))}
                         </Select>
                     </FormControl>
