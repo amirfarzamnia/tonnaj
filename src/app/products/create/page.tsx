@@ -1,7 +1,7 @@
 'use client';
 
-import React, { useEffect, useRef, useState } from 'react';
 import { Alert, Box, Button, FormControl, Grid, IconButton, InputLabel, MenuItem, Select, SelectChangeEvent, Snackbar, TextareaAutosize, TextField, Typography } from '@mui/material';
+import React, { useEffect, useRef, useState } from 'react';
 import { Add, Remove } from '@mui/icons-material';
 import categories from '@/constants/categories';
 import { useRouter } from 'next/navigation';
@@ -26,17 +26,19 @@ async function getCityAndState(lat: number, lng: number) {
 }
 
 export default () => {
-    const [imageFiles, setImageFiles] = useState<string[]>([]);
     const [selectedCategories, setCategories] = useState<string[]>([]);
+    const [location, setLocation] = useState<Location | null>(null);
+    const [imageFiles, setImageFiles] = useState<string[]>([]);
     const fileInputRef = useRef<HTMLInputElement | null>(null);
     const [description, setDescription] = useState<string>('');
     const [snackbarMessage, setSnackbarMessage] = useState('');
     const [authorName, setAuthorName] = useState<string>('');
     const [snackbarOpen, setSnackbarOpen] = useState(false);
-    const [name, setTitle] = useState<string>('');
     const [price, setPrice] = useState<string>('');
-    const [location, setLocation] = useState<Location | null>(null);
+    const [name, setTitle] = useState<string>('');
     const router = useRouter();
+
+    console.log(location);
 
     const mapRef = useRef<HTMLDivElement | null>(null);
     const mapInstance = useRef<L.Map | null>(null);
