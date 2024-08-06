@@ -20,7 +20,7 @@ export const GET = async (request: NextRequest) => {
             const blogInfo = await database.collection('posts').findOne({ name });
             return NextResponse.json({ message: 'find', data: blogInfo }, { status: 200 });
         } else {
-            const blogInfo = await database.collection('blog').find().toArray();
+            const blogInfo = await database.collection('posts').find().toArray();
             return NextResponse.json({ message: 'find', data: blogInfo }, { status: 200 });
         }
     } catch (error) {
