@@ -7,17 +7,15 @@ import { randomBytes } from 'crypto';
 
 export const POST = async (req: NextRequest) => {
     const { title, description, images, categories, price, max, min, name, city, state }: productsProps = await req.json();
+
     if (!title || !description || !price) return NextResponse.json({ message: 'Validation Error' }, { status: 400 });
 
-    const id = randomBytes(4).toString('hex');
-    const userSessions = await findSession(req);
+    const { phone_number } = (await findSession(req)) || {};
 
-    const { phone_number } = userSessions;
-
-    if (!phone_number) return NextResponse.json({ message: 'Error' }, { status: 400 });
+    if (!phone_number) return new NextResponse(null, { status: 404 });
 
     await database.collection('products').insertOne({
-        id,
+        id: randomBytes(4).toString('hex'),
         title,
         description,
         price,
