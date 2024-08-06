@@ -28,12 +28,6 @@ export default () => {
 
         mapInstance.current = leaflet.map(mapRef.current).setView([32.4279, 53.688], 5);
 
-        leaflet
-            .tileLayer('https://{s}.tile.openstreetmap.org/{z}/{x}/{y}.png', {
-                attribution: '&copy; <a href="https://www.openstreetmap.org/copyright">OpenStreetMap</a> contributors'
-            })
-            .addTo(mapInstance.current);
-
         const handleMapClick = async (e: leaflet.LeafletMouseEvent) => {
             const response = await fetch(`https://nominatim.openstreetmap.org/reverse?format=jsonv2&lat=${e.latlng.lat}&lon=${e.latlng.lng}&accept-language=fa`);
             const { address } = await response.json();
@@ -45,8 +39,6 @@ export default () => {
                     state: address.state
                 }
             });
-
-            leaflet.marker(e.latlng).addTo(mapInstance.current!).bindPopup(`Latitude: ${e.latlng.lat}<br>Longitude: ${e.latlng.lng}`).openPopup();
         };
 
         mapInstance.current.on('click', handleMapClick);
