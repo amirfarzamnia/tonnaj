@@ -28,7 +28,7 @@ async function getCityAndState(lat: number, lng: number) {
 
 export default () => {
     const [selectedCategories, setCategories] = useState<string[]>([]);
-    const [location, setLocation] = useState<Location | null>(null);
+    const [location, setLocation] = useState<{ latlng: LatLng; address: { city?: string; state?: string } } | null>(null);
     const [imageFiles, setImageFiles] = useState<string[]>([]);
     const fileInputRef = useRef<HTMLInputElement | null>(null);
     const [description, setDescription] = useState<string>('');
