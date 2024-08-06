@@ -63,7 +63,7 @@ export default () => {
                 محصولات
             </Typography>
             <Grid container spacing={3}>
-                {products.map(({ price, description, images, title, id, author, categories }) => (
+                {products.map(({ price, description, images, title, id, author, categories, location }) => (
                     <Grid item xs={12} sm={6} md={3} key={id}>
                         <Link href={'/products/' + id} passHref style={{ textDecoration: 'none' }}>
                             <Card>
@@ -75,9 +75,12 @@ export default () => {
                                     ))}
                                 </Swiper>
                                 <CardContent>
-                                    <Typography variant="h6" gutterBottom>
-                                        {title}
+                                    <Typography variant="h6" gutterBottom textAlign="center">
+                                        {title} در {location.city}
                                     </Typography>
+                                    <Box sx={{ my: 2 }}>
+                                        <Divider />
+                                    </Box>
                                     <Typography variant="body1" color="textSecondary">
                                         {description.slice(0, 165)}...
                                     </Typography>
