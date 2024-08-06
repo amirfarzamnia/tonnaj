@@ -32,13 +32,7 @@ export default () => {
             const response = await fetch(`https://nominatim.openstreetmap.org/reverse?format=jsonv2&lat=${e.latlng.lat}&lon=${e.latlng.lng}&accept-language=fa`);
             const { address } = await response.json();
 
-            setLocation({
-                latlng: e.latlng,
-                address: {
-                    city: address.city || address.town || address.village,
-                    state: address.state
-                }
-            });
+            setLocation({ latlng: e.latlng, address: { city: address.city || address.town || address.village, state: address.state } });
         };
 
         mapInstance.current.on('click', handleMapClick);
@@ -50,90 +44,57 @@ export default () => {
         };
     }, []);
 
-    const handleImage = (e: React.ChangeEvent<HTMLInputElement>) => {
-        e.preventDefault();
-
-        if (e.target.files) {
-            const selectedFiles = Array.from(e.target.files).filter(({ type }) => type.startsWith('image/')) as File[];
-            const nonImageFiles = Array.from(e.target.files).filter(({ type }) => !type.startsWith('image/'));
-
-            if (nonImageFiles.length > 0) {
-                setSnackbarMessage('فقط فایل‌های تصویری مجاز هستند.');
-                setSnackbarOpen(true);
-
-                return;
-            }
-
-            if (imageFiles.length + selectedFiles.length > 10) {
-                setSnackbarMessage('شما نمی‌توانید بیش از 10 تصویر آپلود کنید.');
-                setSnackbarOpen(true);
-
-                if (fileInputRef.current) fileInputRef.current.value = '';
-
-                return;
-            }
-
-            selectedFiles.forEach((file) => {
-                const reader = new FileReader();
-
-                reader.onloadend = () => setImageFiles((prevFiles) => [...prevFiles, reader.result as string]);
-                reader.readAsDataURL(file);
-            });
-        }
-
-        if (fileInputRef.current) fileInputRef.current.value = '';
-    };
-
-    const handleSubmit = async (e: React.FormEvent) => {
-        e.preventDefault();
-
-        if (imageFiles.length === 0) {
-            setSnackbarMessage('باید حداقل یک عکس برای محصول خود انتخاب کنید');
-            setSnackbarOpen(true);
-
-            return;
-        }
-
-        try {
-            const data = {
-                name,
-                price,
-                description,
-                categories: selectedCategories,
-                images: imageFiles,
-                available: true,
-                rating: 5,
-                city: location?.address.city,
-                state: location?.address.state
-            };
-
-            const response = await fetch('/api/products', {
-                method: 'POST',
-                headers: { 'Content-Type': 'application/json' },
-                body: JSON.stringify(data)
-            });
-
-            if (response.status === 200) {
-                setSnackbarMessage('محصول شما با موفقیت ثبت شد');
-                setSnackbarOpen(true);
-                setDescription('');
-                setImageFiles([]);
-                setAuthorName('');
-                setCategories([]);
-                setPrice('');
-                setTitle('');
-
-                setTimeout(() => router.push('/'), 2000);
-            }
-        } catch (error) {
-            console.error('Error uploading data:', error);
-        }
-    };
-
     const handleCloseSnackbar = () => setSnackbarOpen(false);
 
     return (
-        <Box component="form" onSubmit={handleSubmit} sx={{ width: '100%' }}>
+        <Box
+            component="form"
+            onSubmit={async (e: React.FormEvent) => {
+                e.preventDefault();
+
+                if (imageFiles.length === 0) {
+                    setSnackbarMessage('باید حداقل یک عکس برای محصول خود انتخاب کنید');
+                    setSnackbarOpen(true);
+
+                    return;
+                }
+
+                try {
+                    const data = {
+                        name,
+                        price,
+                        description,
+                        categories: selectedCategories,
+                        images: imageFiles,
+                        available: true,
+                        rating: 5,
+                        city: location?.address.city,
+                        state: location?.address.state
+                    };
+
+                    const response = await fetch('/api/products', {
+                        method: 'POST',
+                        headers: { 'Content-Type': 'application/json' },
+                        body: JSON.stringify(data)
+                    });
+
+                    if (response.status === 200) {
+                        setSnackbarMessage('محصول شما با موفقیت ثبت شد');
+                        setSnackbarOpen(true);
+                        setDescription('');
+                        setImageFiles([]);
+                        setAuthorName('');
+                        setCategories([]);
+                        setPrice('');
+                        setTitle('');
+
+                        setTimeout(() => router.push('/'), 2000);
+                    }
+                } catch (error) {
+                    console.error('Error uploading data:', error);
+                }
+            }}
+            sx={{ width: '100%' }}>
             <Box sx={{ width: '100%', display: 'flex', flexDirection: 'column', alignItems: 'center', padding: '16px' }}>
                 <Box width={'100%'} ref={mapRef} sx={{ height: '500px', width: '100%' }}></Box>
                 {location && (
@@ -167,7 +128,48 @@ export default () => {
                         <Typography variant="body2" sx={{ marginTop: '10px', textAlign: 'center' }}>
                             حتما عکس از بسته بندی و یک عکس از نزدیک داخل محصول برای جذب خریدار ثبت کنید
                         </Typography>
-                        <Box component="input" type="file" id="img" sx={{ opacity: 0, position: 'absolute', zIndex: -1 }} multiple accept="image/*" onChange={handleImage} ref={fileInputRef} />
+                        <Box
+                            component="input"
+                            type="file"
+                            id="img"
+                            sx={{ opacity: 0, position: 'absolute', zIndex: -1 }}
+                            multiple
+                            accept="image/*"
+                            onChange={(e: React.ChangeEvent<HTMLInputElement>) => {
+                                e.preventDefault();
+
+                                if (e.target.files) {
+                                    const selectedFiles = Array.from(e.target.files).filter(({ type }) => type.startsWith('image/')) as File[];
+                                    const nonImageFiles = Array.from(e.target.files).filter(({ type }) => !type.startsWith('image/'));
+
+                                    if (nonImageFiles.length > 0) {
+                                        setSnackbarMessage('فقط فایل‌های تصویری مجاز هستند.');
+                                        setSnackbarOpen(true);
+
+                                        return;
+                                    }
+
+                                    if (imageFiles.length + selectedFiles.length > 10) {
+                                        setSnackbarMessage('شما نمی‌توانید بیش از 10 تصویر آپلود کنید.');
+                                        setSnackbarOpen(true);
+
+                                        if (fileInputRef.current) fileInputRef.current.value = '';
+
+                                        return;
+                                    }
+
+                                    selectedFiles.forEach((file) => {
+                                        const reader = new FileReader();
+
+                                        reader.onloadend = () => setImageFiles((prevFiles) => [...prevFiles, reader.result as string]);
+                                        reader.readAsDataURL(file);
+                                    });
+                                }
+
+                                if (fileInputRef.current) fileInputRef.current.value = '';
+                            }}
+                            ref={fileInputRef}
+                        />
                     </Box>
                 </Box>
                 <Box sx={{ width: '50%', marginTop: '16px' }}>
