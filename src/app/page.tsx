@@ -21,9 +21,12 @@ export default () => {
     React.useEffect(() => {
         (async () => {
             try {
-                const urlParams = new URLSearchParams();
+                const urlParams = new URLSearchParams(window.location.search);
+                const selected = urlParams.get('categories')?.split(',') || [];
 
-                if (selectedCategories.length > 0) urlParams.set('categories', selectedCategories.join(','));
+                setSelectedCategories(selected);
+
+                if (selected.length > 0) urlParams.set('categories', selected.join(','));
 
                 const response = await fetch('/api/products?' + urlParams.toString());
                 const data = await response.json();
@@ -35,7 +38,7 @@ export default () => {
                 setLoading(false);
             }
         })();
-    }, [selectedCategories]);
+    }, []);
 
     if (loading) {
         return (
@@ -69,7 +72,26 @@ export default () => {
                 <Grid container spacing={2}>
                     {categories.map((category) => (
                         <Grid item key={category}>
-                            <Button sx={{ display: 'flex', alignItems: 'center', gap: 1 }} variant={selectedCategories.includes(category) ? 'contained' : 'outlined'} color={selectedCategories.includes(category) ? 'success' : 'info'} onClick={() => setSelectedCategories((prev) => (prev.includes(category) ? prev.filter((item) => item !== category) : [...prev, category]))} endIcon={selectedCategories.includes(category) && <Close />}>
+                            <Button
+                                sx={{ display: 'flex', alignItems: 'center', gap: 1 }}
+                                variant={selectedCategories.includes(category) ? 'contained' : 'outlined'}
+                                color={selectedCategories.includes(category) ? 'success' : 'info'}
+                                onClick={() => {
+                                    const categories = selectedCategories.includes(category) ? selectedCategories.filter((item) => item !== category) : [...selectedCategories, category];
+
+                                    setSelectedCategories(categories);
+
+                                    const urlParams = new URLSearchParams(window.location.search);
+
+                                    if (categories.length > 0) {
+                                        urlParams.set('categories', categories.join(','));
+                                    } else {
+                                        urlParams.delete('categories');
+                                    }
+
+                                    window.history.pushState(null, '', window.location.pathname + '?' + urlParams.toString());
+                                }}
+                                endIcon={selectedCategories.includes(category) && <Close />}>
                                 {category}
                             </Button>
                         </Grid>
