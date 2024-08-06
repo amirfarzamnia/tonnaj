@@ -1,9 +1,9 @@
 import { productsProps, ProductTypes } from '@/types/product';
 import { NextResponse, NextRequest } from 'next/server';
 import findSession from '@/functions/find-session';
+import { AuthTypes } from '@/types/auth';
 import { database } from '@/mongodb';
 import { randomBytes } from 'crypto';
-import { AuthTypes } from '@/types/auth';
 
 export const POST = async (req: NextRequest) => {
     const { title, description, images, categories, price, max, min, name, city, state }: productsProps = await req.json();

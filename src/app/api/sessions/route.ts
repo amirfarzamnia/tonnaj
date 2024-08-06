@@ -4,10 +4,10 @@ import { AuthTypes } from '@/types/auth';
 import { database } from '@/mongodb';
 import { randomBytes } from 'crypto';
 
-const verificationCodes: { [key: string]: string } = {};
+const verificationCodes: { [key: string]: AuthTypes['verification_code'] } = {};
 
 export const POST = async (request: NextRequest) => {
-    const { phone_number, verification_code }: { phone_number: string; verification_code: string } = await request.json();
+    const { phone_number, verification_code }: { phone_number: AuthTypes['phone_number']; verification_code: AuthTypes['verification_code'] } = await request.json();
 
     if (verification_code) {
         if (!phone_number) return NextResponse.json({ error: 'شماره تلفن همراه ارسال نشده.' }, { status: 404 });
