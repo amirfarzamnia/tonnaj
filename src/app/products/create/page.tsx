@@ -8,14 +8,6 @@ import { useRouter } from 'next/navigation';
 import L, { LatLng } from 'leaflet';
 import 'leaflet/dist/leaflet.css';
 
-interface Location {
-    latlng: LatLng;
-    address: {
-        city?: string;
-        state?: string;
-    };
-}
-
 async function getCityAndState(lat: number, lng: number) {
     const response = await fetch(`https://nominatim.openstreetmap.org/reverse?format=jsonv2&lat=${lat}&lon=${lng}&accept-language=fa`);
     const data = await response.json();
@@ -27,7 +19,7 @@ async function getCityAndState(lat: number, lng: number) {
 }
 
 export default () => {
-    const [location, setLocation] = useState<{ latlng: LatLng; address: { city?: string; state?: string } } | null>(null);
+    const [location, setLocation] = useState<{ latlng: L.LatLng; address: { city?: string; state?: string } } | null>(null);
     const [selectedCategories, setCategories] = useState<string[]>([]);
     const [imageFiles, setImageFiles] = useState<string[]>([]);
     const fileInputRef = useRef<HTMLInputElement | null>(null);
