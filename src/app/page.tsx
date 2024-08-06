@@ -20,11 +20,11 @@ export default () => {
         (async () => {
             try {
                 const urlParams = new URLSearchParams(window.location.search);
-                const selected = urlParams.get('categories')?.split(',') || [];
+                const categories = urlParams.get('categories')?.split(',') || [];
 
-                setSelectedCategories(selected);
+                setSelectedCategories(categories);
 
-                if (selected.length > 0) urlParams.set('categories', selected.join(','));
+                if (categories.length > 0) urlParams.set('categories', categories.join(','));
 
                 const response = await fetch('/api/products?' + urlParams.toString());
                 const data = await response.json();
