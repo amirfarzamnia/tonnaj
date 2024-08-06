@@ -1,11 +1,11 @@
-import { productsProps, ProductTypes } from '@/types/product';
 import { NextResponse, NextRequest } from 'next/server';
 import findSession from '@/functions/find-session';
+import { ProductTypes } from '@/types/product';
 import { database } from '@/mongodb';
 import { randomBytes } from 'crypto';
 
 export const POST = async (request: NextRequest) => {
-    const { name, description, images, categories, price, max, min, name, city, state }: productsProps = await request.json();
+    const { name, description, images, categories, price, max, min, name, city, state }: ProductTypes = await request.json();
 
     if (!name || !description || !price) return NextResponse.json({ message: 'Validation Error' }, { status: 400 });
 
