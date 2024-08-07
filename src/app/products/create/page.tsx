@@ -1,32 +1,33 @@
 'use client';
 
 import { Alert, Box, Divider, Button, FormControl, Grid, IconButton, InputLabel, MenuItem, Select, SelectChangeEvent, Snackbar, TextareaAutosize, TextField, Typography } from '@mui/material';
-import { Add, Clear } from '@mui/icons-material';
+import { renderToStaticMarkup } from 'react-dom/server';
+import { Add, Clear, Room } from '@mui/icons-material';
 import categories from '@/constants/categories';
 import { ProductTypes } from '@/types/product';
 import { useRouter } from 'next/navigation';
-import leaflet from 'leaflet';
 import React from 'react';
+import L from 'leaflet';
 
 export default () => {
-    const initialProductState: Omit<ProductTypes, 'timestamp' | 'rating' | 'id' | 'available' | 'author'> = { categories: [], description: '', images: [], price: '', name: '', location: { latlng: new leaflet.LatLng(32.4279, 53.688), state: '', city: '' } };
+    const initialProductState: Omit<ProductTypes, 'timestamp' | 'rating' | 'id' | 'available' | 'author'> = { categories: [], description: '', images: [], price: '', name: '', location: { latlng: new L.LatLng(32.4279, 53.688), state: '', city: '' } };
 
     const [product, setProduct] = React.useState(initialProductState);
     const [snackbarMessage, setSnackbarMessage] = React.useState('');
     const fileInputRef = React.useRef<HTMLInputElement | null>(null);
     const [snackbarOpen, setSnackbarOpen] = React.useState(false);
-    const mapInstance = React.useRef<leaflet.Map | null>(null);
     const mapRef = React.useRef<HTMLDivElement | null>(null);
+    const mapInstance = React.useRef<L.Map | null>(null);
     const router = useRouter();
 
     React.useEffect(() => {
         if (!(mapRef.current && !mapInstance.current)) return;
 
-        mapInstance.current = leaflet.map(mapRef.current, { attributionControl: false }).setView(product.location.latlng, 5);
+        mapInstance.current = L.map(mapRef.current, { attributionControl: false }).setView(product.location.latlng, 5);
 
-        leaflet.tileLayer('https://{s}.tile.openstreetmap.org/{z}/{x}/{y}.png').addTo(mapInstance.current);
+        L.tileLayer('https://{s}.tile.openstreetmap.org/{z}/{x}/{y}.png').addTo(mapInstance.current);
 
-        const handleMapClick = async (e: leaflet.LeafletMouseEvent) => {
+        const handleMapClick = async (e: L.LeafletMouseEvent) => {
             const response = await fetch('https://nominatim.openstreetmap.org/reverse?format=jsonv2&lat=' + e.latlng.lat + '&lon=' + e.latlng.lng + '&accept-language=fa');
             const { address } = await response.json();
 
@@ -35,7 +36,10 @@ export default () => {
 
             setProduct((prevProduct) => ({ ...prevProduct, location: { latlng: e.latlng, state, city } }));
 
-            leaflet.marker(e.latlng).addTo(mapInstance.current!).bindPopup(`استان: ${address.state}<br>شهر یا روستا: ${city}`).openPopup();
+            L.marker(e.latlng, { icon: L.divIcon({ html: renderToStaticMarkup(<Room />) }) })
+                .addTo(mapInstance.current!)
+                .bindPopup(`استان: ${address.state}<br>شهر یا روستا: ${city}`)
+                .openPopup();
         };
 
         mapInstance.current.on('click', handleMapClick);
