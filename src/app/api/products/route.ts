@@ -21,6 +21,8 @@ export const POST = async (request: NextRequest) => {
 
             if (!Array.isArray(product.images) || !product.images.every((image) => /^(?:[A-Za-z0-9+\/]{4})*(?:[A-Za-z0-9+\/]{2}==|[A-Za-z0-9+\/]{3}=)?$/.test(image))) return NextResponse.json({ message: 'تصاویر به درستی بارگذاری نشده اند.' }, { status: 404 });
 
+            if (!product.images.length) return NextResponse.json({ message: 'باید حداقل یک عکس از محصول خود بارگذاری کنید.' }, { status: 404 });
+
             if (typeof product.price !== 'number' || !(product.price >= 10000 && product.price <= 10000000000)) return NextResponse.json({ message: 'هزینه محصول باید بین ده هزار تومان تا ده میلیارد تومان باشد.' }, { status: 404 });
 
             if (!product.location?.latlng || typeof product.location.city !== 'string' || typeof product.location.state !== 'string' || !(typeof product.location.latlng.lat === 'number' && typeof product.location.latlng.lng === 'number')) return NextResponse.json({ message: 'موقعیت مکانی به درستی ارسال نشده.' }, { status: 404 });
