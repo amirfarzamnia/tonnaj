@@ -199,7 +199,7 @@ export default () => {
                     </Grid>
                     <Grid item xs={12}>
                         <Button type="submit" variant="contained" color="primary">
-                            ثبت آگهی
+                            ثبت محصول
                         </Button>
                     </Grid>
                 </Grid>

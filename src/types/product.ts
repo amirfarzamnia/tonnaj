@@ -2,6 +2,8 @@ import { AuthTypes } from './auth';
 import { LatLng } from 'leaflet';
 
 interface ProductBase {
+    categories: string[];
+    description: string;
     available: boolean;
     timestamp: number;
     id: string;
@@ -16,15 +18,11 @@ interface ProductBase {
     };
 }
 
-export interface ProductTypes extends ProductBase {
-    categories: string[];
-    description: string;
+export type ProductTypes = ProductBase & {
     images: string[];
     rating: number;
     price: number;
     name: string;
-}
+};
 
-export interface ProductRequestTypes extends ProductBase {
-    description: string;
-}
+export type ProductRequestTypes = ProductBase;
