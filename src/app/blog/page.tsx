@@ -34,6 +34,7 @@ export default () => {
         if (categories) {
             const sendRequest = async () => {
                 const url = new URL('/api/blog', location.origin);
+
                 url.searchParams.append('categories', categories);
 
                 try {
@@ -58,16 +59,13 @@ export default () => {
         if (categories) return;
 
         const sendRequest = async () => {
-            try {
-                const response = await fetch('api/blog');
-                if (response.ok) {
-                    const json = await response.json();
-                    setBlogs(json);
-                } else {
-                    console.error('Error fetching data:', response.status);
-                }
-            } catch (error) {
-                console.error('Fetch error:', error);
+            const response = await fetch('api/blog');
+
+            if (response.ok) {
+                const json = await response.json();
+                setBlogs(json);
+            } else {
+                console.error('Error fetching data:', response.status);
             }
         };
 
@@ -92,7 +90,7 @@ export default () => {
                             </CardContent>
                             <Divider />
                             <CardActions sx={{ p: 2, display: 'flex', justifyContent: 'center', alignItems: 'center' }}>
-                                <StyledButton href={`/blog/${encodeURI(item.name)}`} variant="outlined" color="primary">
+                                <StyledButton href={`/blog/${item.name}`} variant="outlined" color="primary">
                                     ادامه
                                 </StyledButton>
                             </CardActions>

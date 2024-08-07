@@ -11,33 +11,29 @@ export default ({ params }: { params: { name: string } }) => {
     const [selectedCategories, setSelectedCategories] = useState<string[]>([]);
     const router = useRouter();
     const pathname = usePathname();
-    const decodedName = decodeURI(params.name);
 
     useEffect(() => {
         if (!params.name) return;
 
-        const req = async () => {
-            const url = `/api/blog?name=${decodeURI(pathname.split('/')[2])}`;
-            const res = await fetch(url);
+        fetch('/api/blog?name=' + pathname.split('/')[2]).then(async (res) => {
             const json = await res.json();
-            setBlog(json);
-        };
 
-        req();
+            setBlog(json);
+        });
     }, [params.name]);
 
     const handleCategoryClick = (category: string) => {
         let updatedCategories = [...selectedCategories];
+
         if (updatedCategories.includes(category)) {
-            // Remove category if already selected
             updatedCategories = updatedCategories.filter((c) => c !== category);
         } else {
-            // Add category if not selected
             updatedCategories.push(category);
         }
+
         setSelectedCategories(updatedCategories);
-        const query = updatedCategories.length > 0 ? `?categories=${encodeURI(updatedCategories.join(','))}` : '';
-        router.push(`/blog${query}`);
+
+        router.push('/blog' + (updatedCategories.length > 0 ? `?categories=${updatedCategories.join(',')}` : ''));
     };
 
     return (
