@@ -1,100 +1,77 @@
 'use client';
 
-import { Button, Box, Card, CardActions, CardContent, Divider, Grid, Stack, styled, Typography } from '@mui/material';
+import { Button, Box, Card, Divider, Grid, Stack, Typography, CircularProgress, CardContent } from '@mui/material';
 import { useSearchParams } from 'next/navigation';
 import { useEffect, useState } from 'react';
 import { BlogTypes } from '@/types/blog';
 
-const StyledCard = styled(Card)(({ theme }) => ({
-    display: 'flex',
-    flexDirection: 'column',
-    justifyContent: 'space-between',
-    height: '100%',
-    boxShadow: theme.shadows[3],
-    borderRadius: theme.shape.borderRadius * 2,
-    transition: 'transform 0.3s, box-shadow 0.3s'
-}));
-
-const StyledButton = styled(Button)(({ theme }) => ({
-    width: '100%',
-    border: '2.5px solid transparent',
-    borderRadius: theme.shape.borderRadius * 2,
-    textTransform: 'uppercase',
-    fontWeight: theme.typography.fontWeightBold,
-    transition: 'all 0.2s ease-in'
-}));
-
 export default () => {
+    const [error, setError] = useState<string | null>(null);
     const [blogs, setBlogs] = useState<BlogTypes[]>([]);
+    const [loading, setLoading] = useState(true);
 
     const searchParams = useSearchParams();
     const categories = searchParams.get('categories');
 
     useEffect(() => {
-        if (categories) {
-            const sendRequest = async () => {
-                const url = new URL('/api/blog', location.origin);
+        (async () => {
+            setLoading(true);
+            setError(null);
 
-                url.searchParams.append('categories', categories);
+            try {
+                const response = await fetch('/api/blog' + (categories ? '?categories=' + categories : ''));
+                const json = await response.json();
 
-                try {
-                    const response = await fetch(url.toString());
-                    if (response.ok) {
-                        const data = await response.json();
-                        console.log(data);
-                        setBlogs(data);
-                    } else {
-                        console.error('Error fetching data:', response.status);
-                    }
-                } catch (error) {
-                    console.error('Fetch error:', error);
-                }
-            };
-
-            sendRequest();
-        }
+                setBlogs(json);
+            } catch (e) {
+                setError(e instanceof Error ? e.message : 'دریافت اطلاعات از دیتابیس با خطا مواجه شد.');
+            } finally {
+                setLoading(false);
+            }
+        })();
     }, [categories]);
 
-    useEffect(() => {
-        if (categories) return;
+    if (loading) {
+        return (
+            <Box sx={{ display: 'flex', justifyContent: 'center', alignItems: 'center', height: '100vh' }}>
+                <CircularProgress />
+            </Box>
+        );
+    }
 
-        const sendRequest = async () => {
-            const response = await fetch('api/blog');
-
-            if (response.ok) {
-                const json = await response.json();
-                setBlogs(json);
-            } else {
-                console.error('Error fetching data:', response.status);
-            }
-        };
-
-        sendRequest();
-    }, []);
+    if (error) return <Typography variant="h4">{error}</Typography>;
 
     return (
         <Stack maxWidth={'100%'}>
             <Grid container spacing={3} justifyContent="center">
-                {blogs.map((item, index) => (
-                    <Grid item key={index} xs={12} sm={6} md={4} lg={3}>
-                        <StyledCard>
-                            <Box component="img" src={item.image} loading="lazy" height={'30vh'} sx={{ border: '1px solid white', borderRadius: '10px' }} />
+                {blogs.map(({ content, name, image, categories }, index) => (
+                    <Grid item xs={12} sm={6} md={3} key={index}>
+                        <Card sx={{ borderRadius: 4 }}>
+                            <Box component="img" src={image} loading="lazy" height={'30vh'} />
                             <CardContent>
                                 <Typography variant="h6" sx={{ textAlign: 'center', mb: 1 }}>
-                                    {item.name}
+                                    {name}
                                 </Typography>
                                 <Divider sx={{ mb: 2 }} />
                                 <Typography variant="body2" color="text.secondary" sx={{ overflow: 'hidden', textOverflow: 'ellipsis', display: '-webkit-box', WebkitLineClamp: 4, WebkitBoxOrient: 'vertical', height: 95 }}>
-                                    {item.content}
+                                    {content}
+                                </Typography>
+                                <Divider />
+                                <Button href={'/blog/' + name} variant="outlined" color="success" sx={{ width: '100%' }}>
+                                    مشاهده
+                                </Button>
+                                <Box sx={{ my: 2 }}>
+                                    <Divider />
+                                </Box>
+                                <Typography variant="body2" color="textSecondary">
+                                    {categories.map((category, index) => (
+                                        <Box component="small" key={index}>
+                                            {category}
+                                        </Box>
+                                    ))}
                                 </Typography>
                             </CardContent>
-                            <Divider />
-                            <CardActions sx={{ p: 2, display: 'flex', justifyContent: 'center', alignItems: 'center' }}>
-                                <StyledButton href={`/blog/${item.name}`} variant="outlined" color="primary">
-                                    ادامه
-                                </StyledButton>
-                            </CardActions>
-                        </StyledCard>
+                        </Card>
                     </Grid>
                 ))}
             </Grid>
