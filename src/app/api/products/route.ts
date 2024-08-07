@@ -8,6 +8,10 @@ import { randomBytes } from 'crypto';
 export const POST = async (request: NextRequest) => {
     const product: ProductTypes = await request.json();
 
+    const { phone_number } = (await findSession(request)) || {};
+
+    if (!phone_number) return new NextResponse(null, { status: 403 });
+
     if (!Array.isArray(product.categories) || product.categories.some((category) => !categories.includes(category))) return NextResponse.json({ message: 'دسته بندی ها به درستی ارسال نشده اند.' }, { status: 404 });
 
     if (!/^.{50,500}$/.test(product.description)) return NextResponse.json({ message: 'توضیحات محصول باید بین 50 تا 500 حرف باشد.' }, { status: 404 });
@@ -20,11 +24,7 @@ export const POST = async (request: NextRequest) => {
 
     if (!/^.{5,50}$/.test(product.name)) return NextResponse.json({ message: 'نام محصول باید بین 5 تا 50 حرف باشد.' }, { status: 404 });
 
-    const { phone_number } = (await findSession(request)) || {};
-
-    if (!phone_number) return new NextResponse(null, { status: 403 });
-
-    return NextResponse.json({ message: 'Product added successfully' }, { status: 200 });
+    return NextResponse.json({ message: 'محصول شما با موفقیت به تناژ اضافه شد.' }, { status: 200 });
 };
 
 export const GET = async (request: NextRequest) => {
