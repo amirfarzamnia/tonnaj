@@ -63,13 +63,6 @@ export default () => {
             onSubmit={async (e: React.FormEvent) => {
                 e.preventDefault();
 
-                if (product.images.length === 0) {
-                    setSnackbarMessage('باید حداقل یک عکس برای محصول خود انتخاب کنید');
-                    setSnackbarOpen(true);
-
-                    return;
-                }
-
                 const { ok } = await fetch('/api/products', { method: 'POST', headers: { 'Content-Type': 'application/json' }, body: JSON.stringify(product) });
 
                 if (ok) {
@@ -199,7 +192,7 @@ export default () => {
                     </Grid>
                     <Grid item xs={12}>
                         <Button type="submit" variant="contained" color="primary">
-                            ثبت آگهی
+                            ثبت محصول
                         </Button>
                     </Grid>
                 </Grid>

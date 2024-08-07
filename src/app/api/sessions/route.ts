@@ -10,9 +10,9 @@ export const POST = async (request: NextRequest) => {
     const { phone_number, verification_code }: { phone_number: AuthTypes['phone_number']; verification_code: AuthTypes['verification_code'] } = await request.json();
 
     if (verification_code) {
-        if (!phone_number) return NextResponse.json({ error: 'شماره تلفن همراه ارسال نشده.' }, { status: 404 });
+        if (!phone_number) return NextResponse.json({ error: 'شماره تلفن همراه ارسال نشده.' }, { status: 400 });
 
-        if (verificationCodes[phone_number] !== verification_code) return NextResponse.json({ error: 'کد تایید ارسال شده نادرست است.' }, { status: 404 });
+        if (verificationCodes[phone_number] !== verification_code) return NextResponse.json({ error: 'کد تایید ارسال شده نادرست است.' }, { status: 400 });
 
         const session = randomBytes(16).toString('hex');
 
@@ -24,7 +24,7 @@ export const POST = async (request: NextRequest) => {
 
         return response;
     } else if (phone_number) {
-        if (!/^(09\d{9}|98\d{10})$/.test(phone_number)) return NextResponse.json({ error: 'شماره تلفن همراه به درستی وارد نشده.' }, { status: 404 });
+        if (!/^(09\d{9}|98\d{10})$/.test(phone_number)) return NextResponse.json({ error: 'شماره تلفن همراه به درستی وارد نشده.' }, { status: 400 });
 
         const code = Array.from({ length: 4 }, () => Math.floor(Math.random() * 10)).join('');
 
@@ -35,7 +35,7 @@ export const POST = async (request: NextRequest) => {
         return new NextResponse(null, { status: 204 });
     }
 
-    return NextResponse.json({ error: 'پارامترهای ارسالی قابل قبول نیستند.' }, { status: 404 });
+    return NextResponse.json({ error: 'پارامترهای ارسالی قابل قبول نیستند.' }, { status: 400 });
 };
 
 export const GET = async (request: NextRequest) => NextResponse.json(await findSession(request), { status: 200 });
