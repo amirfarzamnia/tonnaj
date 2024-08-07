@@ -5,6 +5,11 @@ interface ProductBase {
     available: boolean;
     timestamp: number;
     id: string;
+    location: {
+        latlng: LatLng;
+        state: string;
+        city: string;
+    };
     author: {
         phone_number: AuthTypes['phone_number'];
         name: AuthTypes['name'];
@@ -18,11 +23,6 @@ export interface ProductTypes extends ProductBase {
     rating: number;
     price: number;
     name: string;
-    location: {
-        latlng: LatLng;
-        state: string;
-        city: string;
-    };
 }
 
 export interface ProductRequestTypes extends ProductBase {
