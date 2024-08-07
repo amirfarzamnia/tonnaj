@@ -6,7 +6,7 @@ import { database } from '@/mongodb';
 import { randomBytes } from 'crypto';
 
 export const POST = async (request: NextRequest) => {
-    const { product, product_request, method }: { product: ProductTypes; product_request: ProductRequestTypes; method: string } = await request.json();
+    const { product, product_request, method }: { product?: ProductTypes; product_request?: ProductRequestTypes; method: string } = await request.json();
     const session = await findSession(request);
 
     if (!session) return new NextResponse(null, { status: 403 });
@@ -36,6 +36,8 @@ export const POST = async (request: NextRequest) => {
             if (!product_request) return NextResponse.json({ message: 'پارامتر محصول درخواستی ارسال نشده.' }, { status: 404 });
 
             if (!/^.{50,500}$/.test(product_request.description)) return NextResponse.json({ message: 'توضیحات محصول مورد نیاز باید بین 50 تا 500 حرف باشد.' }, { status: 404 });
+
+            await database.collection('product_requests').insertOne({ ...product_request, id: randomBytes(3).toString('hex'), timestamp: Date.now(), author: session, available: true });
 
             return NextResponse.json({ message: 'درخواست خرید محصول شما با موفقیت به تناژ اضافه شد.' }, { status: 200 });
         }
