@@ -44,7 +44,7 @@ export default () => {
             {blogs.map(({ content, name, image, categories }, index) => (
                 <Grid item xs={12} sm={6} md={3} key={index}>
                     <Card sx={{ borderRadius: 4 }}>
-                        <Box component="img" src={image} loading="lazy" height={'30vh'} />
+                        <Box component="img" src={image} loading="lazy" height="30vh" />
                         <CardContent>
                             <Typography variant="h6" gutterBottom textAlign="center">
                                 {name}
