@@ -40,7 +40,7 @@ export default () => {
     if (error) return <Typography variant="h4">{error}</Typography>;
 
     return (
-        <Grid container spacing={3} justifyContent="center">
+        <Grid container spacing={3}>
             {blogs.map(({ content, name, image, categories }, index) => (
                 <Grid item xs={12} sm={6} md={3} key={index}>
                     <Card sx={{ borderRadius: 4 }}>
