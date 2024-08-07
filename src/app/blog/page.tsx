@@ -42,39 +42,38 @@ export default () => {
     if (error) return <Typography variant="h4">{error}</Typography>;
 
     return (
-        <Stack maxWidth={'100%'}>
-            <Grid container spacing={3} justifyContent="center">
-                {blogs.map(({ content, name, image, categories }, index) => (
-                    <Grid item xs={12} sm={6} md={3} key={index}>
-                        <Card sx={{ borderRadius: 4 }}>
-                            <Box component="img" src={image} loading="lazy" height={'30vh'} />
-                            <CardContent>
-                                <Typography variant="h6" sx={{ textAlign: 'center', mb: 1 }}>
-                                    {name}
-                                </Typography>
-                                <Divider sx={{ mb: 2 }} />
-                                <Typography variant="body2" color="text.secondary" sx={{ overflow: 'hidden', textOverflow: 'ellipsis', display: '-webkit-box', WebkitLineClamp: 4, WebkitBoxOrient: 'vertical', height: 95 }}>
-                                    {content}
-                                </Typography>
+        <Grid container spacing={3} justifyContent="center">
+            {blogs.map(({ content, name, image, categories }, index) => (
+                <Grid item xs={12} sm={6} md={3} key={index}>
+                    <Card sx={{ borderRadius: 4 }}>
+                        <Box component="img" src={image} loading="lazy" height={'30vh'} />
+                        <CardContent>
+                            <Typography variant="h6" gutterBottom textAlign="center">
+                                {name}
+                            </Typography>
+                            <Box sx={{ my: 2 }}>
                                 <Divider />
-                                <Button href={'/blog/' + name} variant="outlined" color="success" sx={{ width: '100%' }}>
-                                    مشاهده
-                                </Button>
-                                <Box sx={{ my: 2 }}>
-                                    <Divider />
-                                </Box>
-                                <Typography variant="body2" color="textSecondary">
-                                    {categories.map((category, index) => (
-                                        <Box component="small" key={index}>
-                                            {category}
-                                        </Box>
-                                    ))}
-                                </Typography>
-                            </CardContent>
-                        </Card>
-                    </Grid>
-                ))}
-            </Grid>
-        </Stack>
+                            </Box>
+                            <Typography variant="body1" color="textSecondary" gutterBottom>
+                                {content.slice(0, 150)}...
+                            </Typography>
+                            <Button href={'/blog/' + name} variant="outlined" color="success" sx={{ width: '100%' }}>
+                                مشاهده
+                            </Button>
+                            <Box sx={{ my: 2 }}>
+                                <Divider />
+                            </Box>
+                            <Typography variant="body2" color="textSecondary">
+                                {categories.map((category, index) => (
+                                    <Box component="small" key={index}>
+                                        {category}
+                                    </Box>
+                                ))}
+                            </Typography>
+                        </CardContent>
+                    </Card>
+                </Grid>
+            ))}
+        </Grid>
     );
 };
