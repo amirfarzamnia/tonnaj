@@ -1,7 +1,7 @@
 'use client';
 
-import { Alert, Box, Button, FormControl, Grid, IconButton, InputLabel, MenuItem, Select, SelectChangeEvent, Snackbar, TextareaAutosize, TextField, Typography } from '@mui/material';
-import { Add, Remove } from '@mui/icons-material';
+import { Alert, Box, Divider, Button, FormControl, Grid, IconButton, InputLabel, MenuItem, Select, SelectChangeEvent, Snackbar, TextareaAutosize, TextField, Typography } from '@mui/material';
+import { Add, Clear } from '@mui/icons-material';
 import categories from '@/constants/categories';
 import { ProductTypes } from '@/types/product';
 import { useRouter } from 'next/navigation';
@@ -95,6 +95,9 @@ export default () => {
                     <Grid item xs={12}>
                         <Box ref={mapRef} sx={{ height: '25rem', width: '100%', border: 1, borderColor: 'rgba(133, 133, 133, 0.5)', borderRadius: 1 }}></Box>
                     </Grid>
+                    <Box sx={{ width: '98%', my: 2 }}>
+                        <Divider />
+                    </Box>
                     <Grid item xs={12}>
                         <Grid container spacing={2}>
                             {product.images.map((src, index) => (
@@ -107,8 +110,9 @@ export default () => {
                                                     product.images.filter((_, i) => i !== index)
                                                 );
                                             }}
-                                            sx={{ position: 'absolute', top: 0, right: 0, zIndex: 1, color: 'red' }}>
-                                            <Remove />
+                                            size="small"
+                                            sx={{ position: 'absolute', top: -17.5, right: -17.5, zIndex: 1, color: 'red', background: 'rgba(0, 0, 0, 0.05)', border: 1, borderColor: 'rgba(133, 133, 133, 0.5)' }}>
+                                            <Clear />
                                         </IconButton>
                                         <Box component="img" loading="lazy" src={src} alt={`Uploaded ${index}`} sx={{ width: '100%', height: '100%', borderRadius: '4px', objectFit: 'cover' }} />
                                     </Box>
