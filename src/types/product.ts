@@ -20,3 +20,7 @@ export type ProductTypes = {
         name: string;
     };
 };
+
+export type ProductRequestTypes = {
+    description: string;
+};

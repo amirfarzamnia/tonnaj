@@ -1,18 +1,20 @@
+import { ProductTypes, ProductRequestTypes } from '@/types/product';
 import { NextResponse, NextRequest } from 'next/server';
 import findSession from '@/functions/find-session';
 import categories from '@/constants/categories';
-import { ProductTypes } from '@/types/product';
 import { database } from '@/mongodb';
 import { randomBytes } from 'crypto';
 
 export const POST = async (request: NextRequest) => {
-    const { product, method }: { product: ProductTypes; method: string } = await request.json();
+    const { product, product_request, method }: { product: ProductTypes; product_request: ProductRequestTypes; method: string } = await request.json();
     const session = await findSession(request);
 
     if (!session) return new NextResponse(null, { status: 403 });
 
     switch (method) {
         case 'create': {
+            if (!product) return NextResponse.json({ message: 'پارامتر محصول ارسال نشده.' }, { status: 404 });
+
             if (!Array.isArray(product.categories) || product.categories.some((category) => !categories.includes(category))) return NextResponse.json({ message: 'دسته بندی ها به درستی ارسال نشده اند.' }, { status: 404 });
 
             if (!/^.{50,500}$/.test(product.description)) return NextResponse.json({ message: 'توضیحات محصول باید بین 50 تا 500 حرف باشد.' }, { status: 404 });
@@ -31,7 +33,9 @@ export const POST = async (request: NextRequest) => {
         }
 
         case 'request': {
-            if (!/^.{50,500}$/.test(product.description)) return NextResponse.json({ message: 'توضیحات محصول مورد نیاز باید بین 50 تا 500 حرف باشد.' }, { status: 404 });
+            if (!product_request) return NextResponse.json({ message: 'پارامتر محصول درخواستی ارسال نشده.' }, { status: 404 });
+
+            if (!/^.{50,500}$/.test(product_request.description)) return NextResponse.json({ message: 'توضیحات محصول مورد نیاز باید بین 50 تا 500 حرف باشد.' }, { status: 404 });
 
             return NextResponse.json({ message: 'درخواست خرید محصول شما با موفقیت به تناژ اضافه شد.' }, { status: 200 });
         }
