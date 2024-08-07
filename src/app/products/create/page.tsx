@@ -33,10 +33,11 @@ export default () => {
         const handleMapClick = async (e: L.LeafletMouseEvent) => {
             const response = await fetch('https://nominatim.openstreetmap.org/reverse?format=jsonv2&lat=' + e.latlng.lat + '&lon=' + e.latlng.lng + '&accept-language=fa');
             const { address } = await response.json();
+            const city = address.city || address.town || address.village;
 
-            setLocation({ latlng: e.latlng, address: { city: address.city || address.town || address.village, state: address.state } });
+            setLocation({ latlng: e.latlng, address: { city, state: address.state } });
 
-            L.marker(e.latlng).addTo(mapInstance.current!).bindPopup(`Latitude: ${e.latlng.lat}<br>Longitude: ${e.latlng.lng}`).openPopup();
+            L.marker(e.latlng).addTo(mapInstance.current!).bindPopup(`استان: ${address.state}<br>شهر یا روستا: ${city}`).openPopup();
         };
 
         mapInstance.current.on('click', handleMapClick);
