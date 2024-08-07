@@ -65,13 +65,7 @@ export default ({ params }: { params: { name: string } }) => {
                                 variant="contained"
                                 key={index}
                                 onClick={() => {
-                                    let updatedCategories = [...selectedCategories];
-
-                                    if (updatedCategories.includes(category)) {
-                                        updatedCategories = updatedCategories.filter((c) => c !== category);
-                                    } else {
-                                        updatedCategories.push(category);
-                                    }
+                                    const updatedCategories = selectedCategories.includes(category) ? selectedCategories.filter((c) => c !== category) : [...selectedCategories, category];
 
                                     setSelectedCategories(updatedCategories);
 
