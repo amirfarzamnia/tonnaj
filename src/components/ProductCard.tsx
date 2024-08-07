@@ -1,4 +1,4 @@
-import { Card, CardContent, CardMedia, Typography, Button, Box, Divider, Grid } from '@mui/material';
+import { Card, CardContent, CardMedia, Typography, Button, Box, Divider, Grid, Link as MuiLink } from '@mui/material';
 import { Swiper, SwiperSlide } from 'swiper/react';
 import { ProductTypes } from '@/types/product';
 import { Pagination } from 'swiper/modules';
@@ -41,10 +41,8 @@ export default ({ price, description, images, name, id, author, categories, loca
                             <Divider />
                         </Box>
                         <Typography variant="body2" color="textSecondary">
-                            {categories.map((category, index) => (
-                                <Box component="small" key={index}>
-                                    {category}
-                                </Box>
+                            {categories.map((category) => (
+                                <MuiLink href={'?categories=' + category}>{category}</MuiLink>
                             ))}
                         </Typography>
                     </CardContent>

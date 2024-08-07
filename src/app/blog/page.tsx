@@ -1,6 +1,6 @@
 'use client';
 
-import { Button, Box, Card, Divider, Grid, Typography, CircularProgress, CardContent } from '@mui/material';
+import { Button, Box, Card, Divider, Grid, Typography, CircularProgress, CardContent, Link } from '@mui/material';
 import { useSearchParams } from 'next/navigation';
 import { useEffect, useState } from 'react';
 import { BlogTypes } from '@/types/blog';
@@ -62,10 +62,8 @@ export default () => {
                                 <Divider />
                             </Box>
                             <Typography variant="body2" color="textSecondary">
-                                {categories.map((category, index) => (
-                                    <Box component="small" key={index}>
-                                        {category}
-                                    </Box>
+                                {categories.map((category) => (
+                                    <Link href={'?categories=' + category}>{category}</Link>
                                 ))}
                             </Typography>
                         </CardContent>
