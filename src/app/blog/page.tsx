@@ -24,39 +24,30 @@ const StyledButton = styled(Button)(({ theme }) => ({
     transition: 'all 0.2s ease-in'
 }));
 
-const BlogList = () => {
+export default () => {
+    const [error, setError] = useState<string | null>(null);
     const [blogs, setBlogs] = useState<BlogTypes[]>([]);
     const [loading, setLoading] = useState(true);
-    const [error, setError] = useState<string | null>(null);
 
     const searchParams = useSearchParams();
     const categories = searchParams.get('categories');
 
     useEffect(() => {
-        const fetchBlogs = async () => {
+        (async () => {
             setLoading(true);
             setError(null);
+
             try {
-                const url = new URL('/api/blog', location.origin);
-                if (categories) {
-                    url.searchParams.append('categories', categories);
-                }
+                const response = await fetch('/api/blog' + (categories ? '?categories=' + categories : ''));
+                const json = await response.json();
 
-                const response = await fetch(url.toString());
-
-                if (response.ok) {
-                    setBlogs(await response.json());
-                } else {
-                    throw new Error(`Error fetching data: ${response.status}`);
-                }
-            } catch (error) {
-                setError(error.message);
+                setBlogs(json);
+            } catch (e) {
+                setError(e instanceof Error ? e.message : 'دریافت اطلاعات از دیتابیس با خطا مواجه شد.');
             } finally {
                 setLoading(false);
             }
-        };
-
-        fetchBlogs();
+        })();
     }, [categories]);
 
     if (loading) {
@@ -104,5 +95,3 @@ const BlogList = () => {
         </Stack>
     );
 };
-
-export default BlogList;
