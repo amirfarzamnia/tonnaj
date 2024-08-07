@@ -63,22 +63,14 @@ export default () => {
                     return;
                 }
 
-                try {
-                    const response = await fetch('/api/products', {
-                        method: 'POST',
-                        headers: { 'Content-Type': 'application/json' },
-                        body: JSON.stringify(product)
-                    });
+                const { ok } = await fetch('/api/products', { method: 'POST', headers: { 'Content-Type': 'application/json' }, body: JSON.stringify(product) });
 
-                    if (response.status === 200) {
-                        setSnackbarMessage('محصول شما با موفقیت ثبت شد');
-                        setSnackbarOpen(true);
-                        setProduct(initialProductState);
+                if (ok) {
+                    setSnackbarMessage('محصول شما با موفقیت ثبت شد');
+                    setProduct(initialProductState);
+                    setSnackbarOpen(true);
 
-                        setTimeout(() => router.push('/'), 2000);
-                    }
-                } catch (error) {
-                    console.error('Error uploading data:', error);
+                    setTimeout(() => router.push('/'), 2000);
                 }
             }}
             sx={{ width: '80%', mx: 'auto' }}>
