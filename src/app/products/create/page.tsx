@@ -138,14 +138,14 @@ export default () => {
                                             const nonImageFiles = Array.from(e.target.files).filter(({ type }) => !type.startsWith('image/'));
 
                                             if (nonImageFiles.length > 0) {
-                                                setSnackbarMessage('فقط فایل‌های تصویری مجاز هستند.');
+                                                setSnackbarMessage('فقط فایل‌ های تصویری مجاز هستند.');
                                                 setSnackbarOpen(true);
 
                                                 return;
                                             }
 
                                             if (product.images.length + selectedFiles.length > 10) {
-                                                setSnackbarMessage('شما نمی‌توانید بیش از 10 تصویر آپلود کنید.');
+                                                setSnackbarMessage('شما نمی‌ توانید بیش از 10 تصویر آپلود کنید.');
                                                 setSnackbarOpen(true);
 
                                                 if (fileInputRef.current) fileInputRef.current.value = '';
