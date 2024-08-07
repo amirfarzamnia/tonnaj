@@ -53,9 +53,9 @@ export default ({ params }: { params: { name: string } }) => {
                 </Box>
             </Box>
             <Divider sx={{ width: '100%', my: 2 }} />
-            <Box sx={{ minHeight: '50vh' }}>
-                <Typography variant="body1">{blog.content}</Typography>
-            </Box>
+            <Typography sx={{ my: 6 }} variant="body1">
+                {blog.content}
+            </Typography>
             <Divider sx={{ width: '100%', my: 2 }} />
             <Box sx={{ display: 'flex', alignItems: 'center', gap: 1 }}>
                 {blog.categories.map((category) => (
