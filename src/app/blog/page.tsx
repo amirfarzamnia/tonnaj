@@ -31,28 +31,25 @@ export default () => {
     const categories = searchParams.get('categories');
 
     useEffect(() => {
-        if (categories) {
-            const sendRequest = async () => {
-                const url = new URL('/api/blog', location.origin);
+        if (!categories) return;
 
-                url.searchParams.append('categories', categories);
+        (async () => {
+            const url = new URL('/api/blog', location.origin);
 
-                try {
-                    const response = await fetch(url.toString());
-                    if (response.ok) {
-                        const data = await response.json();
-                        console.log(data);
-                        setBlogs(data);
-                    } else {
-                        console.error('Error fetching data:', response.status);
-                    }
-                } catch (error) {
-                    console.error('Fetch error:', error);
+            url.searchParams.append('categories', categories);
+
+            try {
+                const response = await fetch(url.toString());
+
+                if (response.ok) {
+                    setBlogs(await response.json());
+                } else {
+                    console.error('Error fetching data:', response.status);
                 }
-            };
-
-            sendRequest();
-        }
+            } catch (error) {
+                console.error('Fetch error:', error);
+            }
+        })();
     }, [categories]);
 
     useEffect(() => {
@@ -62,8 +59,7 @@ export default () => {
             const response = await fetch('api/blog');
 
             if (response.ok) {
-                const json = await response.json();
-                setBlogs(json);
+                setBlogs(await response.json());
             } else {
                 console.error('Error fetching data:', response.status);
             }
