@@ -54,6 +54,8 @@ export default () => {
         };
     }, []);
 
+    console.log(product.location);
+
     const handleCloseSnackbar = () => setSnackbarOpen(false);
     const handleInputChange = (key: keyof typeof initialProductState, value: any) => setProduct((prevProduct) => ({ ...prevProduct, [key]: value }));
 
