@@ -1,11 +1,10 @@
 {
   "name": "tonnaj",
   "version": "1.0.0",
-  "description": "Tonnaj website",
+  "description": "وبسایت تناژ، بزرگترین پلتفرم خرید و فروش محصولات عمده در کشور",
   "private": true,
   "type": "module",
   "author": "Tonnaj Developers",
-  "license": "MIT",
   "scripts": {
     "dev": "next dev",
     "build": "next build",
@@ -34,11 +33,11 @@
     "typescript": "^5"
   },
   "bugs": {
-    "url": "https://github.com/amirfarzamnia/tonnaj/issues"
+    "url": "https://github.com/tonnaj/tonnaj/issues"
   },
   "repository": {
     "type": "git",
-    "url": "git+https://github.com/amirfarzamnia/tonnaj.git"
+    "url": "git+https://github.com/tonnaj/tonnaj.git"
   },
   "homepage": "https://www.tonnaj.com"
 }
