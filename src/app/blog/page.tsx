@@ -1,17 +1,15 @@
 'use client';
 
-import { Button, Box, Card, Divider, Grid, Stack, Typography, CircularProgress, CardContent } from '@mui/material';
+import { Button, Box, Card, Divider, Grid, Typography, CircularProgress, CardContent } from '@mui/material';
 import { useSearchParams } from 'next/navigation';
 import { useEffect, useState } from 'react';
 import { BlogTypes } from '@/types/blog';
 
 export default () => {
     const [error, setError] = useState<string | null>(null);
+    const categories = useSearchParams().get('categories');
     const [blogs, setBlogs] = useState<BlogTypes[]>([]);
     const [loading, setLoading] = useState(true);
-
-    const searchParams = useSearchParams();
-    const categories = searchParams.get('categories');
 
     useEffect(() => {
         (async () => {
