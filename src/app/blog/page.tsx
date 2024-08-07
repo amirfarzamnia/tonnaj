@@ -1,6 +1,6 @@
 'use client';
 
-import { Button, Box, Card, CardActions, CardContent, Divider, Grid, Stack, Typography, CircularProgress, Alert } from '@mui/material';
+import { Button, Box, Card, Divider, Grid, Stack, Typography, CircularProgress } from '@mui/material';
 import { useSearchParams } from 'next/navigation';
 import { useEffect, useState } from 'react';
 import { BlogTypes } from '@/types/blog';
@@ -33,19 +33,13 @@ export default () => {
 
     if (loading) {
         return (
-            <Stack maxWidth={'100%'} alignItems="center" justifyContent="center" height="100vh">
+            <Box sx={{ display: 'flex', justifyContent: 'center', alignItems: 'center', height: '100vh' }}>
                 <CircularProgress />
-            </Stack>
+            </Box>
         );
     }
 
-    if (error) {
-        return (
-            <Stack maxWidth={'100%'} alignItems="center" justifyContent="center" height="100vh">
-                <Alert severity="error">{error}</Alert>
-            </Stack>
-        );
-    }
+    if (error) return <Typography variant="h4">{error}</Typography>;
 
     return (
         <Stack maxWidth={'100%'}>
