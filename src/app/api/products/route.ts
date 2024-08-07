@@ -31,7 +31,9 @@ export const POST = async (request: NextRequest) => {
         }
 
         case 'request': {
-            break;
+            if (!/^.{50,500}$/.test(product.description)) return NextResponse.json({ message: 'توضیحات محصول مورد نیاز باید بین 50 تا 500 حرف باشد.' }, { status: 404 });
+
+            return NextResponse.json({ message: 'درخواست خرید محصول شما با موفقیت به تناژ اضافه شد.' }, { status: 200 });
         }
 
         default: {
