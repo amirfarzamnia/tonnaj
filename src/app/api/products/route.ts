@@ -37,6 +37,8 @@ export const POST = async (request: NextRequest) => {
 
             if (!/^.{50,500}$/.test(product_request.description)) return NextResponse.json({ message: 'توضیحات محصول مورد نیاز باید بین 50 تا 500 حرف باشد.' }, { status: 404 });
 
+            if (!product_request.location?.latlng || typeof product_request.location.city !== 'string' || typeof product_request.location.state !== 'string' || !(typeof product_request.location.latlng.lat === 'number' && typeof product_request.location.latlng.lng === 'number')) return NextResponse.json({ message: 'موقعیت مکانی به درستی ارسال نشده.' }, { status: 404 });
+
             await database.collection('product_requests').insertOne({ ...product_request, id: randomBytes(3).toString('hex'), timestamp: Date.now(), author: session, available: true });
 
             return NextResponse.json({ message: 'درخواست خرید محصول شما با موفقیت به تناژ اضافه شد.' }, { status: 200 });
