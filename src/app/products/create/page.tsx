@@ -85,7 +85,7 @@ export default () => {
             <Box sx={{ width: '100%', display: 'flex', flexDirection: 'column', alignItems: 'center', padding: '16px' }}>
                 <Grid container spacing={2} sx={{ width: '100%' }}>
                     <Grid item xs={12}>
-                        <Box ref={mapRef} sx={{ height: '500px', width: '100%' }}></Box>
+                        <Box ref={mapRef} sx={{ height: '25rem', width: '100%', border: 1, borderColor: 'rgba(133, 133, 133, 0.5)', borderRadius: 1 }}></Box>
                     </Grid>
                     <Grid item xs={12}>
                         <Grid container spacing={2}>
@@ -109,7 +109,7 @@ export default () => {
                         </Grid>
                     </Grid>
                     <Grid item xs={12}>
-                        <Box sx={{ width: '100%', height: '30vh', display: 'flex', alignItems: 'center', justifyContent: 'center', border: '3px dashed gray', borderRadius: '4px', padding: '16px', marginTop: '16px' }}>
+                        <Box sx={{ width: '100%', height: '30vh', display: 'flex', alignItems: 'center', borderRadius: 1, justifyContent: 'center', border: 1, borderColor: 'rgba(133, 133, 133, 0.5)', padding: '16px', marginTop: '16px' }}>
                             <Box component="label" htmlFor="img" sx={{ width: '100%', display: 'flex', flexDirection: 'column', alignItems: 'center', justifyContent: 'center' }}>
                                 <Add fontSize="large" color="success" sx={{ fontWeight: 'bold', scale: '1.1' }} />
                                 <Typography variant="h6" sx={{ marginTop: '10px' }}>
@@ -185,7 +185,7 @@ export default () => {
                         </FormControl>
                     </Grid>
                     <Grid item xs={12}>
-                        <TextareaAutosize minRows={5} spellCheck={false} placeholder="توضیحات محصول" maxLength={2500} required value={product.description} onChange={({ target }) => handleInputChange('description', target.value)} style={{ width: '100%', padding: '16px', borderRadius: '4px', borderColor: 'gray' }} />
+                        <TextareaAutosize minRows={5} spellCheck={false} placeholder="توضیحات محصول" maxLength={2500} required value={product.description} onChange={({ target }) => handleInputChange('description', target.value)} style={{ width: '100%', padding: '16px', border: '1px solid rgba(133, 133, 133, 0.75)', borderRadius: '4px', background: 'rgba(0, 0, 0, 0.05)' }} />
                     </Grid>
                     <Grid item xs={12}>
                         <Button type="submit" variant="contained" color="primary">
