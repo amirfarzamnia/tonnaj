@@ -1,6 +1,6 @@
 'use client';
 
-import { Box, Button, CardMedia, Container, Divider, Stack, Typography, CircularProgress } from '@mui/material';
+import { Box, Button, Divider, Typography, CircularProgress } from '@mui/material';
 import { usePathname, useRouter } from 'next/navigation';
 import { useEffect, useState } from 'react';
 import { BlogTypes } from '@/types/blog';
@@ -55,13 +55,10 @@ export default ({ params }: { params: { name: string } }) => {
                 <Typography variant="body1">{blog.content}</Typography>
             </Box>
             <Divider sx={{ width: '100%', my: 2 }} />
-            <Box sx={{ backgroundColor: 'blanchedalmond', padding: '5px', marginBottom: '15px', borderRadius: '10px', display: 'flex', flexWrap: 'wrap', gap: '10px', minWidth: '50%' }} dir="ltr">
-                {blog.categories.map((category, index) => (
+            <Box sx={{ display: 'flex', alignItems: 'center', gap: 1 }}>
+                {blog.categories.map((category) => (
                     <Button
-                        size="large"
-                        sx={{ color: selectedCategories.includes(category) ? 'red' : 'blue', fontSize: '20px' }}
-                        variant="contained"
-                        key={index}
+                        variant="outlined"
                         onClick={() => {
                             const updatedCategories = selectedCategories.includes(category) ? selectedCategories.filter((c) => c !== category) : [...selectedCategories, category];
 
