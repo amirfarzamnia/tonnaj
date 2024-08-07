@@ -1,29 +1,29 @@
 'use client';
 
 import { Alert, Box, Button, FormControl, Grid, IconButton, InputLabel, MenuItem, Select, SelectChangeEvent, Snackbar, TextareaAutosize, TextField, Typography } from '@mui/material';
-import React, { useEffect, useRef, useState } from 'react';
 import { Add, Remove } from '@mui/icons-material';
 import categories from '@/constants/categories';
 import { useRouter } from 'next/navigation';
 import leaflet from 'leaflet';
+import React from 'react';
 
 export default () => {
-    const [location, setLocation] = useState<{ latlng: leaflet.LatLng; address: { city?: string; state?: string } } | null>(null);
-    const [selectedCategories, setCategories] = useState<string[]>([]);
-    const [imageFiles, setImageFiles] = useState<string[]>([]);
-    const fileInputRef = useRef<HTMLInputElement | null>(null);
-    const [description, setDescription] = useState<string>('');
-    const [snackbarMessage, setSnackbarMessage] = useState('');
-    const [authorName, setAuthorName] = useState<string>('');
-    const [snackbarOpen, setSnackbarOpen] = useState(false);
-    const [price, setPrice] = useState<string>('');
-    const [name, setTitle] = useState<string>('');
+    const [location, setLocation] = React.useState<{ latlng: leaflet.LatLng; address: { city?: string; state?: string } } | null>(null);
+    const [selectedCategories, setCategories] = React.useState<string[]>([]);
+    const [imageFiles, setImageFiles] = React.useState<string[]>([]);
+    const fileInputRef = React.useRef<HTMLInputElement | null>(null);
+    const [description, setDescription] = React.useState<string>('');
+    const [snackbarMessage, setSnackbarMessage] = React.useState('');
+    const [authorName, setAuthorName] = React.useState<string>('');
+    const [snackbarOpen, setSnackbarOpen] = React.useState(false);
+    const [price, setPrice] = React.useState<string>('');
+    const [name, setTitle] = React.useState<string>('');
     const router = useRouter();
 
-    const mapRef = useRef<HTMLDivElement | null>(null);
-    const mapInstance = useRef<leaflet.Map | null>(null);
+    const mapInstance = React.useRef<leaflet.Map | null>(null);
+    const mapRef = React.useRef<HTMLDivElement | null>(null);
 
-    useEffect(() => {
+    React.useEffect(() => {
         if (!(mapRef.current && !mapInstance.current)) return;
 
         mapInstance.current = leaflet.map(mapRef.current).setView([32.4279, 53.688], 5);
