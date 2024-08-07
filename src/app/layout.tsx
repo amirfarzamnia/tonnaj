@@ -230,10 +230,9 @@ export default ({ children }: { children: React.ReactNode }) => {
                                     '& .MuiDrawer-paper': {
                                         width: '100%',
                                         height: '100%',
-                                        overflow: 'auto',
+                                        overflow: 'auto'
                                     }
-                                }}
-                            >
+                                }}>
                                 <Box sx={{ p: 2 }}>
                                     <Toolbar>
                                         <IconButton edge="start" color="inherit" onClick={toggleDrawer(false)} sx={{ mr: 1 }}>
@@ -250,11 +249,9 @@ export default ({ children }: { children: React.ReactNode }) => {
                                     </Box>
                                 </Box>
                             </Drawer>
-                            <Box sx={{ pt: '64px' }}> {/* Ensure content is below the AppBar */}
-                                <Container sx={{ padding: 2, borderRadius: 4 }} maxWidth={'xl'}>
-                                    {children}
-                                </Container>
-                            </Box>
+                            <Container sx={{ padding: 2, borderRadius: 4, mt: 20 }} maxWidth={'xl'}>
+                                {children}
+                            </Container>
                             <Box sx={{ borderTop: 1, borderColor: selectedTheme === 'dark' ? '#3f3f46' : '#e4e4e7', background: selectedTheme === 'dark' ? theme.palette.grey[900] : '#fafafa', py: 4 }} component="footer">
                                 <Container>
                                     <Grid container spacing={4}>
@@ -316,9 +313,7 @@ export default ({ children }: { children: React.ReactNode }) => {
                                             <Typography variant="h6" gutterBottom>
                                                 بازار عمده محصولات کشاورزی
                                             </Typography>
-                                            <Typography variant="caption">
-                                                تناژ با هدف تسهیل فرآیند خرید و فروش محصولات کشاورزی و ارائه خدماتی مانند جستجوی محصولات، مقایسه قیمت‌ها، و مشاهده جزئیات محصول فعالیت می‌کند. این وبسایت همچنین اطلاعات و مشاوره‌های تخصصی در زمینه بازار کشاورزی ارائه می‌دهد و با ارائه پشتیبانی مشتری و خدمات اضافی، تجربه‌ای راحت و مطمئن برای کاربران فراهم می‌آورد. با طراحی واکنش‌گرا و توجه به فناوری‌های نوین، تناژ به کاربران این امکان را می‌دهد که از هر دستگاهی، از جمله گوشی‌های موبایل، تبلت‌ها و رایانه‌های رومیزی، به راحتی از خدمات وبسایت بهره‌برداری کنند.
-                                            </Typography>
+                                            <Typography variant="caption">تناژ با هدف تسهیل فرآیند خرید و فروش محصولات کشاورزی و ارائه خدماتی مانند جستجوی محصولات، مقایسه قیمت‌ها، و مشاهده جزئیات محصول فعالیت می‌کند. این وبسایت همچنین اطلاعات و مشاوره‌های تخصصی در زمینه بازار کشاورزی ارائه می‌دهد و با ارائه پشتیبانی مشتری و خدمات اضافی، تجربه‌ای راحت و مطمئن برای کاربران فراهم می‌آورد. با طراحی واکنش‌گرا و توجه به فناوری‌های نوین، تناژ به کاربران این امکان را می‌دهد که از هر دستگاهی، از جمله گوشی‌های موبایل، تبلت‌ها و رایانه‌های رومیزی، به راحتی از خدمات وبسایت بهره‌برداری کنند.</Typography>
                                         </Grid>
                                         <Grid item xs={12} sm={6} md={3}>
                                             <Typography variant="h6" gutterBottom>
@@ -329,10 +324,10 @@ export default ({ children }: { children: React.ReactNode }) => {
                                             <Box component="img" loading="lazy" src="https://via.placeholder.com/40" alt="Instagram" sx={{ width: 40, height: 40, margin: 1 }} />
                                         </Grid>
 
-                                        <Divider sx={{ width: "100%", height: '2vh', mt: 2 }} />
+                                        <Divider sx={{ width: '100%', height: '2vh', mt: 2 }} />
 
                                         <Box sx={{ display: 'flex', textAlign: 'center', justifyContent: 'center', alignItems: 'center' }} width={'100%'}>
-                                            <Typography variant='caption' sx={{ mt: 2, }}>
+                                            <Typography variant="caption" sx={{ mt: 2 }}>
                                                 هر گونه کپی برداری از تناژ پیگرد قانونی دارد
                                             </Typography>
                                         </Box>
