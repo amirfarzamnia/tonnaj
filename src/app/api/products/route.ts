@@ -1,42 +1,22 @@
 import { NextResponse, NextRequest } from 'next/server';
 import findSession from '@/functions/find-session';
+import categories from '@/constants/categories';
 import { ProductTypes } from '@/types/product';
 import { database } from '@/mongodb';
 import { randomBytes } from 'crypto';
 
 export const POST = async (request: NextRequest) => {
-    return;
-    // const { name, description, images, categories, price, max, min, name, city, state }: ProductTypes = await request.json();
+    const product: ProductTypes = await request.json();
 
-    // if (!name || !description || !price) return NextResponse.json({ message: 'Validation Error' }, { status: 400 });
+    if (!Array.isArray(product.categories) || product.categories.some((category) => !categories.includes(category))) return NextResponse.json({ message: 'دسته بندی ها به درستی ارسال نشده اند.' }, { status: 404 });
+    if (!/^.{50,500}$/.test(product.description)) return NextResponse.json({ message: 'توضیحات محصول باید بین 50 تا 500 حرف باشد.' }, { status: 404 });
+    if (!product.images.every((image) => /^(?:[A-Za-z0-9+\/]{4})*(?:[A-Za-z0-9+\/]{2}==|[A-Za-z0-9+\/]{3}=)?$/.test(image))) return NextResponse.json({ message: 'تصاویر به درستی بارگذاری نشده اند.' }, { status: 404 });
 
-    // const { phone_number } = (await findSession(request)) || {};
+    const { phone_number } = (await findSession(request)) || {};
 
-    // if (!phone_number) return new NextResponse(null, { status: 403 });
+    if (!phone_number) return new NextResponse(null, { status: 403 });
 
-    // await database.collection('products').insertOne({
-    //     id: randomBytes(4).toString('hex'),
-    //     name,
-    //     description,
-    //     price,
-    //     categories,
-    //     images,
-    //     available: true,
-    //     rating: 5,
-    //     max,
-    //     min,
-    //     author: {
-    //         name,
-    //         phone_number
-    //     },
-    //     location: {
-    //         city,
-    //         state
-    //     },
-    //     timestamp: Date.now()
-    // } as ProductTypes);
-
-    // return NextResponse.json({ message: 'Product added successfully' }, { status: 200 });
+    return NextResponse.json({ message: 'Product added successfully' }, { status: 200 });
 };
 
 export const GET = async (request: NextRequest) => {
