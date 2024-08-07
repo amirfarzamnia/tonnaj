@@ -25,9 +25,6 @@ export default ({ params }: { params: { name: string } }) => {
         }
 
         req()
-        // const blog = blogItems.find(({ name }) => name === decodedName);
-
-        // blog ? setBlog(blog) : setError(true);
     }, [params.name]);
 
     const handleCategoryClick = (category: string) => {
@@ -54,9 +51,9 @@ export default ({ params }: { params: { name: string } }) => {
                 <Container sx={{ minHeight: '60vh', padding: '0px', margin: '0px' }} maxWidth="xl">
                     <Box sx={{ minHeight: '80vh', display: 'flex', flexDirection: 'column', alignItems: 'center', justifyContent: 'center' }}>
                         <CardMedia component="img" loading="lazy" src={blog?.image} sx={{ height: 250, width: 400, mb: 2, borderRadius: '10px', border: '3px solid' }} />
-                        <Typography variant="h3" sx={{ mb: 2 }}>
+                        <Box component={'div'} sx={{ mb: 2 }}>
                             {blog?.name}
-                        </Typography>
+                        </Box>
                         <Divider sx={{ width: '100%', my: 2 }} />
                         <Box sx={{ minHeight: '50vh' }}>{blog?.content}</Box>
                         <Divider sx={{ width: '100%', my: 2 }} />

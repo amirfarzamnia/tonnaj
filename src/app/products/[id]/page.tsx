@@ -21,6 +21,7 @@ export default ({ params }: { params: { id: string } }) => {
     React.useEffect(() => {
         if (!params.id) return;
 
+
         const fetchProductData = async () => {
             setLoading(true);
 

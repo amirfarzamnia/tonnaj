@@ -14,10 +14,6 @@ const StyledCard = styled(Card)(({ theme }) => ({
     'boxShadow': theme.shadows[3],
     'borderRadius': theme.shape.borderRadius * 2,
     'transition': 'transform 0.3s, box-shadow 0.3s',
-    '&:hover': {
-        transform: 'scale(1.02)',
-        boxShadow: theme.shadows[6]
-    }
 }));
 
 const StyledButton = styled(Button)(({ theme }) => ({
@@ -27,10 +23,6 @@ const StyledButton = styled(Button)(({ theme }) => ({
     'textTransform': 'uppercase',
     'fontWeight': theme.typography.fontWeightBold,
     'transition': 'all 0.2s ease-in',
-    '&:hover': {
-        width: '90%',
-        borderColor: 'white'
-    }
 }));
 
 export default () => {
@@ -101,7 +93,7 @@ export default () => {
                             </CardContent>
                             <Divider />
                             <CardActions sx={{ p: 2, display: 'flex', justifyContent: 'center', alignItems: 'center' }}>
-                                <StyledButton href={`/blog/${encodeURI(item.name)}`} variant="contained" color="primary">
+                                <StyledButton href={`/blog/${encodeURI(item.name)}`} variant="outlined" color="primary">
                                     ادامه
                                 </StyledButton>
                             </CardActions>

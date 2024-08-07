@@ -38,7 +38,7 @@ export const POST = async (request: NextRequest) => {
     return NextResponse.json({ error: 'پارامترهای ارسالی قابل قبول نیستند.' }, { status: 404 });
 };
 
-export const GET = async (request: NextRequest) => NextResponse.json(findSession(request), { status: 200 });
+export const GET = async (request: NextRequest) => NextResponse.json(await findSession(request), { status: 200 });
 
 export const DELETE = async (request: NextRequest) => {
     await database.collection('sessions').deleteOne({ session: request.cookies.get('session')?.value });
