@@ -9,9 +9,13 @@ export const POST = async (request: NextRequest) => {
     const product: ProductTypes = await request.json();
 
     if (!Array.isArray(product.categories) || product.categories.some((category) => !categories.includes(category))) return NextResponse.json({ message: 'دسته بندی ها به درستی ارسال نشده اند.' }, { status: 404 });
+
     if (!/^.{50,500}$/.test(product.description)) return NextResponse.json({ message: 'توضیحات محصول باید بین 50 تا 500 حرف باشد.' }, { status: 404 });
+
     if (!Array.isArray(product.categories) || !product.images.every((image) => /^(?:[A-Za-z0-9+\/]{4})*(?:[A-Za-z0-9+\/]{2}==|[A-Za-z0-9+\/]{3}=)?$/.test(image))) return NextResponse.json({ message: 'تصاویر به درستی بارگذاری نشده اند.' }, { status: 404 });
+
     if (typeof product.price !== 'number' || !(product.price >= 10000 && product.price <= 10000000000)) return NextResponse.json({ message: 'هزینه محصول باید بین ده هزار تومان تا ده میلیارد تومان باشد.' }, { status: 404 });
+
     if (!/^.{5,50}$/.test(product.name)) return NextResponse.json({ message: 'نام محصول باید بین 5 تا 50 حرف باشد.' }, { status: 404 });
 
     const { phone_number } = (await findSession(request)) || {};
