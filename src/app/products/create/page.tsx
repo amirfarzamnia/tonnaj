@@ -8,22 +8,13 @@ import leaflet from 'leaflet';
 import React from 'react';
 
 export default () => {
-    const [product, setProduct] = React.useState({
-        location: null,
-        selectedCategories: [],
-        imageFiles: [],
-        description: '',
-        authorName: '',
-        price: '',
-        name: ''
-    });
-
+    const [product, setProduct] = React.useState({ location: null, selectedCategories: [], imageFiles: [], description: '', authorName: '', price: '', name: '' });
     const [snackbarMessage, setSnackbarMessage] = React.useState('');
-    const [snackbarOpen, setSnackbarOpen] = React.useState(false);
     const fileInputRef = React.useRef<HTMLInputElement | null>(null);
-    const router = useRouter();
+    const [snackbarOpen, setSnackbarOpen] = React.useState(false);
     const mapInstance = React.useRef<leaflet.Map | null>(null);
     const mapRef = React.useRef<HTMLDivElement | null>(null);
+    const router = useRouter();
 
     React.useEffect(() => {
         if (!(mapRef.current && !mapInstance.current)) return;
@@ -35,12 +26,11 @@ export default () => {
         const handleMapClick = async (e: leaflet.LeafletMouseEvent) => {
             const response = await fetch('https://nominatim.openstreetmap.org/reverse?format=jsonv2&lat=' + e.latlng.lat + '&lon=' + e.latlng.lng + '&accept-language=fa');
             const { address } = await response.json();
-            const city = address.city || address.town || address.village;
 
-            setProduct((prevProduct) => ({
-                ...prevProduct,
-                location: { latlng: e.latlng, address: { city, state: address.state } }
-            }));
+            const city = address.city || address.town || address.village;
+            const state = address.state || city;
+
+            setProduct((prevProduct) => ({ ...prevProduct, location: { latlng: e.latlng, address: { city, state } } }));
 
             leaflet.marker(e.latlng).addTo(mapInstance.current!).bindPopup(`استان: ${address.state}<br>شهر یا روستا: ${city}`).openPopup();
         };
@@ -55,14 +45,7 @@ export default () => {
     }, []);
 
     const handleCloseSnackbar = () => setSnackbarOpen(false);
-
-    const handleInputChange = (key: string, value: any) => {
-        setProduct((prevProduct) => ({
-            ...prevProduct,
-            [key]: value
-        }));
-    };
-
+    const handleInputChange = (key: string, value: any) => setProduct((prevProduct) => ({ ...prevProduct, [key]: value }));
     const handleImageChange = (e: React.ChangeEvent<HTMLInputElement>) => {
         e.preventDefault();
 
@@ -163,12 +146,12 @@ export default () => {
                         <Grid item xs={2} key={index}>
                             <Box sx={{ position: 'relative' }}>
                                 <IconButton
-                                    onClick={() =>
+                                    onClick={() => {
                                         handleInputChange(
                                             'imageFiles',
                                             product.imageFiles.filter((_, i) => i !== index)
-                                        )
-                                    }
+                                        );
+                                    }}
                                     sx={{ position: 'absolute', top: 0, right: 0, zIndex: 1 }}>
                                     <Remove />
                                 </IconButton>
