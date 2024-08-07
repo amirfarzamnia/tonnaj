@@ -3,30 +3,22 @@
 import { Alert, Box, Button, FormControl, Grid, IconButton, InputLabel, MenuItem, Select, SelectChangeEvent, Snackbar, TextareaAutosize, TextField, Typography } from '@mui/material';
 import { Add, Remove } from '@mui/icons-material';
 import categories from '@/constants/categories';
+import { ProductTypes } from '@/types/product';
 import { useRouter } from 'next/navigation';
 import leaflet from 'leaflet';
 import React from 'react';
 
-interface Location {
-    latlng: leaflet.LatLng;
-    address: {
-        city: string;
-        state: string;
-    };
-}
-
-interface Product {
-    location: Location | null;
-    selectedCategories: string[];
-    imageFiles: string[];
-    description: string;
-    authorName: string;
-    price: string;
-    name: string;
-}
-
 export default () => {
-    const [product, setProduct] = React.useState<Product>({ location: null, selectedCategories: [], imageFiles: [], description: '', authorName: '', price: '', name: '' });
+    const initialProductState: Omit<ProductTypes, 'timestamp' | 'rating' | 'id' | 'available' | 'author'> = {
+        categories: [],
+        description: '',
+        images: [],
+        price: '',
+        name: '',
+        location: { latlng: new leaflet.LatLng(0, 0), state: '', city: '' }
+    };
+
+    const [product, setProduct] = React.useState(initialProductState);
     const [snackbarMessage, setSnackbarMessage] = React.useState('');
     const fileInputRef = React.useRef<HTMLInputElement | null>(null);
     const [snackbarOpen, setSnackbarOpen] = React.useState(false);
@@ -48,7 +40,10 @@ export default () => {
             const city = address.city || address.town || address.village;
             const state = address.state || city;
 
-            setProduct((prevProduct) => ({ ...prevProduct, location: { latlng: e.latlng, address: { city, state } } }));
+            setProduct((prevProduct) => ({
+                ...prevProduct,
+                location: { latlng: e.latlng, state, city }
+            }));
 
             leaflet.marker(e.latlng).addTo(mapInstance.current!).bindPopup(`استان: ${address.state}<br>شهر یا روستا: ${city}`).openPopup();
         };
@@ -63,7 +58,7 @@ export default () => {
     }, []);
 
     const handleCloseSnackbar = () => setSnackbarOpen(false);
-    const handleInputChange = (key: keyof Product, value: any) => setProduct((prevProduct) => ({ ...prevProduct, [key]: value }));
+    const handleInputChange = (key: keyof typeof initialProductState, value: any) => setProduct((prevProduct) => ({ ...prevProduct, [key]: value }));
     const handleImageChange = (e: React.ChangeEvent<HTMLInputElement>) => {
         e.preventDefault();
 
@@ -78,7 +73,7 @@ export default () => {
                 return;
             }
 
-            if (product.imageFiles.length + selectedFiles.length > 10) {
+            if (product.images.length + selectedFiles.length > 10) {
                 setSnackbarMessage('شما نمی‌توانید بیش از 10 تصویر آپلود کنید.');
                 setSnackbarOpen(true);
 
@@ -90,7 +85,7 @@ export default () => {
             selectedFiles.forEach((file) => {
                 const reader = new FileReader();
 
-                reader.onloadend = () => handleInputChange('imageFiles', [...product.imageFiles, reader.result as string]);
+                reader.onloadend = () => handleInputChange('images', [...product.images, reader.result as string]);
                 reader.readAsDataURL(file);
             });
         }
@@ -104,7 +99,7 @@ export default () => {
             onSubmit={async (e: React.FormEvent) => {
                 e.preventDefault();
 
-                if (product.imageFiles.length === 0) {
+                if (product.images.length === 0) {
                     setSnackbarMessage('باید حداقل یک عکس برای محصول خود انتخاب کنید');
                     setSnackbarOpen(true);
 
@@ -112,36 +107,16 @@ export default () => {
                 }
 
                 try {
-                    const data = {
-                        name: product.name,
-                        price: product.price,
-                        description: product.description,
-                        categories: product.selectedCategories,
-                        images: product.imageFiles,
-                        available: true,
-                        rating: 5,
-                        city: product.location?.address.city,
-                        state: product.location?.address.state
-                    };
-
                     const response = await fetch('/api/products', {
                         method: 'POST',
                         headers: { 'Content-Type': 'application/json' },
-                        body: JSON.stringify(data)
+                        body: JSON.stringify(product)
                     });
 
                     if (response.status === 200) {
                         setSnackbarMessage('محصول شما با موفقیت ثبت شد');
                         setSnackbarOpen(true);
-                        setProduct({
-                            location: null,
-                            selectedCategories: [],
-                            imageFiles: [],
-                            description: '',
-                            authorName: '',
-                            price: '',
-                            name: ''
-                        });
+                        setProduct(initialProductState);
 
                         setTimeout(() => router.push('/'), 2000);
                     }
@@ -153,14 +128,14 @@ export default () => {
             <Box sx={{ width: '100%', display: 'flex', flexDirection: 'column', alignItems: 'center', padding: '16px' }}>
                 <Box width={'100%'} ref={mapRef} sx={{ height: '500px', width: '100%' }}></Box>
                 <Grid container spacing={2} mt={10}>
-                    {product.imageFiles.map((src, index) => (
+                    {product.images.map((src, index) => (
                         <Grid item xs={2} key={index}>
                             <Box sx={{ position: 'relative' }}>
                                 <IconButton
                                     onClick={() => {
                                         handleInputChange(
-                                            'imageFiles',
-                                            product.imageFiles.filter((_, i) => i !== index)
+                                            'images',
+                                            product.images.filter((_, i) => i !== index)
                                         );
                                     }}
                                     sx={{ position: 'absolute', top: 0, right: 0, zIndex: 1 }}>
@@ -193,12 +168,9 @@ export default () => {
                     <TextField type="number" label="قیمت محصول" fullWidth required value={product.price} onChange={({ target }) => handleInputChange('price', target.value)} />
                 </Box>
                 <Box sx={{ width: '50%', marginTop: '16px' }}>
-                    <TextField type="text" label="نام شخص یا شرکت" fullWidth required value={product.authorName} onChange={({ target }) => handleInputChange('authorName', target.value)} />
-                </Box>
-                <Box sx={{ width: '50%', marginTop: '16px' }}>
                     <FormControl fullWidth>
                         <InputLabel id="categories-select-label">دسته بندی</InputLabel>
-                        <Select labelId="categories-select-label" id="categories-select" multiple value={product.selectedCategories} onChange={(event: SelectChangeEvent<typeof product.selectedCategories>) => handleInputChange('selectedCategories', typeof event.target.value === 'string' ? event.target.value.split(',') : event.target.value)} renderValue={(selected) => selected.join(', ')}>
+                        <Select labelId="categories-select-label" id="categories-select" multiple value={product.categories} onChange={(event: SelectChangeEvent<typeof product.categories>) => handleInputChange('categories', typeof event.target.value === 'string' ? event.target.value.split(',') : event.target.value)} renderValue={(selected) => selected.join(', ')}>
                             {categories.map((category) => (
                                 <MenuItem key={category} value={category}>
                                     {category}

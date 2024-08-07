@@ -1,3 +1,5 @@
+import { LatLng } from 'leaflet';
+
 export type ProductTypes = {
     categories: string[];
     description: string;
@@ -11,6 +13,7 @@ export type ProductTypes = {
     max?: number;
     id: string;
     location: {
+        latlng: LatLng;
         state: string;
         city: string;
     };
