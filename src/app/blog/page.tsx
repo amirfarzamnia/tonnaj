@@ -7,42 +7,42 @@ import { useEffect, useState } from 'react';
 import { BlogTypes } from '@/types/blog';
 
 const StyledCard = styled(Card)(({ theme }) => ({
-    'display': 'flex',
-    'flexDirection': 'column',
-    'justifyContent': 'space-between',
-    'height': '100%',
-    'boxShadow': theme.shadows[3],
-    'borderRadius': theme.shape.borderRadius * 2,
-    'transition': 'transform 0.3s, box-shadow 0.3s',
+    display: 'flex',
+    flexDirection: 'column',
+    justifyContent: 'space-between',
+    height: '100%',
+    boxShadow: theme.shadows[3],
+    borderRadius: theme.shape.borderRadius * 2,
+    transition: 'transform 0.3s, box-shadow 0.3s'
 }));
 
 const StyledButton = styled(Button)(({ theme }) => ({
-    'width': '100%',
-    'border': '2.5px solid transparent',
-    'borderRadius': theme.shape.borderRadius * 2,
-    'textTransform': 'uppercase',
-    'fontWeight': theme.typography.fontWeightBold,
-    'transition': 'all 0.2s ease-in',
+    width: '100%',
+    border: '2.5px solid transparent',
+    borderRadius: theme.shape.borderRadius * 2,
+    textTransform: 'uppercase',
+    fontWeight: theme.typography.fontWeightBold,
+    transition: 'all 0.2s ease-in'
 }));
 
 export default () => {
-    const [blogs, setBlogs] = useState<BlogTypes[]>([])
+    const [blogs, setBlogs] = useState<BlogTypes[]>([]);
 
-    const searchParams = useSearchParams()
-    const categories = searchParams.get("categories")
+    const searchParams = useSearchParams();
+    const categories = searchParams.get('categories');
 
     useEffect(() => {
         if (categories) {
             const sendRequest = async () => {
-                const url = new URL('/api/blog', window.location.origin);
+                const url = new URL('/api/blog', location.origin);
                 url.searchParams.append('categories', categories);
 
                 try {
                     const response = await fetch(url.toString());
                     if (response.ok) {
                         const data = await response.json();
-                        console.log(data)
-                        setBlogs(data)
+                        console.log(data);
+                        setBlogs(data);
                     } else {
                         console.error('Error fetching data:', response.status);
                     }
@@ -56,14 +56,14 @@ export default () => {
     }, [categories]);
 
     useEffect(() => {
-        if (categories) return
+        if (categories) return;
 
         const sendRequest = async () => {
             try {
                 const response = await fetch('api/blog');
                 if (response.ok) {
                     const json = await response.json();
-                    setBlogs(json.data)
+                    setBlogs(json.data);
                 } else {
                     console.error('Error fetching data:', response.status);
                 }
@@ -72,8 +72,8 @@ export default () => {
             }
         };
 
-        sendRequest()
-    }, [])
+        sendRequest();
+    }, []);
 
     return (
         <Stack maxWidth={'100%'}>
@@ -81,7 +81,7 @@ export default () => {
                 {blogs.map((item, index) => (
                     <Grid item key={index} xs={12} sm={6} md={4} lg={3}>
                         <StyledCard>
-                            <Box component="img" src={item.image} loading="lazy" height={'30vh'} sx={{ border: "1px solid white", borderRadius: '10px' }} />
+                            <Box component="img" src={item.image} loading="lazy" height={'30vh'} sx={{ border: '1px solid white', borderRadius: '10px' }} />
                             <CardContent>
                                 <Typography variant="h6" sx={{ textAlign: 'center', mb: 1 }}>
                                     {item.name}

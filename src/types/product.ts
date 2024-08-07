@@ -1,3 +1,4 @@
+import { AuthTypes } from './auth';
 import { LatLng } from 'leaflet';
 
 export type ProductTypes = {
@@ -16,7 +17,18 @@ export type ProductTypes = {
         city: string;
     };
     author: {
-        phone_number: string;
-        name: string;
+        phone_number: AuthTypes['phone_number'];
+        name: AuthTypes['name'];
+    };
+};
+
+export type ProductRequestTypes = {
+    description: string;
+    available: boolean;
+    timestamp: number;
+    id: string;
+    author: {
+        phone_number: AuthTypes['phone_number'];
+        name: AuthTypes['name'];
     };
 };
