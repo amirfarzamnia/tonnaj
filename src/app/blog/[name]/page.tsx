@@ -1,6 +1,6 @@
 'use client';
 
-import { Box, Button, CardMedia, Container, Divider, Stack, Typography, CircularProgress, Alert } from '@mui/material';
+import { Box, Button, CardMedia, Container, Divider, Stack, Typography, CircularProgress } from '@mui/material';
 import { usePathname, useRouter } from 'next/navigation';
 import { useEffect, useState } from 'react';
 import { BlogTypes } from '@/types/blog';
