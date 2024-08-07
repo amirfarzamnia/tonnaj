@@ -15,11 +15,7 @@ export default ({ params }: { params: { name: string } }) => {
     useEffect(() => {
         if (!params.name) return;
 
-        fetch('/api/blog?name=' + pathname.split('/')[2]).then(async (res) => {
-            const json = await res.json();
-
-            setBlog(json);
-        });
+        fetch('/api/blog?name=' + pathname.split('/')[2]).then(async (res) => setBlog(await res.json()));
     }, [params.name]);
 
     return (
@@ -56,7 +52,7 @@ export default ({ params }: { params: { name: string } }) => {
 
                                         setSelectedCategories(updatedCategories);
 
-                                        router.push('/blog' + (updatedCategories.length > 0 ? `?categories=${updatedCategories.join(',')}` : ''));
+                                        router.push('/blog' + (updatedCategories.length > 0 ? '?categories=' + updatedCategories.join(',') : ''));
                                     }}>
                                     {item}
                                 </Button>
