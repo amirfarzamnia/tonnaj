@@ -1,12 +1,13 @@
 'use client';
 
-import { Button, CircularProgress, TextField, Box, Grid, Toolbar, AppBar, Link, Container, Typography, InputAdornment, CssBaseline, Shadows, Menu, MenuItem } from '@mui/material';
+import { Button, CircularProgress, TextField, Box, Grid, Toolbar, AppBar, Link, Container, Typography, InputAdornment, CssBaseline, Shadows, Menu, MenuItem, List, ListItem } from '@mui/material';
 import { Search, LightMode, DarkMode, Person, Inventory, Logout } from '@mui/icons-material';
 import { createTheme, ThemeProvider, ThemeOptions } from '@mui/material/styles';
 import { TypographyOptions } from '@mui/material/styles/createTypography';
 import React from 'react';
 import './index.css';
 import 'leaflet/dist/leaflet.css';
+import { ProductTypes } from '@/types/product';
 
 const common: { typography: TypographyOptions; css: React.CSSProperties } = {
     typography: {
@@ -102,6 +103,9 @@ export default ({ children }: { children: React.ReactNode }) => {
     const [selectedTheme, setTheme] = React.useState<'dark' | 'light'>('light');
     const [anchorEl, setAnchorEl] = React.useState<HTMLElement | null>(null);
     const [loading, setLoading] = React.useState<boolean>(true);
+    const [isBlur, setIsBlur] = React.useState<boolean>(false)
+    const [products, setProducts] = React.useState<ProductTypes[]>([]);
+    const [selectedCategories, setSelectedCategories] = React.useState<string[]>([]);
 
     React.useEffect(() => {
         const theme = (localStorage.getItem('selected-theme') as 'dark' | 'light') || (matchMedia('(prefers-color-scheme: dark)').matches ? 'dark' : 'light');
@@ -113,6 +117,28 @@ export default ({ children }: { children: React.ReactNode }) => {
         const catchAct = () => setIsAuthenticated(false);
 
         fetch('/api/sessions').then(thenAct).catch(catchAct);
+    }, []);
+
+    React.useEffect(() => {
+        (async () => {
+            try {
+                const urlParams = new URLSearchParams(location.search);
+                const categories = urlParams.get('categories')?.split(',') || [];
+
+                setSelectedCategories(categories);
+
+                if (categories.length > 0) urlParams.set('categories', categories.join(','));
+
+                const response = await fetch('/api/products?' + urlParams.toString());
+                const data = await response.json();
+
+                setProducts(data);
+            } catch {
+                // setError('دریافت اطلاعات از دیتابیس با خطا مواجه شد.');
+            } finally {
+                setLoading(false);
+            }
+        })();
     }, []);
 
     const theme = React.useMemo(() => createTheme(schemeOptions[selectedTheme]), [selectedTheme]);
@@ -151,8 +177,37 @@ export default ({ children }: { children: React.ReactNode }) => {
                                         }}
                                         variant="outlined"
                                         size="small"
+                                        onClick={() => setIsBlur(true)}
+                                        onBlur={() => setIsBlur(false)}
                                         sx={{ flexGrow: 1, background: theme.palette.background.default }}
                                     />
+
+                                    {isBlur && (
+                                        <Box
+                                            sx={{
+                                                position: 'absolute',
+                                                top: '100%',
+                                                left: 0,
+                                                right: 0,
+                                                mt: 1,
+                                                zIndex: 1,
+                                                display: 'flex',
+                                                justifyContent: 'center',
+                                                alignItems: 'center'
+                                            }}
+                                        >
+                                            <Box sx={{ width: "90%", background: theme.palette.background.paper, padding: 1, boxShadow: 3, borderRadius: 2, display: 'flex', flexDirection: 'column', alignItems: 'start', justifyContent: 'center' }}>
+                                                {products.map((item, index) => {
+                                                    return <Box sx={{ mt: 2, mb: 2, width: "fit", padding: 1, height: "fit", backgroundColor: "white", borderRadius: 5 }}>
+                                                        <Box component={'a'} sx={{ textDecoration: "none" }} href={`/products/${item.id}`} color={'blue'} key={index}>
+                                                            <Typography>{item.name}{" "}{item.location.city}</Typography>
+                                                        </Box>
+                                                    </Box>
+                                                })}
+                                            </Box>
+                                        </Box>
+                                    )}
+
                                     <Button
                                         sx={{ py: 0.82 }}
                                         variant="outlined"
