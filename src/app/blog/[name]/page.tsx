@@ -1,37 +1,36 @@
 'use client';
 
 import { Box, Button, CardMedia, Container, Divider, Stack, Typography } from '@mui/material';
-import { useEffect, useState } from 'react';
-import blogItems from '@/constants/posts';
-import { BlogTypes } from '@/types/blog';
 import { usePathname, useRouter } from 'next/navigation';
+import { useEffect, useState } from 'react';
+import { BlogTypes } from '@/types/blog';
 
 export default ({ params }: { params: { name: string } }) => {
     const [blog, setBlog] = useState<BlogTypes>();
     const [error, setError] = useState<boolean>(false);
     const [selectedCategories, setSelectedCategories] = useState<string[]>([]);
     const router = useRouter();
-    const pathname = usePathname()
+    const pathname = usePathname();
     const decodedName = decodeURI(params.name);
 
     useEffect(() => {
         if (!params.name) return;
 
         const req = async () => {
-            const url = `/api/blog?name=${decodeURI(pathname.split('/')[2])}`
-            const res = await fetch(url)
-            const json = await res.json()
-            setBlog(json.data)
-        }
+            const url = `/api/blog?name=${decodeURI(pathname.split('/')[2])}`;
+            const res = await fetch(url);
+            const json = await res.json();
+            setBlog(json.data);
+        };
 
-        req()
+        req();
     }, [params.name]);
 
     const handleCategoryClick = (category: string) => {
         let updatedCategories = [...selectedCategories];
         if (updatedCategories.includes(category)) {
             // Remove category if already selected
-            updatedCategories = updatedCategories.filter(c => c !== category);
+            updatedCategories = updatedCategories.filter((c) => c !== category);
         } else {
             // Add category if not selected
             updatedCategories.push(category);
@@ -59,13 +58,7 @@ export default ({ params }: { params: { name: string } }) => {
                         <Divider sx={{ width: '100%', my: 2 }} />
                         <Box sx={{ backgroundColor: 'blanchedalmond', padding: '5px', marginBottom: '15px', borderRadius: '10px', display: 'flex', flexWrap: 'wrap', gap: '10px', minWidth: '50%' }} dir="ltr">
                             {blog?.categories.map((item, index) => (
-                                <Button
-                                    size='large'
-                                    sx={{ color: selectedCategories.includes(item) ? 'red' : 'blue', fontSize: '20px' }}
-                                    variant='contained'
-                                    key={index}
-                                    onClick={() => handleCategoryClick(item)}
-                                >
+                                <Button size="large" sx={{ color: selectedCategories.includes(item) ? 'red' : 'blue', fontSize: '20px' }} variant="contained" key={index} onClick={() => handleCategoryClick(item)}>
                                     {item}
                                 </Button>
                             ))}
