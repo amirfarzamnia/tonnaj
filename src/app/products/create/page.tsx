@@ -10,7 +10,7 @@ import React from 'react';
 import L from 'leaflet';
 
 export default () => {
-    const initialProductState: Omit<ProductTypes, 'timestamp' | 'rating' | 'id' | 'available' | 'author'> = { categories: [], description: '', images: [], price: '', name: '', location: { latlng: new L.LatLng(32.4279, 53.688), state: '', city: '' } };
+    const initialProductState: Omit<ProductTypes, 'timestamp' | 'rating' | 'id' | 'available' | 'author'> = { categories: [], description: '', images: [], price: 0, name: '', location: { latlng: new L.LatLng(32.4279, 53.688), state: '', city: '' } };
 
     const [product, setProduct] = React.useState(initialProductState);
     const [snackbarMessage, setSnackbarMessage] = React.useState('');
@@ -180,7 +180,7 @@ export default () => {
                         <TextField type="text" label="نام محصول" fullWidth required value={product.name} onChange={({ target }) => handleInputChange('name', target.value)} />
                     </Grid>
                     <Grid item xs={12}>
-                        <TextField type="number" label="قیمت محصول (تومان)" fullWidth required value={product.price} onChange={({ target }) => handleInputChange('price', target.value)} />
+                        <TextField type="number" label="قیمت محصول (تومان)" fullWidth required value={product.price} onChange={({ target }) => handleInputChange('price', Number(target.value))} />
                     </Grid>
                     <Grid item xs={12}>
                         <FormControl fullWidth>
