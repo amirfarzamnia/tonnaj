@@ -45,7 +45,7 @@ export default ({ params }: { params: { name: string } }) => {
     if (error || !blog) return <Typography variant="h4">{error}</Typography>;
 
     return (
-        <Box>
+        <>
             <Box component="img" loading="lazy" src={blog.image} />
             <Box component={'div'} sx={{ mb: 2 }}>
                 <Typography variant="h4">{blog.name}</Typography>
@@ -70,6 +70,6 @@ export default ({ params }: { params: { name: string } }) => {
                     </Button>
                 ))}
             </Box>
-        </Box>
+        </>
     );
 };
