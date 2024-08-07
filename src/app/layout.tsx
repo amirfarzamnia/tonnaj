@@ -198,8 +198,8 @@ export default ({ children }: { children: React.ReactNode }) => {
                                         >
                                             <Box sx={{ width: "90%", background: theme.palette.background.paper, padding: 1, boxShadow: 3, borderRadius: 2, display: 'flex', flexDirection: 'column', alignItems: 'start', justifyContent: 'center' }}>
                                                 {products.map((item, index) => {
-                                                    return <Box sx={{ mt: 2, mb: 2, width: "fit", padding: 1, height: "fit", backgroundColor: "white", borderRadius: 5 }}>
-                                                        <Box component={'a'} sx={{ textDecoration: "none" }} href={`/products/${item.id}`} color={'blue'} key={index}>
+                                                    return <Box sx={{ mt: 2, mb: 2, width: "fit", padding: 1, height: "fit", backgroundColor: "white", borderRadius: 5 }} key={index}>
+                                                        <Box component={'a'} sx={{ textDecoration: "none" }} href={`/products/${item.id}`} color={'blue'}>
                                                             <Typography>{item.name}{" "}{item.location.city}</Typography>
                                                         </Box>
                                                     </Box>
