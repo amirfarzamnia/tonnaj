@@ -84,6 +84,14 @@ export default () => {
             sx={{ width: '80%', mx: 'auto' }}>
             <Box sx={{ width: '100%', display: 'flex', flexDirection: 'column', alignItems: 'center', padding: '16px' }}>
                 <Grid container spacing={2} sx={{ width: '100%' }}>
+                    <Box>
+                        <Typography variant="h6" gutterBottom>
+                            موقعیت مکانی دقیق خود را از طریق نقشه زیر انتخاب کنید.
+                        </Typography>
+                        <Typography variant="body2" gutterBottom>
+                            توجه داشته باشید که این موقعیت مکانی برای همه قابل مشاهده خواهد بود.
+                        </Typography>
+                    </Box>
                     <Grid item xs={12}>
                         <Box ref={mapRef} sx={{ height: '25rem', width: '100%', border: 1, borderColor: 'rgba(133, 133, 133, 0.5)', borderRadius: 1 }}></Box>
                     </Grid>
@@ -110,16 +118,10 @@ export default () => {
                     </Grid>
                     <Grid item xs={12}>
                         <Box sx={{ width: '100%', height: '30vh', display: 'flex', alignItems: 'center', borderRadius: 1, justifyContent: 'center', border: 1, borderColor: 'rgba(133, 133, 133, 0.5)', padding: '16px', marginTop: '16px' }}>
-                            <Box component="label" htmlFor="img" sx={{ width: '100%', display: 'flex', flexDirection: 'column', alignItems: 'center', justifyContent: 'center' }}>
-                                <Add fontSize="large" color="success" sx={{ fontWeight: 'bold', scale: '1.1' }} />
-                                <Typography variant="h6" sx={{ marginTop: '10px' }}>
-                                    اضافه کردن عکس محصول
-                                </Typography>
-                                <Typography variant="body2" sx={{ marginTop: '10px', textAlign: 'center' }}>
-                                    برای معرفی محصول به خریداران لازم است عکس محصول خود را ارسال کنید. جهت تایید توسط خریدار، حتما از عکس واقعی استفاده کنید
-                                </Typography>
-                                <Typography variant="body2" sx={{ marginTop: '10px', textAlign: 'center' }}>
-                                    حتما عکس از بسته بندی و یک عکس از نزدیک داخل محصول برای جذب خریدار ثبت کنید
+                            <Box component="label" htmlFor="img" sx={{ cursor: 'pointer', width: '100%', display: 'flex', flexDirection: 'column', alignItems: 'center', justifyContent: 'center' }}>
+                                <Add fontSize="large" />
+                                <Typography variant="body2" sx={{ marginTop: '10px' }}>
+                                    برای اضافه کردن تصویر یا تصاویر محصول اینجا ضربه بزنید.
                                 </Typography>
                                 <Box
                                     component="input"
