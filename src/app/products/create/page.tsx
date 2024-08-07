@@ -17,8 +17,8 @@ export default () => {
     const fileInputRef = React.useRef<HTMLInputElement | null>(null);
     const [snackbarOpen, setSnackbarOpen] = React.useState(false);
     const mapRef = React.useRef<HTMLDivElement | null>(null);
+    const markerRef = React.useRef<L.Marker | null>(null);
     const mapInstance = React.useRef<L.Map | null>(null);
-    const markerRef = React.useRef<L.Marker | null>(null); // Reference to the current marker
     const router = useRouter();
 
     React.useEffect(() => {
