@@ -1,6 +1,6 @@
 'use client';
 
-import { Button, Box, Card, Divider, Grid, Stack, Typography, CircularProgress } from '@mui/material';
+import { Button, Box, Card, Divider, Grid, Stack, Typography, CircularProgress, CardContent } from '@mui/material';
 import { useSearchParams } from 'next/navigation';
 import { useEffect, useState } from 'react';
 import { BlogTypes } from '@/types/blog';
@@ -48,27 +48,29 @@ export default () => {
                     <Grid item xs={12} sm={6} md={3} key={index}>
                         <Card sx={{ borderRadius: 4 }}>
                             <Box component="img" src={image} loading="lazy" height={'30vh'} />
-                            <Typography variant="h6" sx={{ textAlign: 'center', mb: 1 }}>
-                                {name}
-                            </Typography>
-                            <Divider sx={{ mb: 2 }} />
-                            <Typography variant="body2" color="text.secondary" sx={{ overflow: 'hidden', textOverflow: 'ellipsis', display: '-webkit-box', WebkitLineClamp: 4, WebkitBoxOrient: 'vertical', height: 95 }}>
-                                {content}
-                            </Typography>
-                            <Divider />
-                            <Button href={'/blog/' + name} variant="outlined" color="success" sx={{ width: '100%' }}>
-                                مشاهده
-                            </Button>
-                            <Box sx={{ my: 2 }}>
+                            <CardContent>
+                                <Typography variant="h6" sx={{ textAlign: 'center', mb: 1 }}>
+                                    {name}
+                                </Typography>
+                                <Divider sx={{ mb: 2 }} />
+                                <Typography variant="body2" color="text.secondary" sx={{ overflow: 'hidden', textOverflow: 'ellipsis', display: '-webkit-box', WebkitLineClamp: 4, WebkitBoxOrient: 'vertical', height: 95 }}>
+                                    {content}
+                                </Typography>
                                 <Divider />
-                            </Box>
-                            <Typography variant="body2" color="textSecondary">
-                                {categories.map((category, index) => (
-                                    <Box component="small" key={index}>
-                                        {category}
-                                    </Box>
-                                ))}
-                            </Typography>
+                                <Button href={'/blog/' + name} variant="outlined" color="success" sx={{ width: '100%' }}>
+                                    مشاهده
+                                </Button>
+                                <Box sx={{ my: 2 }}>
+                                    <Divider />
+                                </Box>
+                                <Typography variant="body2" color="textSecondary">
+                                    {categories.map((category, index) => (
+                                        <Box component="small" key={index}>
+                                            {category}
+                                        </Box>
+                                    ))}
+                                </Typography>
+                            </CardContent>
                         </Card>
                     </Grid>
                 ))}
