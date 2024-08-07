@@ -99,7 +99,7 @@ export default () => {
                         <Grid container spacing={2}>
                             {product.images.map((src, index) => (
                                 <Grid item xs={2} key={index}>
-                                    <Box sx={{ position: 'relative' }}>
+                                    <Box sx={{ position: 'relative', width: '100%', height: '100%' }}>
                                         <IconButton
                                             onClick={() => {
                                                 handleInputChange(
@@ -107,7 +107,7 @@ export default () => {
                                                     product.images.filter((_, i) => i !== index)
                                                 );
                                             }}
-                                            sx={{ position: 'absolute', top: 0, right: 0, zIndex: 1 }}>
+                                            sx={{ position: 'absolute', top: 0, right: 0, zIndex: 1, color: 'red' }}>
                                             <Remove />
                                         </IconButton>
                                         <Box component="img" loading="lazy" src={src} alt={`Uploaded ${index}`} sx={{ width: '100%', height: '100%', borderRadius: '4px', objectFit: 'cover' }} />
@@ -154,25 +154,15 @@ export default () => {
                                             return;
                                         }
 
+                                        const newImages = [...product.images];
+
                                         selectedFiles.forEach((file) => {
                                             const reader = new FileReader();
 
                                             reader.onloadend = () => {
-                                                const image = Object.assign(new Image(), { src: reader.result });
+                                                newImages.push(reader.result as string);
 
-                                                image.onload = () => {
-                                                    const size = Math.min(image.width, image.height);
-                                                    const canvas = document.createElement('canvas');
-                                                    const ctx = canvas.getContext('2d');
-
-                                                    canvas.width = canvas.height = size;
-
-                                                    if (!ctx) return;
-
-                                                    ctx.drawImage(image, (image.width - size) / 2, (image.height - size) / 2, size, size, 0, 0, size, size);
-
-                                                    handleInputChange('images', [...product.images, canvas.toDataURL()]);
-                                                };
+                                                setProduct((prevProduct) => ({ ...prevProduct, images: newImages }));
                                             };
 
                                             reader.readAsDataURL(file);
