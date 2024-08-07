@@ -1,6 +1,6 @@
 'use client';
 
-import { Grid, Typography, Box, CircularProgress, Button, Divider, CardActionArea, CardContent, Card } from '@mui/material';
+import { Grid, Typography, Box, CircularProgress, Button, Divider, CardActionArea, CardContent, Card, colors } from '@mui/material';
 import { Sell, ShoppingBasket, Close, ArrowLeft } from '@mui/icons-material';
 import ProductCard from '@/components/ProductCard';
 import categories from '@/constants/categories';
@@ -44,6 +44,21 @@ export default () => {
             }
         })();
     }, []);
+
+    const bottomItem = [
+        {
+            title: "تناژ چیست؟",
+            desc: `“تناژ” بستر ارتباط مستقیم خریدار و فروشنده را فراهم می کند و محصولات فروشندگان را در یک بازار آنلاین در معرض نمایش می گذارد.`
+        },
+        {
+            title: "خدمات خریداران",
+            desc: "“خریداران” در تناژ به فروشندگان عمده محصول مورد نظر خود در سراسر ایران به راحتی و بدون واسطه دسترسی دارند و با آنها در ارتباط هستند."
+        },
+        {
+            title: "خدمات فروشندگان",
+            desc: "“فروشندگان” در تناژ محصولات خود را برای یافتن خریداران عمده و فروش بدون واسطه در باسکول ثبت می کنند. قابلیت های تبلیغاتی موجود در باسکول، به فروش سریع تر محصولات آنها کمک می کند."
+        }
+    ]
 
     if (loading) {
         return (
@@ -223,25 +238,22 @@ export default () => {
 
 
             <Divider sx={{ mt: 8, mb: 5 }} />
-            <Box sx={{ height: '70vh', width: "100%", backgroundColor: 'rgb(255 255 255 / .2)', borderRadius: 7, display: 'flex', justifyContent: "space-between", alignItems: 'center' }}>
-                <Box sx={{ width: "30%", height: "60vh" }}>
-                    <Box sx={{ textAlign: 'center' }}>
-                        <Typography variant='h4' sx={{ color: "white" }}>
-                            در صورتی که خریدار عمده هستید ،
-                        </Typography>
-                        <Typography sx={{ color: 'black', mt: 1 }}>
-                            با ثبت یک درخواست خرید، از چندین فروشنده قیمت دریافت کنید
-                        </Typography>
-                    </Box>
+
+            <Box sx={{ height: '70vh', width: "100%", backgroundColor: 'rgb(255 255 255 / .2)', borderRadius: 7, display: 'flex', flexDirection: 'column', alignItems: 'center' }}>
+                <Box sx={{ borderBottom: 3, width: "93%", height: "13vh", display: "flex", justifyItems: 'center', alignItems: 'center' }}>
+                    <Typography variant='h4' sx={{ color: "white", textAlign: 'center', ml: 'auto', mr: 'auto' }}>
+                        ارتباط مستقیم با خریداران و فروشندگان عمده محصولات
+                    </Typography>
                 </Box>
-
-                <Box sx={{ width: "60%", ml: "auto", mr: "auto", height: "50vh", backgroundColor: 'white', borderRadius: 4 }}>
-                    <Box sx={{ textAlign: 'center' }}>
-
-                        <Typography sx={{ color: 'black', mt: 1 }}>
-                            با ثبت یک درخواست خرید، از چندین فروشنده قیمت دریافت کنید
-                        </Typography>
-                    </Box>
+                <Box sx={{ width: "93%", display: 'flex', justifyItems: 'center', alignItems: 'center', justifyContent: 'space-between' }}>
+                    {bottomItem.map((item, index) => {
+                        return <Box>
+                            <Box sx={{ maxWidth: "430px", mt: 1, display: 'flex', flexDirection: 'column', alignItems: 'center' }}>
+                                <Typography sx={{ color: 'black' }} variant='h6'>{item.title}</Typography>
+                                <Typography sx={{ mt: 1, }} variant='body2'>{item.desc}</Typography>
+                            </Box>
+                        </Box>
+                    })}
                 </Box>
             </Box>
         </>
