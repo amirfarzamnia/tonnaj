@@ -170,10 +170,10 @@ export default () => {
                         </Box>
                     </Grid>
                     <Grid item xs={12}>
-                        <TextField type="text" label="عنوان محصول" fullWidth required value={product.name} onChange={({ target }) => handleInputChange('name', target.value)} />
+                        <TextField type="text" label="نام محصول" fullWidth required value={product.name} onChange={({ target }) => handleInputChange('name', target.value)} />
                     </Grid>
                     <Grid item xs={12}>
-                        <TextField type="number" label="قیمت محصول" fullWidth required value={product.price} onChange={({ target }) => handleInputChange('price', target.value)} />
+                        <TextField type="number" label="قیمت محصول (تومان)" fullWidth required value={product.price} onChange={({ target }) => handleInputChange('price', target.value)} />
                     </Grid>
                     <Grid item xs={12}>
                         <FormControl fullWidth>
@@ -188,7 +188,7 @@ export default () => {
                         </FormControl>
                     </Grid>
                     <Grid item xs={12}>
-                        <TextareaAutosize minRows={5} spellCheck={false} placeholder="توضیحات محصول" maxLength={2500} required value={product.description} onChange={({ target }) => handleInputChange('description', target.value)} style={{ width: '100%', maxWidth: '100%', minWidth: '100%', padding: '16px', border: '1px solid rgba(133, 133, 133, 0.75)', borderRadius: '4px', background: 'rgba(0, 0, 0, 0.05)' }} />
+                        <TextareaAutosize minRows={5} spellCheck={false} placeholder="توضیحات محصول را اینجا وارد کنید..." maxLength={2500} required value={product.description} onChange={({ target }) => handleInputChange('description', target.value)} style={{ width: '100%', maxWidth: '100%', minWidth: '100%', padding: '16px', border: '1px solid rgba(133, 133, 133, 0.75)', borderRadius: '4px', background: 'rgba(0, 0, 0, 0.05)' }} />
                     </Grid>
                     <Grid item xs={12}>
                         <Button type="submit" variant="contained" color="primary">
