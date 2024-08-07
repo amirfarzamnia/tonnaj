@@ -1,7 +1,7 @@
 'use client';
 
 import { Grid, Typography, Box, CircularProgress, Button, Divider, CardActionArea, CardContent, Card } from '@mui/material';
-import { Sell, ShoppingBasket, Close } from '@mui/icons-material';
+import { Sell, ShoppingBasket, Close, ArrowLeft } from '@mui/icons-material';
 import ProductCard from '@/components/ProductCard';
 import categories from '@/constants/categories';
 import { ProductTypes } from '@/types/product';
@@ -111,7 +111,25 @@ export default () => {
                     <ProductCard key={product.id} {...product} />
                 ))}
             </Grid>
-            <Divider sx={{ mt: 3, mb: 3 }} />
+
+            <Box sx={{ mt: 10, width: '90%', height: "230px", ml: "auto", mr: "auto", borderRadius: 2, backgroundColor: 'wheat', display: 'flex' }}>
+                <Box sx={{ width: '75%' }}>
+                    <Box sx={{ padding: 2 }}>
+                        <Typography variant='h4'>
+                            همین حالا محصول خود را در تناژ ثبت کنید
+                        </Typography>
+                    </Box>
+                    <Box>
+                        <Button size='large' variant='contained' sx={{ backgroundColor: "orange", borderRadius: 4, mr: 2 }} href='/products/create'>
+                            ثبت محصول  <ArrowLeft />
+                        </Button>
+                    </Box>
+                </Box>
+
+                <Box sx={{ width: "25%", display: 'flex', justifyContent: 'end', backgroundColor: "rgb(170, 149, 110)", borderRadius: 2 }}>
+                    <Box component={'img'} src='/landing-banner-avatar.png' sx={{ objectFit: 'cover', height: "230px" }} />
+                </Box>
+            </Box>
 
             <Box sx={{ width: "100%", display: 'flex', justifyContent: 'center' }}>
                 <Swiper
@@ -126,72 +144,17 @@ export default () => {
                     onSwiper={(swiper) => console.log(swiper)}
                     onSlideChange={() => console.log('slide change')}
                 >
+
                     <SwiperSlide style={{ display: 'flex', justifyContent: 'center', alignItems: 'center', width: '90%' }}>
                         <Card sx={{ width: 345 }} dir='rtl'>
-                            <CardActionArea>
-                                <CardContent>
-                                    <Typography gutterBottom variant="h5" component="div">
-                                        علی
-                                    </Typography>
-                                    <Typography variant="body2" color="text.secondary">
-                                        1 کلیو سیب زمینی
-                                    </Typography>
-                                </CardContent>
-                            </CardActionArea>
-                            <Box mt={1} mb={2} sx={{ display: 'flex', justifyContent: 'center', alignItems: 'center' }}>
-                                <Button href='tel:11111'>
-                                    تماس
-                                </Button>
-                            </Box>
-                        </Card>
-                    </SwiperSlide><SwiperSlide style={{ display: 'flex', justifyContent: 'center', alignItems: 'center', width: '90%' }}>
-                        <Card sx={{ width: 345 }} dir='rtl'>
-                            <CardActionArea>
-                                <CardContent>
-                                    <Typography gutterBottom variant="h5" component="div">
-                                        علی
-                                    </Typography>
-                                    <Typography variant="body2" color="text.secondary">
-                                        1 کلیو سیب زمینی
-                                    </Typography>
-                                </CardContent>
-                            </CardActionArea>
-                            <Box mt={1} mb={2} sx={{ display: 'flex', justifyContent: 'center', alignItems: 'center' }}>
-                                <Button href='tel:11111'>
-                                    تماس
-                                </Button>
-                            </Box>
-                        </Card>
-                    </SwiperSlide><SwiperSlide style={{ display: 'flex', justifyContent: 'center', alignItems: 'center', width: '90%' }}>
-                        <Card sx={{ width: 345 }} dir='rtl'>
-                            <CardActionArea>
-                                <CardContent>
-                                    <Typography gutterBottom variant="h5" component="div">
-                                        علی
-                                    </Typography>
-                                    <Typography variant="body2" color="text.secondary">
-                                        1 کلیو سیب زمینی
-                                    </Typography>
-                                </CardContent>
-                            </CardActionArea>
-                            <Box mt={1} mb={2} sx={{ display: 'flex', justifyContent: 'center', alignItems: 'center' }}>
-                                <Button href='tel:11111'>
-                                    تماس
-                                </Button>
-                            </Box>
-                        </Card>
-                    </SwiperSlide><SwiperSlide style={{ display: 'flex', justifyContent: 'center', alignItems: 'center', width: '90%' }}>
-                        <Card sx={{ width: 345 }} dir='rtl'>
-                            <CardActionArea>
-                                <CardContent>
-                                    <Typography gutterBottom variant="h5" component="div">
-                                        علی
-                                    </Typography>
-                                    <Typography variant="body2" color="text.secondary">
-                                        1 کلیو سیب زمینی
-                                    </Typography>
-                                </CardContent>
-                            </CardActionArea>
+                            <CardContent>
+                                <Typography gutterBottom variant="h5" component="div">
+                                    علی
+                                </Typography>
+                                <Typography variant="body2" color="text.secondary">
+                                    1 کلیو سیب زمینی
+                                </Typography>
+                            </CardContent>
                             <Box mt={1} mb={2} sx={{ display: 'flex', justifyContent: 'center', alignItems: 'center' }}>
                                 <Button href='tel:11111'>
                                     تماس
@@ -199,15 +162,71 @@ export default () => {
                             </Box>
                         </Card>
                     </SwiperSlide>
+
+                    <SwiperSlide style={{ display: 'flex', justifyContent: 'center', alignItems: 'center', width: '90%' }}>
+                        <Card sx={{ width: 345 }} dir='rtl'>
+                            <CardContent>
+                                <Typography gutterBottom variant="h5" component="div">
+                                    علی
+                                </Typography>
+                                <Typography variant="body2" color="text.secondary">
+                                    1 کلیو سیب زمینی
+                                </Typography>
+                            </CardContent>
+                            <Box mt={1} mb={2} sx={{ display: 'flex', justifyContent: 'center', alignItems: 'center' }}>
+                                <Button href='tel:11111'>
+                                    تماس
+                                </Button>
+                            </Box>
+                        </Card>
+                    </SwiperSlide>
+
+                    <SwiperSlide style={{ display: 'flex', justifyContent: 'center', alignItems: 'center', width: '90%' }}>
+                        <Card sx={{ width: 345 }} dir='rtl'>
+                            <CardContent>
+                                <Typography gutterBottom variant="h5" component="div">
+                                    علی
+                                </Typography>
+                                <Typography variant="body2" color="text.secondary">
+                                    1 کلیو سیب زمینی
+                                </Typography>
+                            </CardContent>
+                            <Box mt={1} mb={2} sx={{ display: 'flex', justifyContent: 'center', alignItems: 'center' }}>
+                                <Button href='tel:11111'>
+                                    تماس
+                                </Button>
+                            </Box>
+                        </Card>
+                    </SwiperSlide>
+
+                    <SwiperSlide style={{ display: 'flex', justifyContent: 'center', alignItems: 'center', width: '90%' }}>
+                        <Card sx={{ width: 345 }} dir='rtl'>
+                            <CardContent>
+                                <Typography gutterBottom variant="h5" component="div">
+                                    علی
+                                </Typography>
+                                <Typography variant="body2" color="text.secondary">
+                                    1 کلیو سیب زمینی
+                                </Typography>
+                            </CardContent>
+                            <Box mt={1} mb={2} sx={{ display: 'flex', justifyContent: 'center', alignItems: 'center' }}>
+                                <Button href='tel:11111'>
+                                    تماس
+                                </Button>
+                            </Box>
+                        </Card>
+                    </SwiperSlide>
+
+
                 </Swiper>
             </Box>
 
 
             <Divider sx={{ mt: 8, mb: 5 }} />
-            <Box sx={{ height: '70vh', width: "100%", backgroundColor: 'wheat', borderRadius: 7, display: 'flex', justifyContent: "space-between", alignItems: 'center' }}>
+            <Box sx={{ height: '70vh', width: "100%", backgroundColor: 'rgb(255 255 255 / .2)', borderRadius: 7, display: 'flex', justifyContent: "space-between", alignItems: 'center' }}>
                 <Box sx={{ width: "30%", height: "60vh" }}>
                     <Box sx={{ textAlign: 'center' }}>
-                        <Typography variant='h4'>
+                        <Typography variant='h4' sx={{ color: "white" }}>
                             در صورتی که خریدار عمده هستید ،
                         </Typography>
                         <Typography sx={{ color: 'black', mt: 1 }}>
