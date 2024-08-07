@@ -110,7 +110,7 @@ export default () => {
                                             sx={{ position: 'absolute', top: 0, right: 0, zIndex: 1 }}>
                                             <Remove />
                                         </IconButton>
-                                        <Box component="img" loading="lazy" src={src} alt={`Uploaded ${index}`} sx={{ width: '100%', height: 'auto', borderRadius: '4px' }} />
+                                        <Box component="img" loading="lazy" src={src} alt={`Uploaded ${index}`} sx={{ width: '100%', height: '100%', borderRadius: '4px', objectFit: 'cover' }} />
                                     </Box>
                                 </Grid>
                             ))}
@@ -133,35 +133,50 @@ export default () => {
                                     onChange={(e: React.ChangeEvent<HTMLInputElement>) => {
                                         e.preventDefault();
 
-                                        if (e.target.files) {
-                                            const selectedFiles = Array.from(e.target.files).filter(({ type }) => type.startsWith('image/')) as File[];
-                                            const nonImageFiles = Array.from(e.target.files).filter(({ type }) => !type.startsWith('image/'));
+                                        if (!e.target.files) return;
 
-                                            if (nonImageFiles.length > 0) {
-                                                setSnackbarMessage('فقط فایل‌ های تصویری مجاز هستند.');
-                                                setSnackbarOpen(true);
+                                        const selectedFiles = Array.from(e.target.files).filter(({ type }) => type.startsWith('image/')) as File[];
+                                        const nonImageFiles = Array.from(e.target.files).filter(({ type }) => !type.startsWith('image/'));
 
-                                                return;
-                                            }
+                                        if (nonImageFiles.length > 0) {
+                                            setSnackbarMessage('فقط فایل‌های تصویری مجاز هستند.');
+                                            setSnackbarOpen(true);
 
-                                            if (product.images.length + selectedFiles.length > 10) {
-                                                setSnackbarMessage('شما نمی‌ توانید بیش از 10 تصویر آپلود کنید.');
-                                                setSnackbarOpen(true);
-
-                                                if (fileInputRef.current) fileInputRef.current.value = '';
-
-                                                return;
-                                            }
-
-                                            selectedFiles.forEach((file) => {
-                                                const reader = new FileReader();
-
-                                                reader.onloadend = () => handleInputChange('images', [...product.images, reader.result as string]);
-                                                reader.readAsDataURL(file);
-                                            });
+                                            return;
                                         }
 
-                                        if (fileInputRef.current) fileInputRef.current.value = '';
+                                        if (product.images.length + selectedFiles.length > 10) {
+                                            setSnackbarMessage('شما نمی‌توانید بیش از 10 تصویر آپلود کنید.');
+                                            setSnackbarOpen(true);
+
+                                            if (fileInputRef.current) fileInputRef.current.value = '';
+
+                                            return;
+                                        }
+
+                                        selectedFiles.forEach((file) => {
+                                            const reader = new FileReader();
+
+                                            reader.onloadend = () => {
+                                                const image = Object.assign(new Image(), { src: reader.result });
+
+                                                image.onload = () => {
+                                                    const size = Math.min(image.width, image.height);
+                                                    const canvas = document.createElement('canvas');
+                                                    const ctx = canvas.getContext('2d');
+
+                                                    canvas.width = canvas.height = size;
+
+                                                    if (!ctx) return;
+
+                                                    ctx.drawImage(image, (image.width - size) / 2, (image.height - size) / 2, size, size, 0, 0, size, size);
+
+                                                    handleInputChange('images', [...product.images, canvas.toDataURL()]);
+                                                };
+                                            };
+
+                                            reader.readAsDataURL(file);
+                                        });
                                     }}
                                     ref={fileInputRef}
                                 />
