@@ -9,14 +9,7 @@ import leaflet from 'leaflet';
 import React from 'react';
 
 export default () => {
-    const initialProductState: Omit<ProductTypes, 'timestamp' | 'rating' | 'id' | 'available' | 'author'> = {
-        categories: [],
-        description: '',
-        images: [],
-        price: '',
-        name: '',
-        location: { latlng: new leaflet.LatLng(0, 0), state: '', city: '' }
-    };
+    const initialProductState: Omit<ProductTypes, 'timestamp' | 'rating' | 'id' | 'available' | 'author'> = { categories: [], description: '', images: [], price: '', name: '', location: { latlng: new leaflet.LatLng(0, 0), state: '', city: '' } };
 
     const [product, setProduct] = React.useState(initialProductState);
     const [snackbarMessage, setSnackbarMessage] = React.useState('');
