@@ -1,47 +1,57 @@
 'use client';
 
 import { Alert, Box, Button, FormControl, Grid, IconButton, InputLabel, MenuItem, Select, SelectChangeEvent, Snackbar, TextareaAutosize, TextField, Typography } from '@mui/material';
+import React, { useEffect, useRef, useState } from 'react';
 import { Add, Remove } from '@mui/icons-material';
 import categories from '@/constants/categories';
 import { useRouter } from 'next/navigation';
-import leaflet from 'leaflet';
-import React from 'react';
+import L from 'leaflet';
 
 export default () => {
-    const [location, setLocation] = React.useState<{ latlng: leaflet.LatLng; address: { city?: string; state?: string } } | null>(null);
-    const [selectedCategories, setCategories] = React.useState<string[]>([]);
-    const [imageFiles, setImageFiles] = React.useState<string[]>([]);
-    const fileInputRef = React.useRef<HTMLInputElement | null>(null);
-    const [description, setDescription] = React.useState<string>('');
-    const [snackbarMessage, setSnackbarMessage] = React.useState('');
-    const [authorName, setAuthorName] = React.useState<string>('');
-    const [snackbarOpen, setSnackbarOpen] = React.useState(false);
-    const [price, setPrice] = React.useState<string>('');
-    const [name, setTitle] = React.useState<string>('');
+    const [location, setLocation] = useState<{ latlng: L.LatLng; address: { city?: string; state?: string } } | null>(null);
+    const [selectedCategories, setCategories] = useState<string[]>([]);
+    const [imageFiles, setImageFiles] = useState<string[]>([]);
+    const fileInputRef = useRef<HTMLInputElement | null>(null);
+    const [description, setDescription] = useState<string>('');
+    const [snackbarMessage, setSnackbarMessage] = useState('');
+    const [authorName, setAuthorName] = useState<string>('');
+    const [snackbarOpen, setSnackbarOpen] = useState(false);
+    const [price, setPrice] = useState<string>('');
+    const [name, setTitle] = useState<string>('');
     const router = useRouter();
 
-    const mapRef = React.useRef<HTMLDivElement | null>(null);
-    const mapInstance = React.useRef<leaflet.Map | null>(null);
+    const mapRef = useRef<HTMLDivElement | null>(null);
+    const mapInstance = useRef<L.Map | null>(null);
 
-    React.useEffect(() => {
-        if (!(mapRef.current && !mapInstance.current)) return;
+    useEffect(() => {
+        if (mapRef.current && !mapInstance.current) {
+            mapInstance.current = L.map(mapRef.current).setView([32.4279, 53.688], 5);
 
-        mapInstance.current = leaflet.map(mapRef.current).setView([32.4279, 53.688], 5);
+            L.tileLayer('https://{s}.tile.openstreetmap.org/{z}/{x}/{y}.png').addTo(mapInstance.current);
 
-        const handleMapClick = async (e: leaflet.LeafletMouseEvent) => {
-            const response = await fetch(`https://nominatim.openstreetmap.org/reverse?format=jsonv2&lat=${e.latlng.lat}&lon=${e.latlng.lng}&accept-language=fa`);
-            const { address } = await response.json();
+            const handleMapClick = async (e: L.LeafletMouseEvent) => {
+                const response = await fetch('https://nominatim.openstreetmap.org/reverse?format=jsonv2&lat=' + e.latlng.lat + '&lon=' + e.latlng.lng + '&accept-language=fa');
+                const { address } = await response.json();
 
-            setLocation({ latlng: e.latlng, address: { city: address.city || address.town || address.village, state: address.state } });
-        };
+                setLocation({
+                    latlng: e.latlng,
+                    address: {
+                        city: address.city || address.town || address.village,
+                        state: address.state
+                    }
+                });
 
-        mapInstance.current.on('click', handleMapClick);
+                L.marker(e.latlng).addTo(mapInstance.current!).bindPopup(`Latitude: ${e.latlng.lat}<br>Longitude: ${e.latlng.lng}`).openPopup();
+            };
 
-        return () => {
-            mapInstance.current?.off('click', handleMapClick);
-            mapInstance.current?.remove();
-            mapInstance.current = null;
-        };
+            mapInstance.current.on('click', handleMapClick);
+
+            return () => {
+                mapInstance.current?.off('click', handleMapClick);
+                mapInstance.current?.remove();
+                mapInstance.current = null;
+            };
+        }
     }, []);
 
     const handleCloseSnackbar = () => setSnackbarOpen(false);
@@ -55,7 +65,6 @@ export default () => {
                 if (imageFiles.length === 0) {
                     setSnackbarMessage('باید حداقل یک عکس برای محصول خود انتخاب کنید');
                     setSnackbarOpen(true);
-
                     return;
                 }
 
@@ -145,16 +154,13 @@ export default () => {
                                     if (nonImageFiles.length > 0) {
                                         setSnackbarMessage('فقط فایل‌های تصویری مجاز هستند.');
                                         setSnackbarOpen(true);
-
                                         return;
                                     }
 
                                     if (imageFiles.length + selectedFiles.length > 10) {
                                         setSnackbarMessage('شما نمی‌توانید بیش از 10 تصویر آپلود کنید.');
                                         setSnackbarOpen(true);
-
                                         if (fileInputRef.current) fileInputRef.current.value = '';
-
                                         return;
                                     }
 
