@@ -29,9 +29,11 @@ export const POST = async (request: NextRequest) => {
 
             if (!/^.{5,50}$/.test(product.name)) return NextResponse.json({ message: 'نام محصول باید بین 5 تا 50 حرف باشد.' }, { status: 400 });
 
-            await database.collection('products').insertOne({ ...product, id: randomBytes(3).toString('hex'), timestamp: Date.now(), available: true, rating: 5, author: session });
+            const id = randomBytes(3).toString('hex');
 
-            return NextResponse.json({ message: 'محصول شما با موفقیت به تناژ اضافه شد.' }, { status: 200 });
+            await database.collection('products').insertOne({ ...product, id, timestamp: Date.now(), available: true, rating: 5, author: session });
+
+            return NextResponse.json({ message: 'محصول شما با موفقیت به تناژ اضافه شد.', id }, { status: 200 });
         }
 
         case 'request': {
@@ -41,9 +43,11 @@ export const POST = async (request: NextRequest) => {
 
             if (!product_request.location?.latlng || typeof product_request.location.city !== 'string' || typeof product_request.location.state !== 'string' || !(typeof product_request.location.latlng.lat === 'number' && typeof product_request.location.latlng.lng === 'number')) return NextResponse.json({ message: 'موقعیت مکانی به درستی ارسال نشده.' }, { status: 400 });
 
-            await database.collection('product_requests').insertOne({ ...product_request, id: randomBytes(3).toString('hex'), timestamp: Date.now(), author: session, available: true });
+            const id = randomBytes(3).toString('hex');
 
-            return NextResponse.json({ message: 'درخواست خرید محصول شما با موفقیت به تناژ اضافه شد.' }, { status: 200 });
+            await database.collection('product_requests').insertOne({ ...product_request, id, timestamp: Date.now(), author: session, available: true });
+
+            return NextResponse.json({ message: 'درخواست خرید محصول شما با موفقیت به تناژ اضافه شد.', id }, { status: 200 });
         }
 
         default: {

@@ -71,7 +71,7 @@ export default () => {
                 if (response.ok) {
                     setProduct(initialProductState);
 
-                    setTimeout(() => router.push('/'), 2000);
+                    setTimeout(() => router.push('../' + json.id), 2000);
                 }
             }}
             sx={{ width: '80%', mx: 'auto' }}>
