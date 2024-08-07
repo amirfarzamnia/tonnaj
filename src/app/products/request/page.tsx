@@ -31,36 +31,6 @@ export default () => {
     const [name, setTitle] = useState<string>('');
     const router = useRouter();
 
-    console.log(location);
-
-    const mapRef = useRef<HTMLDivElement | null>(null);
-    const mapInstance = useRef<L.Map | null>(null);
-
-    useEffect(() => {
-        if (mapRef.current && !mapInstance.current) {
-            mapInstance.current = L.map(mapRef.current).setView([32.4279, 53.688], 5);
-
-            L.tileLayer('https://{s}.tile.openstreetmap.org/{z}/{x}/{y}.png', {
-                attribution: '&copy; <a href="https://www.openstreetmap.org/copyright">OpenStreetMap</a> contributors'
-            }).addTo(mapInstance.current);
-
-            const handleMapClick = async (e: L.LeafletMouseEvent) => {
-                const latlng = e.latlng;
-                const address = await getCityAndState(latlng.lat, latlng.lng);
-                setLocation({ latlng, address });
-
-                L.marker(latlng).addTo(mapInstance.current!).bindPopup(`Latitude: ${latlng.lat}<br>Longitude: ${latlng.lng}`).openPopup();
-            };
-
-            mapInstance.current.on('click', handleMapClick);
-
-            return () => {
-                mapInstance.current?.off('click', handleMapClick);
-                mapInstance.current?.remove(); // Cleanup the map instance
-                mapInstance.current = null;
-            };
-        }
-    }, []);
 
     const handleImage = (e: React.ChangeEvent<HTMLInputElement>) => {
         e.preventDefault();
@@ -144,68 +114,12 @@ export default () => {
     return (
         <Box component="form" onSubmit={handleSubmit} sx={{ width: '100%' }}>
             <Box sx={{ width: '100%', display: 'flex', flexDirection: 'column', alignItems: 'center', padding: '16px' }}>
-                <Box width={'100%'} ref={mapRef} sx={{ height: '500px', width: '100%' }}></Box>
-                {location && (
-                    <div>
-                        Latitude: {location.latlng.lat}, Longitude: {location.latlng.lng}
-                        <br />
-                        City: {location.address.city || 'N/A'}, State: {location.address.state || 'N/A'}
-                    </div>
-                )}
-                <Grid container spacing={2} mt={10}>
-                    {imageFiles.map((src, index) => (
-                        <Grid item xs={2} key={index}>
-                            <Box sx={{ position: 'relative' }}>
-                                <IconButton onClick={() => setImageFiles((prev) => prev.filter((_, i) => i !== index))} sx={{ position: 'absolute', top: 0, right: 0, zIndex: 1 }}>
-                                    <Remove />
-                                </IconButton>
-                                <Box component="img" loading="lazy" src={src} alt={`Uploaded ${index}`} sx={{ width: '100%', height: 'auto', borderRadius: '4px' }} />
-                            </Box>
-                        </Grid>
-                    ))}
-                </Grid>
-                <Box sx={{ width: '90%', height: '30vh', display: 'flex', alignItems: 'center', justifyContent: 'center', border: '3px dashed gray', borderRadius: '4px', padding: '16px', marginTop: '16px' }}>
-                    <Box component="label" htmlFor="img" sx={{ width: '100%', display: 'flex', flexDirection: 'column', alignItems: 'center', justifyContent: 'center' }}>
-                        <Add fontSize="large" color="success" sx={{ fontWeight: 'bold', scale: '1.1' }} />
-                        <Typography variant="h6" sx={{ marginTop: '10px' }}>
-                            اضافه کردن عکس محصول
-                        </Typography>
-                        <Typography variant="body2" sx={{ marginTop: '10px', textAlign: 'center' }}>
-                            برای معرفی محصول به خریداران لازم است عکس محصول خود را ارسال کنید. جهت تایید توسط خریدار، حتما از عکس واقعی استفاده کنید
-                        </Typography>
-                        <Typography variant="body2" sx={{ marginTop: '10px', textAlign: 'center' }}>
-                            حتما عکس از بسته بندی و یک عکس از نزدیک داخل محصول برای جذب خریدار ثبت کنید
-                        </Typography>
-                        <Box component="input" type="file" id="img" sx={{ opacity: 0, position: 'absolute', zIndex: -1 }} multiple accept="image/*" onChange={handleImage} ref={fileInputRef} />
-                    </Box>
-                </Box>
                 <Box sx={{ width: '50%', marginTop: '16px' }}>
-                    <TextField type="text" label="عنوان محصول" fullWidth required value={name} onChange={({ target }) => setTitle(target.value)} />
-                </Box>
-                <Box sx={{ width: '50%', marginTop: '16px' }}>
-                    <TextField type="number" label="قیمت محصول" fullWidth required value={price} onChange={({ target }) => setPrice(target.value)} />
-                </Box>
-                <Box sx={{ width: '50%', marginTop: '16px' }}>
-                    <TextField type="text" label="نام شخص یا شرکت" fullWidth required value={authorName} onChange={({ target }) => setAuthorName(target.value)} />
-                </Box>
-                <Box sx={{ width: '50%', marginTop: '16px' }}>
-                    <FormControl fullWidth>
-                        <InputLabel id="categories-select-label">دسته بندی</InputLabel>
-                        <Select labelId="categories-select-label" id="categories-select" multiple value={selectedCategories} onChange={handleChange} renderValue={(selected) => selected.join(', ')}>
-                            {categories.map((category) => (
-                                <MenuItem key={category} value={category}>
-                                    {category}
-                                </MenuItem>
-                            ))}
-                        </Select>
-                    </FormControl>
-                </Box>
-                <Box sx={{ width: '50%', marginTop: '16px' }}>
-                    <TextareaAutosize minRows={5} spellCheck={false} placeholder="توضیحات محصول" maxLength={2500} required value={description} onChange={({ target }) => setDescription(target.value)} />
+                    <TextareaAutosize minRows={5} maxRows={200} cols={115} spellCheck={false} placeholder="به چه چیزی نیاز دارید؟" maxLength={2500} required value={description} onChange={({ target }) => setDescription(target.value)} />
                 </Box>
                 <Box sx={{ marginTop: '16px' }}>
                     <Button type="submit" variant="contained" color="primary">
-                        ثبت آگهی
+                        ثبت درخواست
                     </Button>
                 </Box>
             </Box>
