@@ -62,7 +62,7 @@ export default () => {
                 const response = await fetch('api/blog');
                 if (response.ok) {
                     const json = await response.json();
-                    setBlogs(json.data);
+                    setBlogs(json);
                 } else {
                     console.error('Error fetching data:', response.status);
                 }
