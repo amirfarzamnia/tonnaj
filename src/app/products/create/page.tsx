@@ -81,7 +81,7 @@ export default () => {
                     console.error('Error uploading data:', error);
                 }
             }}
-            sx={{ width: '100%' }}>
+            sx={{ width: '80%', mx: 'auto' }}>
             <Box sx={{ width: '100%', display: 'flex', flexDirection: 'column', alignItems: 'center', padding: '16px' }}>
                 <Grid container spacing={2} sx={{ width: '100%' }}>
                     <Grid item xs={12}>
