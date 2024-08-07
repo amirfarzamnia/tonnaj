@@ -42,7 +42,9 @@ export default ({ price, description, images, name, id, author, categories, loca
                         </Box>
                         <Typography variant="body2" color="textSecondary">
                             {categories.map((category) => (
-                                <MuiLink href={'?categories=' + category}>{category}</MuiLink>
+                                <MuiLink href={'?categories=' + category} onClick={(event) => event.stopPropagation()}>
+                                    {category}
+                                </MuiLink>
                             ))}
                         </Typography>
                     </CardContent>
