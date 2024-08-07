@@ -24,34 +24,28 @@ export default () => {
     const mapInstance = useRef<L.Map | null>(null);
 
     useEffect(() => {
-        if (mapRef.current && !mapInstance.current) {
-            mapInstance.current = L.map(mapRef.current).setView([32.4279, 53.688], 5);
+        if (!(mapRef.current && !mapInstance.current)) return;
 
-            L.tileLayer('https://{s}.tile.openstreetmap.org/{z}/{x}/{y}.png').addTo(mapInstance.current);
+        mapInstance.current = L.map(mapRef.current).setView([32.4279, 53.688], 5);
 
-            const handleMapClick = async (e: L.LeafletMouseEvent) => {
-                const response = await fetch('https://nominatim.openstreetmap.org/reverse?format=jsonv2&lat=' + e.latlng.lat + '&lon=' + e.latlng.lng + '&accept-language=fa');
-                const { address } = await response.json();
+        L.tileLayer('https://{s}.tile.openstreetmap.org/{z}/{x}/{y}.png').addTo(mapInstance.current);
 
-                setLocation({
-                    latlng: e.latlng,
-                    address: {
-                        city: address.city || address.town || address.village,
-                        state: address.state
-                    }
-                });
+        const handleMapClick = async (e: L.LeafletMouseEvent) => {
+            const response = await fetch('https://nominatim.openstreetmap.org/reverse?format=jsonv2&lat=' + e.latlng.lat + '&lon=' + e.latlng.lng + '&accept-language=fa');
+            const { address } = await response.json();
 
-                L.marker(e.latlng).addTo(mapInstance.current!).bindPopup(`Latitude: ${e.latlng.lat}<br>Longitude: ${e.latlng.lng}`).openPopup();
-            };
+            setLocation({ latlng: e.latlng, address: { city: address.city || address.town || address.village, state: address.state } });
 
-            mapInstance.current.on('click', handleMapClick);
+            L.marker(e.latlng).addTo(mapInstance.current!).bindPopup(`Latitude: ${e.latlng.lat}<br>Longitude: ${e.latlng.lng}`).openPopup();
+        };
 
-            return () => {
-                mapInstance.current?.off('click', handleMapClick);
-                mapInstance.current?.remove();
-                mapInstance.current = null;
-            };
-        }
+        mapInstance.current.on('click', handleMapClick);
+
+        return () => {
+            mapInstance.current?.off('click', handleMapClick);
+            mapInstance.current?.remove();
+            mapInstance.current = null;
+        };
     }, []);
 
     const handleCloseSnackbar = () => setSnackbarOpen(false);
@@ -65,6 +59,7 @@ export default () => {
                 if (imageFiles.length === 0) {
                     setSnackbarMessage('باید حداقل یک عکس برای محصول خود انتخاب کنید');
                     setSnackbarOpen(true);
+
                     return;
                 }
 
@@ -154,13 +149,16 @@ export default () => {
                                     if (nonImageFiles.length > 0) {
                                         setSnackbarMessage('فقط فایل‌های تصویری مجاز هستند.');
                                         setSnackbarOpen(true);
+
                                         return;
                                     }
 
                                     if (imageFiles.length + selectedFiles.length > 10) {
                                         setSnackbarMessage('شما نمی‌توانید بیش از 10 تصویر آپلود کنید.');
                                         setSnackbarOpen(true);
+
                                         if (fileInputRef.current) fileInputRef.current.value = '';
+
                                         return;
                                     }
 
