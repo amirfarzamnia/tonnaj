@@ -7,10 +7,9 @@ import { randomBytes } from 'crypto';
 
 export const POST = async (request: NextRequest) => {
     const product: ProductTypes = await request.json();
+    const session = await findSession(request);
 
-    const { phone_number } = (await findSession(request)) || {};
-
-    if (!phone_number) return new NextResponse(null, { status: 403 });
+    if (!session) return new NextResponse(null, { status: 403 });
 
     if (!Array.isArray(product.categories) || product.categories.some((category) => !categories.includes(category))) return NextResponse.json({ message: 'دسته بندی ها به درستی ارسال نشده اند.' }, { status: 404 });
 
@@ -23,6 +22,8 @@ export const POST = async (request: NextRequest) => {
     if (!product.location?.latlng || typeof product.location.city !== 'string' || typeof product.location.state !== 'string' || !(typeof product.location.latlng.lat === 'number' && typeof product.location.latlng.lng === 'number')) return NextResponse.json({ message: 'موقعیت مکانی به درستی ارسال نشده.' }, { status: 404 });
 
     if (!/^.{5,50}$/.test(product.name)) return NextResponse.json({ message: 'نام محصول باید بین 5 تا 50 حرف باشد.' }, { status: 404 });
+
+    await database.collection('products').insertOne({ ...product, id: randomBytes(3).toString('hex'), timestamp: Date.now(), available: true, rating: 5, author: session });
 
     return NextResponse.json({ message: 'محصول شما با موفقیت به تناژ اضافه شد.' }, { status: 200 });
 };
