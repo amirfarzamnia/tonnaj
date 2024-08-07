@@ -239,12 +239,13 @@ export default () => {
 
             <Divider sx={{ mt: 8, mb: 5 }} />
 
-            <Box sx={{ height: '70vh', width: "100%", backgroundColor: 'rgb(255 255 255 / .2)', borderRadius: 7, display: 'flex', flexDirection: 'column', alignItems: 'center' }}>
+            <Box sx={{ height: '80vh', width: "100%", backgroundColor: 'rgb(255 255 255 / .2)', borderRadius: 7, display: 'flex', flexDirection: 'column', alignItems: 'center' }}>
                 <Box sx={{ borderBottom: 3, width: "93%", height: "13vh", display: "flex", justifyItems: 'center', alignItems: 'center' }}>
                     <Typography variant='h4' sx={{ color: "white", textAlign: 'center', ml: 'auto', mr: 'auto' }}>
                         ارتباط مستقیم با خریداران و فروشندگان عمده محصولات
                     </Typography>
                 </Box>
+
                 <Box sx={{ width: "93%", display: 'flex', justifyItems: 'center', alignItems: 'center', justifyContent: 'space-between' }}>
                     {bottomItem.map((item, index) => {
                         return <Box>
@@ -254,6 +255,23 @@ export default () => {
                             </Box>
                         </Box>
                     })}
+                </Box>
+
+                <Box component={'div'} sx={{ width: "85%", height: "43vh", mt: 6, display: 'flex', borderRadius: 3, backgroundColor: 'white' }}>
+                    <Box sx={{ width: "40%", height: "43vh", backgroundColor: "black", display: 'flex', justifyContent: 'center', alignItems: 'center' }}>
+                        <Box component={'img'} src='/landing-blog.jpg' sx={{ width: "100%", height: "43vh" }} />
+                    </Box>
+                    <Box sx={{ width: "60%", height: "43vh", display: 'flex', flexDirection: 'column', justifyContent: 'center', color: "black" }}>
+                        <Typography variant='h6' sx={{ mb: 1, width: "95%", mr: 2 }}>
+                            باسکول: بازار آنلاین محصولات عمده ایران
+                        </Typography>
+                        <Typography variant='body2' sx={{ width: "95%", ml: 'auto', mr: 'auto' }}>
+                            باسکول یک پلتفرم عمده فروشی آنلاین است که به شما امکان می‌دهد به‌طور مستقیم و مطمئن با تولیدکنندگان و عرضه‌کنندگان انواع کالاهای عمده ایران در ارتباط باشید. با استفاده از باسکول، می‌توانید به راحتی قیمت روز انواع کالاهای عمده را مشاهده کنید، با فروشندگان عمده و افراد حرفه ای مستقیماً ارتباط گرفته، اعتبار و سابقه آنها را بررسی کرده و نسبت به خرید و فروش عمده اقدام کنید.
+                            باسکول با بهره‌گیری از سیستم جستجوی پیشرفته و فیلترهای متنوع، به خریداران امکان می‌دهد به راحتی و سریع محصول مورد نظر خود را پیدا کنند. هزاران کالا در صنایع مختلف از سراسر ایران در بازار عمده فروشی باسکول گردآوری شده و به شما این امکان را می‌دهد تا محصولات را با هم مقایسه کرده و بهترین انتخاب را برای خرید عمده خود داشته باشید.
+                            با استفاده از ابزار های مختلف باسکول، می‌توانید به‌صورت مستقیم و آنلاین با خریداران و فروشندگان عمده ارتباط برقرار کنید و شبکه ی تجاری خود را گسترش دهید.
+                            باسکول به‌عنوان مرجع تخصصی عمده فروشی در ایران، دارای بزرگترین مجموعه اطلاعاتی صادرکنندگان و تولیدکنندگان کالای صادراتی ایران است و به شما این امکان را می‌دهد که با بهترین تولیدکنندگان کالاهای صادراتی ایران ارتباط برقرار کرده و فرصت مناسبی برای صادرات کالای باکیفیت ایرانی داشته باشید.
+                        </Typography>
+                    </Box>
                 </Box>
             </Box>
         </>
