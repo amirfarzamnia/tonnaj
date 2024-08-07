@@ -22,20 +22,6 @@ export default ({ params }: { params: { name: string } }) => {
         });
     }, [params.name]);
 
-    const handleCategoryClick = (category: string) => {
-        let updatedCategories = [...selectedCategories];
-
-        if (updatedCategories.includes(category)) {
-            updatedCategories = updatedCategories.filter((c) => c !== category);
-        } else {
-            updatedCategories.push(category);
-        }
-
-        setSelectedCategories(updatedCategories);
-
-        router.push('/blog' + (updatedCategories.length > 0 ? `?categories=${updatedCategories.join(',')}` : ''));
-    };
-
     return (
         <Stack justifyContent="center" alignItems="center" sx={{ width: '100%' }}>
             {error ? (
@@ -54,7 +40,24 @@ export default ({ params }: { params: { name: string } }) => {
                         <Divider sx={{ width: '100%', my: 2 }} />
                         <Box sx={{ backgroundColor: 'blanchedalmond', padding: '5px', marginBottom: '15px', borderRadius: '10px', display: 'flex', flexWrap: 'wrap', gap: '10px', minWidth: '50%' }} dir="ltr">
                             {blog?.categories.map((item, index) => (
-                                <Button size="large" sx={{ color: selectedCategories.includes(item) ? 'red' : 'blue', fontSize: '20px' }} variant="contained" key={index} onClick={() => handleCategoryClick(item)}>
+                                <Button
+                                    size="large"
+                                    sx={{ color: selectedCategories.includes(item) ? 'red' : 'blue', fontSize: '20px' }}
+                                    variant="contained"
+                                    key={index}
+                                    onClick={() => (category: string) => {
+                                        let updatedCategories = [...selectedCategories];
+
+                                        if (updatedCategories.includes(category)) {
+                                            updatedCategories = updatedCategories.filter((c) => c !== category);
+                                        } else {
+                                            updatedCategories.push(category);
+                                        }
+
+                                        setSelectedCategories(updatedCategories);
+
+                                        router.push('/blog' + (updatedCategories.length > 0 ? `?categories=${updatedCategories.join(',')}` : ''));
+                                    }}>
                                     {item}
                                 </Button>
                             ))}
