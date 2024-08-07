@@ -9,7 +9,7 @@ import leaflet from 'leaflet';
 import React from 'react';
 
 export default () => {
-    const initialProductState: Omit<ProductTypes, 'timestamp' | 'rating' | 'id' | 'available' | 'author'> = { categories: [], description: '', images: [], price: '', name: '', location: { latlng: new leaflet.LatLng(0, 0), state: '', city: '' } };
+    const initialProductState: Omit<ProductTypes, 'timestamp' | 'rating' | 'id' | 'available' | 'author'> = { categories: [], description: '', images: [], price: '', name: '', location: { latlng: new leaflet.LatLng(32.4279, 53.688), state: '', city: '' } };
 
     const [product, setProduct] = React.useState(initialProductState);
     const [snackbarMessage, setSnackbarMessage] = React.useState('');
@@ -22,7 +22,7 @@ export default () => {
     React.useEffect(() => {
         if (!(mapRef.current && !mapInstance.current)) return;
 
-        mapInstance.current = leaflet.map(mapRef.current, { attributionControl: false }).setView([32.4279, 53.688], 5);
+        mapInstance.current = leaflet.map(mapRef.current, { attributionControl: false }).setView(product.location.latlng, 5);
 
         leaflet.tileLayer('https://{s}.tile.openstreetmap.org/{z}/{x}/{y}.png').addTo(mapInstance.current);
 
@@ -30,13 +30,10 @@ export default () => {
             const response = await fetch('https://nominatim.openstreetmap.org/reverse?format=jsonv2&lat=' + e.latlng.lat + '&lon=' + e.latlng.lng + '&accept-language=fa');
             const { address } = await response.json();
 
-            const city = address.city || address.town || address.village;
+            const city = address.city || address.town || address.village || 'ناشناس';
             const state = address.state || city;
 
-            setProduct((prevProduct) => ({
-                ...prevProduct,
-                location: { latlng: e.latlng, state, city }
-            }));
+            setProduct((prevProduct) => ({ ...prevProduct, location: { latlng: e.latlng, state, city } }));
 
             leaflet.marker(e.latlng).addTo(mapInstance.current!).bindPopup(`استان: ${address.state}<br>شهر یا روستا: ${city}`).openPopup();
         };
@@ -52,39 +49,6 @@ export default () => {
 
     const handleCloseSnackbar = () => setSnackbarOpen(false);
     const handleInputChange = (key: keyof typeof initialProductState, value: any) => setProduct((prevProduct) => ({ ...prevProduct, [key]: value }));
-    const handleImageChange = (e: React.ChangeEvent<HTMLInputElement>) => {
-        e.preventDefault();
-
-        if (e.target.files) {
-            const selectedFiles = Array.from(e.target.files).filter(({ type }) => type.startsWith('image/')) as File[];
-            const nonImageFiles = Array.from(e.target.files).filter(({ type }) => !type.startsWith('image/'));
-
-            if (nonImageFiles.length > 0) {
-                setSnackbarMessage('فقط فایل‌های تصویری مجاز هستند.');
-                setSnackbarOpen(true);
-
-                return;
-            }
-
-            if (product.images.length + selectedFiles.length > 10) {
-                setSnackbarMessage('شما نمی‌توانید بیش از 10 تصویر آپلود کنید.');
-                setSnackbarOpen(true);
-
-                if (fileInputRef.current) fileInputRef.current.value = '';
-
-                return;
-            }
-
-            selectedFiles.forEach((file) => {
-                const reader = new FileReader();
-
-                reader.onloadend = () => handleInputChange('images', [...product.images, reader.result as string]);
-                reader.readAsDataURL(file);
-            });
-        }
-
-        if (fileInputRef.current) fileInputRef.current.value = '';
-    };
 
     return (
         <Box
@@ -151,7 +115,48 @@ export default () => {
                         <Typography variant="body2" sx={{ marginTop: '10px', textAlign: 'center' }}>
                             حتما عکس از بسته بندی و یک عکس از نزدیک داخل محصول برای جذب خریدار ثبت کنید
                         </Typography>
-                        <Box component="input" type="file" id="img" sx={{ opacity: 0, position: 'absolute', zIndex: -1 }} multiple accept="image/*" onChange={handleImageChange} ref={fileInputRef} />
+                        <Box
+                            component="input"
+                            type="file"
+                            id="img"
+                            sx={{ opacity: 0, position: 'absolute', zIndex: -1 }}
+                            multiple
+                            accept="image/*"
+                            onChange={(e: React.ChangeEvent<HTMLInputElement>) => {
+                                e.preventDefault();
+
+                                if (e.target.files) {
+                                    const selectedFiles = Array.from(e.target.files).filter(({ type }) => type.startsWith('image/')) as File[];
+                                    const nonImageFiles = Array.from(e.target.files).filter(({ type }) => !type.startsWith('image/'));
+
+                                    if (nonImageFiles.length > 0) {
+                                        setSnackbarMessage('فقط فایل‌های تصویری مجاز هستند.');
+                                        setSnackbarOpen(true);
+
+                                        return;
+                                    }
+
+                                    if (product.images.length + selectedFiles.length > 10) {
+                                        setSnackbarMessage('شما نمی‌توانید بیش از 10 تصویر آپلود کنید.');
+                                        setSnackbarOpen(true);
+
+                                        if (fileInputRef.current) fileInputRef.current.value = '';
+
+                                        return;
+                                    }
+
+                                    selectedFiles.forEach((file) => {
+                                        const reader = new FileReader();
+
+                                        reader.onloadend = () => handleInputChange('images', [...product.images, reader.result as string]);
+                                        reader.readAsDataURL(file);
+                                    });
+                                }
+
+                                if (fileInputRef.current) fileInputRef.current.value = '';
+                            }}
+                            ref={fileInputRef}
+                        />
                     </Box>
                 </Box>
                 <Box sx={{ width: '50%', marginTop: '16px' }}>
