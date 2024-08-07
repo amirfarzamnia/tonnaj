@@ -18,6 +18,7 @@ export default () => {
     const [snackbarOpen, setSnackbarOpen] = React.useState(false);
     const mapRef = React.useRef<HTMLDivElement | null>(null);
     const mapInstance = React.useRef<L.Map | null>(null);
+    const markerRef = React.useRef<L.Marker | null>(null); // Reference to the current marker
     const router = useRouter();
 
     React.useEffect(() => {
@@ -36,10 +37,12 @@ export default () => {
 
             setProduct((prevProduct) => ({ ...prevProduct, location: { latlng: e.latlng, state, city } }));
 
-            L.marker(e.latlng, { icon: L.divIcon({ html: renderToStaticMarkup(<Room />) }) })
-                .addTo(mapInstance.current!)
-                .bindPopup(`استان: ${address.state}<br>شهر یا روستا: ${city}`)
-                .openPopup();
+            if (markerRef.current) mapInstance.current!.removeLayer(markerRef.current);
+
+            const markerOptions = { icon: L.divIcon({ html: renderToStaticMarkup(<Room sx={{ ms: 1 }} />) }) };
+            const newMarker = L.marker(e.latlng, markerOptions).addTo(mapInstance.current!).bindPopup(`استان: ${address.state}<br>شهر یا روستا: ${city}`).openPopup();
+
+            markerRef.current = newMarker;
         };
 
         mapInstance.current.on('click', handleMapClick);
