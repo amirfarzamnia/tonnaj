@@ -5,10 +5,10 @@ import React, { useEffect, useRef, useState } from 'react';
 import { Add, Remove } from '@mui/icons-material';
 import categories from '@/constants/categories';
 import { useRouter } from 'next/navigation';
-import L from 'leaflet';
+import leaflet from 'leaflet';
 
 export default () => {
-    const [location, setLocation] = useState<{ latlng: L.LatLng; address: { city?: string; state?: string } } | null>(null);
+    const [location, setLocation] = useState<{ latlng: leaflet.LatLng; address: { city?: string; state?: string } } | null>(null);
     const [selectedCategories, setCategories] = useState<string[]>([]);
     const [imageFiles, setImageFiles] = useState<string[]>([]);
     const fileInputRef = useRef<HTMLInputElement | null>(null);
@@ -21,23 +21,23 @@ export default () => {
     const router = useRouter();
 
     const mapRef = useRef<HTMLDivElement | null>(null);
-    const mapInstance = useRef<L.Map | null>(null);
+    const mapInstance = useRef<leaflet.Map | null>(null);
 
     useEffect(() => {
         if (!(mapRef.current && !mapInstance.current)) return;
 
-        mapInstance.current = L.map(mapRef.current).setView([32.4279, 53.688], 5);
+        mapInstance.current = leaflet.map(mapRef.current).setView([32.4279, 53.688], 5);
 
-        L.tileLayer('https://{s}.tile.openstreetmap.org/{z}/{x}/{y}.png').addTo(mapInstance.current);
+        leaflet.tileLayer('https://{s}.tile.openstreetmap.org/{z}/{x}/{y}.png').addTo(mapInstance.current);
 
-        const handleMapClick = async (e: L.LeafletMouseEvent) => {
+        const handleMapClick = async (e: leaflet.LeafletMouseEvent) => {
             const response = await fetch('https://nominatim.openstreetmap.org/reverse?format=jsonv2&lat=' + e.latlng.lat + '&lon=' + e.latlng.lng + '&accept-language=fa');
             const { address } = await response.json();
             const city = address.city || address.town || address.village;
 
             setLocation({ latlng: e.latlng, address: { city, state: address.state } });
 
-            L.marker(e.latlng).addTo(mapInstance.current!).bindPopup(`استان: ${address.state}<br>شهر یا روستا: ${city}`).openPopup();
+            leaflet.marker(e.latlng).addTo(mapInstance.current!).bindPopup(`استان: ${address.state}<br>شهر یا روستا: ${city}`).openPopup();
         };
 
         mapInstance.current.on('click', handleMapClick);
