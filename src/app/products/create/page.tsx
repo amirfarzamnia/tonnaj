@@ -7,8 +7,26 @@ import { useRouter } from 'next/navigation';
 import leaflet from 'leaflet';
 import React from 'react';
 
+interface Location {
+    latlng: leaflet.LatLng;
+    address: {
+        city: string;
+        state: string;
+    };
+}
+
+interface Product {
+    location: Location | null;
+    selectedCategories: string[];
+    imageFiles: string[];
+    description: string;
+    authorName: string;
+    price: string;
+    name: string;
+}
+
 export default () => {
-    const [product, setProduct] = React.useState({ location: null, selectedCategories: [], imageFiles: [], description: '', authorName: '', price: '', name: '' });
+    const [product, setProduct] = React.useState<Product>({ location: null, selectedCategories: [], imageFiles: [], description: '', authorName: '', price: '', name: '' });
     const [snackbarMessage, setSnackbarMessage] = React.useState('');
     const fileInputRef = React.useRef<HTMLInputElement | null>(null);
     const [snackbarOpen, setSnackbarOpen] = React.useState(false);
@@ -45,7 +63,7 @@ export default () => {
     }, []);
 
     const handleCloseSnackbar = () => setSnackbarOpen(false);
-    const handleInputChange = (key: string, value: any) => setProduct((prevProduct) => ({ ...prevProduct, [key]: value }));
+    const handleInputChange = (key: keyof Product, value: any) => setProduct((prevProduct) => ({ ...prevProduct, [key]: value }));
     const handleImageChange = (e: React.ChangeEvent<HTMLInputElement>) => {
         e.preventDefault();
 
@@ -134,13 +152,6 @@ export default () => {
             sx={{ width: '100%' }}>
             <Box sx={{ width: '100%', display: 'flex', flexDirection: 'column', alignItems: 'center', padding: '16px' }}>
                 <Box width={'100%'} ref={mapRef} sx={{ height: '500px', width: '100%' }}></Box>
-                {product.location && (
-                    <div>
-                        Latitude: {product.location.latlng.lat}, Longitude: {product.location.latlng.lng}
-                        <br />
-                        City: {product.location.address.city || 'N/A'}, State: {product.location.address.state || 'N/A'}
-                    </div>
-                )}
                 <Grid container spacing={2} mt={10}>
                     {product.imageFiles.map((src, index) => (
                         <Grid item xs={2} key={index}>
