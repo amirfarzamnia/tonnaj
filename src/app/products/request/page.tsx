@@ -62,12 +62,14 @@ export default () => {
             onSubmit={async (e: React.FormEvent) => {
                 e.preventDefault();
 
-                const { ok } = await fetch('/api/products', { method: 'POST', headers: { 'Content-Type': 'application/json' }, body: JSON.stringify(product) });
+                const response = await fetch('/api/products', { method: 'POST', headers: { 'Content-Type': 'application/json' }, body: JSON.stringify(product) });
+                const json = await response.json();
 
-                if (ok) {
-                    setSnackbarMessage('محصول شما با موفقیت ثبت شد');
+                setSnackbarMessage(json.message);
+                setSnackbarOpen(true);
+
+                if (response.ok) {
                     setProduct(initialProductState);
-                    setSnackbarOpen(true);
 
                     setTimeout(() => router.push('/'), 2000);
                 }
