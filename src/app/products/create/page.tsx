@@ -150,15 +150,15 @@ export default () => {
                                             return;
                                         }
 
-                                        const newImages = [...product.images];
+                                        const images = [...product.images];
 
                                         selectedFiles.forEach((file) => {
                                             const reader = new FileReader();
 
                                             reader.onloadend = () => {
-                                                newImages.push(reader.result as string);
+                                                images.push(reader.result as string);
 
-                                                setProduct((prevProduct) => ({ ...prevProduct, images: newImages }));
+                                                setProduct((prevProduct) => ({ ...prevProduct, images }));
                                             };
 
                                             reader.readAsDataURL(file);
