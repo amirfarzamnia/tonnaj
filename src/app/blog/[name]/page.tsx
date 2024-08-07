@@ -48,7 +48,7 @@ export default ({ params }: { params: { name: string } }) => {
         <>
             <Box>
                 <Box component="img" loading="lazy" src={blog.image} width="25%" />
-                <Box component={'div'} sx={{ mb: 2 }}>
+                <Box sx={{ mb: 2 }}>
                     <Typography variant="h4">{blog.name}</Typography>
                 </Box>
             </Box>

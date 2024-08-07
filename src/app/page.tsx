@@ -248,7 +248,7 @@ export default () => {
                     })}
                 </Box>
 
-                <Box component={'div'} sx={{ width: '85%', height: '43vh', mt: 6, display: 'flex', borderRadius: 3, backgroundColor: 'white' }}>
+                <Box sx={{ width: '85%', height: '43vh', mt: 6, display: 'flex', borderRadius: 3, backgroundColor: 'white' }}>
                     <Box sx={{ width: '40%', height: '43vh', backgroundColor: 'black', display: 'flex', justifyContent: 'center', alignItems: 'center' }}>
                         <Box component={'img'} src="/landing-blog.jpg" sx={{ width: '100%', height: '43vh' }} />
                     </Box>
