@@ -1,10 +1,10 @@
 'use client';
 
-import { Button, CircularProgress, TextField, Box, Grid, Toolbar, AppBar, Link, Container, Typography, InputAdornment, CssBaseline, Shadows, Menu, MenuItem, List, ListItem } from '@mui/material';
-import { Search, LightMode, DarkMode, Person, Inventory, Logout } from '@mui/icons-material';
+import React from 'react';
+import { Button, CircularProgress, TextField, Box, Grid, Toolbar, AppBar, Link, Container, Typography, InputAdornment, CssBaseline, Shadows, Menu, MenuItem, Drawer, IconButton, Divider } from '@mui/material';
+import { Search, LightMode, DarkMode, Person, Inventory, Logout, Menu as MenuIcon } from '@mui/icons-material';
 import { createTheme, ThemeProvider, ThemeOptions } from '@mui/material/styles';
 import { TypographyOptions } from '@mui/material/styles/createTypography';
-import React from 'react';
 import './index.css';
 import 'leaflet/dist/leaflet.css';
 import { ProductTypes } from '@/types/product';
@@ -103,9 +103,12 @@ export default ({ children }: { children: React.ReactNode }) => {
     const [selectedTheme, setTheme] = React.useState<'dark' | 'light'>('light');
     const [anchorEl, setAnchorEl] = React.useState<HTMLElement | null>(null);
     const [loading, setLoading] = React.useState<boolean>(true);
-    const [isBlur, setIsBlur] = React.useState<boolean>(false)
+    const [isBlur, setIsBlur] = React.useState<boolean>(false);
     const [products, setProducts] = React.useState<ProductTypes[]>([]);
     const [selectedCategories, setSelectedCategories] = React.useState<string[]>([]);
+
+    // State for controlling Drawer
+    const [drawerOpen, setDrawerOpen] = React.useState<boolean>(false);
 
     React.useEffect(() => {
         const theme = (localStorage.getItem('selected-theme') as 'dark' | 'light') || (matchMedia('(prefers-color-scheme: dark)').matches ? 'dark' : 'light');
@@ -150,21 +153,27 @@ export default ({ children }: { children: React.ReactNode }) => {
         setAnchorEl(null);
     };
 
+    // Toggle Drawer
+    const toggleDrawer = (open: boolean) => () => setDrawerOpen(open);
+
     return (
         <ThemeProvider theme={theme}>
             <CssBaseline enableColorScheme />
-            <Box component="html" lang="fa-IR" dir="rtl">
-                <Box component="body" style={{ backgroundColor: theme.palette.background.default }}>
+            <Box component="html" lang="fa-IR" dir="rtl" sx={{ overflowX: 'hidden' }}>
+                <Box component="body" sx={{ backgroundColor: theme.palette.background.default, overflowX: 'hidden' }}>
                     {loading ? (
                         <Box sx={{ display: 'flex', flexDirection: 'column', alignItems: 'center', justifyContent: 'center', height: '100vh', backgroundColor: theme.palette.background.default }}>
                             <CircularProgress color="primary" />
                         </Box>
                     ) : (
                         <>
-                            <AppBar position="fixed">
-                                <Toolbar sx={{ display: 'flex', gap: 2, justifyContent: 'space-between', borderBottom: 1, borderColor: selectedTheme === 'dark' ? '#3f3f46' : '#e4e4e7', px: 3 }}>
+                            <AppBar position="fixed" sx={{ zIndex: (theme) => theme.zIndex.drawer + 1 }}>
+                                <Toolbar sx={{ display: 'flex', flexDirection: 'row', gap: 2, justifyContent: 'space-between', borderBottom: 1, borderColor: selectedTheme === 'dark' ? '#3f3f46' : '#e4e4e7', px: 3 }}>
+                                    <IconButton edge="start" color="inherit" aria-label="menu" onClick={toggleDrawer(true)} sx={{ display: { xs: 'block', sm: 'none' } }}>
+                                        <MenuIcon />
+                                    </IconButton>
                                     <Link href="/" underline="none">
-                                        <Box width={85} component="img" loading="lazy" alt="لوگوی تناژ" src="/icons/tonnaj.png" />
+                                        <Box width={{ xs: 60, sm: 85 }} component="img" loading="lazy" alt="لوگوی تناژ" src="/icons/tonnaj.png" />
                                     </Link>
                                     <TextField
                                         placeholder="جست و جوی محصول..."
@@ -181,33 +190,6 @@ export default ({ children }: { children: React.ReactNode }) => {
                                         onBlur={() => setIsBlur(false)}
                                         sx={{ flexGrow: 1, background: theme.palette.background.default }}
                                     />
-
-                                    {isBlur && (
-                                        <Box
-                                            sx={{
-                                                position: 'absolute',
-                                                top: '100%',
-                                                left: 0,
-                                                right: 0,
-                                                mt: 1,
-                                                zIndex: 1,
-                                                display: 'flex',
-                                                justifyContent: 'center',
-                                                alignItems: 'center'
-                                            }}
-                                        >
-                                            <Box sx={{ width: "90%", background: theme.palette.background.paper, padding: 1, boxShadow: 3, borderRadius: 2, display: 'flex', flexDirection: 'column', alignItems: 'start', justifyContent: 'center' }}>
-                                                {products.map((item, index) => {
-                                                    return <Box sx={{ mt: 2, mb: 2, width: "fit", padding: 1, height: "fit", backgroundColor: "white", borderRadius: 5 }} key={index}>
-                                                        <Box component={'a'} sx={{ textDecoration: "none" }} href={`/products/${item.id}`} color={'blue'}>
-                                                            <Typography>{item.name}{" "}{item.location.city}</Typography>
-                                                        </Box>
-                                                    </Box>
-                                                })}
-                                            </Box>
-                                        </Box>
-                                    )}
-
                                     <Button
                                         sx={{ py: 0.82 }}
                                         variant="outlined"
@@ -231,22 +213,52 @@ export default ({ children }: { children: React.ReactNode }) => {
                                     </Button>
                                 </Toolbar>
                                 <Toolbar sx={{ borderBottom: 1, borderColor: selectedTheme === 'dark' ? '#3f3f46' : '#e4e4e7', justifyContent: 'center' }}>
-                                    <Box sx={{ display: 'flex', overflowX: 'auto', whiteSpace: 'nowrap' }}>
+                                    <Box sx={{ display: 'flex', flexWrap: 'wrap', justifyContent: 'center' }}>
                                         {Object.entries({ 'بلاگ تناژ': '/blog', 'قوانین استفاده از تناژ': '/terms-of-service', 'تماس با تناژ': '/contact-us', 'درباره تناژ': '/about-us' }).map(([name, url]) => (
-                                            <Button href={url} key={name} sx={{ mx: 1 }}>
+                                            <Button href={url} key={name} sx={{ mx: 1, whiteSpace: 'nowrap' }}>
                                                 {name}
                                             </Button>
                                         ))}
                                     </Box>
                                 </Toolbar>
                             </AppBar>
-                            <Container sx={{ padding: 2, borderRadius: 4, mt: 20 }} maxWidth={'xl'}>
-                                {children}
-                            </Container>
+                            <Drawer
+                                anchor="top"
+                                open={drawerOpen}
+                                onClose={toggleDrawer(false)}
+                                sx={{
+                                    '& .MuiDrawer-paper': {
+                                        width: '100%',
+                                        height: '100%',
+                                        overflow: 'auto',
+                                    }
+                                }}
+                            >
+                                <Box sx={{ p: 2 }}>
+                                    <Toolbar>
+                                        <IconButton edge="start" color="inherit" onClick={toggleDrawer(false)} sx={{ mr: 1 }}>
+                                            <MenuIcon />
+                                        </IconButton>
+                                        <Typography variant="h6">منو</Typography>
+                                    </Toolbar>
+                                    <Box sx={{ display: 'flex', flexDirection: 'column', gap: 2 }}>
+                                        {Object.entries({ 'بلاگ تناژ': '/blog', 'قوانین استفاده از تناژ': '/terms-of-service', 'تماس با تناژ': '/contact-us', 'درباره تناژ': '/about-us' }).map(([name, url]) => (
+                                            <Button href={url} key={name} sx={{ textAlign: 'left' }}>
+                                                {name}
+                                            </Button>
+                                        ))}
+                                    </Box>
+                                </Box>
+                            </Drawer>
+                            <Box sx={{ pt: '64px' }}> {/* Ensure content is below the AppBar */}
+                                <Container sx={{ padding: 2, borderRadius: 4 }} maxWidth={'xl'}>
+                                    {children}
+                                </Container>
+                            </Box>
                             <Box sx={{ borderTop: 1, borderColor: selectedTheme === 'dark' ? '#3f3f46' : '#e4e4e7', background: selectedTheme === 'dark' ? theme.palette.grey[900] : '#fafafa', py: 4 }} component="footer">
                                 <Container>
                                     <Grid container spacing={4}>
-                                        <Grid item xs={12} sm={3}>
+                                        <Grid item xs={12} sm={6} md={3}>
                                             <Typography variant="h6" gutterBottom>
                                                 پیشخوان خدمات
                                             </Typography>
@@ -273,40 +285,42 @@ export default ({ children }: { children: React.ReactNode }) => {
                                                 </Box>
                                             </Box>
                                         </Grid>
-                                        <Grid item xs={12} sm={3}>
+                                        <Grid item xs={12} sm={6} md={3}>
                                             <Typography variant="h6" gutterBottom>
                                                 پیوندهای مفید
                                             </Typography>
                                             <Box component="ul" sx={{ listStyleType: 'none', padding: 0, margin: 0 }}>
                                                 <Box component="li">
-                                                    <Link underline="hover" href="#">
+                                                    <Link underline="hover" href="/">
                                                         خانه
                                                     </Link>
                                                 </Box>
                                                 <Box component="li">
-                                                    <Link underline="hover" href="#">
+                                                    <Link underline="hover" href="/blog">
                                                         سامانه اطلاع رسانی تناژ
                                                     </Link>
                                                 </Box>
                                                 <Box component="li">
-                                                    <Link underline="hover" href="#">
+                                                    <Link underline="hover" href="about-us">
                                                         درباره تناژ
                                                     </Link>
                                                 </Box>
                                                 <Box component="li">
-                                                    <Link underline="hover" href="#">
+                                                    <Link underline="hover" href="contact-us">
                                                         تماس با تناژ
                                                     </Link>
                                                 </Box>
                                             </Box>
                                         </Grid>
-                                        <Grid item xs={12} sm={3}>
+                                        <Grid item xs={12} sm={6} md={3}>
                                             <Typography variant="h6" gutterBottom>
                                                 بازار عمده محصولات کشاورزی
                                             </Typography>
-                                            <Typography variant="caption">تناژ با شعار "از قلب مزرعه" همراه همیشگی شما فعالین عرصه کشاورزی می باشد.در هر لحظه و در هر زمان تنها با چند کلیک ساده بازار خود را بسازید، دانش خود را بیافزایید، از خدمات بهره مند گردید و فرصت های اقتصادی خود را از طریق مشاوران و متخصصان کشف نمایید.فقط کافیست به جمع خانواده بزرگ تناژ بپیوندید.</Typography>
+                                            <Typography variant="caption">
+                                                تناژ با هدف تسهیل فرآیند خرید و فروش محصولات کشاورزی و ارائه خدماتی مانند جستجوی محصولات، مقایسه قیمت‌ها، و مشاهده جزئیات محصول فعالیت می‌کند. این وبسایت همچنین اطلاعات و مشاوره‌های تخصصی در زمینه بازار کشاورزی ارائه می‌دهد و با ارائه پشتیبانی مشتری و خدمات اضافی، تجربه‌ای راحت و مطمئن برای کاربران فراهم می‌آورد. با طراحی واکنش‌گرا و توجه به فناوری‌های نوین، تناژ به کاربران این امکان را می‌دهد که از هر دستگاهی، از جمله گوشی‌های موبایل، تبلت‌ها و رایانه‌های رومیزی، به راحتی از خدمات وبسایت بهره‌برداری کنند.
+                                            </Typography>
                                         </Grid>
-                                        <Grid item xs={12} sm={3}>
+                                        <Grid item xs={12} sm={6} md={3}>
                                             <Typography variant="h6" gutterBottom>
                                                 همکاریها و مجوزها
                                             </Typography>
@@ -314,6 +328,14 @@ export default ({ children }: { children: React.ReactNode }) => {
                                             <Box component="img" loading="lazy" src="https://via.placeholder.com/40" alt="Twitter" sx={{ width: 40, height: 40, margin: 1 }} />
                                             <Box component="img" loading="lazy" src="https://via.placeholder.com/40" alt="Instagram" sx={{ width: 40, height: 40, margin: 1 }} />
                                         </Grid>
+
+                                        <Divider sx={{ width: "100%", height: '2vh', mt: 2 }} />
+
+                                        <Box sx={{ display: 'flex', textAlign: 'center', justifyContent: 'center', alignItems: 'center' }} width={'100%'}>
+                                            <Typography variant='caption' sx={{ mt: 2, }}>
+                                                هر گونه کپی برداری از تناژ پیگرد قانونی دارد
+                                            </Typography>
+                                        </Box>
                                     </Grid>
                                 </Container>
                             </Box>
