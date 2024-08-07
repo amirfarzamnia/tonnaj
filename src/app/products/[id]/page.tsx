@@ -1,6 +1,6 @@
 'use client';
 
-import { ArrowDownward, Person, ArrowUpward, Category, Telegram, WhatsApp, LocationOn, Tag, Star as StarIcon, StarBorder, Phone } from '@mui/icons-material';
+import { Person, Category, Telegram, WhatsApp, LocationOn, Tag, Star, StarBorder, Phone } from '@mui/icons-material';
 import { Box, Button, Grid, Typography, Card, Link, IconButton, CircularProgress, Divider } from '@mui/material';
 import { Swiper, SwiperSlide } from 'swiper/react';
 import { ProductTypes } from '@/types/product';
@@ -66,7 +66,7 @@ export default ({ params }: { params: { id: string } }) => {
         { icon: <LocationOn />, label: 'موقعیت مکانی', value: `${product.location.city} - ${product.location.state}` },
         { icon: <Person />, label: 'فروشنده', value: product.author.name },
         { icon: <Tag />, label: 'کد محصول', value: product.id },
-        { icon: <StarIcon />, label: 'وضعیت', value: product.available ? 'موجود' : 'ناموجود' }
+        { icon: <Star />, label: 'وضعیت', value: product.available ? 'موجود' : 'ناموجود' }
     ];
 
     return (
@@ -88,7 +88,7 @@ export default ({ params }: { params: { id: string } }) => {
                     <Card sx={{ padding: 2, borderRadius: 1 }}>
                         <Box sx={{ width: '100%', display: 'flex', alignItems: 'center', gap: 2, justifyContent: 'space-between' }}>
                             <Typography variant="h4">{product.name}</Typography>
-                            <Box sx={{ display: 'flex', alignItems: 'center' }}>{Array.from({ length: 5 }, (_, index) => (index < product.rating ? <StarIcon key={index} color="warning" /> : <StarBorder key={index} color="inherit" />))}</Box>
+                            <Box sx={{ display: 'flex', alignItems: 'center' }}>{Array.from({ length: 5 }, (_, index) => (index < product.rating ? <Star key={index} color="warning" /> : <StarBorder key={index} color="inherit" />))}</Box>
                         </Box>
                         <Typography sx={{ my: 2 }} variant="h6" color="textPrimary">
                             قیمت: {product.price} تومان
