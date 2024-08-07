@@ -45,38 +45,34 @@ export default ({ params }: { params: { name: string } }) => {
     if (error || !blog) return <Typography variant="h4">{error}</Typography>;
 
     return (
-        <Stack justifyContent="center" alignItems="center" sx={{ width: '100%' }}>
-            <Container sx={{ minHeight: '60vh', padding: '0px', margin: '0px' }} maxWidth="xl">
-                <Box sx={{ minHeight: '80vh', display: 'flex', flexDirection: 'column', alignItems: 'center', justifyContent: 'center' }}>
-                    <CardMedia component="img" loading="lazy" src={blog.image} sx={{ height: 250, width: 400, mb: 2, borderRadius: '10px', border: '3px solid' }} />
-                    <Box component={'div'} sx={{ mb: 2 }}>
-                        <Typography variant="h4">{blog.name}</Typography>
-                    </Box>
-                    <Divider sx={{ width: '100%', my: 2 }} />
-                    <Box sx={{ minHeight: '50vh' }}>
-                        <Typography variant="body1">{blog.content}</Typography>
-                    </Box>
-                    <Divider sx={{ width: '100%', my: 2 }} />
-                    <Box sx={{ backgroundColor: 'blanchedalmond', padding: '5px', marginBottom: '15px', borderRadius: '10px', display: 'flex', flexWrap: 'wrap', gap: '10px', minWidth: '50%' }} dir="ltr">
-                        {blog.categories.map((category, index) => (
-                            <Button
-                                size="large"
-                                sx={{ color: selectedCategories.includes(category) ? 'red' : 'blue', fontSize: '20px' }}
-                                variant="contained"
-                                key={index}
-                                onClick={() => {
-                                    const updatedCategories = selectedCategories.includes(category) ? selectedCategories.filter((c) => c !== category) : [...selectedCategories, category];
+        <Box>
+            <Box component="img" loading="lazy" src={blog.image} />
+            <Box component={'div'} sx={{ mb: 2 }}>
+                <Typography variant="h4">{blog.name}</Typography>
+            </Box>
+            <Divider sx={{ width: '100%', my: 2 }} />
+            <Box sx={{ minHeight: '50vh' }}>
+                <Typography variant="body1">{blog.content}</Typography>
+            </Box>
+            <Divider sx={{ width: '100%', my: 2 }} />
+            <Box sx={{ backgroundColor: 'blanchedalmond', padding: '5px', marginBottom: '15px', borderRadius: '10px', display: 'flex', flexWrap: 'wrap', gap: '10px', minWidth: '50%' }} dir="ltr">
+                {blog.categories.map((category, index) => (
+                    <Button
+                        size="large"
+                        sx={{ color: selectedCategories.includes(category) ? 'red' : 'blue', fontSize: '20px' }}
+                        variant="contained"
+                        key={index}
+                        onClick={() => {
+                            const updatedCategories = selectedCategories.includes(category) ? selectedCategories.filter((c) => c !== category) : [...selectedCategories, category];
 
-                                    setSelectedCategories(updatedCategories);
+                            setSelectedCategories(updatedCategories);
 
-                                    router.push('/blog' + (updatedCategories.length > 0 ? '?categories=' + updatedCategories.join(',') : ''));
-                                }}>
-                                {category}
-                            </Button>
-                        ))}
-                    </Box>
-                </Box>
-            </Container>
-        </Stack>
+                            router.push('/blog' + (updatedCategories.length > 0 ? '?categories=' + updatedCategories.join(',') : ''));
+                        }}>
+                        {category}
+                    </Button>
+                ))}
+            </Box>
+        </Box>
     );
 };
