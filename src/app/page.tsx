@@ -19,7 +19,7 @@ export default () => {
     React.useEffect(() => {
         (async () => {
             try {
-                const urlParams = new URLSearchParams(window.location.search);
+                const urlParams = new URLSearchParams(location.search);
                 const categories = urlParams.get('categories')?.split(',') || [];
 
                 setSelectedCategories(categories);
@@ -79,7 +79,7 @@ export default () => {
 
                                     setSelectedCategories(categories);
 
-                                    const urlParams = new URLSearchParams(window.location.search);
+                                    const urlParams = new URLSearchParams(location.search);
 
                                     if (categories.length > 0) {
                                         urlParams.set('categories', categories.join(','));
@@ -87,7 +87,7 @@ export default () => {
                                         urlParams.delete('categories');
                                     }
 
-                                    window.history.pushState(null, '', window.location.pathname + '?' + urlParams.toString());
+                                    history.pushState(null, '', location.pathname + '?' + urlParams.toString());
                                 }}
                                 endIcon={selectedCategories.includes(category) && <Close />}>
                                 {category}

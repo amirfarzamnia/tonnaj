@@ -117,7 +117,7 @@ export default ({ children }: { children: React.ReactNode }) => {
 
     const theme = React.useMemo(() => createTheme(schemeOptions[selectedTheme]), [selectedTheme]);
 
-    const handleUserButtonClick = (event: React.MouseEvent<HTMLButtonElement, MouseEvent>) => (isAuthenticated ? setAnchorEl(event.currentTarget) : (window.location.href = '/auth'));
+    const handleUserButtonClick = (event: React.MouseEvent<HTMLButtonElement, MouseEvent>) => (isAuthenticated ? setAnchorEl(event.currentTarget) : (location.href = '/auth'));
     const handleMenuClose = () => setAnchorEl(null);
     const handleLogout = () => {
         setIsAuthenticated(false);
