@@ -131,7 +131,7 @@ export default ({ method }: { method: 'create' | 'request' }) => {
                                     <Box component="label" htmlFor="img" sx={{ cursor: 'pointer', width: '100%', display: 'flex', flexDirection: 'column', alignItems: 'center', justifyContent: 'center' }}>
                                         <Add fontSize="large" />
                                         <Typography variant="body2" sx={{ marginTop: '10px' }}>
-                                            عکس‌هایتان را اینجا آپلود کنید.
+                                            تصاویر محصول را اینجا بارگذاری کنید.
                                         </Typography>
                                         <input
                                             ref={fileInputRef}
@@ -170,7 +170,7 @@ export default ({ method }: { method: 'create' | 'request' }) => {
                         </FormControl>
                     </Grid>
                     <Grid item xs={12}>
-                        <TextareaAutosize required minRows={4} value={product.description} onChange={(e) => handleInputChange('description', e.target.value)} placeholder="توضیحات محصول را اینجا بنویسید." style={{ width: '100%', borderRadius: '4px', border: '1px solid rgba(133, 133, 133, 0.5)', background: 'rgba(0, 0, 0, 0.05)', padding: '12px' }} />
+                        <TextareaAutosize required minRows={4} value={product.description} onChange={(e) => handleInputChange('description', e.target.value)} placeholder="توضیحات محصول را اینجا بنویسید..." style={{ width: '100%', borderRadius: '4px', border: '1px solid rgba(133, 133, 133, 0.5)', background: 'transparent', padding: '12px' }} />
                     </Grid>
                     <Grid item xs={12}>
                         <Button type="submit" variant="contained" color={method === 'create' ? 'success' : 'secondary'}>
