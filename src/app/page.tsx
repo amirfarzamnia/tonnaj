@@ -33,12 +33,12 @@ export default () => {
                 const productsResponse = await fetch('/api/products?' + urlParams.toString());
                 const productsData = await productsResponse.json();
 
-                setProducts(productsData);
+                setProducts(productsData.sort((a: ProductTypes, b: ProductTypes) => new Date(b.timestamp).getTime() - new Date(a.timestamp).getTime()));
 
                 const requestsResponse = await fetch('/api/products?type=request&' + urlParams.toString());
                 const requestsData = await requestsResponse.json();
 
-                setProductRequests(requestsData);
+                setProductRequests(requestsData.sort((a: ProductRequestTypes, b: ProductRequestTypes) => new Date(b.timestamp).getTime() - new Date(a.timestamp).getTime()));
             } catch {
                 setError('دریافت اطلاعات از دیتابیس با خطا مواجه شد.');
             } finally {
