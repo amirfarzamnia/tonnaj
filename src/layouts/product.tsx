@@ -73,12 +73,14 @@ export default ({ method }: { method: 'create' | 'request' }) => {
                 setSnackbarMessage(json.message || json.error);
                 setSnackbarSeverity(response.ok ? 'success' : 'error');
 
-                if (response.ok && method === 'create') {
-                    setProduct(initialProductState);
+                if (response.ok) {
+                    if (method === 'create') {
+                        setProduct(initialProductState);
 
-                    setTimeout(() => router.push(`/products/${json.id}`), 2500);
-                } else if (response.ok && method === 'request') {
-                    setProduct(initialProductRequestState);
+                        setTimeout(() => router.push(`/products/${json.id}`), 2500);
+                    }
+
+                    if (method === 'request') setProduct(initialProductRequestState);
                 }
 
                 setSnackbarOpen(true);
