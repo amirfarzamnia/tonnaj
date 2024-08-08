@@ -61,10 +61,10 @@ export default () => {
         <>
             <Box sx={{ height: '300px', backgroundImage: 'url("/banner-top.png")', backgroundSize: 'cover', backgroundPosition: 'center', position: 'relative', display: 'flex', flexDirection: 'column', alignItems: 'start', justifyContent: 'center', paddingRight: 4, borderRadius: 4 }}>
                 <Box sx={{ mt: 10, mr: 4, display: 'flex', alignItems: 'center', gap: 1 }}>
-                    <Button endIcon={<Inventory />} href="/products/create" variant="contained" color="success" sx={{ display: 'flex', alignItems: 'center', gap: 1.25, width: 'fit-content' }}>
+                    <Button size="large" endIcon={<Inventory />} href="/products/create" variant="contained" color="success" sx={{ display: 'flex', alignItems: 'center', gap: 1.25, width: 'fit-content' }}>
                         ثبت محصول
                     </Button>
-                    <Button endIcon={<ShoppingBasket />} href="products/request" variant="contained" color="secondary" sx={{ display: 'flex', alignItems: 'center', gap: 1.25, width: 'fit-content' }}>
+                    <Button size="large" endIcon={<ShoppingBasket />} href="products/request" variant="contained" color="secondary" sx={{ display: 'flex', alignItems: 'center', gap: 1.25, width: 'fit-content' }}>
                         درخواست محصول
                     </Button>
                 </Box>
@@ -121,7 +121,7 @@ export default () => {
                         همین حالا محصولات خود را به صورت رایگان در تناژ ثبت کنید!
                     </Typography>
                     <Box>
-                        <Button endIcon={<Inventory />} href="/products/create" variant="contained" color="success" sx={{ display: 'flex', alignItems: 'center', gap: 1.25, py: 0.82, width: 'fit-content' }}>
+                        <Button size="large" endIcon={<Inventory />} href="/products/create" variant="contained" color="success" sx={{ display: 'flex', alignItems: 'center', gap: 1.25, py: 0.82, width: 'fit-content' }}>
                             ثبت محصول
                         </Button>
                     </Box>
@@ -172,10 +172,10 @@ export default () => {
             <Box sx={{ my: 4, px: 10, height: '230px', borderRadius: 4, background: '#feb204', display: 'flex', justifyContent: 'space-between', gap: 2 }}>
                 <Box sx={{ display: 'flex', flexDirection: 'column', gap: 2, height: '100%', justifyContent: 'center' }}>
                     <Typography variant="h6" color="black" fontWeight="bold">
-                        محصول مورد نظر خود را همین حالا در تناژ درخواست بدهید!
+                        محصول مورد نیاز خود را همین حالا در تناژ درخواست کنید!
                     </Typography>
                     <Box>
-                        <Button endIcon={<ShoppingBasket />} href="/products/request" variant="contained" color="secondary" sx={{ display: 'flex', alignItems: 'center', gap: 1.25, py: 0.82, width: 'fit-content' }}>
+                        <Button size="large" endIcon={<ShoppingBasket />} href="/products/request" variant="contained" color="secondary" sx={{ display: 'flex', alignItems: 'center', gap: 1.25, py: 0.82, width: 'fit-content' }}>
                             درخواست محصول
                         </Button>
                     </Box>
