@@ -26,16 +26,19 @@ export default () => {
     const [phone_number, setPhoneNumber] = React.useState<AuthTypes['phone_number']>('');
     const [loading, setLoading] = React.useState<boolean>(false);
     const [error, setError] = React.useState<string>('');
+    const [name, setName] = React.useState<string>('');
     const [step, setStep] = React.useState<number>(1);
 
     const handlePhoneNumberSubmit = async () => {
-        if (!/^(09\d{9}|98\d{10})$/.test(phone_number)) return setError('لطفا شماره تلفن همراه خود را به درستی وارد کنید.');
+        if (!/^(09\d{9}|98\d{10})$/.test(phone_number)) return setError('لطفا شماره تلفن همراه خود را به درستی و با اعداد انگلیسی وارد کنید.');
+
+        if (!name) return setError('لطفا نام خود یا نام شرکت خود را وارد کنید.');
 
         setLoading(true);
         setError('');
 
         try {
-            const response = await fetch('/api/sessions', { method: 'POST', headers: { 'Content-Type': 'application/json' }, body: JSON.stringify({ phone_number }) });
+            const response = await fetch('/api/sessions', { method: 'POST', headers: { 'Content-Type': 'application/json' }, body: JSON.stringify({ phone_number, name }) });
 
             if (!response.ok) return setError((await response.json()).error);
 
@@ -67,17 +70,24 @@ export default () => {
     };
 
     return (
-        <>
-            <Typography variant="h4" textAlign="center" component="h1" gutterBottom>
+        <Box sx={{ mx: 40 }}>
+            <Typography variant="h4" textAlign="center" gutterBottom>
                 ورود به تناژ
             </Typography>
             <Typography variant="subtitle2" textAlign="center" gutterBottom>
-                {step === 1 ? 'برای ورود، ابتدا شماره تلفن همراه خود را با اعداد انگلیسی وارد کنید.' : 'کد تایید چهار رقمی پیامک شده به شماره تلفن همراه خود را با اعداد انگلیسی وارد کنید.'}
+                {step === 1 ? 'برای ورود، ابتدا شماره تلفن همراه و نام خود، یا نام شرکت خود را با اعداد انگلیسی و حروف فارسی وارد کنید.' : 'کد تایید چهار رقمی پیامک شده به شماره تلفن همراه خود را با اعداد انگلیسی وارد کنید.'}
             </Typography>
             <Box sx={{ my: 4, width: '25%', mx: 'auto' }}>
                 <Divider />
             </Box>
-            {step === 1 ? <VerificationStep label="شماره تلفن همراه" value={phone_number} onChange={(e) => setPhoneNumber(e.target.value)} error={error} loading={loading} buttonText="ادامه و ارسال کد تایید" onSubmit={handlePhoneNumberSubmit} /> : <VerificationStep label="کد تایید" value={verification_code} onChange={(e) => setVerificationCode(e.target.value)} error={error} loading={loading} buttonText="تایید کد" onSubmit={handleVerificationCodeSubmit} />}
-        </>
+            {step === 1 ? (
+                <>
+                    <TextField fullWidth label="نام یا نام شرکت" variant="outlined" margin="normal" value={name} onChange={(e) => setName(e.target.value)} error={!!error} helperText={error} />
+                    <VerificationStep label="شماره تلفن همراه" value={phone_number} onChange={(e) => setPhoneNumber(e.target.value)} error={error} loading={loading} buttonText="ادامه و ارسال کد تایید" onSubmit={handlePhoneNumberSubmit} />
+                </>
+            ) : (
+                <VerificationStep label="کد تایید" value={verification_code} onChange={(e) => setVerificationCode(e.target.value)} error={error} loading={loading} buttonText="تایید کد" onSubmit={handleVerificationCodeSubmit} />
+            )}
+        </Box>
     );
 };
