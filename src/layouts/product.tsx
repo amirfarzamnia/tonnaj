@@ -105,7 +105,7 @@ export default ({ method }: { method: 'create' | 'request' }) => {
                     {method === 'create' && (
                         <>
                             <Grid item xs={12}>
-                                <Grid container spacing={2}>
+                                <Grid container spacing={2} sx={{ mt: 0 }}>
                                     {(product as ProductTypes).images.map((src, index) => (
                                         <Grid item xs={2} key={index}>
                                             <Box sx={{ position: 'relative', width: '100%', height: '100%' }}>
