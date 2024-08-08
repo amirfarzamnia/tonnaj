@@ -131,12 +131,12 @@ export default () => {
             <Typography variant="h5" sx={{ my: 4 }}>
                 جدیدترین درخواست های خرید محصول
             </Typography>
-            <Swiper modules={[Pagination, Scrollbar]} slidesPerView={4} spaceBetween={10} pagination={{ clickable: true }} scrollbar={{ draggable: true }}>
-                {productRequests.length ? (
-                    productRequests.map(({ id, author, description, location }) => (
-                        <SwiperSlide key={id} style={{ display: 'flex', justifyContent: 'center', alignItems: 'center', width: '90%' }}>
-                            <Card sx={{ width: 345, borderRadius: 4 }}>
-                                <CardContent>
+            {productRequests.length ? (
+                <Swiper modules={[Pagination, Scrollbar]} slidesPerView={4} spaceBetween={10} pagination={{ clickable: true }} scrollbar={{ draggable: true }}>
+                    {productRequests.map(({ id, author, description, location }) => (
+                        <SwiperSlide key={id} style={{ display: 'flex', justifyContent: 'center', alignItems: 'center', width: '90%', height: 'auto' }}>
+                            <Card sx={{ width: 345, height: '100%', borderRadius: 4, display: 'flex', flexDirection: 'column' }}>
+                                <CardContent sx={{ flex: 1 }}>
                                     <Typography variant="h6" gutterBottom textAlign="center">
                                         {author.name} از {location.city}
                                     </Typography>
@@ -162,13 +162,13 @@ export default () => {
                                 </CardContent>
                             </Card>
                         </SwiperSlide>
-                    ))
-                ) : (
-                    <Typography variant="body2" color="black">
-                        محصول مورد نیازی در این دسته بندی موجود نیست.
-                    </Typography>
-                )}
-            </Swiper>
+                    ))}
+                </Swiper>
+            ) : (
+                <Typography variant="body2" color="black">
+                    محصول مورد نیازی در این دسته بندی موجود نیست.
+                </Typography>
+            )}
             <Box sx={{ my: 4, px: 10, height: '230px', borderRadius: 4, background: '#feb204', display: 'flex', justifyContent: 'space-between', gap: 2 }}>
                 <Box sx={{ display: 'flex', flexDirection: 'column', gap: 2, height: '100%', justifyContent: 'center' }}>
                     <Typography variant="h6" color="black" fontWeight="bold">
