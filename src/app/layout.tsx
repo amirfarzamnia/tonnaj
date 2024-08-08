@@ -190,27 +190,22 @@ export default ({ children }: { children: React.ReactNode }) => {
                                     <Grid container spacing={4}>
                                         <Grid item xs={12} sm={3}>
                                             <Typography variant="h6" gutterBottom>
-                                                پیشخوان خدمات
+                                                صفحات اصلی تناژ
                                             </Typography>
                                             <Box component="ul" sx={{ listStyleType: 'none', padding: 0, margin: 0 }}>
                                                 <Box component="li">
-                                                    <Link underline="hover" href="#">
-                                                        بازار فروش عمده
+                                                    <Link underline="hover" href="/products/create">
+                                                        ثبت محصول
                                                     </Link>
                                                 </Box>
                                                 <Box component="li">
-                                                    <Link underline="hover" href="#">
-                                                        بازار خرده فروشی
+                                                    <Link underline="hover" href="/products/request">
+                                                        درخواست محصول
                                                     </Link>
                                                 </Box>
                                                 <Box component="li">
-                                                    <Link underline="hover" href="#">
-                                                        روستابان
-                                                    </Link>
-                                                </Box>
-                                                <Box component="li">
-                                                    <Link underline="hover" href="#">
-                                                        قیمتبان
+                                                    <Link underline="hover" href="/blog">
+                                                        وبلاگ تناژ
                                                     </Link>
                                                 </Box>
                                             </Box>
@@ -221,36 +216,36 @@ export default ({ children }: { children: React.ReactNode }) => {
                                             </Typography>
                                             <Box component="ul" sx={{ listStyleType: 'none', padding: 0, margin: 0 }}>
                                                 <Box component="li">
-                                                    <Link underline="hover" href="#">
-                                                        خانه
+                                                    <Link underline="hover" href="/">
+                                                        صفحه اصلی تناژ
                                                     </Link>
                                                 </Box>
                                                 <Box component="li">
-                                                    <Link underline="hover" href="#">
-                                                        سامانه اطلاع رسانی تناژ
-                                                    </Link>
-                                                </Box>
-                                                <Box component="li">
-                                                    <Link underline="hover" href="#">
+                                                    <Link underline="hover" href="/about-us">
                                                         درباره تناژ
                                                     </Link>
                                                 </Box>
                                                 <Box component="li">
-                                                    <Link underline="hover" href="#">
-                                                        تماس با تناژ
+                                                    <Link underline="hover" href="/terms-of-service">
+                                                        قوانین استفاده از تناژ
+                                                    </Link>
+                                                </Box>
+                                                <Box component="li">
+                                                    <Link underline="hover" href="/privacy-policy">
+                                                        حریم خصوصی و امنیت تناژ
                                                     </Link>
                                                 </Box>
                                             </Box>
                                         </Grid>
                                         <Grid item xs={12} sm={3}>
                                             <Typography variant="h6" gutterBottom>
-                                                بازار عمده محصولات کشاورزی
+                                                داستان تناژ
                                             </Typography>
-                                            <Typography variant="caption">تناژ با شعار "از قلب مزرعه" همراه همیشگی شما فعالین عرصه کشاورزی می باشد.در هر لحظه و در هر زمان تنها با چند کلیک ساده بازار خود را بسازید، دانش خود را بیافزایید، از خدمات بهره مند گردید و فرصت های اقتصادی خود را از طریق مشاوران و متخصصان کشف نمایید.فقط کافیست به جمع خانواده بزرگ تناژ بپیوندید.</Typography>
+                                            <Typography variant="caption">تناژ از تابستان سال 1403 با هدف تسهیل فرآیند خرید و فروش محصولات عمده در کشور شروع به کار کرد. در تناژ، شما امکان خرید و فروش محصولات عمده، با بیشترین امکانات، بهترین کیفیت، در کمترین زمان را خواهید داشت.</Typography>
                                         </Grid>
                                         <Grid item xs={12} sm={3}>
                                             <Typography variant="h6" gutterBottom>
-                                                همکاریها و مجوزها
+                                                مجوزهای تناژ
                                             </Typography>
                                             <Box component="img" loading="lazy" src="https://via.placeholder.com/40" alt="Facebook" sx={{ width: 40, height: 40, margin: 1 }} />
                                             <Box component="img" loading="lazy" src="https://via.placeholder.com/40" alt="Twitter" sx={{ width: 40, height: 40, margin: 1 }} />
