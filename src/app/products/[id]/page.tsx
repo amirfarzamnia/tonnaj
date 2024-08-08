@@ -134,9 +134,11 @@ export default ({ params }: { params: { id: string } }) => {
                         <Button endIcon={<Phone />} href={'tel:' + product.author.phone_number} variant="outlined" color="success" sx={{ mt: 2, width: '100%', py: 2, display: 'flex', alignItems: 'center', gap: 1 }}>
                             تماس با فروشنده
                         </Button>
-                        <Button onClick={handleOpenDeleteModal} variant="contained" color="error" sx={{ mt: 2, width: '100%', py: 2, display: 'flex', alignItems: 'center', gap: 1 }}>
-                            حذف محصول
-                        </Button>
+                        {isOwnProduct && (
+                            <Button onClick={handleOpenDeleteModal} variant="contained" color="error" sx={{ mt: 2, width: '100%', py: 2, display: 'flex', alignItems: 'center', gap: 1 }}>
+                                حذف محصول
+                            </Button>
+                        )}
                         {deleteStatus && (
                             <Typography variant="h6" color={deleteStatus.includes('با موفقیت') ? 'success' : 'error'} sx={{ mt: 2 }}>
                                 {deleteStatus}
