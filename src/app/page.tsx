@@ -128,19 +128,17 @@ export default () => {
                 درخواست های خرید محصول
             </Typography>
             <Swiper modules={[Pagination, Scrollbar]} slidesPerView={4} pagination={{ clickable: true }} scrollbar={{ draggable: true }}>
-                {productRequests.map((request) => (
-                    <SwiperSlide key={request.id} style={{ display: 'flex', justifyContent: 'center', alignItems: 'center', width: '90%' }}>
+                {productRequests.map(({ id, author, description }) => (
+                    <SwiperSlide key={id} style={{ display: 'flex', justifyContent: 'center', alignItems: 'center', width: '90%' }}>
                         <Card sx={{ width: 345 }} dir="rtl">
                             <CardContent>
                                 <Typography gutterBottom variant="h5">
-                                    {request.author.name}
+                                    {author.name}
                                 </Typography>
-                                <Typography variant="body2" color="text.secondary">
-                                    {request.description}
-                                </Typography>
+                                <Typography variant="body2">{description}</Typography>
                             </CardContent>
                             <Box mt={1} mb={2} sx={{ display: 'flex', justifyContent: 'center', alignItems: 'center' }}>
-                                <Button href={`tel:${request.author.phone_number}`}>تماس</Button>
+                                <Button href={`tel:${author.phone_number}`}>تماس با خریدار</Button>
                             </Box>
                         </Card>
                     </SwiperSlide>
