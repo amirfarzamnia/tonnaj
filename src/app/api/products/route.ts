@@ -35,9 +35,7 @@ export const POST = async (request: NextRequest) => {
 
     await database.collection(method === 'create' ? 'products' : 'product_requests').insertOne({ ...entity, id, timestamp: Date.now(), author: session, available: true, ...(method === 'create' && { rating: 5 }) });
 
-    const successMessage = method === 'create' ? 'محصول شما با موفقیت به تناژ اضافه شد.' : 'درخواست خرید محصول شما با موفقیت به تناژ اضافه شد.';
-
-    return NextResponse.json({ message: successMessage, id }, { status: 200 });
+    return NextResponse.json({ message: method === 'create' ? 'محصول شما با موفقیت به تناژ اضافه شد.' : 'درخواست خرید محصول شما با موفقیت به تناژ اضافه شد.', id }, { status: 200 });
 };
 
 export const GET = async (request: NextRequest) => {
