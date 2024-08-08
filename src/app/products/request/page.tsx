@@ -9,6 +9,8 @@ import { Room } from '@mui/icons-material';
 import React from 'react';
 import L from 'leaflet';
 
+import 'leaflet/dist/leaflet.css';
+
 export default () => {
     const initialProductState: Omit<ProductRequestTypes, 'timestamp' | 'rating' | 'id' | 'available' | 'author'> = { categories: [], description: '', location: { latlng: new L.LatLng(32.4279, 53.688), state: '', city: '' } };
 

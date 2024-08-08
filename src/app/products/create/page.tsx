@@ -9,6 +9,8 @@ import { useRouter } from 'next/navigation';
 import React from 'react';
 import L from 'leaflet';
 
+import 'leaflet/dist/leaflet.css';
+
 export default () => {
     const initialProductState: Omit<ProductTypes, 'timestamp' | 'rating' | 'id' | 'available' | 'author'> = { categories: [], description: '', images: [], price: 0, name: '', location: { latlng: new L.LatLng(32.4279, 53.688), state: '', city: '' } };
 
