@@ -2,6 +2,7 @@
 
 import { Box, Button, Grid, Typography, Card, Link, IconButton, CircularProgress, Divider } from '@mui/material';
 import { Person, Category, Telegram, WhatsApp, LocationOn, Tag, Star, Phone } from '@mui/icons-material';
+import ProductCard from '@/components/ProductCard';
 import { Swiper, SwiperSlide } from 'swiper/react';
 import { ProductTypes } from '@/types/product';
 import { Pagination } from 'swiper/modules';
@@ -94,7 +95,7 @@ export default ({ params }: { params: { id: string } }) => {
                         </Box>
                         <Box sx={{ mt: 2 }}>
                             {infoItems.map(({ icon, label, value }, index) => (
-                                <Box key={index} sx={{ display: 'flex', alignItems: 'center', mb: 1, background: 'rgba(0, 0, 0, 0.05)', p: 1, borderRadius: 4 }}>
+                                <Box key={index} sx={{ display: 'flex', alignItems: 'center', mb: 1, background: 'rgba(0, 0, 0, 0.05)', p: 1, borderRadius: 1 }}>
                                     <Box sx={{ ml: 1 }}>{icon}</Box>
                                     <Typography variant="body1" sx={{ fontWeight: 'bold' }}>
                                         {label}: {value}
@@ -127,20 +128,15 @@ export default ({ params }: { params: { id: string } }) => {
             </Grid>
             {relatedProducts.length > 0 && (
                 <Box sx={{ mt: 4 }}>
-                    <Typography variant="h6">محصولات مشابه</Typography>
-                    <Grid container spacing={2}>
-                        {relatedProducts.map(({ id, images, name, description }) => (
-                            <Grid item xs={12} sm={6} md={4} key={id}>
-                                <Card sx={{ padding: 2, borderRadius: 4, textAlign: 'center' }}>
-                                    <Box component="img" loading="lazy" src={images[0]} alt={name} sx={{ width: '100%', height: 'auto', objectFit: 'cover' }} />
-                                    <Typography variant="h6" sx={{ mt: 1 }}>
-                                        {name}
-                                    </Typography>
-                                    <Typography variant="body2" color="textSecondary">
-                                        {description}
-                                    </Typography>
-                                </Card>
-                            </Grid>
+                    <Box sx={{ my: 2 }}>
+                        <Divider />
+                    </Box>
+                    <Typography variant="h5" sx={{ my: 3 }}>
+                        محصولات مشابه
+                    </Typography>
+                    <Grid container spacing={3}>
+                        {relatedProducts.map((product) => (
+                            <ProductCard key={product.id} {...product} />
                         ))}
                     </Grid>
                 </Box>
