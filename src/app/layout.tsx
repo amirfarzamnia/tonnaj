@@ -152,6 +152,13 @@ export default ({ children }: { children: React.ReactNode }) => {
                                         size="small"
                                         sx={{ flexGrow: 1, background: theme.palette.background.default }}
                                     />
+                                    <Box sx={{ display: 'flex', overflowX: 'auto', whiteSpace: 'nowrap' }}>
+                                        {Object.entries({ 'بلاگ تناژ': '/blog', 'قوانین استفاده از تناژ': '/terms-of-service', 'تماس با تناژ': '/contact-us' }).map(([name, url]) => (
+                                            <Button href={url} key={name} sx={{ mx: 1 }}>
+                                                {name}
+                                            </Button>
+                                        ))}
+                                    </Box>
                                     <Button
                                         sx={{ py: 0.82 }}
                                         variant="outlined"
@@ -173,15 +180,6 @@ export default ({ children }: { children: React.ReactNode }) => {
                                     <Button endIcon={<Inventory />} href="/products/create" variant="contained" color="success" sx={{ display: 'flex', alignItems: 'center', gap: 1.25, py: 0.82 }}>
                                         ثبت محصول
                                     </Button>
-                                </Toolbar>
-                                <Toolbar sx={{ borderBottom: 1, borderColor: selectedTheme === 'dark' ? '#3f3f46' : '#e4e4e7', justifyContent: 'center' }}>
-                                    <Box sx={{ display: 'flex', overflowX: 'auto', whiteSpace: 'nowrap' }}>
-                                        {Object.entries({ 'بلاگ تناژ': '/blog', 'قوانین استفاده از تناژ': '/terms-of-service', 'تماس با تناژ': '/contact-us', 'درباره تناژ': '/about-us' }).map(([name, url]) => (
-                                            <Button href={url} key={name} sx={{ mx: 1 }}>
-                                                {name}
-                                            </Button>
-                                        ))}
-                                    </Box>
                                 </Toolbar>
                             </AppBar>
                             <Container sx={{ padding: 2, borderRadius: 4, mt: 20 }} maxWidth={'xl'}>
