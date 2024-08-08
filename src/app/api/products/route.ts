@@ -19,7 +19,7 @@ export const POST = async (request: NextRequest) => {
 
             if (!/^.{50,500}$/.test(product.description)) return NextResponse.json({ error: 'توضیحات محصول باید بین 50 تا 500 حرف باشد.' }, { status: 400 });
 
-            if (!Array.isArray(product.images) || !product.images.every((image) => /^(?:[A-Za-z0-9+\/]{4})*(?:[A-Za-z0-9+\/]{2}==|[A-Za-z0-9+\/]{3}=)?$/.test(image))) return NextResponse.json({ error: 'تصاویر به درستی بارگذاری نشده اند.' }, { status: 400 });
+            if (!Array.isArray(product.images) || !product.images.every((image) => /^(?:[A-Za-z0-9+/]{4})*(?:[A-Za-z0-9+/]{2}==|[A-Za-z0-9+/]{3}=|[A-Za-z0-9+/]{4})$/.test(image))) return NextResponse.json({ error: 'تصاویر به درستی بارگذاری نشده اند.' }, { status: 400 });
 
             if (!product.images.length) return NextResponse.json({ error: 'باید حداقل یک عکس از محصول خود بارگذاری کنید.' }, { status: 400 });
 
