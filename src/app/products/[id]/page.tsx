@@ -1,7 +1,7 @@
 'use client';
 
-import { Person, Category, Telegram, WhatsApp, LocationOn, Tag, Star, StarBorder, Phone } from '@mui/icons-material';
 import { Box, Button, Grid, Typography, Card, Link, IconButton, CircularProgress, Divider } from '@mui/material';
+import { Person, Category, Telegram, WhatsApp, LocationOn, Tag, Star, Phone } from '@mui/icons-material';
 import { Swiper, SwiperSlide } from 'swiper/react';
 import { ProductTypes } from '@/types/product';
 import { Pagination } from 'swiper/modules';
@@ -31,7 +31,7 @@ export default ({ params }: { params: { id: string } }) => {
 
                 setProduct(productData);
 
-                const relatedProductsResponse = await fetch(`/api/products?categories=${productData.categories.join(',')}`);
+                const relatedProductsResponse = await fetch('/api/products?categories=' + productData.categories.join(','));
 
                 if (!relatedProductsResponse.ok) throw new Error('دریافت محصولات مشابه با خطا مواجه شد.');
 
@@ -72,7 +72,7 @@ export default ({ params }: { params: { id: string } }) => {
                     <Swiper modules={[Pagination]} spaceBetween={10} slidesPerView={1} pagination={{ clickable: true }}>
                         {product.images.map((image, idx) => (
                             <SwiperSlide key={idx}>
-                                <Box component="img" src={image} loading="lazy" alt={`Product image ${idx + 1}`} sx={{ width: '100%', height: '20rem', objectFit: 'cover', borderRadius: 4 }} />
+                                <Box component="img" src={image} loading="lazy" alt={`تصویر شماره ${idx + 1}`} sx={{ width: '100%', height: '20rem', objectFit: 'cover', borderRadius: 4 }} />
                             </SwiperSlide>
                         ))}
                     </Swiper>
