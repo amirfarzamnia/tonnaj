@@ -77,7 +77,7 @@ export default ({ method }: { method: 'create' | 'request' }) => {
                     if (method === 'create') {
                         setProduct(initialProductState);
 
-                        setTimeout(() => router.push(`/products/${json.id}`), 2500);
+                        setTimeout(() => router.push('/products/' + json.id), 2500);
                     }
 
                     if (method === 'request') setProduct(initialProductRequestState);
