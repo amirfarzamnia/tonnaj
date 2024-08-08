@@ -1,6 +1,6 @@
 'use client';
 
-import { Grid, Typography, Box, CircularProgress, Button, CardContent, Card } from '@mui/material';
+import { Grid, Typography, Box, CircularProgress, Button, CardContent, Card, Divider } from '@mui/material';
 import { ShoppingBasket, Close, Inventory } from '@mui/icons-material';
 import { ProductTypes, ProductRequestTypes } from '@/types/product';
 import { Pagination, Scrollbar } from 'swiper/modules';
@@ -137,6 +137,9 @@ export default () => {
                                 </Typography>
                                 <Typography variant="body2">{description}</Typography>
                             </CardContent>
+                            <Box sx={{ my: 2 }}>
+                                <Divider />
+                            </Box>
                             <Box mt={1} mb={2} sx={{ display: 'flex', justifyContent: 'center', alignItems: 'center' }}>
                                 <Button href={`tel:${author.phone_number}`}>تماس با خریدار</Button>
                             </Box>
