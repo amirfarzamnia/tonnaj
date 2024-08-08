@@ -83,8 +83,18 @@ export default ({ params }: { params: { id: string } }) => {
         );
     }
 
+    if (!product) {
+        return (
+            <Box sx={{ display: 'flex', flexDirection: 'column', gap: 4, justifyContent: 'center', alignItems: 'center', height: '100vh' }}>
+                <Typography variant="h4">محصول مورد نظر یافت نشد</Typography>
+                <Button href="/" color="primary" variant="outlined">
+                    بازگشت به صفحه اصلی
+                </Button>
+            </Box>
+        );
+    }
+
     if (error) return <Typography variant="h4">{error}</Typography>;
-    if (!product) return <Typography variant="h4">محصول مورد نظر یافت نشد</Typography>;
 
     const infoItems = [
         { icon: <Category />, label: 'دسته بندی ها', value: product.categories.join(', ') },
