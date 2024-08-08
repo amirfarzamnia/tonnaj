@@ -1,11 +1,12 @@
 'use client';
 
-import { Box, Button, Grid, Typography, Card, Link, IconButton, CircularProgress, Divider } from '@mui/material';
+import { Box, Button, Grid, Typography, Card, Link, IconButton, CircularProgress, Divider, Dialog, DialogActions, DialogContent, DialogTitle } from '@mui/material';
 import { Person, Category, Telegram, WhatsApp, LocationOn, Tag, Star, Phone } from '@mui/icons-material';
 import ProductCard from '@/components/ProductCard';
 import { Swiper, SwiperSlide } from 'swiper/react';
 import { ProductTypes } from '@/types/product';
 import { Pagination } from 'swiper/modules';
+import { useRouter } from 'next/navigation';
 import React from 'react';
 
 import 'swiper/css/pagination';
@@ -15,8 +16,34 @@ export default ({ params }: { params: { id: string } }) => {
     const [relatedProducts, setRelatedProducts] = React.useState<ProductTypes[]>([]);
     const [deleteStatus, setDeleteStatus] = React.useState<string | null>(null);
     const [product, setProduct] = React.useState<ProductTypes | null>(null);
+    const [openDeleteModal, setOpenDeleteModal] = React.useState(false);
     const [error, setError] = React.useState<string | null>(null);
     const [loading, setLoading] = React.useState<boolean>(true);
+    const router = useRouter();
+
+    const handleOpenDeleteModal = () => setOpenDeleteModal(true);
+    const handleCloseDeleteModal = () => setOpenDeleteModal(false);
+
+    const handleDeleteProduct = async () => {
+        if (!product?.id) return;
+
+        try {
+            const response = await fetch('/api/products?type=product&id=' + product.id, { method: 'DELETE' });
+
+            if (!response.ok) throw new Error('خطا در حذف محصول');
+
+            const result = await response.json();
+
+            setDeleteStatus(result.message);
+            setProduct(null);
+        } catch (e) {
+            setDeleteStatus(e instanceof Error ? e.message : 'حذف محصول با خطا مواجه شد.');
+        } finally {
+            handleCloseDeleteModal();
+
+            router.push('/');
+        }
+    };
 
     React.useEffect(() => {
         if (!params.id) return;
@@ -91,26 +118,7 @@ export default ({ params }: { params: { id: string } }) => {
                         <Button endIcon={<Phone />} href={'tel:' + product.author.phone_number} variant="outlined" color="success" sx={{ mt: 2, width: '100%', py: 2, display: 'flex', alignItems: 'center', gap: 1 }}>
                             تماس با فروشنده
                         </Button>
-                        <Button
-                            onClick={async () => {
-                                if (!product?.id) return;
-
-                                try {
-                                    const response = await fetch('/api/products?type=product&id=' + product.id, { method: 'DELETE' });
-
-                                    if (!response.ok) throw new Error('خطا در حذف محصول');
-
-                                    const result = await response.json();
-
-                                    setDeleteStatus(result.message);
-                                    setProduct(null);
-                                } catch (e) {
-                                    setDeleteStatus(e instanceof Error ? e.message : 'حذف محصول با خطا مواجه شد.');
-                                }
-                            }}
-                            variant="contained"
-                            color="error"
-                            sx={{ mt: 2, width: '100%', py: 2, display: 'flex', alignItems: 'center', gap: 1 }}>
+                        <Button onClick={handleOpenDeleteModal} variant="contained" color="error" sx={{ mt: 2, width: '100%', py: 2, display: 'flex', alignItems: 'center', gap: 1 }}>
                             حذف محصول
                         </Button>
                         {deleteStatus && (
@@ -169,6 +177,20 @@ export default ({ params }: { params: { id: string } }) => {
                     </Grid>
                 </Box>
             )}
+            <Dialog open={openDeleteModal} onClose={handleCloseDeleteModal} aria-labelledby="delete-confirmation-dialog">
+                <DialogTitle id="delete-confirmation-dialog">تأیید حذف</DialogTitle>
+                <DialogContent>
+                    <Typography variant="body1">آیا مطمئن هستید که می‌خواهید این محصول را حذف کنید؟</Typography>
+                </DialogContent>
+                <DialogActions>
+                    <Button onClick={handleCloseDeleteModal} color="primary">
+                        انصراف
+                    </Button>
+                    <Button onClick={handleDeleteProduct} color="error">
+                        حذف
+                    </Button>
+                </DialogActions>
+            </Dialog>
         </Box>
     );
 };
