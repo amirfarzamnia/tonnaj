@@ -23,13 +23,12 @@ export default () => {
 
     React.useEffect(() => {
         (async () => {
+            setLoading(true);
+
             try {
-                const urlParams = new URLSearchParams(location.search);
-                const categories = urlParams.get('categories')?.split(',') || [];
+                const urlParams = new URLSearchParams();
 
-                setSelectedCategories(categories);
-
-                if (categories.length > 0) urlParams.set('categories', categories.join(','));
+                if (selectedCategories.length > 0) urlParams.set('categories', selectedCategories.join(','));
 
                 const productsResponse = await fetch('/api/products?' + urlParams.toString());
                 const productsData = await productsResponse.json();
@@ -46,7 +45,7 @@ export default () => {
                 setLoading(false);
             }
         })();
-    }, []);
+    }, [selectedCategories]);
 
     if (loading) {
         return (
@@ -82,19 +81,20 @@ export default () => {
                                 variant={selectedCategories.includes(category) ? 'contained' : 'outlined'}
                                 color={selectedCategories.includes(category) ? 'success' : 'info'}
                                 onClick={() => {
-                                    const categories = selectedCategories.includes(category) ? selectedCategories.filter((item) => item !== category) : [...selectedCategories, category];
+                                    setSelectedCategories((prev) => {
+                                        const updatedCategories = prev.includes(category) ? prev.filter((item) => item !== category) : [...prev, category];
+                                        const urlParams = new URLSearchParams();
 
-                                    setSelectedCategories(categories);
+                                        if (updatedCategories.length > 0) {
+                                            urlParams.set('categories', updatedCategories.join(','));
+                                        } else {
+                                            urlParams.delete('categories');
+                                        }
 
-                                    const urlParams = new URLSearchParams(location.search);
+                                        history.pushState(null, '', location.pathname + '?' + urlParams.toString());
 
-                                    if (categories.length > 0) {
-                                        urlParams.set('categories', categories.join(','));
-                                    } else {
-                                        urlParams.delete('categories');
-                                    }
-
-                                    history.pushState(null, '', location.pathname + '?' + urlParams.toString());
+                                        return updatedCategories;
+                                    });
                                 }}
                                 endIcon={selectedCategories.includes(category) && <Close />}>
                                 {category}
@@ -149,7 +149,7 @@ export default () => {
                                 </Box>
                                 <Typography variant="body2" color="textSecondary" sx={{ display: 'flex', alignItems: 'center', gap: 1 }}>
                                     {categories.map((category) => (
-                                        <Link fontSize="smaller" href={'?categories=' + category}>
+                                        <Link key={category} fontSize="smaller" href={'?categories=' + category}>
                                             {category}
                                         </Link>
                                     ))}
