@@ -13,21 +13,21 @@ export const POST = async (request: NextRequest) => {
 
     switch (method) {
         case 'create': {
-            if (!product) return NextResponse.json({ message: 'پارامتر محصول ارسال نشده.' }, { status: 400 });
+            if (!product) return NextResponse.json({ error: 'پارامتر محصول ارسال نشده.' }, { status: 400 });
 
-            if (!Array.isArray(product.categories) || product.categories.some((category) => !categories.includes(category))) return NextResponse.json({ message: 'دسته بندی ها به درستی ارسال نشده اند.' }, { status: 400 });
+            if (!Array.isArray(product.categories) || product.categories.some((category) => !categories.includes(category))) return NextResponse.json({ error: 'دسته بندی ها به درستی ارسال نشده اند.' }, { status: 400 });
 
-            if (!/^.{50,500}$/.test(product.description)) return NextResponse.json({ message: 'توضیحات محصول باید بین 50 تا 500 حرف باشد.' }, { status: 400 });
+            if (!/^.{50,500}$/.test(product.description)) return NextResponse.json({ error: 'توضیحات محصول باید بین 50 تا 500 حرف باشد.' }, { status: 400 });
 
-            if (!Array.isArray(product.images) || !product.images.every((image) => /^(?:[A-Za-z0-9+\/]{4})*(?:[A-Za-z0-9+\/]{2}==|[A-Za-z0-9+\/]{3}=)?$/.test(image))) return NextResponse.json({ message: 'تصاویر به درستی بارگذاری نشده اند.' }, { status: 400 });
+            if (!Array.isArray(product.images) || !product.images.every((image) => /^(?:[A-Za-z0-9+\/]{4})*(?:[A-Za-z0-9+\/]{2}==|[A-Za-z0-9+\/]{3}=)?$/.test(image))) return NextResponse.json({ error: 'تصاویر به درستی بارگذاری نشده اند.' }, { status: 400 });
 
-            if (!product.images.length) return NextResponse.json({ message: 'باید حداقل یک عکس از محصول خود بارگذاری کنید.' }, { status: 400 });
+            if (!product.images.length) return NextResponse.json({ error: 'باید حداقل یک عکس از محصول خود بارگذاری کنید.' }, { status: 400 });
 
-            if (typeof product.price !== 'number' || !(product.price >= 10000 && product.price <= 10000000000)) return NextResponse.json({ message: 'هزینه محصول باید بین ده هزار تومان تا ده میلیارد تومان باشد.' }, { status: 400 });
+            if (typeof product.price !== 'number' || !(product.price >= 10000 && product.price <= 10000000000)) return NextResponse.json({ error: 'هزینه محصول باید بین ده هزار تومان تا ده میلیارد تومان باشد.' }, { status: 400 });
 
-            if (!product.location?.latlng || typeof product.location.city !== 'string' || typeof product.location.state !== 'string' || !(typeof product.location.latlng.lat === 'number' && typeof product.location.latlng.lng === 'number')) return NextResponse.json({ message: 'موقعیت مکانی به درستی ارسال نشده.' }, { status: 400 });
+            if (!product.location?.latlng || typeof product.location.city !== 'string' || typeof product.location.state !== 'string' || !(typeof product.location.latlng.lat === 'number' && typeof product.location.latlng.lng === 'number')) return NextResponse.json({ error: 'موقعیت مکانی به درستی ارسال نشده.' }, { status: 400 });
 
-            if (!/^.{5,50}$/.test(product.name)) return NextResponse.json({ message: 'نام محصول باید بین 5 تا 50 حرف باشد.' }, { status: 400 });
+            if (!/^.{5,50}$/.test(product.name)) return NextResponse.json({ error: 'نام محصول باید بین 5 تا 50 حرف باشد.' }, { status: 400 });
 
             const id = randomBytes(3).toString('hex');
 
@@ -37,11 +37,11 @@ export const POST = async (request: NextRequest) => {
         }
 
         case 'request': {
-            if (!product_request) return NextResponse.json({ message: 'پارامتر محصول درخواستی ارسال نشده.' }, { status: 400 });
+            if (!product_request) return NextResponse.json({ error: 'پارامتر محصول درخواستی ارسال نشده.' }, { status: 400 });
 
-            if (!/^.{50,500}$/.test(product_request.description)) return NextResponse.json({ message: 'توضیحات محصول مورد نیاز باید بین 50 تا 500 حرف باشد.' }, { status: 400 });
+            if (!/^.{50,500}$/.test(product_request.description)) return NextResponse.json({ error: 'توضیحات محصول مورد نیاز باید بین 50 تا 500 حرف باشد.' }, { status: 400 });
 
-            if (!product_request.location?.latlng || typeof product_request.location.city !== 'string' || typeof product_request.location.state !== 'string' || !(typeof product_request.location.latlng.lat === 'number' && typeof product_request.location.latlng.lng === 'number')) return NextResponse.json({ message: 'موقعیت مکانی به درستی ارسال نشده.' }, { status: 400 });
+            if (!product_request.location?.latlng || typeof product_request.location.city !== 'string' || typeof product_request.location.state !== 'string' || !(typeof product_request.location.latlng.lat === 'number' && typeof product_request.location.latlng.lng === 'number')) return NextResponse.json({ error: 'موقعیت مکانی به درستی ارسال نشده.' }, { status: 400 });
 
             const id = randomBytes(3).toString('hex');
 
@@ -51,7 +51,7 @@ export const POST = async (request: NextRequest) => {
         }
 
         default: {
-            return NextResponse.json({ message: 'متود ارسالی نادرست است.' }, { status: 400 });
+            return NextResponse.json({ error: 'متود ارسالی نادرست است.' }, { status: 400 });
         }
     }
 };

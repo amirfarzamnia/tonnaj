@@ -7,7 +7,7 @@ import { randomBytes } from 'crypto';
 const verificationCodes: { [key: string]: AuthTypes['verification_code'] } = {};
 
 export const POST = async (request: NextRequest) => {
-    const { phone_number, verification_code }: { phone_number: AuthTypes['phone_number']; verification_code: AuthTypes['verification_code'] } = await request.json();
+    const { phone_number, verification_code, name }: AuthTypes = await request.json();
 
     if (verification_code) {
         if (!phone_number) return NextResponse.json({ error: 'شماره تلفن همراه ارسال نشده.' }, { status: 400 });
@@ -25,6 +25,8 @@ export const POST = async (request: NextRequest) => {
         return response;
     } else if (phone_number) {
         if (!/^(09\d{9}|98\d{10})$/.test(phone_number)) return NextResponse.json({ error: 'شماره تلفن همراه به درستی وارد نشده.' }, { status: 400 });
+
+        if (!/^.{5,50}$/.test(name)) return NextResponse.json({ error: 'نام شما یا شرکت شما باید بین 5 تا 50 حرف باشد.' }, { status: 400 });
 
         const code = Array.from({ length: 4 }, () => Math.floor(Math.random() * 10)).join('');
 
