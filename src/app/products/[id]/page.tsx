@@ -104,10 +104,9 @@ export default ({ params }: { params: { id: string } }) => {
 
     const infoItems = [
         { icon: <Category />, label: 'دسته بندی ها', value: product.categories.join(', ') },
-        { icon: <LocationOn />, label: 'موقعیت مکانی', value: `${product.location.city} - ${product.location.state}` },
+        { icon: <LocationOn />, label: 'موقعیت مکانی', value: `${product.location.state} - ${product.location.city}` },
         { icon: <Person />, label: 'فروشنده', value: product.author.name },
-        { icon: <Tag />, label: 'کد محصول', value: product.id },
-        { icon: <Star />, label: 'وضعیت', value: product.available ? 'موجود' : 'ناموجود' }
+        { icon: <Tag />, label: 'کد محصول', value: product.id }
     ];
 
     return (
