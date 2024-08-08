@@ -72,7 +72,7 @@ export default () => {
             if (!response.ok) return setError((await response.json()).error);
 
             router.push('/');
-        } catch (error) {
+        } catch {
             setError('ارسال درخواست به سرور با خطا مواجه شد. لطفا بعدا تلاش کنید!');
         } finally {
             setLoading(false);
