@@ -71,7 +71,7 @@ export default () => {
                 </Box>
             </Box>
             <Box sx={{ marginBottom: 4, marginTop: 4 }}>
-                <Typography variant="h4" sx={{ mb: 4 }}>
+                <Typography variant="h5" sx={{ mb: 4 }}>
                     دسته بندی ها
                 </Typography>
                 <Grid container spacing={2}>
@@ -103,7 +103,7 @@ export default () => {
                     ))}
                 </Grid>
             </Box>
-            <Typography variant="h4" sx={{ mb: 4 }}>
+            <Typography variant="h5" sx={{ mb: 4 }}>
                 محصولات
             </Typography>
             <Grid container spacing={3}>
@@ -113,7 +113,7 @@ export default () => {
             </Grid>
             <Box sx={{ my: 4, px: 10, height: '230px', borderRadius: 4, background: '#feb204', display: 'flex', justifyContent: 'space-between', gap: 2 }}>
                 <Box sx={{ display: 'flex', flexDirection: 'column', gap: 2, height: '100%', justifyContent: 'center' }}>
-                    <Typography variant="h6" color="black">
+                    <Typography variant="h6" color="black" fontWeight="bold">
                         همین حالا محصولات خود را به صورت رایگان در تناژ ثبت کنید!
                     </Typography>
                     <Box>
@@ -124,7 +124,7 @@ export default () => {
                 </Box>
                 <Box component={'img'} src="/banner-middle.png" sx={{ objectFit: 'cover', height: '230px', pb: 1 }} />
             </Box>
-            <Typography variant="h4" sx={{ mb: 4, mt: 8 }}>
+            <Typography variant="h5" sx={{ mb: 4, mt: 8 }}>
                 درخواست های خرید محصول
             </Typography>
             <Swiper modules={[Pagination, Scrollbar]} slidesPerView={4} pagination={{ clickable: true }} scrollbar={{ draggable: true }}>
@@ -132,7 +132,7 @@ export default () => {
                     <SwiperSlide key={id} style={{ display: 'flex', justifyContent: 'center', alignItems: 'center', width: '90%' }}>
                         <Card sx={{ width: 345 }} dir="rtl">
                             <CardContent>
-                                <Typography gutterBottom variant="h5">
+                                <Typography gutterBottom variant="h6">
                                     {author.name}
                                 </Typography>
                                 <Typography variant="body2">{description}</Typography>
@@ -144,6 +144,19 @@ export default () => {
                     </SwiperSlide>
                 ))}
             </Swiper>
+            <Box sx={{ my: 4, px: 10, height: '230px', borderRadius: 4, background: '#feb204', display: 'flex', justifyContent: 'space-between', gap: 2 }}>
+                <Box sx={{ display: 'flex', flexDirection: 'column', gap: 2, height: '100%', justifyContent: 'center' }}>
+                    <Typography variant="h6" color="black" fontWeight="bold">
+                        محصول مورد نظر خود را همین حالا در تناژ درخواست بدهید!
+                    </Typography>
+                    <Box>
+                        <Button endIcon={<ShoppingBasket />} href="/products/request" variant="contained" color="secondary" sx={{ display: 'flex', alignItems: 'center', gap: 1.25, py: 0.82, width: 'fit-content' }}>
+                            درخواست محصول
+                        </Button>
+                    </Box>
+                </Box>
+                <Box component={'img'} src="/banner-bottom.png" sx={{ objectFit: 'cover', height: '230px' }} />
+            </Box>
         </>
     );
 };
