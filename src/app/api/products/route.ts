@@ -61,8 +61,12 @@ export const GET = async (request: NextRequest) => {
 
     const id = searchParams.get('id');
     const categories = searchParams.get('categories');
+    const type = searchParams.get('type') || 'product';
 
     const filter = id ? { id } : categories ? { categories: { $in: categories.split(',').map((cat) => cat.trim()) } } : {};
 
-    return NextResponse.json(await database.collection('products').find(filter).toArray(), { status: 200 });
+    const collection = type === 'request' ? 'product_requests' : 'products';
+    const data = await database.collection(collection).find(filter).toArray();
+
+    return NextResponse.json(data, { status: 200 });
 };
