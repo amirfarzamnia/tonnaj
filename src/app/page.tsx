@@ -2,7 +2,7 @@
 
 import { Grid, Typography, Box, CircularProgress, Button, CardContent, Card } from '@mui/material';
 import { Sell, ShoppingBasket, Close, ArrowLeft } from '@mui/icons-material';
-import { Navigation, Pagination, Scrollbar, A11y } from 'swiper/modules';
+import { Pagination, Scrollbar } from 'swiper/modules';
 import ProductCard from '@/components/ProductCard';
 import { Swiper, SwiperSlide } from 'swiper/react';
 import categories from '@/constants/categories';
@@ -108,85 +108,82 @@ export default () => {
                     <ProductCard key={product.id} {...product} />
                 ))}
             </Grid>
-            <Box sx={{ mt: 10, width: '90%', height: '230px', ml: 'auto', mr: 'auto', borderRadius: 2, backgroundColor: 'wheat', display: 'flex' }}>
-                <Box sx={{ width: '75%' }}>
-                    <Box sx={{ padding: 2 }}>
-                        <Typography variant="h4">همین حالا محصول خود را در تناژ ثبت کنید</Typography>
-                    </Box>
+            <Box sx={{ my: 4, px: 10, height: '230px', borderRadius: 4, background: '#FFF5EE', display: 'flex', justifyContent: 'space-between', gap: 2 }}>
+                <Box sx={{ display: 'flex', flexDirection: 'column', gap: 2, height: '100%', justifyContent: 'center' }}>
+                    <Typography variant="subtitle1">همین حالا محصولات خود را به صورت رایگان در تناژ ثبت کنید</Typography>
                     <Box>
                         <Button size="large" variant="contained" sx={{ backgroundColor: 'orange', borderRadius: 4, mr: 2 }} href="/products/create">
                             ثبت محصول <ArrowLeft />
                         </Button>
                     </Box>
                 </Box>
-                <Box sx={{ width: '25%', display: 'flex', justifyContent: 'end', backgroundColor: 'rgb(170, 149, 110)', borderRadius: 2 }}>
-                    <Box component={'img'} src="/landing-banner-avatar.png" sx={{ objectFit: 'cover', height: '230px' }} />
-                </Box>
+                <Box component={'img'} src="/banner.gif" sx={{ objectFit: 'cover', height: '230px' }} />
             </Box>
-            <Box sx={{ width: '100%', display: 'flex', justifyContent: 'center' }}>
-                <Swiper style={{ width: '90%', height: '300px', padding: 12 }} modules={[Pagination, Scrollbar, A11y]} spaceBetween={50} slidesPerView={3} pagination={{ clickable: true }} scrollbar={{ draggable: true }}>
-                    <SwiperSlide style={{ display: 'flex', justifyContent: 'center', alignItems: 'center', width: '90%' }}>
-                        <Card sx={{ width: 345 }} dir="rtl">
-                            <CardContent>
-                                <Typography gutterBottom variant="h5">
-                                    علی
-                                </Typography>
-                                <Typography variant="body2" color="text.secondary">
-                                    1 کلیو سیب زمینی
-                                </Typography>
-                            </CardContent>
-                            <Box mt={1} mb={2} sx={{ display: 'flex', justifyContent: 'center', alignItems: 'center' }}>
-                                <Button href="tel:11111">تماس</Button>
-                            </Box>
-                        </Card>
-                    </SwiperSlide>
-                    <SwiperSlide style={{ display: 'flex', justifyContent: 'center', alignItems: 'center', width: '90%' }}>
-                        <Card sx={{ width: 345 }} dir="rtl">
-                            <CardContent>
-                                <Typography gutterBottom variant="h5">
-                                    علی
-                                </Typography>
-                                <Typography variant="body2" color="text.secondary">
-                                    1 کلیو سیب زمینی
-                                </Typography>
-                            </CardContent>
-                            <Box mt={1} mb={2} sx={{ display: 'flex', justifyContent: 'center', alignItems: 'center' }}>
-                                <Button href="tel:11111">تماس</Button>
-                            </Box>
-                        </Card>
-                    </SwiperSlide>
-                    <SwiperSlide style={{ display: 'flex', justifyContent: 'center', alignItems: 'center', width: '90%' }}>
-                        <Card sx={{ width: 345 }} dir="rtl">
-                            <CardContent>
-                                <Typography gutterBottom variant="h5">
-                                    علی
-                                </Typography>
-                                <Typography variant="body2" color="text.secondary">
-                                    1 کلیو سیب زمینی
-                                </Typography>
-                            </CardContent>
-                            <Box mt={1} mb={2} sx={{ display: 'flex', justifyContent: 'center', alignItems: 'center' }}>
-                                <Button href="tel:11111">تماس</Button>
-                            </Box>
-                        </Card>
-                    </SwiperSlide>
-                    <SwiperSlide style={{ display: 'flex', justifyContent: 'center', alignItems: 'center', width: '90%' }}>
-                        <Card sx={{ width: 345 }} dir="rtl">
-                            <CardContent>
-                                <Typography gutterBottom variant="h5">
-                                    علی
-                                </Typography>
-                                <Typography variant="body2" color="text.secondary">
-                                    1 کلیو سیب زمینی
-                                </Typography>
-                            </CardContent>
-                            <Box mt={1} mb={2} sx={{ display: 'flex', justifyContent: 'center', alignItems: 'center' }}>
-                                <Button href="tel:11111">تماس</Button>
-                            </Box>
-                        </Card>
-                    </SwiperSlide>
-                </Swiper>
-            </Box>
+            <Typography variant="h4" sx={{ mb: 4 }}>
+                درخواست های خرید محصول
+            </Typography>
+            <Swiper modules={[Pagination, Scrollbar]} slidesPerView={4} pagination={{ clickable: true }} scrollbar={{ draggable: true }}>
+                <SwiperSlide style={{ display: 'flex', justifyContent: 'center', alignItems: 'center', width: '90%' }}>
+                    <Card sx={{ width: 345 }} dir="rtl">
+                        <CardContent>
+                            <Typography gutterBottom variant="h5">
+                                علی
+                            </Typography>
+                            <Typography variant="body2" color="text.secondary">
+                                1 کلیو سیب زمینی
+                            </Typography>
+                        </CardContent>
+                        <Box mt={1} mb={2} sx={{ display: 'flex', justifyContent: 'center', alignItems: 'center' }}>
+                            <Button href="tel:11111">تماس</Button>
+                        </Box>
+                    </Card>
+                </SwiperSlide>
+                <SwiperSlide style={{ display: 'flex', justifyContent: 'center', alignItems: 'center', width: '90%' }}>
+                    <Card sx={{ width: 345 }} dir="rtl">
+                        <CardContent>
+                            <Typography gutterBottom variant="h5">
+                                علی
+                            </Typography>
+                            <Typography variant="body2" color="text.secondary">
+                                1 کلیو سیب زمینی
+                            </Typography>
+                        </CardContent>
+                        <Box mt={1} mb={2} sx={{ display: 'flex', justifyContent: 'center', alignItems: 'center' }}>
+                            <Button href="tel:11111">تماس</Button>
+                        </Box>
+                    </Card>
+                </SwiperSlide>
+                <SwiperSlide style={{ display: 'flex', justifyContent: 'center', alignItems: 'center', width: '90%' }}>
+                    <Card sx={{ width: 345 }} dir="rtl">
+                        <CardContent>
+                            <Typography gutterBottom variant="h5">
+                                علی
+                            </Typography>
+                            <Typography variant="body2" color="text.secondary">
+                                1 کلیو سیب زمینی
+                            </Typography>
+                        </CardContent>
+                        <Box mt={1} mb={2} sx={{ display: 'flex', justifyContent: 'center', alignItems: 'center' }}>
+                            <Button href="tel:11111">تماس</Button>
+                        </Box>
+                    </Card>
+                </SwiperSlide>
+                <SwiperSlide style={{ display: 'flex', justifyContent: 'center', alignItems: 'center', width: '90%' }}>
+                    <Card sx={{ width: 345 }} dir="rtl">
+                        <CardContent>
+                            <Typography gutterBottom variant="h5">
+                                علی
+                            </Typography>
+                            <Typography variant="body2" color="text.secondary">
+                                1 کلیو سیب زمینی
+                            </Typography>
+                        </CardContent>
+                        <Box mt={1} mb={2} sx={{ display: 'flex', justifyContent: 'center', alignItems: 'center' }}>
+                            <Button href="tel:11111">تماس</Button>
+                        </Box>
+                    </Card>
+                </SwiperSlide>
+            </Swiper>
         </>
     );
 };
