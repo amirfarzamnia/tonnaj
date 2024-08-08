@@ -187,7 +187,7 @@ export default ({ children }: { children: React.ReactNode }) => {
                             </Container>
                             <Box sx={{ borderTop: 1, borderColor: selectedTheme === 'dark' ? '#3f3f46' : '#e4e4e7', background: selectedTheme === 'dark' ? theme.palette.grey[900] : '#fafafa', py: 4 }} component="footer">
                                 <Container>
-                                    <Grid container spacing={4}>
+                                    <Grid container spacing={8}>
                                         <Grid item xs={12} sm={3}>
                                             <Typography variant="h6" gutterBottom>
                                                 داستان تناژ
