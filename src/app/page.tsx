@@ -1,7 +1,7 @@
 'use client';
 
 import { Grid, Typography, Box, CircularProgress, Button, CardContent, Card } from '@mui/material';
-import { Sell, ShoppingBasket, Close, Inventory } from '@mui/icons-material';
+import { Phone, ShoppingBasket, Close, Inventory } from '@mui/icons-material';
 import { Pagination, Scrollbar } from 'swiper/modules';
 import ProductCard from '@/components/ProductCard';
 import { Swiper, SwiperSlide } from 'swiper/react';
@@ -167,19 +167,17 @@ export default () => {
                         </Box>
                     </Card>
                 </SwiperSlide>
-                <SwiperSlide style={{ display: 'flex', justifyContent: 'center', alignItems: 'center', width: '90%' }}>
-                    <Card sx={{ width: 345 }} dir="rtl">
+                <SwiperSlide>
+                    <Card sx={{ width: '100%' }}>
                         <CardContent>
-                            <Typography gutterBottom variant="h5">
+                            <Typography gutterBottom variant="h6">
                                 علی
                             </Typography>
-                            <Typography variant="body2" color="text.secondary">
-                                1 کلیو سیب زمینی
-                            </Typography>
+                            <Typography variant="body2">1 کلیو سیب زمینی</Typography>
                         </CardContent>
-                        <Box mt={1} mb={2} sx={{ display: 'flex', justifyContent: 'center', alignItems: 'center' }}>
-                            <Button href="tel:11111">تماس</Button>
-                        </Box>
+                        <Button endIcon={<Phone />} href={'tel:test'} variant="outlined" color="success" sx={{ mt: 2, width: '100%', py: 2, display: 'flex', alignItems: 'center', gap: 1, borderRadius: 1 }} onClick={(event) => event.stopPropagation()}>
+                            تماس با فروشنده
+                        </Button>
                     </Card>
                 </SwiperSlide>
             </Swiper>

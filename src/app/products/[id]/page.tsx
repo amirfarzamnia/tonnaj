@@ -21,8 +21,7 @@ export default ({ params }: { params: { id: string } }) => {
     React.useEffect(() => {
         if (!params.id) return;
 
-
-        const fetchProductData = async () => {
+        (async () => {
             setLoading(true);
 
             try {
@@ -46,9 +45,7 @@ export default ({ params }: { params: { id: string } }) => {
             } finally {
                 setLoading(false);
             }
-        };
-
-        fetchProductData();
+        })();
     }, [params.id]);
 
     if (loading) {
