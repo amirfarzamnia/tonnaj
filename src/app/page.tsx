@@ -1,7 +1,7 @@
 'use client';
 
-import { Grid, Typography, Box, CircularProgress, Button, CardContent, Card, Divider } from '@mui/material';
-import { ShoppingBasket, Close, Inventory } from '@mui/icons-material';
+import { Grid, Typography, Box, CircularProgress, Button, CardContent, Card, Divider, Link } from '@mui/material';
+import { ShoppingBasket, Close, Inventory, Phone } from '@mui/icons-material';
 import { ProductTypes, ProductRequestTypes } from '@/types/product';
 import { Pagination, Scrollbar } from 'swiper/modules';
 import ProductCard from '@/components/ProductCard';
@@ -104,7 +104,7 @@ export default () => {
                 </Grid>
             </Box>
             <Typography variant="h5" sx={{ mb: 4 }}>
-                محصولات
+                جدیدترین محصولات
             </Typography>
             <Grid container spacing={3}>
                 {products.map((product) => (
@@ -125,24 +125,36 @@ export default () => {
                 <Box component={'img'} src="/banner-middle.png" sx={{ objectFit: 'cover', height: '230px', pb: 1 }} />
             </Box>
             <Typography variant="h5" sx={{ my: 4 }}>
-                درخواست های خرید محصول
+                جدیدترین درخواست های خرید محصول
             </Typography>
             <Swiper modules={[Pagination, Scrollbar]} slidesPerView={4} spaceBetween={10} pagination={{ clickable: true }} scrollbar={{ draggable: true }}>
-                {productRequests.map(({ id, author, description }) => (
+                {productRequests.map(({ id, author, description, location }) => (
                     <SwiperSlide key={id} style={{ display: 'flex', justifyContent: 'center', alignItems: 'center', width: '90%' }}>
                         <Card sx={{ width: 345, borderRadius: 4 }}>
                             <CardContent>
-                                <Typography gutterBottom variant="h6">
-                                    {author.name}
+                                <Typography variant="h6" gutterBottom textAlign="center">
+                                    {author.name} از {location.city}
                                 </Typography>
-                                <Typography variant="body2">{description}</Typography>
+                                <Box sx={{ my: 2 }}>
+                                    <Divider />
+                                </Box>
+                                <Typography variant="body1" color="textSecondary" gutterBottom>
+                                    {description.slice(0, 165)}...
+                                </Typography>
+                                <Button endIcon={<Phone />} href={'tel:' + author.phone_number} variant="outlined" color="success" sx={{ mt: 2, width: '100%', py: 2, display: 'flex', alignItems: 'center', gap: 2, borderRadius: 1 }} onClick={(event) => event.stopPropagation()}>
+                                    تماس با خریدار
+                                </Button>
+                                <Box sx={{ my: 2 }}>
+                                    <Divider />
+                                </Box>
+                                <Typography variant="body2" color="textSecondary" sx={{ display: 'flex', alignItems: 'center', gap: 1 }}>
+                                    {categories.map((category) => (
+                                        <Link fontSize="smaller" href={'?categories=' + category}>
+                                            {category}
+                                        </Link>
+                                    ))}
+                                </Typography>
                             </CardContent>
-                            <Box sx={{ my: 2 }}>
-                                <Divider />
-                            </Box>
-                            <Box mt={1} mb={2} sx={{ display: 'flex', justifyContent: 'center', alignItems: 'center' }}>
-                                <Button href={`tel:${author.phone_number}`}>تماس با خریدار</Button>
-                            </Box>
                         </Card>
                     </SwiperSlide>
                 ))}

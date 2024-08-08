@@ -34,7 +34,7 @@ export default ({ price, description, images, name, id, author, categories, loca
                         <Typography variant="body2" color="textSecondary" gutterBottom sx={{ mt: 2, fontSize: 'small' }}>
                             به قیمت {price} تومان
                         </Typography>
-                        <Button endIcon={<Phone />} href={'tel:' + author.phone_number} variant="outlined" color="success" sx={{ mt: 2, width: '100%', py: 2, display: 'flex', alignItems: 'center', gap: 1, borderRadius: 1 }} onClick={(event) => event.stopPropagation()}>
+                        <Button endIcon={<Phone />} href={'tel:' + author.phone_number} variant="outlined" color="success" sx={{ mt: 2, width: '100%', py: 2, display: 'flex', alignItems: 'center', gap: 2, borderRadius: 1 }} onClick={(event) => event.stopPropagation()}>
                             تماس با فروشنده
                         </Button>
                         <Box sx={{ my: 2 }}>
@@ -42,7 +42,7 @@ export default ({ price, description, images, name, id, author, categories, loca
                         </Box>
                         <Typography variant="body2" color="textSecondary" sx={{ display: 'flex', alignItems: 'center', gap: 1 }}>
                             {categories.map((category) => (
-                                <MuiLink href={'?categories=' + category} onClick={(event) => event.stopPropagation()}>
+                                <MuiLink fontSize="smaller" href={'?categories=' + category} onClick={(event) => event.stopPropagation()}>
                                     {category}
                                 </MuiLink>
                             ))}
