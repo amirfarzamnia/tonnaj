@@ -22,11 +22,13 @@ export const POST = async (request: NextRequest) => {
     if (!entity.location?.latlng || !entity.location.city.length || !entity.location.state.length || !(typeof entity.location.latlng.lat === 'number' && typeof entity.location.latlng.lng === 'number')) return NextResponse.json({ error: 'لطفا موقعیت مکانی خود را به درستی انتخاب کنید.' }, { status: 400 });
 
     if (method === 'create') {
-        if (!Array.isArray(entity.images) || !entity.images.length) return NextResponse.json({ error: 'باید حداقل یک عکس از محصول خود بارگذاری کنید.' }, { status: 400 });
+        const prod = entity as ProductTypes;
 
-        if (typeof entity.price !== 'number' || !(entity.price >= 10000 && entity.price <= 10000000000)) return NextResponse.json({ error: 'هزینه محصول باید بین ده هزار تومان تا ده میلیارد تومان باشد.' }, { status: 400 });
+        if (!Array.isArray(prod.images) || !prod.images.length) return NextResponse.json({ error: 'باید حداقل یک عکس از محصول خود بارگذاری کنید.' }, { status: 400 });
 
-        if (!/^.{5,50}$/.test(entity.name)) return NextResponse.json({ error: 'نام محصول باید بین 5 تا 50 حرف باشد.' }, { status: 400 });
+        if (typeof prod.price !== 'number' || !(prod.price >= 10000 && prod.price <= 10000000000)) return NextResponse.json({ error: 'هزینه محصول باید بین ده هزار تومان تا ده میلیارد تومان باشد.' }, { status: 400 });
+
+        if (!/^.{5,50}$/.test(prod.name)) return NextResponse.json({ error: 'نام محصول باید بین 5 تا 50 حرف باشد.' }, { status: 400 });
     }
 
     const id = randomBytes(3).toString('hex');
