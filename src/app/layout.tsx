@@ -1,6 +1,6 @@
 'use client';
 
-import { Button, CircularProgress, TextField, Box, Grid, Toolbar, AppBar, Link, Container, Typography, InputAdornment, CssBaseline, Shadows, Menu, MenuItem } from '@mui/material';
+import { Button, CircularProgress, TextField, Box, Grid, Divider, Toolbar, AppBar, Link, Container, Typography, InputAdornment, CssBaseline, Shadows, Menu, MenuItem } from '@mui/material';
 import { Search, LightMode, DarkMode, Person, Inventory, Logout } from '@mui/icons-material';
 import { createTheme, ThemeProvider, ThemeOptions } from '@mui/material/styles';
 import { TypographyOptions } from '@mui/material/styles/createTypography';
@@ -260,6 +260,10 @@ export default ({ children }: { children: React.ReactNode }) => {
                                         </Grid>
                                     </Grid>
                                 </Container>
+                                <Divider sx={{ my: 4 }} />
+                                <Typography variant="body2" fontSize="smaller" color="text.secondary" align="center">
+                                    {new Date().getFullYear()} © تمامی حقوق این وبسایت برای تناژ محفوظ است.
+                                </Typography>
                             </Box>
                         </>
                     )}
