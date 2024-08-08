@@ -16,6 +16,7 @@ export default ({ params }: { params: { id: string } }) => {
     const [relatedProducts, setRelatedProducts] = React.useState<ProductTypes[]>([]);
     const [deleteStatus, setDeleteStatus] = React.useState<string | null>(null);
     const [product, setProduct] = React.useState<ProductTypes | null>(null);
+    const [isOwnProduct, setIsOwnProduct] = React.useState<boolean>(true);
     const [openDeleteModal, setOpenDeleteModal] = React.useState(false);
     const [error, setError] = React.useState<string | null>(null);
     const [loading, setLoading] = React.useState<boolean>(true);
@@ -67,6 +68,11 @@ export default ({ params }: { params: { id: string } }) => {
                 const relatedProductsData = await relatedProductsResponse.json();
 
                 setRelatedProducts(relatedProductsData.filter(({ id }: ProductTypes) => id !== productData.id));
+
+                const sessionResponse = await fetch('/api/sessions');
+                const sessionData = await sessionResponse.json();
+
+                setIsOwnProduct(Boolean(sessionData?.phone_number));
             } catch (e) {
                 setError(e instanceof Error ? e.message : 'دریافت اطلاعات از دیتابیس با خطا مواجه شد.');
             } finally {
