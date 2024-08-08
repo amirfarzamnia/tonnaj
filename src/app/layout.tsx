@@ -190,6 +190,12 @@ export default ({ children }: { children: React.ReactNode }) => {
                                     <Grid container spacing={4}>
                                         <Grid item xs={12} sm={3}>
                                             <Typography variant="h6" gutterBottom>
+                                                داستان تناژ
+                                            </Typography>
+                                            <Typography variant="caption">تناژ از تابستان سال 1403 با هدف تسهیل فرآیند خرید و فروش محصولات عمده در کشور شروع به کار کرد. در تناژ، شما امکان خرید و فروش محصولات عمده، با بیشترین امکانات، بهترین کیفیت، در کمترین زمان را خواهید داشت.</Typography>
+                                        </Grid>
+                                        <Grid item xs={12} sm={3}>
+                                            <Typography variant="h6" gutterBottom>
                                                 صفحات اصلی تناژ
                                             </Typography>
                                             <Box component="ul" sx={{ listStyleType: 'none', padding: 0, margin: 0 }}>
@@ -212,7 +218,7 @@ export default ({ children }: { children: React.ReactNode }) => {
                                         </Grid>
                                         <Grid item xs={12} sm={3}>
                                             <Typography variant="h6" gutterBottom>
-                                                پیوندهای مفید
+                                                پیوندهای مفید تناژ
                                             </Typography>
                                             <Box component="ul" sx={{ listStyleType: 'none', padding: 0, margin: 0 }}>
                                                 <Box component="li">
@@ -236,12 +242,6 @@ export default ({ children }: { children: React.ReactNode }) => {
                                                     </Link>
                                                 </Box>
                                             </Box>
-                                        </Grid>
-                                        <Grid item xs={12} sm={3}>
-                                            <Typography variant="h6" gutterBottom>
-                                                داستان تناژ
-                                            </Typography>
-                                            <Typography variant="caption">تناژ از تابستان سال 1403 با هدف تسهیل فرآیند خرید و فروش محصولات عمده در کشور شروع به کار کرد. در تناژ، شما امکان خرید و فروش محصولات عمده، با بیشترین امکانات، بهترین کیفیت، در کمترین زمان را خواهید داشت.</Typography>
                                         </Grid>
                                         <Grid item xs={12} sm={3}>
                                             <Typography variant="h6" gutterBottom>
