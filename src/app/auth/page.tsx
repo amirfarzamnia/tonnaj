@@ -82,8 +82,8 @@ export default () => {
             </Box>
             {step === 1 ? (
                 <>
-                    <TextField fullWidth label="نام یا نام شرکت" variant="outlined" margin="normal" value={name} onChange={(e) => setName(e.target.value)} error={!!error} helperText={error} />
-                    <VerificationStep label="شماره تلفن همراه" value={phone_number} onChange={(e) => setPhoneNumber(e.target.value)} error={error} loading={loading} buttonText="ادامه و ارسال کد تایید" onSubmit={handlePhoneNumberSubmit} />
+                    <TextField fullWidth label="نام خود یا شرکت خود را اینجا وارد کنید" variant="outlined" margin="normal" value={name} onChange={(e) => setName(e.target.value)} error={!!error} helperText={error} />
+                    <VerificationStep label="شماره تلفن همراه خود را اینجا وارد کنید" value={phone_number} onChange={(e) => setPhoneNumber(e.target.value)} error={error} loading={loading} buttonText="ادامه و ارسال کد تایید" onSubmit={handlePhoneNumberSubmit} />
                 </>
             ) : (
                 <VerificationStep label="کد تایید" value={verification_code} onChange={(e) => setVerificationCode(e.target.value)} error={error} loading={loading} buttonText="تایید کد" onSubmit={handleVerificationCodeSubmit} />
