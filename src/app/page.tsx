@@ -1,21 +1,18 @@
 'use client';
 
-import { Grid, Typography, Box, CircularProgress, Button, Divider, CardActionArea, CardContent, Card, colors } from '@mui/material';
+import { Grid, Typography, Box, CircularProgress, Button, CardContent, Card } from '@mui/material';
 import { Sell, ShoppingBasket, Close, ArrowLeft } from '@mui/icons-material';
+import { Navigation, Pagination, Scrollbar, A11y } from 'swiper/modules';
 import ProductCard from '@/components/ProductCard';
+import { Swiper, SwiperSlide } from 'swiper/react';
 import categories from '@/constants/categories';
 import { ProductTypes } from '@/types/product';
 import React from 'react';
 
-import { Navigation, Pagination, Scrollbar, A11y } from 'swiper/modules';
-
-import { Swiper, SwiperSlide } from 'swiper/react';
-
-// Import Swiper styles
-import 'swiper/css';
 import 'swiper/css/navigation';
 import 'swiper/css/pagination';
 import 'swiper/css/scrollbar';
+import 'swiper/css';
 
 export default () => {
     const [selectedCategories, setSelectedCategories] = React.useState<string[]>([]);
@@ -44,21 +41,6 @@ export default () => {
             }
         })();
     }, []);
-
-    const bottomItem = [
-        {
-            title: 'تناژ چیست؟',
-            desc: `“تناژ” بستر ارتباط مستقیم خریدار و فروشنده را فراهم می کند و محصولات فروشندگان را در یک بازار آنلاین در معرض نمایش می گذارد.`
-        },
-        {
-            title: 'خدمات خریداران',
-            desc: '“خریداران” در تناژ به فروشندگان عمده محصول مورد نظر خود در سراسر ایران به راحتی و بدون واسطه دسترسی دارند و با آنها در ارتباط هستند.'
-        },
-        {
-            title: 'خدمات فروشندگان',
-            desc: '“فروشندگان” در تناژ محصولات خود را برای یافتن خریداران عمده و فروش بدون واسطه در باسکول ثبت می کنند. قابلیت های تبلیغاتی موجود در باسکول، به فروش سریع تر محصولات آنها کمک می کند.'
-        }
-    ];
 
     if (loading) {
         return (
@@ -126,7 +108,6 @@ export default () => {
                     <ProductCard key={product.id} {...product} />
                 ))}
             </Grid>
-
             <Box sx={{ mt: 10, width: '90%', height: '230px', ml: 'auto', mr: 'auto', borderRadius: 2, backgroundColor: 'wheat', display: 'flex' }}>
                 <Box sx={{ width: '75%' }}>
                     <Box sx={{ padding: 2 }}>
@@ -138,24 +119,12 @@ export default () => {
                         </Button>
                     </Box>
                 </Box>
-
                 <Box sx={{ width: '25%', display: 'flex', justifyContent: 'end', backgroundColor: 'rgb(170, 149, 110)', borderRadius: 2 }}>
                     <Box component={'img'} src="/landing-banner-avatar.png" sx={{ objectFit: 'cover', height: '230px' }} />
                 </Box>
             </Box>
-
             <Box sx={{ width: '100%', display: 'flex', justifyContent: 'center' }}>
-                <Swiper
-                    style={{ width: '90%', height: '300px', padding: 12 }}
-                    // install Swiper modules
-                    modules={[Navigation, Pagination, Scrollbar, A11y]}
-                    spaceBetween={50}
-                    slidesPerView={3}
-                    navigation
-                    pagination={{ clickable: true }}
-                    scrollbar={{ draggable: true }}
-                    onSwiper={(swiper) => console.log(swiper)}
-                    onSlideChange={() => console.log('slide change')}>
+                <Swiper style={{ width: '90%', height: '300px', padding: 12 }} modules={[Navigation, Pagination, Scrollbar, A11y]} spaceBetween={50} slidesPerView={3} navigation pagination={{ clickable: true }} scrollbar={{ draggable: true }} onSwiper={(swiper) => console.log(swiper)} onSlideChange={() => console.log('slide change')}>
                     <SwiperSlide style={{ display: 'flex', justifyContent: 'center', alignItems: 'center', width: '90%' }}>
                         <Card sx={{ width: 345 }} dir="rtl">
                             <CardContent>
@@ -171,7 +140,6 @@ export default () => {
                             </Box>
                         </Card>
                     </SwiperSlide>
-
                     <SwiperSlide style={{ display: 'flex', justifyContent: 'center', alignItems: 'center', width: '90%' }}>
                         <Card sx={{ width: 345 }} dir="rtl">
                             <CardContent>
@@ -187,7 +155,6 @@ export default () => {
                             </Box>
                         </Card>
                     </SwiperSlide>
-
                     <SwiperSlide style={{ display: 'flex', justifyContent: 'center', alignItems: 'center', width: '90%' }}>
                         <Card sx={{ width: 345 }} dir="rtl">
                             <CardContent>
@@ -203,7 +170,6 @@ export default () => {
                             </Box>
                         </Card>
                     </SwiperSlide>
-
                     <SwiperSlide style={{ display: 'flex', justifyContent: 'center', alignItems: 'center', width: '90%' }}>
                         <Card sx={{ width: 345 }} dir="rtl">
                             <CardContent>
@@ -220,47 +186,6 @@ export default () => {
                         </Card>
                     </SwiperSlide>
                 </Swiper>
-            </Box>
-
-            <Divider sx={{ mt: 8, mb: 5 }} />
-
-            <Box sx={{ height: '80vh', width: '100%', backgroundColor: 'rgb(255 255 255 / .2)', borderRadius: 7, display: 'flex', flexDirection: 'column', alignItems: 'center' }}>
-                <Box sx={{ borderBottom: 3, width: '93%', height: '13vh', display: 'flex', justifyItems: 'center', alignItems: 'center' }}>
-                    <Typography variant="h4" sx={{ color: 'white', textAlign: 'center', ml: 'auto', mr: 'auto' }}>
-                        ارتباط مستقیم با خریداران و فروشندگان عمده محصولات
-                    </Typography>
-                </Box>
-
-                <Box sx={{ width: '93%', display: 'flex', justifyItems: 'center', alignItems: 'center', justifyContent: 'space-between' }}>
-                    {bottomItem.map((item, index) => {
-                        return (
-                            <Box>
-                                <Box sx={{ maxWidth: '430px', mt: 1, display: 'flex', flexDirection: 'column', alignItems: 'center' }}>
-                                    <Typography sx={{ color: 'black' }} variant="h6">
-                                        {item.title}
-                                    </Typography>
-                                    <Typography sx={{ mt: 1 }} variant="body2">
-                                        {item.desc}
-                                    </Typography>
-                                </Box>
-                            </Box>
-                        );
-                    })}
-                </Box>
-
-                <Box sx={{ width: '85%', height: '43vh', mt: 6, display: 'flex', borderRadius: 3, backgroundColor: 'white' }}>
-                    <Box sx={{ width: '40%', height: '43vh', backgroundColor: 'black', display: 'flex', justifyContent: 'center', alignItems: 'center' }}>
-                        <Box component={'img'} src="/landing-blog.jpg" sx={{ width: '100%', height: '43vh' }} />
-                    </Box>
-                    <Box sx={{ width: '60%', height: '43vh', display: 'flex', flexDirection: 'column', justifyContent: 'center', color: 'black' }}>
-                        <Typography variant="h6" sx={{ mb: 1, width: '95%', mr: 2 }}>
-                            باسکول: بازار آنلاین محصولات عمده ایران
-                        </Typography>
-                        <Typography variant="body2" sx={{ width: '95%', ml: 'auto', mr: 'auto' }}>
-                            باسکول یک پلتفرم عمده فروشی آنلاین است که به شما امکان می‌دهد به‌طور مستقیم و مطمئن با تولیدکنندگان و عرضه‌کنندگان انواع کالاهای عمده ایران در ارتباط باشید. با استفاده از باسکول، می‌توانید به راحتی قیمت روز انواع کالاهای عمده را مشاهده کنید، با فروشندگان عمده و افراد حرفه ای مستقیماً ارتباط گرفته، اعتبار و سابقه آنها را بررسی کرده و نسبت به خرید و فروش عمده اقدام کنید. باسکول با بهره‌گیری از سیستم جستجوی پیشرفته و فیلترهای متنوع، به خریداران امکان می‌دهد به راحتی و سریع محصول مورد نظر خود را پیدا کنند. هزاران کالا در صنایع مختلف از سراسر ایران در بازار عمده فروشی باسکول گردآوری شده و به شما این امکان را می‌دهد تا محصولات را با هم مقایسه کرده و بهترین انتخاب را برای خرید عمده خود داشته باشید. با استفاده از ابزار های مختلف باسکول، می‌توانید به‌صورت مستقیم و آنلاین با خریداران و فروشندگان عمده ارتباط برقرار کنید و شبکه ی تجاری خود را گسترش دهید. باسکول به‌عنوان مرجع تخصصی عمده فروشی در ایران، دارای بزرگترین مجموعه اطلاعاتی صادرکنندگان و تولیدکنندگان کالای صادراتی ایران است و به شما این امکان را می‌دهد که با بهترین تولیدکنندگان کالاهای صادراتی ایران ارتباط برقرار کرده و فرصت مناسبی برای صادرات کالای باکیفیت ایرانی داشته باشید.
-                        </Typography>
-                    </Box>
-                </Box>
             </Box>
         </>
     );
