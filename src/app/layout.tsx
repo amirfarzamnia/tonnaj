@@ -18,7 +18,7 @@ const common: { typography: TypographyOptions; css: React.CSSProperties } = {
         h6: { color: '#d00434' }
     },
     css: {
-        backgroundImage: 'radial-gradient(rgba(0, 0, 0, 0.1) 1px, transparent 0)',
+        backgroundImage: 'radial-gradient(rgba(0, 0, 0, 0.075) 1px, transparent 0)',
         backgroundPosition: '-40px -40px',
         backgroundSize: '20px 20px'
     }
