@@ -75,7 +75,7 @@ export default () => {
                 if (response.ok) {
                     setProduct(initialProductState);
 
-                    setTimeout(() => router.push('/'), 2000);
+                    setTimeout(() => router.push('/products/' + json.id), 2500);
                 }
 
                 setSnackbarOpen(true);
