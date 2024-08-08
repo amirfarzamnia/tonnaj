@@ -12,7 +12,7 @@ import L from 'leaflet';
 import 'leaflet/dist/leaflet.css';
 
 export default () => {
-    const initialProductState: Omit<ProductTypes, 'timestamp' | 'rating' | 'id' | 'available' | 'author'> = { categories: [], description: '', images: [], price: 0, name: '', location: { latlng: new L.LatLng(32.4279, 53.688), state: '', city: '' } };
+    const initialProductState: Omit<Omit<ProductTypes, 'price'> & { price: string | null }, 'timestamp' | 'rating' | 'id' | 'available' | 'author'> = { categories: [], description: '', images: [], price: null, name: '', location: { latlng: new L.LatLng(32.4279, 53.688), state: '', city: '' } };
 
     const [snackbarSeverity, setSnackbarSeverity] = React.useState<'success' | 'error'>('success');
     const [product, setProduct] = React.useState(initialProductState);
@@ -94,7 +94,7 @@ export default () => {
                     <Grid item xs={12}>
                         <Box ref={mapRef} sx={{ height: '25rem', width: '100%', border: 1, borderColor: 'rgba(133, 133, 133, 0.5)', borderRadius: 1 }}></Box>
                     </Grid>
-                    <Box sx={{ width: '98%', my: 2 }}>
+                    <Box sx={{ width: '98.5%', mt: 5 }}>
                         <Divider />
                     </Box>
                     <Grid item xs={12}>
