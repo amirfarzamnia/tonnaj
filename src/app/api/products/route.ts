@@ -33,7 +33,7 @@ export const POST = async (request: NextRequest) => {
 
     const id = randomBytes(3).toString('hex');
 
-    await database.collection(method === 'create' ? 'products' : 'product_requests').insertOne({ ...entity, id, timestamp: Date.now(), author: session, available: true, ...(method === 'create' && { rating: 5 }) });
+    await database.collection(method === 'create' ? 'products' : 'product_requests').insertOne({ ...entity, id, timestamp: Date.now(), author: session, available: true });
 
     return NextResponse.json({ message: method === 'create' ? 'محصول شما با موفقیت به تناژ اضافه شد.' : 'درخواست خرید محصول شما با موفقیت به تناژ اضافه شد.', id }, { status: 200 });
 };

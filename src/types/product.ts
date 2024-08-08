@@ -20,7 +20,6 @@ interface ProductBase {
 
 export type ProductTypes = ProductBase & {
     images: string[];
-    rating: number;
     price: number;
     name: string;
 };

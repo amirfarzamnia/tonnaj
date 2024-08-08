@@ -11,7 +11,7 @@ import L from 'leaflet';
 
 import 'leaflet/dist/leaflet.css';
 
-const initialProductState: Omit<Omit<ProductTypes, 'price'> & { price: string | null }, 'timestamp' | 'rating' | 'id' | 'available' | 'author'> = { categories: [], description: '', images: [], price: null, name: '', location: { latlng: new L.LatLng(32.4279, 53.688), state: '', city: '' } };
+const initialProductState: Omit<Omit<ProductTypes, 'price'> & { price: string | null }, 'timestamp' | 'id' | 'available' | 'author'> = { categories: [], description: '', images: [], price: null, name: '', location: { latlng: new L.LatLng(32.4279, 53.688), state: '', city: '' } };
 const initialProductRequestState: Omit<ProductRequestTypes, 'timestamp' | 'id' | 'available' | 'author'> = { categories: [], description: '', location: { latlng: new L.LatLng(32.4279, 53.688), state: '', city: '' } };
 
 export default ({ method }: { method: 'create' | 'request' }) => {

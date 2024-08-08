@@ -4,7 +4,6 @@ import { Person, Category, Telegram, WhatsApp, LocationOn, Tag, Star, StarBorder
 import { Box, Button, Grid, Typography, Card, Link, IconButton, CircularProgress, Divider } from '@mui/material';
 import { Swiper, SwiperSlide } from 'swiper/react';
 import { ProductTypes } from '@/types/product';
-import StarRatings from 'react-star-ratings';
 import { Pagination } from 'swiper/modules';
 import React from 'react';
 
@@ -14,7 +13,6 @@ import 'swiper/css';
 export default ({ params }: { params: { id: string } }) => {
     const [relatedProducts, setRelatedProducts] = React.useState<ProductTypes[]>([]);
     const [product, setProduct] = React.useState<ProductTypes | null>(null);
-    const [rating, setRating] = React.useState<ProductTypes['rating']>(5);
     const [error, setError] = React.useState<string | null>(null);
     const [loading, setLoading] = React.useState<boolean>(true);
 
@@ -84,10 +82,7 @@ export default ({ params }: { params: { id: string } }) => {
                 </Grid>
                 <Grid item xs={12} md={6}>
                     <Card sx={{ padding: 2, borderRadius: 1 }}>
-                        <Box sx={{ width: '100%', display: 'flex', alignItems: 'center', gap: 2, justifyContent: 'space-between' }}>
-                            <Typography variant="h4">{product.name}</Typography>
-                            <Box sx={{ display: 'flex', alignItems: 'center' }}>{Array.from({ length: 5 }, (_, index) => (index < product.rating ? <Star key={index} color="warning" /> : <StarBorder key={index} color="inherit" />))}</Box>
-                        </Box>
+                        <Typography variant="h4">{product.name}</Typography>
                         <Typography sx={{ my: 2 }} variant="h6" color="textPrimary">
                             قیمت: {product.price} تومان
                         </Typography>
@@ -150,22 +145,6 @@ export default ({ params }: { params: { id: string } }) => {
                     </Grid>
                 </Box>
             )}
-            <Box sx={{ display: 'flex', justifyContent: 'center', mt: 4 }}>
-                <StarRatings
-                    rating={rating}
-                    starRatedColor="gold"
-                    starHoverColor="gold"
-                    changeRating={async (rating: number) => {
-                        try {
-                            const response = await fetch('/api/products?id=' + params.id, { method: 'PATCH', headers: { 'Content-Type': 'application/json' }, body: JSON.stringify({ rating }) });
-
-                            setRating(rating);
-                        } catch {
-                            setError('به‌روزرسانی امتیاز با خطا مواجه شد.');
-                        }
-                    }}
-                />
-            </Box>
         </Box>
     );
 };
