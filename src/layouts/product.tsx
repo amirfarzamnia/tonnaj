@@ -120,7 +120,7 @@ export default ({ method }: { method: 'create' | 'request' }) => {
                                                     sx={{ position: 'absolute', top: -17.5, right: -17.5, zIndex: 1, color: 'red', background: 'rgba(0, 0, 0, 0.05)', border: 1, borderColor: 'rgba(133, 133, 133, 0.5)' }}>
                                                     <Clear />
                                                 </IconButton>
-                                                <Box component="img" loading="lazy" src={src} alt={`Uploaded ${index}`} sx={{ width: '100%', height: '100%', borderRadius: '4px', objectFit: 'cover' }} />
+                                                <Box component="img" loading="lazy" src={src} alt={`عکس شماره ${index}`} sx={{ width: '100%', height: '100%', borderRadius: '4px', objectFit: 'cover' }} />
                                             </Box>
                                         </Grid>
                                     ))}
