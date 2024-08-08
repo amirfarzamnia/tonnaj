@@ -40,7 +40,7 @@ export default ({ price, description, images, name, id, author, categories, loca
                         <Box sx={{ my: 2 }}>
                             <Divider />
                         </Box>
-                        <Typography variant="body2" color="textSecondary">
+                        <Typography variant="body2" color="textSecondary" sx={{ display: 'flex', alignItems: 'center', gap: 1 }}>
                             {categories.map((category) => (
                                 <MuiLink href={'?categories=' + category} onClick={(event) => event.stopPropagation()}>
                                     {category}

@@ -17,6 +17,8 @@ export const POST = async (request: NextRequest) => {
 
     if (!Array.isArray(entity.categories) || entity.categories.some((category) => !categories.includes(category))) return NextResponse.json({ error: 'دسته بندی ها به درستی ارسال نشده اند.' }, { status: 400 });
 
+    if (entity.categories.length > 5) return NextResponse.json({ error: 'نمیتوانید بیشتر از 5 دسته بندی را برای محصول خود انتخاب کنید.' }, { status: 400 });
+
     if (!/^.{25,1000}$/.test(entity.description)) return NextResponse.json({ error: `توضیحات محصول باید بین 25 تا 1000 حرف باشد.` }, { status: 400 });
 
     if (!entity.location?.latlng || !entity.location.city.length || !entity.location.state.length || !(typeof entity.location.latlng.lat === 'number' && typeof entity.location.latlng.lng === 'number')) return NextResponse.json({ error: 'لطفا موقعیت مکانی خود را به درستی انتخاب کنید.' }, { status: 400 });
