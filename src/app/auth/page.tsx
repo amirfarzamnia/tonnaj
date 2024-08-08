@@ -1,6 +1,7 @@
 'use client';
 
 import { Typography, TextField, Button, Box, Divider, CircularProgress } from '@mui/material';
+import { useRouter } from 'next/navigation';
 import { AuthTypes } from '@/types/auth';
 import React from 'react';
 
@@ -28,6 +29,15 @@ export default () => {
     const [error, setError] = React.useState<string>('');
     const [name, setName] = React.useState<string>('');
     const [step, setStep] = React.useState<number>(1);
+    const router = useRouter();
+
+    React.useEffect(() => {
+        (async () => {
+            const { ok } = await fetch('/api/sessions');
+
+            if (ok) router.push('/');
+        })();
+    }, [router]);
 
     const handlePhoneNumberSubmit = async () => {
         if (!/^(09\d{9}|98\d{10})$/.test(phone_number)) return setError('لطفا شماره تلفن همراه خود را به درستی و با اعداد انگلیسی وارد کنید.');
@@ -61,7 +71,7 @@ export default () => {
 
             if (!response.ok) return setError((await response.json()).error);
 
-            location.href = '/';
+            router.push('/');
         } catch (error) {
             setError('ارسال درخواست به سرور با خطا مواجه شد. لطفا بعدا تلاش کنید!');
         } finally {
