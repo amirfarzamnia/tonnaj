@@ -5,6 +5,7 @@ import { Search, LightMode, DarkMode, Person, Inventory } from '@mui/icons-mater
 import { createTheme, ThemeProvider, ThemeOptions } from '@mui/material/styles';
 import { TypographyOptions } from '@mui/material/styles/createTypography';
 import React from 'react';
+
 import './index.css';
 
 const common: { typography: TypographyOptions; css: React.CSSProperties } = {
