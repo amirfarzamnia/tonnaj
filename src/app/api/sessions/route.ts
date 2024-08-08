@@ -4,8 +4,10 @@ import { AuthTypes } from '@/types/auth';
 import { database } from '@/mongodb';
 import { randomBytes } from 'crypto';
 
-const verificationCodes: { [phone_number: AuthTypes['phone_number']]: { code: AuthTypes['verification_code']; name: AuthTypes['name']; expiresAt: number } } = {};
+const verificationCodes: { [phone_number: AuthTypes['phone_number']]: { code: AuthTypes['verification_code']; name: AuthTypes['name']; expiresAt: number; attempts: number } } = {};
+
 const VERIFICATION_CODE_EXPIRY_MS = 10 * 60 * 1000;
+const MAX_ATTEMPTS = 3;
 
 export const POST = async (request: NextRequest) => {
     const { phone_number, verification_code, name }: AuthTypes = await request.json();
@@ -17,9 +19,23 @@ export const POST = async (request: NextRequest) => {
 
         if (!stored) return NextResponse.json({ error: 'کد تایید یافت نشد.' }, { status: 400 });
 
-        if (Date.now() > stored.expiresAt) return NextResponse.json({ error: 'کد تایید منقضی شده است.' }, { status: 400 });
+        if (Date.now() > stored.expiresAt) {
+            delete verificationCodes[phone_number];
 
-        if (stored.code !== verification_code) return NextResponse.json({ error: 'کد تایید ارسال شده نادرست است.' }, { status: 400 });
+            return NextResponse.json({ error: 'کد تایید منقضی شده است.' }, { status: 400 });
+        }
+
+        if (stored.attempts >= MAX_ATTEMPTS) {
+            delete verificationCodes[phone_number];
+
+            return NextResponse.json({ error: 'تعداد تلاش‌ها بیش از حد مجاز است. لطفاً درخواست جدیدی ارسال کنید.' }, { status: 400 });
+        }
+
+        if (stored.code !== verification_code) {
+            stored.attempts += 1;
+
+            return NextResponse.json({ error: 'کد تایید ارسال شده نادرست است.' }, { status: 400 });
+        }
 
         const session = randomBytes(16).toString('hex');
 
@@ -28,6 +44,8 @@ export const POST = async (request: NextRequest) => {
         const response = new NextResponse(null, { status: 204 });
 
         response.cookies.set('session', session, { httpOnly: true, sameSite: 'strict', maxAge: 86400 * 1000 });
+
+        delete verificationCodes[phone_number];
 
         return response;
     } else if (phone_number) {
@@ -39,7 +57,7 @@ export const POST = async (request: NextRequest) => {
 
         console.log('Verification Code Request', phone_number, code);
 
-        verificationCodes[phone_number] = { code, expiresAt: Date.now() + VERIFICATION_CODE_EXPIRY_MS, name };
+        verificationCodes[phone_number] = { code, expiresAt: Date.now() + VERIFICATION_CODE_EXPIRY_MS, name, attempts: 0 };
 
         return new NextResponse(null, { status: 204 });
     }
