@@ -33,7 +33,7 @@ export default ({ method }: { method: 'create' | 'request' }) => {
         L.tileLayer('https://{s}.tile.openstreetmap.org/{z}/{x}/{y}.png').addTo(mapInstance.current);
 
         const handleMapClick = async (e: L.LeafletMouseEvent) => {
-            const response = await fetch(`https://nominatim.openstreetmap.org/reverse?format=jsonv2&lat=${e.latlng.lat}&lon=${e.latlng.lng}&accept-language=fa`);
+            const response = await fetch('https://nominatim.openstreetmap.org/reverse?format=jsonv2&lat=' + e.latlng.lat + '&lon=' + e.latlng.lng + '&accept-language=fa');
             const { address } = await response.json();
 
             const city = address.city || address.town || address.village || 'ناشناس';
@@ -56,33 +56,34 @@ export default ({ method }: { method: 'create' | 'request' }) => {
             mapInstance.current?.remove();
             mapInstance.current = null;
         };
-    }, [product.location.latlng]);
-
-    const handleSubmit = async (e: React.FormEvent) => {
-        e.preventDefault();
-
-        const response = await fetch('/api/products', { method: 'POST', headers: { 'Content-Type': 'application/json' }, body: JSON.stringify({ method, ...(method === 'create' ? { product } : { product_request: product }) }) });
-        const json = await response.json();
-
-        setSnackbarMessage(json.message || json.error);
-        setSnackbarSeverity(response.ok ? 'success' : 'error');
-
-        if (response.ok && method === 'create') {
-            setProduct(initialProductState);
-
-            setTimeout(() => router.push(`/products/${json.id}`), 2500);
-        } else if (response.ok && method === 'request') {
-            setProduct(initialProductRequestState);
-        }
-
-        setSnackbarOpen(true);
-    };
+    }, []);
 
     const handleCloseSnackbar = () => setSnackbarOpen(false);
     const handleInputChange = (key: string, value: any) => setProduct((prevProduct) => ({ ...prevProduct, [key]: value }));
 
     return (
-        <Box component="form" onSubmit={handleSubmit} sx={{ width: '80%', mx: 'auto' }}>
+        <Box
+            component="form"
+            onSubmit={async (e: React.FormEvent) => {
+                e.preventDefault();
+
+                const response = await fetch('/api/products', { method: 'POST', headers: { 'Content-Type': 'application/json' }, body: JSON.stringify({ method, ...(method === 'create' ? { product } : { product_request: product }) }) });
+                const json = await response.json();
+
+                setSnackbarMessage(json.message || json.error);
+                setSnackbarSeverity(response.ok ? 'success' : 'error');
+
+                if (response.ok && method === 'create') {
+                    setProduct(initialProductState);
+
+                    setTimeout(() => router.push(`/products/${json.id}`), 2500);
+                } else if (response.ok && method === 'request') {
+                    setProduct(initialProductRequestState);
+                }
+
+                setSnackbarOpen(true);
+            }}
+            sx={{ width: '80%', mx: 'auto' }}>
             <Box sx={{ width: '100%', display: 'flex', flexDirection: 'column', alignItems: 'center', padding: '16px' }}>
                 <Grid container spacing={2} sx={{ width: '100%' }}>
                     <Box>
