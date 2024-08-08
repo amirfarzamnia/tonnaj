@@ -124,7 +124,7 @@ export default () => {
                 </Box>
                 <Box component={'img'} src="/banner-middle.png" sx={{ objectFit: 'cover', height: '230px', pb: 1 }} />
             </Box>
-            <Typography variant="h5" sx={{ mb: 4, mt: 8 }}>
+            <Typography variant="h5" sx={{ my: 4 }}>
                 درخواست های خرید محصول
             </Typography>
             <Swiper modules={[Pagination, Scrollbar]} slidesPerView={4} spaceBetween={10} pagination={{ clickable: true }} scrollbar={{ draggable: true }}>
