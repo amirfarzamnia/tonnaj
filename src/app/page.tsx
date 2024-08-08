@@ -124,7 +124,7 @@ export default () => {
                 </Box>
             </Box>
             <Box sx={{ width: '100%', display: 'flex', justifyContent: 'center' }}>
-                <Swiper style={{ width: '90%', height: '300px', padding: 12 }} modules={[Navigation, Pagination, Scrollbar, A11y]} spaceBetween={50} slidesPerView={3} navigation pagination={{ clickable: true }} scrollbar={{ draggable: true }} onSwiper={(swiper) => console.log(swiper)} onSlideChange={() => console.log('slide change')}>
+                <Swiper style={{ width: '90%', height: '300px', padding: 12 }} modules={[Pagination, Scrollbar, A11y]} spaceBetween={50} slidesPerView={3} pagination={{ clickable: true }} scrollbar={{ draggable: true }}>
                     <SwiperSlide style={{ display: 'flex', justifyContent: 'center', alignItems: 'center', width: '90%' }}>
                         <Card sx={{ width: 345 }} dir="rtl">
                             <CardContent>
