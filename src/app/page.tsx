@@ -127,10 +127,10 @@ export default () => {
             <Typography variant="h5" sx={{ mb: 4, mt: 8 }}>
                 درخواست های خرید محصول
             </Typography>
-            <Swiper modules={[Pagination, Scrollbar]} slidesPerView={4} pagination={{ clickable: true }} scrollbar={{ draggable: true }}>
+            <Swiper modules={[Pagination, Scrollbar]} slidesPerView={4} spaceBetween={10} pagination={{ clickable: true }} scrollbar={{ draggable: true }}>
                 {productRequests.map(({ id, author, description }) => (
                     <SwiperSlide key={id} style={{ display: 'flex', justifyContent: 'center', alignItems: 'center', width: '90%' }}>
-                        <Card sx={{ width: 345 }} dir="rtl">
+                        <Card sx={{ width: 345, borderRadius: 4 }}>
                             <CardContent>
                                 <Typography gutterBottom variant="h6">
                                     {author.name}
