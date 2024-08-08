@@ -13,6 +13,7 @@ import 'swiper/css';
 
 export default ({ params }: { params: { id: string } }) => {
     const [relatedProducts, setRelatedProducts] = React.useState<ProductTypes[]>([]);
+    const [deleteStatus, setDeleteStatus] = React.useState<string | null>(null);
     const [product, setProduct] = React.useState<ProductTypes | null>(null);
     const [error, setError] = React.useState<string | null>(null);
     const [loading, setLoading] = React.useState<boolean>(true);
@@ -90,6 +91,33 @@ export default ({ params }: { params: { id: string } }) => {
                         <Button endIcon={<Phone />} href={'tel:' + product.author.phone_number} variant="outlined" color="success" sx={{ mt: 2, width: '100%', py: 2, display: 'flex', alignItems: 'center', gap: 1 }}>
                             تماس با فروشنده
                         </Button>
+                        <Button
+                            onClick={async () => {
+                                if (!product?.id) return;
+
+                                try {
+                                    const response = await fetch('/api/products?type=product&id=' + product.id, { method: 'DELETE' });
+
+                                    if (!response.ok) throw new Error('خطا در حذف محصول');
+
+                                    const result = await response.json();
+
+                                    setDeleteStatus(result.message);
+                                    setProduct(null);
+                                } catch (e) {
+                                    setDeleteStatus(e instanceof Error ? e.message : 'حذف محصول با خطا مواجه شد.');
+                                }
+                            }}
+                            variant="contained"
+                            color="error"
+                            sx={{ mt: 2, width: '100%', py: 2, display: 'flex', alignItems: 'center', gap: 1 }}>
+                            حذف محصول
+                        </Button>
+                        {deleteStatus && (
+                            <Typography variant="h6" color={deleteStatus.includes('با موفقیت') ? 'success' : 'error'} sx={{ mt: 2 }}>
+                                {deleteStatus}
+                            </Typography>
+                        )}
                         <Box sx={{ my: 2 }}>
                             <Divider />
                         </Box>

@@ -54,3 +54,30 @@ export const GET = async (request: NextRequest) => {
 
     return NextResponse.json(data, { status: 200 });
 };
+
+export const DELETE = async (request: NextRequest) => {
+    const session = await findSession(request);
+
+    if (!session) return new NextResponse(null, { status: 403 });
+
+    const { searchParams } = new URL(request.url);
+
+    const id = searchParams.get('id');
+    const type = searchParams.get('type') || 'product';
+
+    if (!id) return NextResponse.json({ error: 'شناسه محصول یا درخواست محصول ارائه نشده است.' }, { status: 400 });
+
+    const collection = type === 'request' ? 'product_requests' : 'products';
+
+    const document = await database.collection(collection).findOne({ id });
+
+    if (!document) return NextResponse.json({ error: 'محصول یا درخواست محصول پیدا نشد.' }, { status: 404 });
+
+    if (document.author.phone_number !== session.phone_number) return new NextResponse(null, { status: 403 });
+
+    const result = await database.collection(collection).deleteOne({ id });
+
+    if (result.deletedCount === 0) return NextResponse.json({ error: 'خطا در حذف محصول یا درخواست محصول.' }, { status: 500 });
+
+    return NextResponse.json({ message: 'محصول یا درخواست محصول با موفقیت حذف شد.' }, { status: 200 });
+};
