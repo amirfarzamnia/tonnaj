@@ -39,6 +39,8 @@ export const POST = async (request: NextRequest) => {
         case 'request': {
             if (!product_request) return NextResponse.json({ error: 'پارامتر محصول درخواستی ارسال نشده.' }, { status: 400 });
 
+            if (!Array.isArray(product_request.categories) || product_request.categories.some((category) => !categories.includes(category))) return NextResponse.json({ error: 'دسته بندی ها به درستی ارسال نشده اند.' }, { status: 400 });
+
             if (!/^.{25,150}$/.test(product_request.description)) return NextResponse.json({ error: 'توضیحات محصول مورد نیاز باید بین 25 تا 150 حرف باشد.' }, { status: 400 });
 
             if (!product_request.location?.latlng || !product_request.location.city.length || !product_request.location.state.length || !(typeof product_request.location.latlng.lat === 'number' && typeof product_request.location.latlng.lng === 'number')) return NextResponse.json({ error: 'لطفا موقعیت مکانی خود را به درستی انتخاب کنید.' }, { status: 400 });
