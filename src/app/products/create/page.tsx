@@ -14,6 +14,7 @@ import 'leaflet/dist/leaflet.css';
 export default () => {
     const initialProductState: Omit<ProductTypes, 'timestamp' | 'rating' | 'id' | 'available' | 'author'> = { categories: [], description: '', images: [], price: 0, name: '', location: { latlng: new L.LatLng(32.4279, 53.688), state: '', city: '' } };
 
+    const [snackbarSeverity, setSnackbarSeverity] = React.useState<'success' | 'error'>('success');
     const [product, setProduct] = React.useState(initialProductState);
     const [snackbarMessage, setSnackbarMessage] = React.useState('');
     const fileInputRef = React.useRef<HTMLInputElement | null>(null);
@@ -69,13 +70,15 @@ export default () => {
                 const json = await response.json();
 
                 setSnackbarMessage(json.message || json.error);
-                setSnackbarOpen(true);
+                setSnackbarSeverity(response.ok ? 'success' : 'error');
 
                 if (response.ok) {
                     setProduct(initialProductState);
 
                     setTimeout(() => router.push('/'), 2000);
                 }
+
+                setSnackbarOpen(true);
             }}
             sx={{ width: '80%', mx: 'auto' }}>
             <Box sx={{ width: '100%', display: 'flex', flexDirection: 'column', alignItems: 'center', padding: '16px' }}>
@@ -140,6 +143,7 @@ export default () => {
 
                                         if (nonImageFiles.length > 0) {
                                             setSnackbarMessage('فقط فایل‌های تصویری مجاز هستند.');
+                                            setSnackbarSeverity('error');
                                             setSnackbarOpen(true);
 
                                             return;
@@ -147,6 +151,7 @@ export default () => {
 
                                         if (product.images.length + selectedFiles.length > 10) {
                                             setSnackbarMessage('شما نمی‌توانید بیش از 10 تصویر آپلود کنید.');
+                                            setSnackbarSeverity('error');
                                             setSnackbarOpen(true);
 
                                             if (fileInputRef.current) fileInputRef.current.value = '';
@@ -202,7 +207,7 @@ export default () => {
                 </Grid>
             </Box>
             <Snackbar open={snackbarOpen} autoHideDuration={6000} onClose={handleCloseSnackbar}>
-                <Alert onClose={handleCloseSnackbar} severity="warning">
+                <Alert onClose={handleCloseSnackbar} severity={snackbarSeverity}>
                     {snackbarMessage}
                 </Alert>
             </Snackbar>
