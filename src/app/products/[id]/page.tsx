@@ -1,14 +1,17 @@
 'use client';
 
 import { Box, Button, Grid, Typography, Card, Link, IconButton, CircularProgress, Divider, Dialog, DialogActions, DialogContent, DialogTitle } from '@mui/material';
-import { Person, Category, Telegram, WhatsApp, LocationOn, Tag, Phone } from '@mui/icons-material';
+import { Person, Category, Telegram, WhatsApp, LocationOn, Tag, Phone, Room } from '@mui/icons-material';
+import { renderToStaticMarkup } from 'react-dom/server';
 import ProductCard from '@/components/ProductCard';
 import { Swiper, SwiperSlide } from 'swiper/react';
 import { ProductTypes } from '@/types/product';
 import { Pagination } from 'swiper/modules';
 import { useRouter } from 'next/navigation';
 import React from 'react';
+import L from 'leaflet';
 
+import 'leaflet/dist/leaflet.css';
 import 'swiper/css/pagination';
 import 'swiper/css';
 
@@ -18,6 +21,7 @@ export default ({ params }: { params: { id: string } }) => {
     const [product, setProduct] = React.useState<ProductTypes | null>(null);
     const [isOwnProduct, setIsOwnProduct] = React.useState<boolean>(true);
     const [openDeleteModal, setOpenDeleteModal] = React.useState(false);
+    const mapContainerRef = React.useRef<HTMLDivElement | null>(null);
     const [error, setError] = React.useState<string | null>(null);
     const [loading, setLoading] = React.useState<boolean>(true);
     const router = useRouter();
@@ -73,6 +77,17 @@ export default ({ params }: { params: { id: string } }) => {
                 const sessionData = await sessionResponse.json();
 
                 setIsOwnProduct(Boolean(sessionData?.phone_number));
+
+                if (mapContainerRef.current) {
+                    const latlng = Object.values(productData.location.latlng) as L.LatLngExpression;
+                    const map = L.map(mapContainerRef.current).setView(latlng, 13);
+
+                    L.tileLayer('https://{s}.tile.openstreetmap.org/{z}/{x}/{y}.png').addTo(map);
+
+                    const options = { icon: L.divIcon({ html: renderToStaticMarkup(<Room sx={{ ms: 1 }} />) }) };
+
+                    L.marker(latlng, options).addTo(map).bindPopup(productData.name).openPopup();
+                }
             } catch (e) {
                 setError(e instanceof Error ? e.message : 'دریافت اطلاعات از دیتابیس با خطا مواجه شد.');
             } finally {
@@ -123,6 +138,7 @@ export default ({ params }: { params: { id: string } }) => {
                     <Typography variant="h6" color="textSecondary" paragraph>
                         <Card sx={{ padding: 2, borderRadius: 4 }}>{product.description}</Card>
                     </Typography>
+                    <Box sx={{ height: '20rem', marginTop: 2, borderRadius: 4, overflow: 'hidden' }} ref={mapContainerRef}></Box>
                 </Grid>
                 <Grid item xs={12} md={6}>
                     <Card sx={{ padding: 2, borderRadius: 4 }}>
