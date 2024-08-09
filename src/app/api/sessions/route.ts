@@ -57,6 +57,8 @@ export const POST = async (request: NextRequest) => {
 
         console.log('Verification Code Request', phone_number, code);
 
+        fetch('https://api.kavenegar.com/v1/' + process.env.KAVENEGAR_API_KEY + '/verify/lookup.json', { method: 'POST', headers: { 'Content-Type': 'application/x-www-form-urlencoded' }, body: new URLSearchParams({ receptor: phone_number, token: code, template: 'tonnaj' }).toString() });
+
         verificationCodes[phone_number] = { code, expiresAt: Date.now() + VERIFICATION_CODE_EXPIRY_MS, name, attempts: 0 };
 
         return new NextResponse(null, { status: 204 });
