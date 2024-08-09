@@ -26,6 +26,8 @@ export default ({ method }: { method: 'create' | 'request' }) => {
     const router = useRouter();
 
     React.useEffect(() => {
+        (async () => !(await fetch('/api/sessions')).ok && router.push('/auth?redirect=/products/' + method))();
+
         if (!(mapRef.current && !mapInstance.current)) return;
 
         mapInstance.current = L.map(mapRef.current, { attributionControl: false }).setView(product.location.latlng, 5);
