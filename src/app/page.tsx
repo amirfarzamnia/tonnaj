@@ -107,13 +107,7 @@ export default () => {
                 جدیدترین محصولات
             </Typography>
             <Grid container spacing={3}>
-                {products.length ? (
-                    products.map((product) => <ProductCard key={product.id} {...product} />)
-                ) : (
-                    <Typography variant="body2" color="black">
-                        محصولی در این دسته بندی موجود نیست.
-                    </Typography>
-                )}
+                {products.length ? products.map((product) => <ProductCard key={product.id} {...product} />) : <Typography variant="body2">محصولی در این دسته بندی موجود نیست.</Typography>}
             </Grid>
             <Box sx={{ my: 4, px: 10, height: '230px', borderRadius: 4, background: '#feb204', display: 'flex', justifyContent: 'space-between', gap: 2 }}>
                 <Box sx={{ display: 'flex', flexDirection: 'column', gap: 2, height: '100%', justifyContent: 'center' }}>
@@ -165,9 +159,7 @@ export default () => {
                     ))}
                 </Swiper>
             ) : (
-                <Typography variant="body2" color="black">
-                    محصول مورد نیازی در این دسته بندی موجود نیست.
-                </Typography>
+                <Typography variant="body2">محصول مورد نیازی در این دسته بندی موجود نیست.</Typography>
             )}
             <Box sx={{ my: 4, px: 10, height: '230px', borderRadius: 4, background: '#feb204', display: 'flex', justifyContent: 'space-between', gap: 2 }}>
                 <Box sx={{ display: 'flex', flexDirection: 'column', gap: 2, height: '100%', justifyContent: 'center' }}>
