@@ -12,10 +12,7 @@ interface ProductBase {
         state: string;
         city: string;
     };
-    author: {
-        phone_number: AuthTypes['phone_number'];
-        name: AuthTypes['name'];
-    };
+    author: Omit<AuthTypes, 'verification_code'>;
 }
 
 export type ProductTypes = ProductBase & {
