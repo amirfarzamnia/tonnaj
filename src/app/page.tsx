@@ -127,7 +127,7 @@ export default () => {
             </Typography>
             {productRequests.length ? (
                 <Swiper modules={[Pagination, Scrollbar]} slidesPerView={4} spaceBetween={10} pagination={{ clickable: true }} scrollbar={{ draggable: true }}>
-                    {productRequests.map(({ id, author, description, location }) => (
+                    {productRequests.map(({ id, author, description, location, categories }) => (
                         <SwiperSlide key={id} style={{ display: 'flex', justifyContent: 'center', alignItems: 'center', width: '90%', height: 'auto' }}>
                             <Card sx={{ width: 345, height: '100%', borderRadius: 4, display: 'flex', flexDirection: 'column' }}>
                                 <CardContent sx={{ flex: 1, display: 'flex', flexDirection: 'column' }}>
