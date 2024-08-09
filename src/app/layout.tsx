@@ -130,7 +130,7 @@ export default ({ children }: { children: React.ReactNode }) => {
                             <AppBar position="fixed">
                                 <Toolbar sx={{ display: 'flex', gap: 2, justifyContent: 'space-between', borderBottom: 1, borderColor: selectedTheme === 'dark' ? '#3f3f46' : '#e4e4e7', px: 3 }}>
                                     <Link href="/" underline="none">
-                                        <Box width={85} component="img" loading="lazy" alt="لوگوی تناژ" src="/tonnaj.png" />
+                                        <Box width={85} component="img" loading="lazy" alt="لوگوی تناژ" src="/images/icons/tonnaj.png" />
                                     </Link>
                                     <TextField
                                         placeholder="جست و جوی محصول..."

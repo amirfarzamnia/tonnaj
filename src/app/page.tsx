@@ -59,7 +59,7 @@ export default () => {
 
     return (
         <>
-            <Box sx={{ height: '300px', backgroundImage: 'url("/banner-top.png")', backgroundSize: 'cover', backgroundPosition: 'center', position: 'relative', display: 'flex', flexDirection: 'column', alignItems: 'start', justifyContent: 'center', paddingRight: 4, borderRadius: 4 }}>
+            <Box sx={{ height: '300px', backgroundImage: 'url("/images/pages/home/banner-top.png")', backgroundSize: 'cover', backgroundPosition: 'center', position: 'relative', display: 'flex', flexDirection: 'column', alignItems: 'start', justifyContent: 'center', paddingRight: 4, borderRadius: 4 }}>
                 <Box sx={{ mt: 10, mr: 4, display: 'flex', alignItems: 'center', gap: 1 }}>
                     <Button size="large" endIcon={<Inventory />} href="/products/create" variant="contained" color="success" sx={{ display: 'flex', alignItems: 'center', gap: 1.25, width: 'fit-content' }}>
                         ثبت محصول
@@ -126,7 +126,7 @@ export default () => {
                         </Button>
                     </Box>
                 </Box>
-                <Box component={'img'} src="/banner-middle.png" sx={{ objectFit: 'cover', height: '230px', pb: 1 }} />
+                <Box component={'img'} src="/images/pages/home/banner-middle.png" sx={{ objectFit: 'cover', height: '230px', pb: 1 }} />
             </Box>
             <Typography variant="h5" sx={{ my: 4 }}>
                 جدیدترین درخواست های خرید محصول
@@ -180,7 +180,7 @@ export default () => {
                         </Button>
                     </Box>
                 </Box>
-                <Box component={'img'} src="/banner-bottom.png" sx={{ objectFit: 'cover', height: '230px' }} />
+                <Box component={'img'} src="/images/pages/home/banner-bottom.png" sx={{ objectFit: 'cover', height: '230px' }} />
             </Box>
         </>
     );
