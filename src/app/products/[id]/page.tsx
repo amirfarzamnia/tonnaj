@@ -1,7 +1,7 @@
 'use client';
 
 import { Box, Button, Grid, Typography, Card, Link, IconButton, CircularProgress, Divider, Dialog, DialogActions, DialogContent, DialogTitle } from '@mui/material';
-import { Person, Category, Telegram, WhatsApp, LocationOn, Tag, Star, Phone } from '@mui/icons-material';
+import { Person, Category, Telegram, WhatsApp, LocationOn, Tag, Phone } from '@mui/icons-material';
 import ProductCard from '@/components/ProductCard';
 import { Swiper, SwiperSlide } from 'swiper/react';
 import { ProductTypes } from '@/types/product';

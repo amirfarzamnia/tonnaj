@@ -28,8 +28,8 @@ export default ({ price, description, images, name, id, author, categories, loca
                         <Box sx={{ my: 2 }}>
                             <Divider />
                         </Box>
-                        <Typography variant="body1" color="textSecondary" gutterBottom>
-                            {description.slice(0, 165)}...
+                        <Typography variant="body1" color="textSecondary" gutterBottom sx={{ height: '16vh' }}>
+                            {description.slice(0, 100)}...
                         </Typography>
                         <Typography variant="body2" color="textSecondary" gutterBottom sx={{ mt: 2, fontSize: 'small' }}>
                             به قیمت {price} تومان
