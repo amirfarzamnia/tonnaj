@@ -1,19 +1,11 @@
 'use client';
 
 import { Typography, TextField, Button, Box, Divider, CircularProgress } from '@mui/material';
-import { useRouter } from 'next/navigation';
+import { useRouter, useSearchParams } from 'next/navigation';
 import { AuthTypes } from '@/types/auth';
 import React from 'react';
 
-const VerificationStep: React.FC<{
-    label: string;
-    value: string;
-    error: string;
-    loading: boolean;
-    buttonText: string;
-    onSubmit: () => void;
-    onChange: (e: React.ChangeEvent<HTMLInputElement>) => void;
-}> = ({ label, value, error, loading, buttonText, onSubmit, onChange }) => (
+const VerificationStep: React.FC<{ label: string; value: string; error: string; loading: boolean; buttonText: string; onSubmit: () => void; onChange: (e: React.ChangeEvent<HTMLInputElement>) => void }> = ({ label, value, error, loading, buttonText, onSubmit, onChange }) => (
     <Box component="form" noValidate autoComplete="off">
         <TextField fullWidth label={label} variant="outlined" margin="normal" value={value} onChange={onChange} error={!!error} helperText={error} />
         <Button sx={{ mt: 2, py: 2 }} fullWidth variant="contained" color="primary" disabled={loading} onClick={onSubmit}>
@@ -25,6 +17,7 @@ const VerificationStep: React.FC<{
 export default () => {
     const [verification_code, setVerificationCode] = React.useState<AuthTypes['verification_code']>('');
     const [phone_number, setPhoneNumber] = React.useState<AuthTypes['phone_number']>('');
+    const redirectUrl = useSearchParams().get('redirect') || '/';
     const [loading, setLoading] = React.useState<boolean>(false);
     const [error, setError] = React.useState<string>('');
     const [name, setName] = React.useState<string>('');
@@ -35,9 +28,9 @@ export default () => {
         (async () => {
             const { ok } = await fetch('/api/sessions');
 
-            if (ok) router.push('/');
+            if (ok) router.push(redirectUrl);
         })();
-    }, [router]);
+    }, [router, redirectUrl]);
 
     const handlePhoneNumberSubmit = async () => {
         if (!/^(09\d{9}|98\d{10})$/.test(phone_number)) return setError('لطفا شماره تلفن همراه خود را به درستی و با اعداد انگلیسی وارد کنید.');
@@ -71,7 +64,7 @@ export default () => {
 
             if (!response.ok) return setError((await response.json()).error);
 
-            router.push('/');
+            router.push(redirectUrl);
         } catch {
             setError('ارسال درخواست به سرور با خطا مواجه شد. لطفا بعدا تلاش کنید!');
         } finally {
