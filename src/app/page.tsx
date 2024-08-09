@@ -59,7 +59,7 @@ export default () => {
 
     return (
         <>
-            <Box sx={{ height: '300px', backgroundImage: 'url("/images/pages/home/banner-top.png")', backgroundSize: 'cover', backgroundPosition: 'center', position: 'relative', display: 'flex', flexDirection: 'column', alignItems: 'start', justifyContent: 'center', paddingRight: 4, borderRadius: 4 }}>
+            <Box sx={{ height: '300px', boxShadow: '0px 4px 12px rgba(0, 0, 0, 0.3)', backgroundImage: 'url("/images/pages/home/banner-top.png")', backgroundSize: 'cover', backgroundPosition: 'center', position: 'relative', display: 'flex', flexDirection: 'column', alignItems: 'start', justifyContent: 'center', paddingRight: 4, borderRadius: 4 }}>
                 <Box sx={{ mt: 10, mr: 4, display: 'flex', alignItems: 'center', gap: 1 }}>
                     <Button size="large" endIcon={<Inventory />} href="/products/create" variant="contained" color="success" sx={{ display: 'flex', alignItems: 'center', gap: 1.25, width: 'fit-content' }}>
                         ثبت محصول
@@ -109,7 +109,7 @@ export default () => {
             <Grid container spacing={3}>
                 {products.length ? products.map((product) => <ProductCard key={product.id} {...product} />) : <Typography variant="body2">محصولی در این دسته بندی موجود نیست.</Typography>}
             </Grid>
-            <Box sx={{ my: 4, px: 10, height: '230px', borderRadius: 4, background: '#feb204', display: 'flex', justifyContent: 'space-between', gap: 2 }}>
+            <Box sx={{ boxShadow: '0px 4px 12px rgba(0, 0, 0, 0.3)', my: 4, px: 10, height: '230px', borderRadius: 4, background: '#feb204', display: 'flex', justifyContent: 'space-between', gap: 2 }}>
                 <Box sx={{ display: 'flex', flexDirection: 'column', gap: 2, height: '100%', justifyContent: 'center' }}>
                     <Typography variant="h6" color="black" fontWeight="bold">
                         همین حالا محصولات خود را به صورت رایگان در تناژ ثبت کنید!
@@ -161,7 +161,7 @@ export default () => {
             ) : (
                 <Typography variant="body2">محصول مورد نیازی در این دسته بندی موجود نیست.</Typography>
             )}
-            <Box sx={{ my: 4, px: 10, height: '230px', borderRadius: 4, background: '#feb204', display: 'flex', justifyContent: 'space-between', gap: 2 }}>
+            <Box sx={{ boxShadow: '0px 4px 12px rgba(0, 0, 0, 0.3)', my: 4, px: 10, height: '230px', borderRadius: 4, background: '#feb204', display: 'flex', justifyContent: 'space-between', gap: 2 }}>
                 <Box sx={{ display: 'flex', flexDirection: 'column', gap: 2, height: '100%', justifyContent: 'center' }}>
                     <Typography variant="h6" color="black" fontWeight="bold">
                         محصول مورد نیاز خود را همین حالا در تناژ درخواست کنید!
