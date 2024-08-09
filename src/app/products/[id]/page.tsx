@@ -80,13 +80,10 @@ export default ({ params }: { params: { id: string } }) => {
 
                 if (mapContainerRef.current) {
                     const latlng = Object.values(productData.location.latlng) as L.LatLngExpression;
-                    const map = L.map(mapContainerRef.current).setView(latlng, 13);
+                    const map = L.map(mapContainerRef.current, { attributionControl: false }).setView(latlng, 13);
 
                     L.tileLayer('https://{s}.tile.openstreetmap.org/{z}/{x}/{y}.png').addTo(map);
-
-                    const options = { icon: L.divIcon({ html: renderToStaticMarkup(<Room sx={{ ms: 1 }} />) }) };
-
-                    L.marker(latlng, options).addTo(map).bindPopup(productData.name).openPopup();
+                    L.marker(latlng, { icon: L.divIcon({ html: renderToStaticMarkup(<Room sx={{ ms: 1 }} />) }) }).addTo(map);
                 }
             } catch (e) {
                 setError(e instanceof Error ? e.message : 'دریافت اطلاعات از دیتابیس با خطا مواجه شد.');
@@ -138,7 +135,6 @@ export default ({ params }: { params: { id: string } }) => {
                     <Typography variant="h6" color="textSecondary" paragraph>
                         <Card sx={{ padding: 2, borderRadius: 4 }}>{product.description}</Card>
                     </Typography>
-                    <Box sx={{ height: '20rem', marginTop: 2, borderRadius: 4, overflow: 'hidden' }} ref={mapContainerRef}></Box>
                 </Grid>
                 <Grid item xs={12} md={6}>
                     <Card sx={{ padding: 2, borderRadius: 4 }}>
@@ -172,6 +168,10 @@ export default ({ params }: { params: { id: string } }) => {
                                 </Box>
                             ))}
                         </Box>
+                        <Box sx={{ my: 2 }}>
+                            <Divider />
+                        </Box>
+                        <Box sx={{ height: '20rem', marginTop: 2, borderRadius: 1, overflow: 'hidden' }} ref={mapContainerRef}></Box>
                         <Box sx={{ my: 2 }}>
                             <Divider />
                         </Box>
