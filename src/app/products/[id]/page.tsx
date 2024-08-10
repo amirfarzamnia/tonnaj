@@ -216,7 +216,7 @@ export default ({ params }: { params: { id: string } }) => {
                     <Typography variant="body1">آیا مطمئن هستید که می‌خواهید این محصول را حذف کنید؟</Typography>
                 </DialogContent>
                 <DialogActions>
-                    <Button onClick={handleCloseDeleteModal} color="primary">
+                    <Button onClick={handleCloseDeleteModal} color="primary" variant="contained">
                         انصراف
                     </Button>
                     <Button onClick={handleDeleteProduct} color="error">

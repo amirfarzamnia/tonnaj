@@ -1,6 +1,6 @@
 'use client';
 
-import { Button, CircularProgress, TextField, Box, Grid, Divider, Toolbar, AppBar, Link, Container, Typography, InputAdornment, CssBaseline, Shadows } from '@mui/material';
+import { Button, CircularProgress, TextField, Box, Grid, Divider, Toolbar, AppBar, Link, Container, Typography, InputAdornment, CssBaseline, Shadows, Dialog, DialogActions, DialogContent, DialogContentText, DialogTitle } from '@mui/material';
 import { Search, LightMode, DarkMode, Person, Inventory } from '@mui/icons-material';
 import { createTheme, ThemeProvider, ThemeOptions } from '@mui/material/styles';
 import { TypographyOptions } from '@mui/material/styles/createTypography';
@@ -98,6 +98,7 @@ const schemeOptions: { dark: ThemeOptions; light: ThemeOptions } = {
 };
 
 export default ({ children }: { children: React.ReactNode }) => {
+    const [logoutModalOpen, setLogoutModalOpen] = React.useState<boolean>(false);
     const [isAuthenticated, setIsAuthenticated] = React.useState<boolean>(false);
     const [selectedTheme, setTheme] = React.useState<'dark' | 'light'>('light');
     const [loading, setLoading] = React.useState<boolean>(true);
@@ -167,7 +168,7 @@ export default ({ children }: { children: React.ReactNode }) => {
                                         }}>
                                         {selectedTheme === 'dark' ? <LightMode /> : <DarkMode />}
                                     </Button>
-                                    <Button endIcon={<Person />} onClick={() => (isAuthenticated ? fetch('/api/sessions', { method: 'DELETE' }).then(() => setIsAuthenticated(false)) : (location.href = '/auth'))} variant="outlined" color={isAuthenticated ? 'error' : 'info'} sx={{ display: 'flex', alignItems: 'center', gap: 1, py: 0.82 }}>
+                                    <Button endIcon={<Person />} onClick={() => (isAuthenticated ? setLogoutModalOpen(true) : (location.href = '/auth'))} variant="outlined" color={isAuthenticated ? 'error' : 'info'} sx={{ display: 'flex', alignItems: 'center', gap: 1, py: 0.82 }}>
                                         {isAuthenticated ? 'خروج از اکانت' : 'ورود به اکانت'}
                                     </Button>
                                     <Button endIcon={<Inventory />} href="/products/create" variant="contained" color="success" sx={{ display: 'flex', alignItems: 'center', gap: 1.25, py: 0.82 }}>
@@ -251,6 +252,27 @@ export default ({ children }: { children: React.ReactNode }) => {
                                     {new Date().getFullYear()} © تمامی حقوق این وبسایت برای تناژ محفوظ است.
                                 </Typography>
                             </Box>
+                            <Dialog open={logoutModalOpen} onClose={() => setLogoutModalOpen(false)}>
+                                <DialogTitle>تأیید خروج</DialogTitle>
+                                <DialogContent>
+                                    <DialogContentText>آیا مطمئن هستید که می‌خواهید از حساب کاربری خود خارج شوید؟</DialogContentText>
+                                </DialogContent>
+                                <DialogActions>
+                                    <Button onClick={() => setLogoutModalOpen(false)} color="primary" variant="contained">
+                                        لغو
+                                    </Button>
+                                    <Button
+                                        onClick={() => {
+                                            fetch('/api/sessions', { method: 'DELETE' }).then(() => {
+                                                setIsAuthenticated(false);
+                                                setLogoutModalOpen(false);
+                                            });
+                                        }}
+                                        color="error">
+                                        خروج
+                                    </Button>
+                                </DialogActions>
+                            </Dialog>
                         </>
                     )}
                 </Box>
