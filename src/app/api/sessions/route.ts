@@ -1,8 +1,8 @@
 import { NextRequest, NextResponse } from 'next/server';
 import findSession from '@/functions/find-session';
+import { randomBytes } from 'node:crypto';
 import { AuthTypes } from '@/types/auth';
 import { database } from '@/mongodb';
-import { randomBytes } from 'crypto';
 
 const verificationCodes: { [phone_number: AuthTypes['phone_number']]: { code: AuthTypes['verification_code']; name: AuthTypes['name']; expiresAt: number; attempts: number } } = {};
 

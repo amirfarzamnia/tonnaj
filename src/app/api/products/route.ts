@@ -2,8 +2,10 @@ import { ProductTypes, ProductRequestTypes } from '@/types/product';
 import { NextResponse, NextRequest } from 'next/server';
 import findSession from '@/functions/find-session';
 import categories from '@/constants/categories';
+import { randomBytes } from 'node:crypto';
 import { database } from '@/mongodb';
-import { randomBytes } from 'crypto';
+import path from 'node:path';
+import fs from 'node:fs';
 
 export const POST = async (request: NextRequest) => {
     const { product, product_request, method }: { product?: ProductTypes; product_request?: ProductRequestTypes; method: string } = await request.json();
@@ -14,6 +16,8 @@ export const POST = async (request: NextRequest) => {
     const entity = { create: product, request: product_request }[method];
 
     if (!entity) return NextResponse.json({ error: 'پارامتر محصول یا درخواست محصول ارسال نشده.' }, { status: 400 });
+
+    const id = randomBytes(3).toString('hex');
 
     if (!Array.isArray(entity.categories) || entity.categories.some((category) => !categories.includes(category))) return NextResponse.json({ error: 'دسته بندی ها به درستی ارسال نشده اند.' }, { status: 400 });
 
@@ -33,9 +37,22 @@ export const POST = async (request: NextRequest) => {
         if (typeof prod.price !== 'number' || !(prod.price >= 10000 && prod.price <= 10000000000)) return NextResponse.json({ error: 'هزینه محصول باید بین ده هزار تومان تا ده میلیارد تومان باشد.' }, { status: 400 });
 
         if (!/^.{5,50}$/.test(prod.name)) return NextResponse.json({ error: 'نام محصول باید بین 5 تا 50 حرف باشد.' }, { status: 400 });
-    }
 
-    const id = randomBytes(3).toString('hex');
+        const images = prod.images.map((image, index) => {
+            const matches = image.match(/^data:image\/(\w+);base64,(.+)$/);
+
+            if (!matches) return;
+
+            const file = id + '-' + index;
+            const filePath = path.join(process.cwd(), 'public', 'images', 'products', file + '.' + matches[1]);
+
+            fs.writeFileSync(filePath, Buffer.from(matches[2], 'base64'));
+
+            return file;
+        });
+
+        prod.images = images.filter((filename): filename is string => typeof filename === 'string');
+    }
 
     await database.collection(method === 'create' ? 'products' : 'product_requests').insertOne({ ...entity, id, timestamp: Date.now(), author: session, available: true });
 

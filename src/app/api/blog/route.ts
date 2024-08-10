@@ -1,5 +1,5 @@
-import { database } from '@/mongodb';
 import { NextRequest, NextResponse } from 'next/server';
+import { database } from '@/mongodb';
 
 export const GET = async (request: NextRequest) => {
     const { searchParams } = new URL(request.url);
