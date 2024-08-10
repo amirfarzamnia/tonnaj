@@ -3,12 +3,12 @@
 import { Typography, TextField, Button, Box, Divider, CircularProgress } from '@mui/material';
 import { useRouter, useSearchParams } from 'next/navigation';
 import { AuthTypes } from '@/types/auth';
-import React, { FormEvent } from 'react';
+import React from 'react';
 
-const VerificationStep: React.FC<{ label: string; value: string; error: string; loading: boolean; buttonText: string; onSubmit: () => void; onChange: (e: React.ChangeEvent<HTMLInputElement>) => void }> = ({ label, value, error, loading, buttonText, onSubmit, onChange }) => (
-    <Box component="form" noValidate autoComplete="off">
+const VerificationStep: React.FC<{ label: string; value: string; error: string; loading: boolean; buttonText: string; onSubmit: (e: React.FormEvent) => void; onChange: (e: React.ChangeEvent<HTMLInputElement>) => void }> = ({ label, value, error, loading, buttonText, onSubmit, onChange }) => (
+    <Box component="form" noValidate autoComplete="off" onSubmit={onSubmit}>
         <TextField fullWidth label={label} variant="outlined" margin="normal" value={value} onChange={onChange} error={!!error} helperText={error} />
-        <Button sx={{ mt: 2, py: 2 }} fullWidth variant="contained" color="primary" disabled={loading} onClick={onSubmit}>
+        <Button sx={{ mt: 2, py: 2 }} fullWidth variant="contained" color="primary" disabled={loading} type="submit">
             {loading ? <CircularProgress size={24} /> : buttonText}
         </Button>
     </Box>

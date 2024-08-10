@@ -1,10 +1,10 @@
 'use client';
 
-import { Button, CircularProgress, TextField, Box, Grid, Divider, Toolbar, AppBar, Link, Container, Typography, InputAdornment, CssBaseline, Shadows, Dialog, DialogActions, DialogContent, DialogContentText, DialogTitle } from '@mui/material';
+import { Button, CircularProgress, TextField, Box, Grid, Divider, Toolbar, AppBar, Link, Container, Typography, InputAdornment, CssBaseline, Shadows, Dialog, DialogActions, DialogContent, DialogContentText, DialogTitle, Menu, MenuItem, Paper } from '@mui/material';
 import { Search, LightMode, DarkMode, Person, Inventory } from '@mui/icons-material';
 import { createTheme, ThemeProvider, ThemeOptions } from '@mui/material/styles';
 import { TypographyOptions } from '@mui/material/styles/createTypography';
-import React from 'react';
+import React, { MouseEvent } from 'react';
 
 import './index.css';
 
@@ -102,6 +102,36 @@ export default ({ children }: { children: React.ReactNode }) => {
     const [isAuthenticated, setIsAuthenticated] = React.useState<boolean>(false);
     const [selectedTheme, setTheme] = React.useState<'dark' | 'light'>('light');
     const [loading, setLoading] = React.useState<boolean>(true);
+    const [anchorEl, setAnchorEl] = React.useState<null | HTMLElement>(null);
+    const [navItem, setNavItem] = React.useState<string[]>([]);
+
+    const handleMenuOpen = (event: MouseEvent<HTMLElement>) => {
+        setAnchorEl(event.currentTarget);
+        navItem.length !== 0 && setNavItem([]);
+    };
+
+    const handleMenuClose = () => {
+        setAnchorEl(null);
+    };
+
+    const handleThemeChange = () => {
+        setTheme((previousTheme) => {
+            const nextTheme = previousTheme === 'dark' ? 'light' : 'dark';
+            localStorage.setItem('selected-theme', nextTheme);
+            return nextTheme;
+        });
+    };
+
+    const navbar = [
+        {
+            name: 'اره',
+            value: ['حسینعلی', 'علییی']
+        },
+        {
+            name: 'نه',
+            value: ['سلام', 'خدافظ']
+        }
+    ];
 
     React.useEffect(() => {
         const theme = (localStorage.getItem('selected-theme') as 'dark' | 'light') || (matchMedia('(prefers-color-scheme: dark)').matches ? 'dark' : 'light');
@@ -144,8 +174,38 @@ export default ({ children }: { children: React.ReactNode }) => {
                                         }}
                                         variant="outlined"
                                         size="small"
-                                        sx={{ flexGrow: 1, background: theme.palette.background.default }}
+                                        sx={{ flexGrow: 1, background: 'background.default' }} // Adjust theme usage if necessary
                                     />
+                                    <Button onClick={handleMenuOpen} variant="outlined" color="info" sx={{ mx: 1 }}>
+                                        منو
+                                    </Button>
+
+                                    <Menu
+                                        anchorEl={anchorEl}
+                                        open={Boolean(anchorEl)}
+                                        onClose={handleMenuClose}
+                                        PaperProps={{
+                                            style: {
+                                                width: 'auto' // Adjust width as needed
+                                            }
+                                        }}>
+                                        <Box sx={{ display: 'flex', width: '100%' }}>
+                                            <Paper sx={{ flex: 1, borderLeft: 2, padding: 1, backgroundColor: 'transparent' }}>
+                                                {navbar.map((item, index) => {
+                                                    return (
+                                                        <MenuItem key={index} onClick={handleMenuClose} onMouseEnter={() => setNavItem(item.value)}>
+                                                            {item.name}
+                                                        </MenuItem>
+                                                    );
+                                                })}
+                                            </Paper>
+                                            <Paper sx={{ flex: 1, padding: 1, backgroundColor: 'transparent' }}>
+                                                {navItem.map((item, index) => {
+                                                    return <MenuItem key={index}>{item}</MenuItem>;
+                                                })}
+                                            </Paper>
+                                        </Box>
+                                    </Menu>
                                     <Box sx={{ display: 'flex', overflowX: 'auto', whiteSpace: 'nowrap' }}>
                                         {Object.entries({ 'بلاگ تناژ': '/blog', 'قوانین استفاده از تناژ': '/terms-of-service', 'تماس با تناژ': '/contact-us' }).map(([name, url]) => (
                                             <Button href={url} key={name} sx={{ mx: 1 }}>
@@ -153,22 +213,10 @@ export default ({ children }: { children: React.ReactNode }) => {
                                             </Button>
                                         ))}
                                     </Box>
-                                    <Button
-                                        sx={{ py: 0.82 }}
-                                        variant="outlined"
-                                        color="info"
-                                        onClick={() => {
-                                            setTheme((previousTheme) => {
-                                                const nextTheme = previousTheme === 'dark' ? 'light' : 'dark';
-
-                                                localStorage.setItem('selected-theme', nextTheme);
-
-                                                return nextTheme;
-                                            });
-                                        }}>
+                                    <Button sx={{ py: 0.82 }} variant="outlined" color="info" onClick={handleThemeChange}>
                                         {selectedTheme === 'dark' ? <LightMode /> : <DarkMode />}
                                     </Button>
-                                    <Button endIcon={<Person />} onClick={() => (isAuthenticated ? setLogoutModalOpen(true) : (location.href = '/auth'))} variant="outlined" color={isAuthenticated ? 'error' : 'info'} sx={{ display: 'flex', alignItems: 'center', gap: 1, py: 0.82 }}>
+                                    <Button endIcon={<Person />} onClick={() => (isAuthenticated ? setLogoutModalOpen(true) : (window.location.href = '/auth'))} variant="outlined" color={isAuthenticated ? 'error' : 'info'} sx={{ display: 'flex', alignItems: 'center', gap: 1, py: 0.82 }}>
                                         {isAuthenticated ? 'خروج از اکانت' : 'ورود به اکانت'}
                                     </Button>
                                     <Button endIcon={<Inventory />} href="/products/create" variant="contained" color="success" sx={{ display: 'flex', alignItems: 'center', gap: 1.25, py: 0.82 }}>
@@ -176,6 +224,7 @@ export default ({ children }: { children: React.ReactNode }) => {
                                     </Button>
                                 </Toolbar>
                             </AppBar>
+
                             <Container sx={{ padding: 2, borderRadius: 4, mt: 12.5 }} maxWidth="xl">
                                 {children}
                             </Container>
