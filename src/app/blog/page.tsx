@@ -2,6 +2,7 @@
 
 import { Button, Box, Card, Divider, Grid, Typography, CircularProgress, CardContent, Link } from '@mui/material';
 import { useSearchParams } from 'next/navigation';
+import { ArrowBack } from '@mui/icons-material';
 import { useEffect, useState } from 'react';
 import { BlogTypes } from '@/types/blog';
 
@@ -57,7 +58,7 @@ export default () => {
                                 <Typography variant="body1" color="textSecondary" sx={{ mb: 2 }}>
                                     {content.slice(0, 150)}...
                                 </Typography>
-                                <Button href={'/blog/' + name} variant="outlined" color="info" sx={{ width: '100%' }}>
+                                <Button endIcon={<ArrowBack />} href={'/blog/' + name} variant="outlined" color="info" sx={{ 'mt': 2, 'width': '100%', 'py': 2, 'display': 'flex', 'alignItems': 'center', 'gap': 2, 'borderRadius': 1, '&:hover .MuiSvgIcon-root': { transform: 'translateX(-5px)', transition: 'transform 0.3s ease' } }}>
                                     مشاهده
                                 </Button>
                                 <Box sx={{ my: 2 }}>
