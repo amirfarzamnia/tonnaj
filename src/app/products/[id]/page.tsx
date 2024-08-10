@@ -1,7 +1,7 @@
 'use client';
 
 import { Box, Button, Grid, Typography, Card, Link, IconButton, CircularProgress, Divider, Dialog, DialogActions, DialogContent, DialogTitle } from '@mui/material';
-import { Person, Category, Telegram, WhatsApp, LocationOn, Tag, Phone, Room } from '@mui/icons-material';
+import { Person, Category, Telegram, WhatsApp, LocationOn, Tag, Phone, Room, Delete } from '@mui/icons-material';
 import { renderToStaticMarkup } from 'react-dom/server';
 import { Swiper, SwiperSlide } from 'swiper/react';
 import { ProductTypes } from '@/types/product';
@@ -117,7 +117,7 @@ export default ({ params }: { params: { id: string } }) => {
                             تماس با فروشنده
                         </Button>
                         {isOwnProduct && (
-                            <Button onClick={handleOpenDeleteModal} variant="contained" color="error" sx={{ mt: 2, width: '100%', py: 2, display: 'flex', alignItems: 'center', gap: 1 }}>
+                            <Button endIcon={<Delete />} onClick={handleOpenDeleteModal} variant="contained" color="error" sx={{ mt: 2, width: '100%', py: 2, display: 'flex', alignItems: 'center', gap: 1 }}>
                                 حذف محصول
                             </Button>
                         )}
