@@ -64,128 +64,131 @@ export default ({ method }: { method: 'create' | 'request' }) => {
     const handleInputChange = (key: string, value: any) => setProduct((prevProduct) => ({ ...prevProduct, [key]: value }));
 
     return (
-        <Box
-            component="form"
-            onSubmit={async (e: React.FormEvent) => {
-                e.preventDefault();
+        <>
+            <Box sx={{ height: '300px', boxShadow: '0px 4px 12px rgba(0, 0, 0, 0.3)', backgroundImage: 'url("/images/pages/products/' + method + '/banner.png")', backgroundSize: 'cover', backgroundPosition: 'center', position: 'relative', display: 'flex', flexDirection: 'column', alignItems: 'start', justifyContent: 'center', borderRadius: 4, mb: 10 }}></Box>
+            <Box
+                component="form"
+                onSubmit={async (e: React.FormEvent) => {
+                    e.preventDefault();
 
-                const response = await fetch('/api/products', { method: 'POST', headers: { 'Content-Type': 'application/json' }, body: JSON.stringify({ method, ...(method === 'create' ? { product } : { product_request: product }) }) });
-                const json = await response.json();
+                    const response = await fetch('/api/products', { method: 'POST', headers: { 'Content-Type': 'application/json' }, body: JSON.stringify({ method, ...(method === 'create' ? { product } : { product_request: product }) }) });
+                    const json = await response.json();
 
-                setSnackbarMessage(json.message || json.error);
-                setSnackbarSeverity(response.ok ? 'success' : 'error');
+                    setSnackbarMessage(json.message || json.error);
+                    setSnackbarSeverity(response.ok ? 'success' : 'error');
 
-                if (response.ok) {
-                    if (method === 'create') {
-                        setProduct(initialProductState);
+                    if (response.ok) {
+                        if (method === 'create') {
+                            setProduct(initialProductState);
 
-                        setTimeout(() => router.push('/products/' + json.id), 2500);
+                            setTimeout(() => router.push('/products/' + json.id), 2500);
+                        }
+
+                        if (method === 'request') setProduct(initialProductRequestState);
                     }
 
-                    if (method === 'request') setProduct(initialProductRequestState);
-                }
-
-                setSnackbarOpen(true);
-            }}
-            sx={{ width: '80%', mx: 'auto' }}>
-            <Box sx={{ width: '100%', display: 'flex', flexDirection: 'column', alignItems: 'center', padding: '16px' }}>
-                <Grid container spacing={2} sx={{ width: '100%' }}>
-                    <Box>
-                        <Typography variant="h6" gutterBottom>
-                            موقعیت مکانی دقیق خود را از طریق نقشه زیر انتخاب کنید.
-                        </Typography>
-                        <Typography variant="body2" gutterBottom>
-                            توجه داشته باشید که این موقعیت مکانی برای همه قابل مشاهده خواهد بود.
-                        </Typography>
-                    </Box>
-                    <Grid item xs={12}>
-                        <Box ref={mapRef} sx={{ height: '25rem', width: '100%', border: 1, borderColor: 'rgba(133, 133, 133, 0.5)', borderRadius: 1 }}></Box>
-                    </Grid>
-                    <Box sx={{ width: '98.5%', mt: 5 }}>
-                        <Divider />
-                    </Box>
-                    {method === 'create' && (
-                        <>
-                            <Grid item xs={12}>
-                                <Grid container spacing={2} sx={{ mt: 0 }}>
-                                    {(product as ProductTypes).images.map((src, index) => (
-                                        <Grid item xs={2} key={index}>
-                                            <Box sx={{ position: 'relative', width: '100%', height: '100%' }}>
-                                                <IconButton
-                                                    onClick={() => {
-                                                        handleInputChange(
-                                                            'images',
-                                                            (product as ProductTypes).images.filter((_, i) => i !== index)
-                                                        );
-                                                    }}
-                                                    size="small"
-                                                    sx={{ position: 'absolute', top: -17.5, right: -17.5, zIndex: 1, color: 'red', background: 'rgba(0, 0, 0, 0.05)', border: 1, borderColor: 'rgba(133, 133, 133, 0.5)' }}>
-                                                    <Clear />
-                                                </IconButton>
-                                                <Box component="img" loading="lazy" src={src} alt={`عکس شماره ${index}`} sx={{ width: '100%', height: '100%', borderRadius: '4px', objectFit: 'cover' }} />
-                                            </Box>
-                                        </Grid>
-                                    ))}
+                    setSnackbarOpen(true);
+                }}
+                sx={{ width: '80%', mx: 'auto' }}>
+                <Box sx={{ width: '100%', display: 'flex', flexDirection: 'column', alignItems: 'center', padding: '16px' }}>
+                    <Grid container spacing={2} sx={{ width: '100%' }}>
+                        <Box>
+                            <Typography variant="h6" gutterBottom>
+                                موقعیت مکانی دقیق خود یا محصول خود را از طریق نقشه زیر انتخاب کنید.
+                            </Typography>
+                            <Typography variant="body2" gutterBottom>
+                                توجه داشته باشید که این موقعیت مکانی برای همه قابل مشاهده خواهد بود.
+                            </Typography>
+                        </Box>
+                        <Grid item xs={12}>
+                            <Box ref={mapRef} sx={{ height: '25rem', width: '100%', border: 1, borderColor: 'rgba(133, 133, 133, 0.5)', borderRadius: 1 }}></Box>
+                        </Grid>
+                        <Box sx={{ width: '98.5%', mt: 5 }}>
+                            <Divider />
+                        </Box>
+                        {method === 'create' && (
+                            <>
+                                <Grid item xs={12}>
+                                    <Grid container spacing={2} sx={{ mt: 0 }}>
+                                        {(product as ProductTypes).images.map((src, index) => (
+                                            <Grid item xs={2} key={index}>
+                                                <Box sx={{ position: 'relative', width: '100%', height: '100%' }}>
+                                                    <IconButton
+                                                        onClick={() => {
+                                                            handleInputChange(
+                                                                'images',
+                                                                (product as ProductTypes).images.filter((_, i) => i !== index)
+                                                            );
+                                                        }}
+                                                        size="small"
+                                                        sx={{ position: 'absolute', top: -17.5, right: -17.5, zIndex: 1, color: 'red', background: 'rgba(0, 0, 0, 0.05)', border: 1, borderColor: 'rgba(133, 133, 133, 0.5)' }}>
+                                                        <Clear />
+                                                    </IconButton>
+                                                    <Box component="img" loading="lazy" src={src} alt={`عکس شماره ${index}`} sx={{ width: '100%', height: '100%', borderRadius: '4px', objectFit: 'cover' }} />
+                                                </Box>
+                                            </Grid>
+                                        ))}
+                                    </Grid>
                                 </Grid>
-                            </Grid>
-                            <Grid item xs={12}>
-                                <Box sx={{ width: '100%', height: '30vh', display: 'flex', alignItems: 'center', borderRadius: 1, justifyContent: 'center', border: 1, borderColor: 'rgba(133, 133, 133, 0.5)', padding: '16px', marginTop: '16px' }}>
-                                    <Box component="label" htmlFor="img" sx={{ cursor: 'pointer', width: '100%', display: 'flex', flexDirection: 'column', alignItems: 'center', justifyContent: 'center' }}>
-                                        <Add fontSize="large" />
-                                        <Typography variant="body2" sx={{ marginTop: '10px' }}>
-                                            تصاویر محصول را اینجا بارگذاری کنید.
-                                        </Typography>
-                                        <input
-                                            ref={fileInputRef}
-                                            id="img"
-                                            type="file"
-                                            accept="image/*"
-                                            style={{ display: 'none' }}
-                                            onChange={(e) => {
-                                                const files = Array.from(e.target.files || []);
+                                <Grid item xs={12}>
+                                    <Box sx={{ width: '100%', height: '30vh', display: 'flex', alignItems: 'center', borderRadius: 1, justifyContent: 'center', border: 1, borderColor: 'rgba(133, 133, 133, 0.5)', padding: '16px', marginTop: '16px' }}>
+                                        <Box component="label" htmlFor="img" sx={{ cursor: 'pointer', width: '100%', display: 'flex', flexDirection: 'column', alignItems: 'center', justifyContent: 'center' }}>
+                                            <Add fontSize="large" />
+                                            <Typography variant="body2" sx={{ marginTop: '10px' }}>
+                                                تصاویر محصول را اینجا بارگذاری کنید.
+                                            </Typography>
+                                            <input
+                                                ref={fileInputRef}
+                                                id="img"
+                                                type="file"
+                                                accept="image/*"
+                                                style={{ display: 'none' }}
+                                                onChange={(e) => {
+                                                    const files = Array.from(e.target.files || []);
 
-                                                if (files.length) handleInputChange('images', [...(product as ProductTypes).images, ...files.map((file) => URL.createObjectURL(file))]);
-                                            }}
-                                            multiple
-                                        />
+                                                    if (files.length) handleInputChange('images', [...(product as ProductTypes).images, ...files.map((file) => URL.createObjectURL(file))]);
+                                                }}
+                                                multiple
+                                            />
+                                        </Box>
                                     </Box>
-                                </Box>
-                            </Grid>
-                            <Grid item xs={12}>
-                                <TextField required fullWidth label="نام محصول" value={(product as ProductTypes).name} onChange={(e) => handleInputChange('name', e.target.value)} />
-                            </Grid>
-                            <Grid item xs={12}>
-                                <TextField required fullWidth type="number" label="قیمت محصول (تومان)" value={(product as ProductTypes).price || ''} onChange={(e) => handleInputChange('price', Number(e.target.value))} />
-                            </Grid>
-                        </>
-                    )}
-                    <Grid item xs={12}>
-                        <FormControl fullWidth>
-                            <InputLabel>دسته بندی</InputLabel>
-                            <Select multiple value={product.categories} onChange={(e) => handleInputChange('categories', e.target.value)} renderValue={(selected) => (selected as string[]).join(', ')}>
-                                {categories.map((category, index) => (
-                                    <MenuItem key={index} value={category}>
-                                        {category}
-                                    </MenuItem>
-                                ))}
-                            </Select>
-                        </FormControl>
+                                </Grid>
+                                <Grid item xs={12}>
+                                    <TextField required fullWidth label="نام محصول" value={(product as ProductTypes).name} onChange={(e) => handleInputChange('name', e.target.value)} />
+                                </Grid>
+                                <Grid item xs={12}>
+                                    <TextField required fullWidth type="number" label="قیمت محصول (تومان)" value={(product as ProductTypes).price || ''} onChange={(e) => handleInputChange('price', Number(e.target.value))} />
+                                </Grid>
+                            </>
+                        )}
+                        <Grid item xs={12}>
+                            <FormControl fullWidth>
+                                <InputLabel>دسته بندی</InputLabel>
+                                <Select multiple value={product.categories} onChange={(e) => handleInputChange('categories', e.target.value)} renderValue={(selected) => (selected as string[]).join(', ')}>
+                                    {categories.map((category, index) => (
+                                        <MenuItem key={index} value={category}>
+                                            {category}
+                                        </MenuItem>
+                                    ))}
+                                </Select>
+                            </FormControl>
+                        </Grid>
+                        <Grid item xs={12}>
+                            <TextareaAutosize required minRows={4} value={product.description} onChange={(e) => handleInputChange('description', e.target.value)} placeholder="توضیحات محصول را اینجا بنویسید..." style={{ width: '100%', borderRadius: '4px', border: '1px solid rgba(133, 133, 133, 0.5)', background: 'transparent', padding: '12px' }} />
+                        </Grid>
+                        <Grid item xs={12}>
+                            <Button type="submit" variant="contained" color={method === 'create' ? 'success' : 'secondary'}>
+                                {method === 'create' ? 'ثبت محصول' : 'درخواست محصول'}
+                            </Button>
+                        </Grid>
                     </Grid>
-                    <Grid item xs={12}>
-                        <TextareaAutosize required minRows={4} value={product.description} onChange={(e) => handleInputChange('description', e.target.value)} placeholder="توضیحات محصول را اینجا بنویسید..." style={{ width: '100%', borderRadius: '4px', border: '1px solid rgba(133, 133, 133, 0.5)', background: 'transparent', padding: '12px' }} />
-                    </Grid>
-                    <Grid item xs={12}>
-                        <Button type="submit" variant="contained" color={method === 'create' ? 'success' : 'secondary'}>
-                            {method === 'create' ? 'ثبت محصول' : 'درخواست محصول'}
-                        </Button>
-                    </Grid>
-                </Grid>
+                </Box>
+                <Snackbar open={snackbarOpen} autoHideDuration={4000} onClose={handleCloseSnackbar}>
+                    <Alert onClose={handleCloseSnackbar} severity={snackbarSeverity} sx={{ width: '100%' }}>
+                        {snackbarMessage}
+                    </Alert>
+                </Snackbar>
             </Box>
-            <Snackbar open={snackbarOpen} autoHideDuration={4000} onClose={handleCloseSnackbar}>
-                <Alert onClose={handleCloseSnackbar} severity={snackbarSeverity} sx={{ width: '100%' }}>
-                    {snackbarMessage}
-                </Alert>
-            </Snackbar>
-        </Box>
+        </>
     );
 };
