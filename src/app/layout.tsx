@@ -4,6 +4,7 @@ import { Button, CircularProgress, TextField, Box, Grid, Divider, Toolbar, AppBa
 import { Search, LightMode, DarkMode, Person, Inventory } from '@mui/icons-material';
 import { createTheme, ThemeProvider, ThemeOptions } from '@mui/material/styles';
 import { TypographyOptions } from '@mui/material/styles/createTypography';
+import { MegaMenu } from 'primereact/megamenu';
 import React, { MouseEvent } from 'react';
 
 import './index.css';
@@ -122,14 +123,18 @@ export default ({ children }: { children: React.ReactNode }) => {
         });
     };
 
-    const navbar = [
+    const items = [
         {
-            name: 'menu 1',
-            value: ['0', '1']
-        },
-        {
-            name: 'menu 2',
-            value: ['2', '3']
+            label: 'منو',
+            icon: 'pi pi-box',
+            items: [
+                [
+                    {
+                        label: 'کشاورزی',
+                        items: [{ label: 'Accessories' }, { label: 'Armchair' }, { label: 'Coffee Table' }, { label: 'Couch' }, { label: 'TV Stand' }]
+                    }
+                ]
+            ]
         }
     ];
 
@@ -163,6 +168,11 @@ export default ({ children }: { children: React.ReactNode }) => {
                                     <Link href="/" underline="none">
                                         <Box width={85} component="img" loading="lazy" alt="لوگوی تناژ" src="/images/icons/tonnaj.png" />
                                     </Link>
+
+                                    <Box>
+                                        <MegaMenu model={items} breakpoint="960px"></MegaMenu>
+                                    </Box>
+
                                     <TextField
                                         placeholder="جست و جوی محصول..."
                                         InputProps={{
@@ -176,36 +186,7 @@ export default ({ children }: { children: React.ReactNode }) => {
                                         size="small"
                                         sx={{ flexGrow: 1, background: 'background.default' }} // Adjust theme usage if necessary
                                     />
-                                    <Button onClick={handleMenuOpen} variant="outlined" color="info" sx={{ mx: 1 }}>
-                                        منو
-                                    </Button>
 
-                                    <Menu
-                                        anchorEl={anchorEl}
-                                        open={Boolean(anchorEl)}
-                                        onClose={handleMenuClose}
-                                        PaperProps={{
-                                            style: {
-                                                width: 'auto' // Adjust width as needed
-                                            }
-                                        }}>
-                                        <Box sx={{ display: 'flex', width: '100%' }}>
-                                            <Paper sx={{ flex: 1, borderLeft: 2, padding: 1, backgroundColor: 'transparent' }}>
-                                                {navbar.map((item, index) => {
-                                                    return (
-                                                        <MenuItem key={index} onClick={handleMenuClose} onMouseEnter={() => setNavItem(item.value)}>
-                                                            {item.name}
-                                                        </MenuItem>
-                                                    );
-                                                })}
-                                            </Paper>
-                                            <Paper sx={{ flex: 1, padding: 1, backgroundColor: 'transparent' }}>
-                                                {navItem.map((item, index) => {
-                                                    return <MenuItem key={index}>{item}</MenuItem>;
-                                                })}
-                                            </Paper>
-                                        </Box>
-                                    </Menu>
                                     <Box sx={{ display: 'flex', overflowX: 'auto', whiteSpace: 'nowrap' }}>
                                         {Object.entries({ 'بلاگ تناژ': '/blog', 'قوانین استفاده از تناژ': '/terms-of-service', 'تماس با تناژ': '/contact-us' }).map(([name, url]) => (
                                             <Button href={url} key={name} sx={{ mx: 1 }}>
