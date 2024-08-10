@@ -60,8 +60,18 @@ export const GET = async (request: NextRequest) => {
 
     const filter = id ? { id } : categories ? { categories: { $in: categories.split(',').map((cat) => cat.trim()) } } : {};
 
+    const start = parseInt(searchParams.get('start') || '0', 10);
+    const end = parseInt(searchParams.get('end') || '10', 10);
+
     const collection = searchParams.get('type') === 'request' ? 'product_requests' : 'products';
-    const data = await database.collection(collection).find(filter).sort(sort).toArray();
+
+    const data = await database
+        .collection(collection)
+        .find(filter)
+        .sort(sort)
+        .skip(start)
+        .limit(end - start)
+        .toArray();
 
     return NextResponse.json(data, { status: 200 });
 };

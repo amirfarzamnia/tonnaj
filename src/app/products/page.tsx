@@ -9,25 +9,41 @@ export default () => {
     const [products, setProducts] = React.useState<ProductTypes[]>([]);
     const [error, setError] = React.useState<string | null>(null);
     const [loading, setLoading] = React.useState<boolean>(true);
+    const [hasMore, setHasMore] = React.useState<boolean>(true);
+    const [start, setStart] = React.useState<number>(0);
+
+    const fetchProducts = async (start: number, end: number) => {
+        try {
+            const response = await fetch('/api/products?filters=newest&start=' + start + '&end=' + end);
+            const data = await response.json();
+
+            if (data.length > 0) {
+                setProducts((prevProducts) => [...prevProducts, ...data]);
+                setStart(end);
+            } else {
+                setHasMore(false);
+            }
+        } catch {
+            setError('دریافت اطلاعات از دیتابیس با خطا مواجه شد.');
+        } finally {
+            setLoading(false);
+        }
+    };
 
     React.useEffect(() => {
-        (async () => {
-            setLoading(true);
-
-            try {
-                const productsResponse = await fetch('/api/products?filters=newest');
-                const productsData = await productsResponse.json();
-
-                setProducts(productsData);
-            } catch {
-                setError('دریافت اطلاعات از دیتابیس با خطا مواجه شد.');
-            } finally {
-                setLoading(false);
-            }
-        })();
+        setLoading(true);
+        fetchProducts(0, 10);
     }, []);
 
-    if (loading) {
+    React.useEffect(() => {
+        const handleScroll = () => innerHeight + scrollY >= document.body.offsetHeight - 500 && hasMore && !loading && fetchProducts(start, start + 10);
+
+        addEventListener('scroll', handleScroll);
+
+        return () => removeEventListener('scroll', handleScroll);
+    }, [start, hasMore, loading]);
+
+    if (loading && start === 0) {
         return (
             <Box sx={{ display: 'flex', justifyContent: 'center', alignItems: 'center', height: '100vh' }}>
                 <CircularProgress />
@@ -35,7 +51,7 @@ export default () => {
         );
     }
 
-    if (!products.length) {
+    if (!products.length && !loading) {
         return (
             <Box sx={{ display: 'flex', flexDirection: 'column', gap: 4, justifyContent: 'center', alignItems: 'center', height: '100vh' }}>
                 <Typography variant="h4">محصولی یافت نشد</Typography>
@@ -49,10 +65,19 @@ export default () => {
     if (error) return <Typography variant="h4">{error}</Typography>;
 
     return (
-        <Grid container spacing={3}>
-            {products.map((product) => (
-                <ProductCard key={product.id} {...product} />
-            ))}
-        </Grid>
+        <>
+            <Grid container spacing={3}>
+                {products.map((product) => (
+                    <Grid item xs={12} sm={6} md={3} key={product.id}>
+                        <ProductCard key={product.id} {...product} />
+                    </Grid>
+                ))}
+            </Grid>
+            {loading && (
+                <Box sx={{ display: 'flex', justifyContent: 'center', alignItems: 'center', marginTop: 2 }}>
+                    <CircularProgress />
+                </Box>
+            )}
+        </>
     );
 };
