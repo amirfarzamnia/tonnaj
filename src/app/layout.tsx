@@ -5,7 +5,7 @@ import { Search, LightMode, DarkMode, Person, Inventory } from '@mui/icons-mater
 import { createTheme, ThemeProvider, ThemeOptions } from '@mui/material/styles';
 import { TypographyOptions } from '@mui/material/styles/createTypography';
 import { MegaMenu } from 'primereact/megamenu';
-import React, { MouseEvent } from 'react';
+import React, { MouseEvent, useState } from 'react';
 
 import './index.css';
 
@@ -105,6 +105,7 @@ export default ({ children }: { children: React.ReactNode }) => {
     const [loading, setLoading] = React.useState<boolean>(true);
     const [anchorEl, setAnchorEl] = React.useState<null | HTMLElement>(null);
     const [navItem, setNavItem] = React.useState<string[]>([]);
+    const [search, setSearch] = useState<string>('');
 
     const handleMenuOpen = (event: MouseEvent<HTMLElement>) => {
         setAnchorEl(event.currentTarget);
@@ -173,19 +174,31 @@ export default ({ children }: { children: React.ReactNode }) => {
                                         <MegaMenu model={items} breakpoint="960px"></MegaMenu>
                                     </Box>
 
-                                    <TextField
-                                        placeholder="جست و جوی محصول..."
-                                        InputProps={{
-                                            startAdornment: (
-                                                <InputAdornment position="start">
-                                                    <Search />
-                                                </InputAdornment>
-                                            )
-                                        }}
-                                        variant="outlined"
-                                        size="small"
-                                        sx={{ flexGrow: 1, background: 'background.default' }} // Adjust theme usage if necessary
-                                    />
+                                    <Box>
+                                        <TextField
+                                            placeholder="جست و جوی محصول..."
+                                            InputProps={{
+                                                startAdornment: (
+                                                    <InputAdornment position="start">
+                                                        <Search />
+                                                    </InputAdornment>
+                                                )
+                                            }}
+                                            variant="outlined"
+                                            value={search}
+                                            onChange={(e) => setSearch(e.target.value)}
+                                            size="small"
+                                            sx={{ flexGrow: 1, background: 'background.default' }} // Adjust theme usage if necessary
+                                        />
+
+                                        {search !== '' && (
+                                            <Box position={'fixed'} mt={2} padding={1} borderRadius={1.5} sx={{ width: '20%', backgroundColor: 'black', border: '2px solid wheat' }}>
+                                                <MenuItem sx={{ borderRadius: 1 }}>سیب زمینی</MenuItem>
+                                                <MenuItem sx={{ borderRadius: 1 }}>سیب زمینی</MenuItem>
+                                                <MenuItem sx={{ borderRadius: 1 }}>سیب زمینی</MenuItem>
+                                            </Box>
+                                        )}
+                                    </Box>
 
                                     <Box sx={{ display: 'flex', overflowX: 'auto', whiteSpace: 'nowrap' }}>
                                         {Object.entries({ 'بلاگ تناژ': '/blog', 'قوانین استفاده از تناژ': '/terms-of-service', 'تماس با تناژ': '/contact-us' }).map(([name, url]) => (
