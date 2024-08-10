@@ -48,12 +48,19 @@
 }
 
 @font-face {
-    src: url(https://cdn.font-store.ir/fonts/ganjnameh/GanjNamehSans-Regular.woff2) format("woff2"), url(https://cdn.font-store.ir/fonts/ganjnameh/GanjNamehSans-Regular.woff) format("woff"), url(https://cdn.font-store.ir/fonts/ganjnameh/GanjNamehSans-Regular.ttf) format("truetype"), url(https://cdn.font-store.ir/fonts/ganjnameh/GanjNamehSans-Regular.otf) format("opentype");
-    font-family: "Ganjnameh";
+    src: url(https://cdn.font-store.ir/fonts/yekan/Yekan-Regular.woff2) format("woff2"), url(https://cdn.font-store.ir/fonts/yekan/Yekan-Regular.woff) format("woff"), url(https://cdn.font-store.ir/fonts/yekan/Yekan-Regular.ttf) format("truetype"), url(https://cdn.font-store.ir/fonts/yekan/Yekan-Regular.otf) format("opentype");
+    font-family: "yekan";
     font-weight: normal;
     font-style: normal;
 }
 
+@font-face {
+    src: url(https://cdn.font-store.ir/fonts/yekan/Yekan-Bold.woff2) format("woff2"), url(https://cdn.font-store.ir/fonts/yekan/Yekan-Bold.woff) format("woff"), url(https://cdn.font-store.ir/fonts/yekan/Yekan-Bold.ttf) format("truetype"), url(https://cdn.font-store.ir/fonts/yekan/Yekan-Bold.otf) format("opentype");
+    font-family: "yekan";
+    font-weight: bold;
+    font-style: normal;
+}
+
 * {
-    font-family: "Ganjnameh", "Roboto", monospace !important;
+    font-family: "yekan", "Roboto", monospace !important;
 }
