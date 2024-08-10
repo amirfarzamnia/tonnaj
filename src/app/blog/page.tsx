@@ -41,7 +41,7 @@ export default () => {
 
     return (
         <>
-            <Box sx={{ height: '300px', boxShadow: '0px 4px 12px rgba(0, 0, 0, 0.3)', backgroundImage: 'url("/images/pages/blog/banner.png")', backgroundSize: 'cover', backgroundPosition: 'center', position: 'relative', display: 'flex', flexDirection: 'column', alignItems: 'start', justifyContent: 'center', borderRadius: 4, mb: 10 }}></Box>
+            <Box sx={{ height: '300px', border: 1, borderColor: 'grey.600', boxShadow: '0px 4px 12px rgba(0, 0, 0, 0.3)', backgroundImage: 'url("/images/pages/blog/banner.png")', backgroundSize: 'cover', backgroundPosition: 'center', position: 'relative', display: 'flex', flexDirection: 'column', alignItems: 'start', justifyContent: 'center', borderRadius: 4, mb: 10 }}></Box>
             <Grid container spacing={3}>
                 {blogs.map(({ content, name, image, categories }, index) => (
                     <Grid item xs={12} sm={6} md={3} key={index}>

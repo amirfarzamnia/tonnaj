@@ -78,7 +78,7 @@ export default () => {
                         </Button>
                     </Box>
                 </Box>
-                <Box component="img" src="/images/pages/products/banner.png" sx={{ objectFit: 'cover', height: '230px' }} />
+                <Box component="img" src="/images/pages/products/banner.png" sx={{ border: 1, borderColor: 'grey.600', objectFit: 'cover', height: '230px' }} />
             </Box>
             <Grid container spacing={3}>
                 {products.map((product) => (
