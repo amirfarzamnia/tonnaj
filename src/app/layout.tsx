@@ -124,12 +124,12 @@ export default ({ children }: { children: React.ReactNode }) => {
 
     const navbar = [
         {
-            name: 'اره',
-            value: ['حسینعلی', 'علییی']
+            name: 'menu 1',
+            value: ['0', '1']
         },
         {
-            name: 'نه',
-            value: ['سلام', 'خدافظ']
+            name: 'menu 2',
+            value: ['2', '3']
         }
     ];
 
