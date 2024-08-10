@@ -45,12 +45,23 @@ export const GET = async (request: NextRequest) => {
 
     const id = searchParams.get('id');
     const categories = searchParams.get('categories');
-    const type = searchParams.get('type') || 'product';
+
+    const sortOptions: Record<string, Record<string, 1 | -1>> = {
+        available: { available: 1 },
+        price_higher: { price: -1 },
+        price_lower: { price: 1 },
+        newest: { timestamp: -1 },
+        oldest: { timestamp: 1 },
+        name: { name: 1 }
+    };
+
+    const filterKeys = searchParams.get('filters')?.split(',') || [];
+    const sort = filterKeys.map((cat) => cat.trim()).reduce((acc, key) => (sortOptions[key] ? { ...acc, ...sortOptions[key] } : acc), {});
 
     const filter = id ? { id } : categories ? { categories: { $in: categories.split(',').map((cat) => cat.trim()) } } : {};
 
-    const collection = type === 'request' ? 'product_requests' : 'products';
-    const data = await database.collection(collection).find(filter).toArray();
+    const collection = searchParams.get('type') === 'request' ? 'product_requests' : 'products';
+    const data = await database.collection(collection).find(filter).sort(sort).toArray();
 
     return NextResponse.json(data, { status: 200 });
 };

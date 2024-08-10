@@ -24,15 +24,15 @@ export default () => {
             setLoading(true);
 
             try {
-                const productsResponse = await fetch('/api/products');
+                const productsResponse = await fetch('/api/products?filters=newest');
                 const productsData = await productsResponse.json();
 
-                setProducts(productsData.sort((a: ProductTypes, b: ProductTypes) => new Date(b.timestamp).getTime() - new Date(a.timestamp).getTime()));
+                setProducts(productsData);
 
-                const requestsResponse = await fetch('/api/products?type=request');
+                const requestsResponse = await fetch('/api/products?filters=newest&type=request');
                 const requestsData = await requestsResponse.json();
 
-                setProductRequests(requestsData.sort((a: ProductRequestTypes, b: ProductRequestTypes) => new Date(b.timestamp).getTime() - new Date(a.timestamp).getTime()));
+                setProductRequests(requestsData);
             } catch {
                 setError('دریافت اطلاعات از دیتابیس با خطا مواجه شد.');
             } finally {
@@ -67,7 +67,9 @@ export default () => {
                 جدیدترین محصولات
             </Typography>
             <Grid container spacing={3}>
-                {products.length ? products.map((product) => <ProductCard key={product.id} {...product} />) : <Typography variant="body2">محصولی در این دسته بندی موجود نیست.</Typography>}
+                {products.map((product) => (
+                    <ProductCard key={product.id} {...product} />
+                ))}
             </Grid>
             <Box sx={{ boxShadow: '0px 4px 12px rgba(0, 0, 0, 0.3)', my: 4, px: 10, height: '230px', borderRadius: 4, background: '#feb204', display: 'flex', justifyContent: 'space-between', gap: 2 }}>
                 <Box sx={{ display: 'flex', flexDirection: 'column', gap: 2, height: '100%', justifyContent: 'center' }}>
@@ -85,42 +87,38 @@ export default () => {
             <Typography variant="h5" sx={{ my: 4 }}>
                 جدیدترین درخواست های خرید محصول
             </Typography>
-            {productRequests.length ? (
-                <Swiper modules={[Pagination, Scrollbar]} slidesPerView={4} spaceBetween={10} pagination={{ clickable: true }} scrollbar={{ draggable: true }}>
-                    {productRequests.map(({ id, author, description, location, categories }) => (
-                        <SwiperSlide key={id} style={{ display: 'flex', justifyContent: 'center', alignItems: 'center', width: '90%', height: 'auto' }}>
-                            <Card sx={{ width: 345, height: '100%', borderRadius: 4, display: 'flex', flexDirection: 'column' }}>
-                                <CardContent sx={{ flex: 1, display: 'flex', flexDirection: 'column' }}>
-                                    <Typography variant="h6" gutterBottom textAlign="center" fontSize="medium">
-                                        {author.name} از {location.city}
-                                    </Typography>
-                                    <Box sx={{ my: 2 }}>
-                                        <Divider />
-                                    </Box>
-                                    <Typography variant="body1" color="textSecondary" gutterBottom sx={{ flex: 1, overflow: 'hidden', textOverflow: 'ellipsis', display: '-webkit-box', WebkitBoxOrient: 'vertical', WebkitLineClamp: 3 }}>
-                                        {description.slice(0, 100)}
-                                    </Typography>
-                                    <Button endIcon={<Phone />} href={'tel:' + author.phone_number} variant="outlined" color="secondary" sx={{ mt: 2, width: '100%', py: 2, display: 'flex', alignItems: 'center', gap: 2, borderRadius: 1 }} onClick={(event) => event.stopPropagation()}>
-                                        تماس با خریدار
-                                    </Button>
-                                    <Box sx={{ my: 2 }}>
-                                        <Divider />
-                                    </Box>
-                                    <Typography variant="body2" color="textSecondary" sx={{ display: 'flex', alignItems: 'center', gap: 1 }}>
-                                        {categories.map((category) => (
-                                            <Link key={category} fontSize="smaller" href={'?categories=' + category}>
-                                                {category}
-                                            </Link>
-                                        ))}
-                                    </Typography>
-                                </CardContent>
-                            </Card>
-                        </SwiperSlide>
-                    ))}
-                </Swiper>
-            ) : (
-                <Typography variant="body2">محصول مورد نیازی در این دسته بندی موجود نیست.</Typography>
-            )}
+            <Swiper modules={[Pagination, Scrollbar]} slidesPerView={4} spaceBetween={10} pagination={{ clickable: true }} scrollbar={{ draggable: true }}>
+                {productRequests.map(({ id, author, description, location, categories }) => (
+                    <SwiperSlide key={id} style={{ display: 'flex', justifyContent: 'center', alignItems: 'center', width: '90%', height: 'auto' }}>
+                        <Card sx={{ width: 345, height: '100%', borderRadius: 4, display: 'flex', flexDirection: 'column' }}>
+                            <CardContent sx={{ flex: 1, display: 'flex', flexDirection: 'column' }}>
+                                <Typography variant="h6" gutterBottom textAlign="center" fontSize="medium">
+                                    {author.name} از {location.city}
+                                </Typography>
+                                <Box sx={{ my: 2 }}>
+                                    <Divider />
+                                </Box>
+                                <Typography variant="body1" color="textSecondary" gutterBottom sx={{ flex: 1, overflow: 'hidden', textOverflow: 'ellipsis', display: '-webkit-box', WebkitBoxOrient: 'vertical', WebkitLineClamp: 3 }}>
+                                    {description.slice(0, 100)}
+                                </Typography>
+                                <Button endIcon={<Phone />} href={'tel:' + author.phone_number} variant="outlined" color="secondary" sx={{ mt: 2, width: '100%', py: 2, display: 'flex', alignItems: 'center', gap: 2, borderRadius: 1 }} onClick={(event) => event.stopPropagation()}>
+                                    تماس با خریدار
+                                </Button>
+                                <Box sx={{ my: 2 }}>
+                                    <Divider />
+                                </Box>
+                                <Typography variant="body2" color="textSecondary" sx={{ display: 'flex', alignItems: 'center', gap: 1 }}>
+                                    {categories.map((category) => (
+                                        <Link key={category} fontSize="smaller" href={'?categories=' + category}>
+                                            {category}
+                                        </Link>
+                                    ))}
+                                </Typography>
+                            </CardContent>
+                        </Card>
+                    </SwiperSlide>
+                ))}
+            </Swiper>
             <Box sx={{ boxShadow: '0px 4px 12px rgba(0, 0, 0, 0.3)', my: 4, px: 10, height: '230px', borderRadius: 4, background: '#feb204', display: 'flex', justifyContent: 'space-between', gap: 2 }}>
                 <Box sx={{ display: 'flex', flexDirection: 'column', gap: 2, height: '100%', justifyContent: 'center' }}>
                     <Typography variant="h6" color="black" fontWeight="bold">
