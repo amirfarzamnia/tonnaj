@@ -3,7 +3,6 @@
 import { Box, Button, Grid, Typography, Card, Link, IconButton, CircularProgress, Divider, Dialog, DialogActions, DialogContent, DialogTitle } from '@mui/material';
 import { Person, Category, Telegram, WhatsApp, LocationOn, Tag, Phone, Room } from '@mui/icons-material';
 import { renderToStaticMarkup } from 'react-dom/server';
-import ProductCard from '@/components/product-card';
 import { Swiper, SwiperSlide } from 'swiper/react';
 import { ProductTypes } from '@/types/product';
 import { Pagination } from 'swiper/modules';
@@ -16,7 +15,6 @@ import 'swiper/css/pagination';
 import 'swiper/css';
 
 export default ({ params }: { params: { id: string } }) => {
-    const [relatedProducts, setRelatedProducts] = React.useState<ProductTypes[]>([]);
     const [deleteStatus, setDeleteStatus] = React.useState<string | null>(null);
     const [product, setProduct] = React.useState<ProductTypes | null>(null);
     const [isOwnProduct, setIsOwnProduct] = React.useState<boolean>(false);
@@ -43,14 +41,6 @@ export default ({ params }: { params: { id: string } }) => {
                 const productData = (await productResponse.json())[0];
 
                 setProduct(productData);
-
-                const relatedProductsResponse = await fetch('/api/products?categories=' + productData.categories.join(','));
-
-                if (!relatedProductsResponse.ok) throw new Error('دریافت محصولات مشابه با خطا مواجه شد.');
-
-                const relatedProductsData = await relatedProductsResponse.json();
-
-                setRelatedProducts(relatedProductsData.filter(({ id }: ProductTypes) => id !== productData.id));
 
                 try {
                     const sessionResponse = await fetch('/api/sessions');
@@ -176,21 +166,6 @@ export default ({ params }: { params: { id: string } }) => {
                     </Card>
                 </Grid>
             </Grid>
-            {relatedProducts.length > 0 && (
-                <Box sx={{ mt: 4 }}>
-                    <Box sx={{ my: 2 }}>
-                        <Divider />
-                    </Box>
-                    <Typography variant="h5" sx={{ my: 3 }}>
-                        محصولات مشابه
-                    </Typography>
-                    <Grid container spacing={3}>
-                        {relatedProducts.map((product) => (
-                            <ProductCard key={product.id} {...product} />
-                        ))}
-                    </Grid>
-                </Box>
-            )}
             <Dialog open={openDeleteModal} onClose={handleCloseDeleteModal} aria-labelledby="delete-confirmation-dialog">
                 <DialogTitle id="delete-confirmation-dialog">تأیید حذف</DialogTitle>
                 <DialogContent>
