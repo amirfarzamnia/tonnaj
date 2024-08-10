@@ -3,7 +3,7 @@ import { Typography, Box, Paper } from '@mui/material';
 export default () => {
     return (
         <Paper elevation={3} sx={{ padding: 4, borderRadius: 4 }}>
-            <Typography variant="h4" component="h1">
+            <Typography variant="h6" component="h1">
                 حریم خصوصی و امنیت
             </Typography>
             <Box mt={4}>
