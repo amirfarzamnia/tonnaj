@@ -174,7 +174,7 @@ export default ({ method }: { method: 'create' | 'request' }) => {
                             </FormControl>
                         </Grid>
                         <Grid item xs={12}>
-                            <TextareaAutosize required minRows={4} value={product.description} onChange={(e) => handleInputChange('description', e.target.value)} placeholder="توضیحات محصول را اینجا بنویسید..." style={{ width: '100%', borderRadius: '4px', border: '1px solid rgba(133, 133, 133, 0.5)', background: 'transparent', padding: '12px' }} />
+                            <TextField fullWidth label="توضیحات محصول" variant="outlined" margin="normal" multiline rows={4} value={product.description} onChange={(e) => handleInputChange('description', e.target.value)} placeholder="توضیحات محصول را اینجا بنویسید..." />
                         </Grid>
                         <Grid item xs={12}>
                             <Button type="submit" variant="contained" color={method === 'create' ? 'success' : 'secondary'}>
