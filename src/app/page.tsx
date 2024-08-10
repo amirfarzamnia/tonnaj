@@ -1,8 +1,9 @@
 'use client';
 
-import { Typography, Box, CircularProgress, Button, CardContent, Card, Divider, Link } from '@mui/material';
-import { ShoppingBasket, Inventory, Phone, ArrowBack } from '@mui/icons-material';
+import { Typography, Box, CircularProgress, Button } from '@mui/material';
+import { ShoppingBasket, Inventory, ArrowBack } from '@mui/icons-material';
 import { ProductTypes, ProductRequestTypes } from '@/types/product';
+import ProductRequestCard from '@/components/product-request-card';
 import { Pagination, Scrollbar } from 'swiper/modules';
 import ProductCard from '@/components/product-card';
 import { Swiper, SwiperSlide } from 'swiper/react';
@@ -73,7 +74,7 @@ export default () => {
             <Swiper modules={[Pagination, Scrollbar]} slidesPerView={4} spaceBetween={10} pagination={{ clickable: true }} scrollbar={{ draggable: true }}>
                 {products.map((product) => (
                     <SwiperSlide key={product.id} style={{ display: 'flex', justifyContent: 'center', alignItems: 'center', width: '90%', height: 'auto' }}>
-                        <ProductCard key={product.id} {...product} />
+                        <ProductCard {...product} />
                     </SwiperSlide>
                 ))}
             </Swiper>
@@ -98,34 +99,9 @@ export default () => {
                 </Button>
             </Typography>
             <Swiper modules={[Pagination, Scrollbar]} slidesPerView={4} spaceBetween={10} pagination={{ clickable: true }} scrollbar={{ draggable: true }}>
-                {productRequests.map(({ id, author, description, location, categories }) => (
-                    <SwiperSlide key={id} style={{ display: 'flex', justifyContent: 'center', alignItems: 'center', width: '90%', height: 'auto' }}>
-                        <Card sx={{ width: 345, height: '100%', borderRadius: 4, display: 'flex', flexDirection: 'column' }}>
-                            <CardContent sx={{ flex: 1, display: 'flex', flexDirection: 'column' }}>
-                                <Typography variant="h6" gutterBottom textAlign="center" fontSize="medium">
-                                    {author.name} از {location.city}
-                                </Typography>
-                                <Box sx={{ my: 2 }}>
-                                    <Divider />
-                                </Box>
-                                <Typography variant="body1" color="textSecondary" gutterBottom sx={{ flex: 1, overflow: 'hidden', textOverflow: 'ellipsis', display: '-webkit-box', WebkitBoxOrient: 'vertical', WebkitLineClamp: 3 }}>
-                                    {description.slice(0, 100)}
-                                </Typography>
-                                <Button endIcon={<Phone />} href={'tel:' + author.phone_number} variant="outlined" color="secondary" sx={{ mt: 2, width: '100%', py: 2, display: 'flex', alignItems: 'center', gap: 2, borderRadius: 1 }}>
-                                    تماس با خریدار
-                                </Button>
-                                <Box sx={{ my: 2 }}>
-                                    <Divider />
-                                </Box>
-                                <Typography variant="body2" color="textSecondary" sx={{ display: 'flex', alignItems: 'center', gap: 1 }}>
-                                    {categories.map((category) => (
-                                        <Link key={category} fontSize="smaller" href={'?categories=' + category}>
-                                            {category}
-                                        </Link>
-                                    ))}
-                                </Typography>
-                            </CardContent>
-                        </Card>
+                {productRequests.map((product_request) => (
+                    <SwiperSlide key={product_request.id} style={{ display: 'flex', justifyContent: 'center', alignItems: 'center', width: '90%', height: 'auto' }}>
+                        <ProductRequestCard {...product_request} />
                     </SwiperSlide>
                 ))}
             </Swiper>
