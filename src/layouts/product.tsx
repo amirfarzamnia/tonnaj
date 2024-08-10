@@ -1,6 +1,6 @@
 'use client';
 
-import { Box, Grid, TextField, Button, Typography, Snackbar, Alert, TextareaAutosize, IconButton, Divider, FormControl, InputLabel, Select, MenuItem } from '@mui/material';
+import { Box, Grid, TextField, Button, Typography, Snackbar, Alert, IconButton, Divider, FormControl, InputLabel, Select, MenuItem } from '@mui/material';
 import { ProductTypes, ProductRequestTypes } from '@/types/product';
 import { renderToStaticMarkup } from 'react-dom/server';
 import { Add, Clear, Room } from '@mui/icons-material';
