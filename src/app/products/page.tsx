@@ -38,7 +38,7 @@ export default () => {
     if (!products.length) {
         return (
             <Box sx={{ display: 'flex', flexDirection: 'column', gap: 4, justifyContent: 'center', alignItems: 'center', height: '100vh' }}>
-                <Typography variant="h4">محصولی در این دسته بندی یافت نشد</Typography>
+                <Typography variant="h4">محصولی یافت نشد</Typography>
                 <Button href="/" color="primary" variant="outlined">
                     بازگشت به صفحه اصلی
                 </Button>
@@ -49,15 +49,10 @@ export default () => {
     if (error) return <Typography variant="h4">{error}</Typography>;
 
     return (
-        <>
-            <Typography variant="h5" sx={{ my: 4 }}>
-                جدیدترین محصولات
-            </Typography>
-            <Grid container spacing={3}>
-                {products.map((product) => (
-                    <ProductCard key={product.id} {...product} />
-                ))}
-            </Grid>
-        </>
+        <Grid container spacing={3}>
+            {products.map((product) => (
+                <ProductCard key={product.id} {...product} />
+            ))}
+        </Grid>
     );
 };
