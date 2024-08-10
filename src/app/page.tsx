@@ -1,7 +1,7 @@
 'use client';
 
 import { Typography, Box, CircularProgress, Button, CardContent, Card, Divider, Link } from '@mui/material';
-import { ShoppingBasket, Inventory, Phone } from '@mui/icons-material';
+import { ShoppingBasket, Inventory, Phone, ArrowBack } from '@mui/icons-material';
 import { ProductTypes, ProductRequestTypes } from '@/types/product';
 import { Pagination, Scrollbar } from 'swiper/modules';
 import ProductCard from '@/components/ProductCard';
@@ -63,8 +63,12 @@ export default () => {
                     </Button>
                 </Box>
             </Box>
-            <Typography variant="h5" sx={{ my: 4 }}>
+            <Typography variant="h5" sx={{ my: 4, display: 'flex', alignItems: 'center', gap: 2, justifyContent: 'space-between' }}>
                 جدیدترین محصولات
+                <Box component="hr" sx={{ width: '65%' }}></Box>
+                <Button endIcon={<ArrowBack />} href="/products" variant="contained" color="success" sx={{ 'borderRadius': 3, 'display': 'flex', 'alignItems': 'center', 'gap': 2, '&:hover .MuiSvgIcon-root': { transform: 'translateX(-5px)', transition: 'transform 0.3s ease' } }}>
+                    مشاهده همه محصولات
+                </Button>
             </Typography>
             <Swiper modules={[Pagination, Scrollbar]} slidesPerView={4} spaceBetween={10} pagination={{ clickable: true }} scrollbar={{ draggable: true }}>
                 {products.map((product) => (
@@ -86,8 +90,12 @@ export default () => {
                 </Box>
                 <Box component="img" src="/images/pages/home/banner-middle.png" sx={{ objectFit: 'cover', height: '230px', pb: 1 }} />
             </Box>
-            <Typography variant="h5" sx={{ my: 4 }}>
+            <Typography variant="h5" sx={{ my: 4, display: 'flex', alignItems: 'center', gap: 2, justifyContent: 'space-between' }}>
                 جدیدترین درخواست های خرید محصول
+                <Box component="hr" sx={{ width: '45%' }}></Box>
+                <Button endIcon={<ArrowBack />} href="/products" variant="contained" color="secondary" sx={{ 'borderRadius': 3, 'display': 'flex', 'alignItems': 'center', 'gap': 2, '&:hover .MuiSvgIcon-root': { transform: 'translateX(-5px)', transition: 'transform 0.3s ease' } }}>
+                    مشاهده همه درخواست های خرید
+                </Button>
             </Typography>
             <Swiper modules={[Pagination, Scrollbar]} slidesPerView={4} spaceBetween={10} pagination={{ clickable: true }} scrollbar={{ draggable: true }}>
                 {productRequests.map(({ id, author, description, location, categories }) => (
