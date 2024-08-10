@@ -3,7 +3,7 @@
 import { Box, Button, Grid, Typography, Card, Link, IconButton, CircularProgress, Divider, Dialog, DialogActions, DialogContent, DialogTitle } from '@mui/material';
 import { Person, Category, Telegram, WhatsApp, LocationOn, Tag, Phone, Room } from '@mui/icons-material';
 import { renderToStaticMarkup } from 'react-dom/server';
-import ProductCard from '@/components/ProductCard';
+import ProductCard from '@/components/product-card';
 import { Swiper, SwiperSlide } from 'swiper/react';
 import { ProductTypes } from '@/types/product';
 import { Pagination } from 'swiper/modules';

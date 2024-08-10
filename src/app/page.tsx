@@ -4,7 +4,7 @@ import { Typography, Box, CircularProgress, Button, CardContent, Card, Divider, 
 import { ShoppingBasket, Inventory, Phone, ArrowBack } from '@mui/icons-material';
 import { ProductTypes, ProductRequestTypes } from '@/types/product';
 import { Pagination, Scrollbar } from 'swiper/modules';
-import ProductCard from '@/components/ProductCard';
+import ProductCard from '@/components/product-card';
 import { Swiper, SwiperSlide } from 'swiper/react';
 import React from 'react';
 

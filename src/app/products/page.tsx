@@ -1,7 +1,7 @@
 'use client';
 
 import { Grid, Typography, Box, CircularProgress, Button } from '@mui/material';
-import ProductCard from '@/components/ProductCard';
+import ProductCard from '@/components/product-card';
 import { Inventory } from '@mui/icons-material';
 import { ProductTypes } from '@/types/product';
 import React from 'react';
