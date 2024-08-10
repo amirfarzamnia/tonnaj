@@ -13,8 +13,13 @@ export default ({ type }: { type: 'product' | 'request' }) => {
     const [loading, setLoading] = React.useState<boolean>(true);
     const [hasMore, setHasMore] = React.useState<boolean>(true);
     const [start, setStart] = React.useState<number>(0);
+    const isFetching = React.useRef<boolean>(false);
 
     const fetchProducts = async (start: number, end: number) => {
+        if (isFetching.current) return;
+
+        isFetching.current = true;
+
         try {
             const response = await fetch('/api/products?type=' + type + '&start=' + start + '&end=' + end);
             const data = await response.json();
@@ -28,6 +33,8 @@ export default ({ type }: { type: 'product' | 'request' }) => {
         } catch {
             setError('دریافت اطلاعات از دیتابیس با خطا مواجه شد.');
         } finally {
+            isFetching.current = false;
+
             setLoading(false);
         }
     };
