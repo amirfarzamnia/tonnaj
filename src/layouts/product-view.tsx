@@ -52,17 +52,6 @@ export default ({ type }: { type: 'product' | 'request' }) => {
         );
     }
 
-    if (!products.length && !loading) {
-        return (
-            <Box sx={{ display: 'flex', flexDirection: 'column', gap: 4, justifyContent: 'center', alignItems: 'center', height: '100vh' }}>
-                <Typography variant="h4">محصولی یافت نشد</Typography>
-                <Button href="/" color="primary" variant="outlined">
-                    بازگشت به صفحه اصلی
-                </Button>
-            </Box>
-        );
-    }
-
     if (error) return <Typography variant="h4">{error}</Typography>;
 
     return (
@@ -80,17 +69,28 @@ export default ({ type }: { type: 'product' | 'request' }) => {
                 </Box>
                 <Box component="img" src="/images/pages/products/banner.png" sx={{ objectFit: 'cover', height: '230px', pb: 0.25 }} />
             </Box>
-            <Grid container spacing={3}>
-                {products.map((product) => (
-                    <Grid item xs={12} sm={6} md={3} key={product.id}>
-                        <ProductCard key={product.id} {...product} />
-                    </Grid>
-                ))}
-            </Grid>
-            {loading && (
-                <Box sx={{ display: 'flex', justifyContent: 'center', alignItems: 'center', marginTop: 2 }}>
-                    <CircularProgress />
+            {!products.length && !loading ? (
+                <Box sx={{ display: 'flex', flexDirection: 'column', gap: 4, justifyContent: 'center', alignItems: 'center', height: '40vh' }}>
+                    <Typography variant="h4">محصولی یافت نشد</Typography>
+                    <Button href="/" color="primary" variant="outlined">
+                        بازگشت به صفحه اصلی
+                    </Button>
                 </Box>
+            ) : (
+                <>
+                    <Grid container spacing={3}>
+                        {products.map((product) => (
+                            <Grid item xs={12} sm={6} md={3} key={product.id}>
+                                <ProductCard key={product.id} {...product} />
+                            </Grid>
+                        ))}
+                    </Grid>
+                    {loading && (
+                        <Box sx={{ display: 'flex', justifyContent: 'center', alignItems: 'center', marginTop: 2 }}>
+                            <CircularProgress />
+                        </Box>
+                    )}
+                </>
             )}
         </>
     );
