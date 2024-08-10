@@ -1,6 +1,6 @@
 'use client';
 
-import ProductViewLayout from '@/layouts/product-view';
+import ProductViewListLayout from '@/layouts/product-view-list';
 import React from 'react';
 
-export default () => <ProductViewLayout type="request" />;
+export default () => <ProductViewListLayout type="request" />;
