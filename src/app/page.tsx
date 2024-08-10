@@ -1,12 +1,11 @@
 'use client';
 
 import { Grid, Typography, Box, CircularProgress, Button, CardContent, Card, Divider, Link } from '@mui/material';
-import { ShoppingBasket, Close, Inventory, Phone } from '@mui/icons-material';
+import { ShoppingBasket, Inventory, Phone } from '@mui/icons-material';
 import { ProductTypes, ProductRequestTypes } from '@/types/product';
 import { Pagination, Scrollbar } from 'swiper/modules';
 import ProductCard from '@/components/ProductCard';
 import { Swiper, SwiperSlide } from 'swiper/react';
-import categories from '@/constants/categories';
 import React from 'react';
 
 import 'swiper/css/navigation';
@@ -16,7 +15,6 @@ import 'swiper/css';
 
 export default () => {
     const [productRequests, setProductRequests] = React.useState<ProductRequestTypes[]>([]);
-    const [selectedCategories, setSelectedCategories] = React.useState<string[]>([]);
     const [products, setProducts] = React.useState<ProductTypes[]>([]);
     const [error, setError] = React.useState<string | null>(null);
     const [loading, setLoading] = React.useState<boolean>(true);
@@ -26,16 +24,12 @@ export default () => {
             setLoading(true);
 
             try {
-                const urlParams = new URLSearchParams();
-
-                if (selectedCategories.length > 0) urlParams.set('categories', selectedCategories.join(','));
-
-                const productsResponse = await fetch('/api/products?' + urlParams.toString());
+                const productsResponse = await fetch('/api/products');
                 const productsData = await productsResponse.json();
 
                 setProducts(productsData.sort((a: ProductTypes, b: ProductTypes) => new Date(b.timestamp).getTime() - new Date(a.timestamp).getTime()));
 
-                const requestsResponse = await fetch('/api/products?type=request&' + urlParams.toString());
+                const requestsResponse = await fetch('/api/products?type=request');
                 const requestsData = await requestsResponse.json();
 
                 setProductRequests(requestsData.sort((a: ProductRequestTypes, b: ProductRequestTypes) => new Date(b.timestamp).getTime() - new Date(a.timestamp).getTime()));
@@ -45,7 +39,7 @@ export default () => {
                 setLoading(false);
             }
         })();
-    }, [selectedCategories]);
+    }, []);
 
     if (loading) {
         return (
@@ -69,41 +63,7 @@ export default () => {
                     </Button>
                 </Box>
             </Box>
-            <Box sx={{ marginBottom: 4, marginTop: 4 }}>
-                <Typography variant="h5" sx={{ mb: 4 }}>
-                    دسته بندی ها
-                </Typography>
-                <Grid container spacing={2}>
-                    {categories.map((category) => (
-                        <Grid item key={category}>
-                            <Button
-                                sx={{ display: 'flex', alignItems: 'center', gap: 1 }}
-                                variant={selectedCategories.includes(category) ? 'contained' : 'outlined'}
-                                color={selectedCategories.includes(category) ? 'success' : 'info'}
-                                onClick={() => {
-                                    setSelectedCategories((prev) => {
-                                        const updatedCategories = prev.includes(category) ? prev.filter((item) => item !== category) : [...prev, category];
-                                        const urlParams = new URLSearchParams();
-
-                                        if (updatedCategories.length > 0) {
-                                            urlParams.set('categories', updatedCategories.join(','));
-                                        } else {
-                                            urlParams.delete('categories');
-                                        }
-
-                                        history.pushState(null, '', location.pathname + '?' + urlParams.toString());
-
-                                        return updatedCategories;
-                                    });
-                                }}
-                                endIcon={selectedCategories.includes(category) && <Close />}>
-                                {category}
-                            </Button>
-                        </Grid>
-                    ))}
-                </Grid>
-            </Box>
-            <Typography variant="h5" sx={{ mb: 4 }}>
+            <Typography variant="h5" sx={{ my: 4 }}>
                 جدیدترین محصولات
             </Typography>
             <Grid container spacing={3}>
