@@ -19,7 +19,7 @@ export default ({ params }: { params: { id: string } }) => {
     const [relatedProducts, setRelatedProducts] = React.useState<ProductTypes[]>([]);
     const [deleteStatus, setDeleteStatus] = React.useState<string | null>(null);
     const [product, setProduct] = React.useState<ProductTypes | null>(null);
-    const [isOwnProduct, setIsOwnProduct] = React.useState<boolean>(true);
+    const [isOwnProduct, setIsOwnProduct] = React.useState<boolean>(false);
     const [openDeleteModal, setOpenDeleteModal] = React.useState(false);
     const mapContainerRef = React.useRef<HTMLDivElement | null>(null);
     const [error, setError] = React.useState<string | null>(null);
@@ -28,27 +28,6 @@ export default ({ params }: { params: { id: string } }) => {
 
     const handleOpenDeleteModal = () => setOpenDeleteModal(true);
     const handleCloseDeleteModal = () => setOpenDeleteModal(false);
-
-    const handleDeleteProduct = async () => {
-        if (!product?.id) return;
-
-        try {
-            const response = await fetch('/api/products?type=product&id=' + product.id, { method: 'DELETE' });
-
-            if (!response.ok) throw new Error('خطا در حذف محصول');
-
-            const result = await response.json();
-
-            setDeleteStatus(result.message);
-            setProduct(null);
-        } catch (e) {
-            setDeleteStatus(e instanceof Error ? e.message : 'حذف محصول با خطا مواجه شد.');
-        } finally {
-            handleCloseDeleteModal();
-
-            router.push('/');
-        }
-    };
 
     React.useEffect(() => {
         if (!params.id) return;
@@ -73,10 +52,12 @@ export default ({ params }: { params: { id: string } }) => {
 
                 setRelatedProducts(relatedProductsData.filter(({ id }: ProductTypes) => id !== productData.id));
 
-                const sessionResponse = await fetch('/api/sessions');
-                const sessionData = await sessionResponse.json();
+                try {
+                    const sessionResponse = await fetch('/api/sessions');
+                    const sessionData = await sessionResponse.json();
 
-                setIsOwnProduct(Boolean(sessionData?.phone_number));
+                    setIsOwnProduct(Boolean(sessionData?.phone_number));
+                } catch {}
 
                 if (mapContainerRef.current) {
                     const latlng = Object.values(productData.location.latlng) as L.LatLngExpression;
@@ -219,7 +200,28 @@ export default ({ params }: { params: { id: string } }) => {
                     <Button onClick={handleCloseDeleteModal} color="primary" variant="contained">
                         انصراف
                     </Button>
-                    <Button onClick={handleDeleteProduct} color="error">
+                    <Button
+                        onClick={async () => {
+                            if (!product?.id) return;
+
+                            try {
+                                const response = await fetch('/api/products?type=product&id=' + product.id, { method: 'DELETE' });
+
+                                if (!response.ok) throw new Error('خطا در حذف محصول');
+
+                                const result = await response.json();
+
+                                setDeleteStatus(result.message);
+                                setProduct(null);
+                            } catch (e) {
+                                setDeleteStatus(e instanceof Error ? e.message : 'حذف محصول با خطا مواجه شد.');
+                            } finally {
+                                handleCloseDeleteModal();
+
+                                router.push('/');
+                            }
+                        }}
+                        color="error">
                         حذف
                     </Button>
                 </DialogActions>
