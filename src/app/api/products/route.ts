@@ -36,7 +36,7 @@ export const POST = async (request: NextRequest) => {
 
         if (typeof prod.price !== 'number' || !(prod.price >= 10000 && prod.price <= 10000000000)) return NextResponse.json({ error: 'هزینه محصول باید بین ده هزار تومان تا ده میلیارد تومان باشد.' }, { status: 400 });
 
-        if (!/^.{5,50}$/.test(prod.name)) return NextResponse.json({ error: 'نام محصول باید بین 5 تا 50 حرف باشد.' }, { status: 400 });
+        if (!/^.{2,50}$/.test(prod.name)) return NextResponse.json({ error: 'نام محصول باید بین 2 تا 50 حرف باشد.' }, { status: 400 });
     }
 
     await database.collection(method === 'create' ? 'products' : 'product_requests').insertOne({ ...entity, id, timestamp: Date.now(), author: session, available: true });
