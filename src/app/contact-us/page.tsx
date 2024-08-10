@@ -1,39 +1,29 @@
-import { Typography, Box, TextField, Button, Paper } from '@mui/material';
+import { Typography, Box, Divider, Card } from '@mui/material';
 
 export default () => {
     return (
-        <Paper elevation={3} sx={{ padding: 4, borderRadius: 4 }}>
-            <Typography variant="h4" component="h1" gutterBottom>
+        <Card elevation={3} sx={{ padding: 4, mx: 50, my: 10, borderRadius: 4 }}>
+            <Typography variant="h4" component="h1" gutterBottom textAlign="center">
                 تماس با ما
             </Typography>
             <Box mt={2}>
-                <Typography variant="body1" paragraph>
-                    اگر سوالی دارید یا نیاز به اطلاعات بیشتری دارید، لطفاً از طریق فرم زیر با ما در تماس باشید. همچنین می‌توانید از اطلاعات تماس زیر برای ارتباط مستقیم با ما استفاده کنید.
+                <Typography variant="body1" paragraph textAlign="center">
+                    برای تماس با تیم تناژ میتوانید از اطلاعات زیر استفاده کنید.
                 </Typography>
-                <Typography variant="h6" component="h2" gutterBottom>
+                <Divider sx={{ my: 4 }} />
+                <Typography variant="h6" component="h2" gutterBottom sx={{ mb: 4 }}>
                     اطلاعات تماس
                 </Typography>
                 <Typography variant="body1" paragraph>
-                    ایمیل: info@example.com
+                    ایمیل: info@tonnaj.com
                 </Typography>
                 <Typography variant="body1" paragraph>
-                    شماره تماس: 123-456-7890
+                    شماره تماس: 02122924090
                 </Typography>
                 <Typography variant="body1" paragraph>
-                    آدرس: خیابان مثال، پلاک 123، شهر مثال، کشور مثال
+                    آدرس: تهران، اقدسیه، خیابان ارتش، پلاک ۱۱۳
                 </Typography>
-                <Typography variant="h6" component="h2" gutterBottom>
-                    فرم تماس
-                </Typography>
-                <Box component="form" noValidate autoComplete="off">
-                    <TextField fullWidth label="نام" variant="outlined" margin="normal" />
-                    <TextField fullWidth label="ایمیل" variant="outlined" margin="normal" />
-                    <TextField fullWidth label="پیام" variant="outlined" margin="normal" multiline rows={4} />
-                    <Button variant="contained" color="primary" sx={{ mt: 2 }}>
-                        ارسال
-                    </Button>
-                </Box>
             </Box>
-        </Paper>
+        </Card>
     );
 };
