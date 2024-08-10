@@ -30,7 +30,7 @@ export default ({ description, author, categories, location, id, timestamp }: Pr
             </Box>
             <Typography variant="body2" color="textSecondary" sx={{ display: 'flex', alignItems: 'center', gap: 1 }}>
                 {categories.map((category) => (
-                    <Link key={category} fontSize="smaller" href={'?categories=' + category}>
+                    <Link key={category} fontSize="smaller" href={'/products/requests?categories=' + category}>
                         {category}
                     </Link>
                 ))}
