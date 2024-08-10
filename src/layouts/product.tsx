@@ -44,7 +44,7 @@ export default ({ method }: { method: 'create' | 'request' }) => {
             if (markerRef.current) mapInstance.current!.removeLayer(markerRef.current);
 
             const markerOptions = { icon: L.divIcon({ html: renderToStaticMarkup(<Room sx={{ ms: 1 }} />) }) };
-            const marker = L.marker(e.latlng, markerOptions).addTo(mapInstance.current!).bindPopup(`استان: ${address.state}<br>شهر یا روستا: ${city}`).openPopup();
+            const marker = L.marker(e.latlng, markerOptions).addTo(mapInstance.current!).bindPopup(`استان: ${state}<br>شهر یا روستا: ${city}`).openPopup();
 
             markerRef.current = marker;
         };
