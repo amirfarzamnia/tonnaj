@@ -34,7 +34,7 @@ export default ({ params }: { params: { id: string } }) => {
             setLoading(true);
 
             try {
-                const productResponse = await fetch('/api/products?id=' + params.id);
+                const productResponse = await fetch('/api/products?type=product&id=' + params.id);
 
                 if (!productResponse.ok) throw new Error('محصول مورد نظر یافت نشد.');
 

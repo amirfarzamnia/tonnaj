@@ -25,12 +25,12 @@ export default () => {
             setLoading(true);
 
             try {
-                const productsResponse = await fetch('/api/products?filters=newest');
+                const productsResponse = await fetch('/api/products?type=product&filters=newest');
                 const productsData = await productsResponse.json();
 
                 setProducts(productsData);
 
-                const requestsResponse = await fetch('/api/products?filters=newest&type=request');
+                const requestsResponse = await fetch('/api/products?type=request&filters=newest');
                 const requestsData = await requestsResponse.json();
 
                 setProductRequests(requestsData);
