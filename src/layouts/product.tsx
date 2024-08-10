@@ -76,13 +76,9 @@ export default ({ method }: { method: 'create' | 'request' }) => {
                     setSnackbarSeverity(response.ok ? 'success' : 'error');
 
                     if (response.ok) {
-                        if (method === 'create') {
-                            setProduct(initialProductState);
+                        setProduct(method === 'request' ? initialProductRequestState : initialProductState);
 
-                            setTimeout(() => router.push('/products/' + json.id), 2500);
-                        }
-
-                        if (method === 'request') setProduct(initialProductRequestState);
+                        setTimeout(() => router.push(method === 'request' ? '/products/' + json.id : '/'), 2500);
                     }
 
                     setSnackbarOpen(true);
