@@ -1,11 +1,9 @@
 'use client';
 
-import { Box, Button, Grid, Typography, Card, Link, IconButton, CircularProgress, Divider, Dialog, DialogActions, DialogContent, DialogTitle } from '@mui/material';
+import { Box, Button, Typography, Card, Link, IconButton, CircularProgress, Divider, Dialog, DialogActions, DialogContent, DialogTitle } from '@mui/material';
 import { Person, Category, Telegram, WhatsApp, LocationOn, Tag, Phone, Room, Delete } from '@mui/icons-material';
 import { renderToStaticMarkup } from 'react-dom/server';
 import { ProductRequestTypes } from '@/types/product';
-import { Swiper, SwiperSlide } from 'swiper/react';
-import { Pagination } from 'swiper/modules';
 import { useRouter } from 'next/navigation';
 import React from 'react';
 import L from 'leaflet';
@@ -95,7 +93,13 @@ export default ({ params }: { params: { id: string } }) => {
     return (
         <>
             <Card sx={{ padding: 2, borderRadius: 4, width: '50%', mx: 'auto' }}>
-                <Button endIcon={<Phone />} href={'tel:' + product.author.phone_number} variant="outlined" color="success" sx={{ mt: 2, width: '100%', py: 2, display: 'flex', alignItems: 'center', gap: 1 }}>
+                <Typography variant="body1" sx={{ textWrap: 'nowrap' }}>
+                    {product.description}
+                </Typography>
+                <Box sx={{ my: 2 }}>
+                    <Divider />
+                </Box>
+                <Button endIcon={<Phone />} href={'tel:' + product.author.phone_number} variant="outlined" color="secondary" sx={{ mt: 2, width: '100%', py: 2, display: 'flex', alignItems: 'center', gap: 1 }}>
                     تماس با فروشنده
                 </Button>
                 {isOwnProduct && (
@@ -129,17 +133,17 @@ export default ({ params }: { params: { id: string } }) => {
                     <Divider />
                 </Box>
                 <Box sx={{ width: '100%', display: 'flex', alignItems: 'center', gap: 2, justifyContent: 'space-between' }}>
-                    <Typography variant="h6" color="textPrimary" sx={{ textWrap: 'nowrap' }}>
+                    <Typography variant="h6" sx={{ textWrap: 'nowrap' }}>
                         اشتراک گذاری
                     </Typography>
                     <Box sx={{ display: 'flex', alignItems: 'center', gap: 1 }}>
-                        <Link href={`https://api.whatsapp.com/send?text=${encodeURIComponent(product.description + '\n\nمشاهده محصول در تناژ:\n\n' + location.origin + '/products/' + product.id)}`} target="_blank" sx={{ mr: 1 }}>
-                            <IconButton color="success">
+                        <Link href={`https://api.whatsapp.com/send?text=${encodeURIComponent(product.description + '\n\nمشاهده درخواست در تناژ:\n\n' + location.origin + '/products/requests/' + product.id)}`} target="_blank" sx={{ mr: 1 }}>
+                            <IconButton color="secondary">
                                 <WhatsApp />
                             </IconButton>
                         </Link>
-                        <Link href={`https://t.me/share/url?url=${encodeURIComponent(location.origin + '/products/' + product.id)}&text=${encodeURIComponent(product.description)}`} target="_blank">
-                            <IconButton color="success">
+                        <Link href={`https://t.me/share/url?url=${encodeURIComponent(location.origin + '/products/requests/' + product.id)}&text=${encodeURIComponent(product.description + '\n\nمشاهده درخواست در تناژ:\n\n' + location.origin + '/products/requests/' + product.id)}`} target="_blank">
+                            <IconButton color="secondary">
                                 <Telegram />
                             </IconButton>
                         </Link>
