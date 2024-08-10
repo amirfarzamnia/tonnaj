@@ -1,8 +1,8 @@
 import { Card, CardContent, CardMedia, Typography, Button, Box, Divider, Link } from '@mui/material';
 import { Swiper, SwiperSlide } from 'swiper/react';
+import { Visibility } from '@mui/icons-material';
 import { ProductTypes } from '@/types/product';
 import { Pagination } from 'swiper/modules';
-import { Phone } from '@mui/icons-material';
 import React from 'react';
 
 import 'swiper/css/pagination';
@@ -30,7 +30,7 @@ export default ({ price, description, images, name, id, categories, location }: 
             <Typography variant="body2" color="textSecondary" gutterBottom sx={{ mt: 2, fontSize: 'small' }}>
                 به قیمت {price} تومان
             </Typography>
-            <Button endIcon={<Phone />} href={'/products/' + id} variant="outlined" color="success" sx={{ mt: 2, width: '100%', py: 2, display: 'flex', alignItems: 'center', gap: 2, borderRadius: 1 }}>
+            <Button endIcon={<Visibility />} href={'/products/' + id} variant="outlined" color="success" sx={{ mt: 2, width: '100%', py: 2, display: 'flex', alignItems: 'center', gap: 2, borderRadius: 1 }}>
                 مشاهده محصول
             </Button>
             <Box sx={{ my: 2 }}>

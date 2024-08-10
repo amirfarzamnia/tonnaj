@@ -1,6 +1,6 @@
 'use client';
 
-import { Grid, Typography, Box, CircularProgress, Button, CardContent, Card, Divider, Link } from '@mui/material';
+import { Typography, Box, CircularProgress, Button, CardContent, Card, Divider, Link } from '@mui/material';
 import { ShoppingBasket, Inventory, Phone } from '@mui/icons-material';
 import { ProductTypes, ProductRequestTypes } from '@/types/product';
 import { Pagination, Scrollbar } from 'swiper/modules';
