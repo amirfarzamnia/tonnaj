@@ -66,11 +66,13 @@ export default () => {
             <Typography variant="h5" sx={{ my: 4 }}>
                 جدیدترین محصولات
             </Typography>
-            <Grid container spacing={3}>
+            <Swiper modules={[Pagination, Scrollbar]} slidesPerView={4} spaceBetween={10} pagination={{ clickable: true }} scrollbar={{ draggable: true }}>
                 {products.map((product) => (
-                    <ProductCard key={product.id} {...product} />
+                    <SwiperSlide key={product.id} style={{ display: 'flex', justifyContent: 'center', alignItems: 'center', width: '90%', height: 'auto' }}>
+                        <ProductCard key={product.id} {...product} />
+                    </SwiperSlide>
                 ))}
-            </Grid>
+            </Swiper>
             <Box sx={{ boxShadow: '0px 4px 12px rgba(0, 0, 0, 0.3)', my: 4, px: 10, height: '230px', borderRadius: 4, background: '#feb204', display: 'flex', justifyContent: 'space-between', gap: 2 }}>
                 <Box sx={{ display: 'flex', flexDirection: 'column', gap: 2, height: '100%', justifyContent: 'center' }}>
                     <Typography variant="h6" color="black" fontWeight="bold">
@@ -101,7 +103,7 @@ export default () => {
                                 <Typography variant="body1" color="textSecondary" gutterBottom sx={{ flex: 1, overflow: 'hidden', textOverflow: 'ellipsis', display: '-webkit-box', WebkitBoxOrient: 'vertical', WebkitLineClamp: 3 }}>
                                     {description.slice(0, 100)}
                                 </Typography>
-                                <Button endIcon={<Phone />} href={'tel:' + author.phone_number} variant="outlined" color="secondary" sx={{ mt: 2, width: '100%', py: 2, display: 'flex', alignItems: 'center', gap: 2, borderRadius: 1 }} onClick={(event) => event.stopPropagation()}>
+                                <Button endIcon={<Phone />} href={'tel:' + author.phone_number} variant="outlined" color="secondary" sx={{ mt: 2, width: '100%', py: 2, display: 'flex', alignItems: 'center', gap: 2, borderRadius: 1 }}>
                                     تماس با خریدار
                                 </Button>
                                 <Box sx={{ my: 2 }}>
