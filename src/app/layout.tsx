@@ -235,6 +235,11 @@ export default ({ children }: { children: React.ReactNode }) => {
                                                         حریم خصوصی و امنیت تناژ
                                                     </Link>
                                                 </Box>
+                                                <Box component="li">
+                                                    <Link underline="hover" href="/privacy-policy">
+                                                        تماس با تناژ
+                                                    </Link>
+                                                </Box>
                                             </Box>
                                         </Grid>
                                         <Grid item xs={12} sm={3}>
