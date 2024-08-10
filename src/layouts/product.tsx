@@ -1,5 +1,3 @@
-'use client';
-
 import { Box, Grid, TextField, Button, Typography, Snackbar, Alert, IconButton, Divider, FormControl, InputLabel, Select, MenuItem } from '@mui/material';
 import { ProductTypes, ProductRequestTypes } from '@/types/product';
 import { renderToStaticMarkup } from 'react-dom/server';
@@ -143,10 +141,20 @@ export default ({ method }: { method: 'create' | 'request' }) => {
                                                 type="file"
                                                 accept="image/*"
                                                 style={{ display: 'none' }}
-                                                onChange={(e) => {
+                                                onChange={async (e) => {
                                                     const files = Array.from(e.target.files || []);
+                                                    const base64Images = await Promise.all(
+                                                        files.map((file) => {
+                                                            return new Promise((resolve) => {
+                                                                const reader = new FileReader();
 
-                                                    if (files.length) handleInputChange('images', [...(product as ProductTypes).images, ...files.map((file) => URL.createObjectURL(file))]);
+                                                                reader.onloadend = () => resolve(reader.result as string);
+                                                                reader.readAsDataURL(file);
+                                                            });
+                                                        })
+                                                    );
+
+                                                    if (base64Images.length) handleInputChange('images', [...(product as ProductTypes).images, ...base64Images]);
                                                 }}
                                                 multiple
                                             />

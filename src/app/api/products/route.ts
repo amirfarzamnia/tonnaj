@@ -4,8 +4,6 @@ import findSession from '@/functions/find-session';
 import categories from '@/constants/categories';
 import { randomBytes } from 'node:crypto';
 import { database } from '@/mongodb';
-import path from 'node:path';
-import fs from 'node:fs';
 
 export const POST = async (request: NextRequest) => {
     const { product, product_request, method }: { product?: ProductTypes; product_request?: ProductRequestTypes; method: string } = await request.json();
@@ -32,26 +30,13 @@ export const POST = async (request: NextRequest) => {
 
         if (!Array.isArray(prod.images) || !prod.images.length) return NextResponse.json({ error: 'باید حداقل یک عکس از محصول خود بارگذاری کنید.' }, { status: 400 });
 
+        if (!prod.images.every((image) => /^data:image\/(png|jpg|jpeg);base64,[A-Za-z0-9+/=]+$/.test(image))) return NextResponse.json({ error: 'فرمت تصاویر ارسال شده صحیح نیست. فرمت های پشتیبانی شده: png, jpg, jpeg' }, { status: 400 });
+
         if (prod.images.length > 10) return NextResponse.json({ error: 'نمیتوانید بیشتر از 10 عکس برای محصول خود آپلود کنید.' }, { status: 400 });
 
         if (typeof prod.price !== 'number' || !(prod.price >= 10000 && prod.price <= 10000000000)) return NextResponse.json({ error: 'هزینه محصول باید بین ده هزار تومان تا ده میلیارد تومان باشد.' }, { status: 400 });
 
         if (!/^.{5,50}$/.test(prod.name)) return NextResponse.json({ error: 'نام محصول باید بین 5 تا 50 حرف باشد.' }, { status: 400 });
-
-        const images = prod.images.map((image, index) => {
-            const matches = image.match(/^data:image\/(\w+);base64,(.+)$/);
-
-            if (!matches) return;
-
-            const file = id + '-' + index;
-            const filePath = path.join(process.cwd(), 'public', 'images', 'products', file + '.' + matches[1]);
-
-            fs.writeFileSync(filePath, Buffer.from(matches[2], 'base64'));
-
-            return file;
-        });
-
-        prod.images = images.filter((filename): filename is string => typeof filename === 'string');
     }
 
     await database.collection(method === 'create' ? 'products' : 'product_requests').insertOne({ ...entity, id, timestamp: Date.now(), author: session, available: true });
@@ -66,12 +51,10 @@ export const GET = async (request: NextRequest) => {
     const categories = searchParams.get('categories');
 
     const sortOptions: Record<string, Record<string, 1 | -1>> = {
-        available: { available: 1 },
         price_higher: { price: -1 },
         price_lower: { price: 1 },
         newest: { timestamp: -1 },
-        oldest: { timestamp: 1 },
-        name: { name: 1 }
+        oldest: { timestamp: 1 }
     };
 
     const start = parseInt(searchParams.get('start') || '0', 10);
