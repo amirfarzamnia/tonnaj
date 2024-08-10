@@ -65,7 +65,7 @@ export default () => {
             </Box>
             <Typography variant="h5" sx={{ my: 4, display: 'flex', alignItems: 'center', gap: 2, justifyContent: 'space-between' }}>
                 جدیدترین محصولات
-                <Box component="hr" sx={{ width: '65%' }}></Box>
+                <Box component="hr" sx={{ border: 0, borderTop: 1, borderColor: 'grey.600', width: '65%' }}></Box>
                 <Button endIcon={<ArrowBack />} href="/products" variant="contained" color="success" sx={{ 'borderRadius': 3, 'display': 'flex', 'alignItems': 'center', 'gap': 2, '&:hover .MuiSvgIcon-root': { transform: 'translateX(-5px)', transition: 'transform 0.3s ease' } }}>
                     مشاهده همه محصولات
                 </Button>
@@ -92,7 +92,7 @@ export default () => {
             </Box>
             <Typography variant="h5" sx={{ my: 4, display: 'flex', alignItems: 'center', gap: 2, justifyContent: 'space-between' }}>
                 جدیدترین درخواست های خرید محصول
-                <Box component="hr" sx={{ width: '45%' }}></Box>
+                <Box component="hr" sx={{ border: 0, borderTop: 1, borderColor: 'grey.600', width: '45%' }}></Box>
                 <Button endIcon={<ArrowBack />} href="/products" variant="contained" color="secondary" sx={{ 'borderRadius': 3, 'display': 'flex', 'alignItems': 'center', 'gap': 2, '&:hover .MuiSvgIcon-root': { transform: 'translateX(-5px)', transition: 'transform 0.3s ease' } }}>
                     مشاهده همه درخواست های خرید
                 </Button>
