@@ -28,6 +28,7 @@ export default ({ type, id }: { type: 'product' | 'request'; id: string }) => {
 
     const handleOpenDeleteModal = () => setOpenDeleteModal(true);
     const handleCloseDeleteModal = () => setOpenDeleteModal(false);
+    const isProductType = (product: ProductOrRequest<'product' | 'request'>): product is ProductTypes => !!(product as ProductTypes).price && !!(product as ProductTypes).images;
 
     React.useEffect(() => {
         if (!id) return;
@@ -87,13 +88,13 @@ export default ({ type, id }: { type: 'product' | 'request'; id: string }) => {
 
     if (error) return <Typography variant="h4">{error}</Typography>;
 
-    const shareURL = location.origin + '/products' + (type === 'product' ? '/' : '/requests/') + product.id;
+    const shareURL = location.origin + '/products' + (isProductType(product) ? '/' : '/requests/') + product.id;
 
     return (
         <Box sx={{ padding: 3 }}>
             <Grid container spacing={3}>
                 <Grid item xs={12} md={6}>
-                    {type === 'product' && (
+                    {isProductType(product) && (
                         <Swiper modules={[Pagination]} spaceBetween={10} slidesPerView={1} pagination={{ clickable: true }}>
                             {product.images.map((image, idx) => (
                                 <SwiperSlide key={idx}>
@@ -108,7 +109,7 @@ export default ({ type, id }: { type: 'product' | 'request'; id: string }) => {
                 </Grid>
                 <Grid item xs={12} md={6}>
                     <Card sx={{ padding: 2, borderRadius: 4 }}>
-                        {type === 'product' && (
+                        {isProductType(product) && (
                             <>
                                 <Typography variant="h4">{product.name}</Typography>
                                 <Typography sx={{ my: 2 }} variant="h6" color="textPrimary">
@@ -116,12 +117,12 @@ export default ({ type, id }: { type: 'product' | 'request'; id: string }) => {
                                 </Typography>
                             </>
                         )}
-                        <Button endIcon={<Phone />} href={'tel:' + product.author.phone_number} variant="outlined" color={type === 'product' ? 'success' : 'secondary'} sx={{ mt: 2, width: '100%', py: 2, display: 'flex', alignItems: 'center', gap: 1 }}>
+                        <Button endIcon={<Phone />} href={'tel:' + product.author.phone_number} variant="outlined" color={isProductType(product) ? 'success' : 'secondary'} sx={{ mt: 2, width: '100%', py: 2, display: 'flex', alignItems: 'center', gap: 1 }}>
                             تماس با فروشنده
                         </Button>
                         {isOwnProduct && (
                             <Button endIcon={<Delete />} onClick={handleOpenDeleteModal} variant="contained" color="error" sx={{ mt: 2, width: '100%', py: 2, display: 'flex', alignItems: 'center', gap: 1 }}>
-                                {type === 'product' ? 'حذف محصول' : 'حذف درخواست'}
+                                {isProductType(product) ? 'حذف محصول' : 'حذف درخواست'}
                             </Button>
                         )}
                         {deleteStatus && (
@@ -136,8 +137,8 @@ export default ({ type, id }: { type: 'product' | 'request'; id: string }) => {
                             {[
                                 { icon: <Category />, label: 'دسته بندی ها', value: product.categories.join(', ') },
                                 { icon: <LocationOn />, label: 'موقعیت مکانی', value: `${product.location.state} - ${product.location.city}` },
-                                { icon: <Person />, label: type === 'product' ? 'فروشنده' : 'خریدار', value: product.author.name },
-                                { icon: <Tag />, label: type === 'product' ? 'کد محصول' : 'کد درخواست', value: product.id }
+                                { icon: <Person />, label: isProductType(product) ? 'فروشنده' : 'خریدار', value: product.author.name },
+                                { icon: <Tag />, label: isProductType(product) ? 'کد محصول' : 'کد درخواست', value: product.id }
                             ].map(({ icon, label, value }, index) => (
                                 <Box key={index} sx={{ display: 'flex', alignItems: 'center', mb: 1, background: 'rgba(0, 0, 0, 0.05)', p: 1, borderRadius: 1 }}>
                                     <Box sx={{ ml: 1 }}>{icon}</Box>
@@ -160,12 +161,12 @@ export default ({ type, id }: { type: 'product' | 'request'; id: string }) => {
                             </Typography>
                             <Box sx={{ display: 'flex', alignItems: 'center', gap: 1 }}>
                                 <Link href={`https://api.whatsapp.com/send?text=${encodeURIComponent(product.description + '\n\nمشاهده در تناژ:\n\n' + shareURL)}`} target="_blank" sx={{ mr: 1 }}>
-                                    <IconButton color={type === 'product' ? 'success' : 'secondary'}>
+                                    <IconButton color={isProductType(product) ? 'success' : 'secondary'}>
                                         <WhatsApp />
                                     </IconButton>
                                 </Link>
                                 <Link href={`https://t.me/share/url?url=${shareURL}&text=${encodeURIComponent(product.description)}`} target="_blank">
-                                    <IconButton color={type === 'product' ? 'success' : 'secondary'}>
+                                    <IconButton color={isProductType(product) ? 'success' : 'secondary'}>
                                         <Telegram />
                                     </IconButton>
                                 </Link>
@@ -177,7 +178,7 @@ export default ({ type, id }: { type: 'product' | 'request'; id: string }) => {
             <Dialog open={openDeleteModal} onClose={handleCloseDeleteModal} aria-labelledby="delete-confirmation-dialog">
                 <DialogTitle id="delete-confirmation-dialog">تأیید حذف</DialogTitle>
                 <DialogContent>
-                    <Typography variant="body1">آیا مطمئن هستید که می‌خواهید این {type === 'product' ? 'محصول' : 'درخواست'} را حذف کنید؟</Typography>
+                    <Typography variant="body1">آیا مطمئن هستید که می‌خواهید این {isProductType(product) ? 'محصول' : 'درخواست'} را حذف کنید؟</Typography>
                 </DialogContent>
                 <DialogActions>
                     <Button onClick={handleCloseDeleteModal} color="primary" variant="contained">
