@@ -7,8 +7,8 @@ import 'swiper/css/pagination';
 import 'swiper/css';
 
 export default ({ description, author, categories, location, id, timestamp }: ProductRequestTypes) => (
-    <Card sx={{ width: 345, height: '100%', borderRadius: 4, display: 'flex', flexDirection: 'column' }}>
-        <CardContent sx={{ flex: 1, display: 'flex', flexDirection: 'column' }}>
+    <Card sx={{ height: '100%', borderRadius: 4 }}>
+        <CardContent>
             <Typography variant="h6" gutterBottom textAlign="center" fontSize="medium">
                 {author.name} از {location.city}
             </Typography>
