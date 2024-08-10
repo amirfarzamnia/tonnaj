@@ -1,6 +1,6 @@
 'use client';
 
-import { Box, Button, Typography, Card, Link, IconButton, CircularProgress, Divider, Dialog, DialogActions, DialogContent, DialogTitle } from '@mui/material';
+import { Box, Button, Typography, Card, Link, IconButton, CircularProgress, Divider, Dialog, Grid, DialogActions, DialogContent, DialogTitle } from '@mui/material';
 import { Person, Category, Telegram, WhatsApp, LocationOn, Tag, Phone, Room, Delete } from '@mui/icons-material';
 import { renderToStaticMarkup } from 'react-dom/server';
 import { ProductRequestTypes } from '@/types/product';
@@ -91,65 +91,68 @@ export default ({ params }: { params: { id: string } }) => {
     ];
 
     return (
-        <>
-            <Card sx={{ padding: 2, borderRadius: 4, width: '50%', mx: 'auto' }}>
-                <Typography variant="body1" sx={{ textWrap: 'nowrap' }}>
-                    {product.description}
-                </Typography>
-                <Box sx={{ my: 2 }}>
-                    <Divider />
-                </Box>
-                <Button endIcon={<Phone />} href={'tel:' + product.author.phone_number} variant="outlined" color="secondary" sx={{ mt: 2, width: '100%', py: 2, display: 'flex', alignItems: 'center', gap: 1 }}>
-                    تماس با فروشنده
-                </Button>
-                {isOwnProduct && (
-                    <Button endIcon={<Delete />} onClick={handleOpenDeleteModal} variant="contained" color="error" sx={{ mt: 2, width: '100%', py: 2, display: 'flex', alignItems: 'center', gap: 1 }}>
-                        حذف درخواست
-                    </Button>
-                )}
-                {deleteStatus && (
-                    <Typography variant="h6" color={deleteStatus.includes('با موفقیت') ? 'success' : 'error'} sx={{ mt: 2 }}>
-                        {deleteStatus}
+        <Box sx={{ padding: 3 }}>
+            <Grid container spacing={3}>
+                <Grid item xs={12} md={6}>
+                    <Typography variant="h6" color="textSecondary" paragraph>
+                        <Card sx={{ padding: 2, borderRadius: 4 }}>{product.description}</Card>
                     </Typography>
-                )}
-                <Box sx={{ my: 2 }}>
-                    <Divider />
-                </Box>
-                <Box sx={{ mt: 2 }}>
-                    {infoItems.map(({ icon, label, value }, index) => (
-                        <Box key={index} sx={{ display: 'flex', alignItems: 'center', mb: 1, background: 'rgba(0, 0, 0, 0.05)', p: 1, borderRadius: 1 }}>
-                            <Box sx={{ ml: 1 }}>{icon}</Box>
-                            <Typography variant="body1" sx={{ fontWeight: 'bold' }}>
-                                {label}: {value}
+                </Grid>
+                <Grid item xs={12} md={6}>
+                    <Card sx={{ padding: 2, borderRadius: 4 }}>
+                        <Button endIcon={<Phone />} href={'tel:' + product.author.phone_number} variant="outlined" color="secondary" sx={{ mt: 2, width: '100%', py: 2, display: 'flex', alignItems: 'center', gap: 1 }}>
+                            تماس با خریدار
+                        </Button>
+                        {isOwnProduct && (
+                            <Button endIcon={<Delete />} onClick={handleOpenDeleteModal} variant="contained" color="error" sx={{ mt: 2, width: '100%', py: 2, display: 'flex', alignItems: 'center', gap: 1 }}>
+                                حذف درخواست
+                            </Button>
+                        )}
+                        {deleteStatus && (
+                            <Typography variant="h6" color={deleteStatus.includes('با موفقیت') ? 'success' : 'error'} sx={{ mt: 2 }}>
+                                {deleteStatus}
                             </Typography>
+                        )}
+                        <Box sx={{ my: 2 }}>
+                            <Divider />
                         </Box>
-                    ))}
-                </Box>
-                <Box sx={{ my: 2 }}>
-                    <Divider />
-                </Box>
-                <Box sx={{ height: '20rem', marginTop: 2, borderRadius: 1, overflow: 'hidden' }} ref={mapContainerRef}></Box>
-                <Box sx={{ my: 2 }}>
-                    <Divider />
-                </Box>
-                <Box sx={{ width: '100%', display: 'flex', alignItems: 'center', gap: 2, justifyContent: 'space-between' }}>
-                    <Typography variant="h6" sx={{ textWrap: 'nowrap' }}>
-                        اشتراک گذاری
-                    </Typography>
-                    <Box sx={{ display: 'flex', alignItems: 'center', gap: 1 }}>
-                        <Link href={`https://api.whatsapp.com/send?text=${encodeURIComponent(product.description + '\n\nمشاهده درخواست در تناژ:\n\n' + location.origin + '/products/requests/' + product.id)}`} target="_blank" sx={{ mr: 1 }}>
-                            <IconButton color="secondary">
-                                <WhatsApp />
-                            </IconButton>
-                        </Link>
-                        <Link href={`https://t.me/share/url?url=${encodeURIComponent(location.origin + '/products/requests/' + product.id)}&text=${encodeURIComponent(product.description + '\n\nمشاهده درخواست در تناژ:\n\n' + location.origin + '/products/requests/' + product.id)}`} target="_blank">
-                            <IconButton color="secondary">
-                                <Telegram />
-                            </IconButton>
-                        </Link>
-                    </Box>
-                </Box>
-            </Card>
+                        <Box sx={{ mt: 2 }}>
+                            {infoItems.map(({ icon, label, value }, index) => (
+                                <Box key={index} sx={{ display: 'flex', alignItems: 'center', mb: 1, background: 'rgba(0, 0, 0, 0.05)', p: 1, borderRadius: 1 }}>
+                                    <Box sx={{ ml: 1 }}>{icon}</Box>
+                                    <Typography variant="body1" sx={{ fontWeight: 'bold' }}>
+                                        {label}: {value}
+                                    </Typography>
+                                </Box>
+                            ))}
+                        </Box>
+                        <Box sx={{ my: 2 }}>
+                            <Divider />
+                        </Box>
+                        <Box sx={{ height: '20rem', marginTop: 2, borderRadius: 1, overflow: 'hidden' }} ref={mapContainerRef}></Box>
+                        <Box sx={{ my: 2 }}>
+                            <Divider />
+                        </Box>
+                        <Box sx={{ width: '100%', display: 'flex', alignItems: 'center', gap: 2, justifyContent: 'space-between' }}>
+                            <Typography variant="h6" color="textPrimary" sx={{ textWrap: 'nowrap' }}>
+                                اشتراک گذاری
+                            </Typography>
+                            <Box sx={{ display: 'flex', alignItems: 'center', gap: 1 }}>
+                                <Link href={`https://api.whatsapp.com/send?text=${encodeURIComponent(product.description + '\n\nمشاهده محصول در تناژ:\n\n' + location.origin + '/products/' + product.id)}`} target="_blank" sx={{ mr: 1 }}>
+                                    <IconButton color="secondary">
+                                        <WhatsApp />
+                                    </IconButton>
+                                </Link>
+                                <Link href={`https://t.me/share/url?url=${encodeURIComponent(location.origin + '/products/' + product.id)}&text=${encodeURIComponent(product.description)}`} target="_blank">
+                                    <IconButton color="secondary">
+                                        <Telegram />
+                                    </IconButton>
+                                </Link>
+                            </Box>
+                        </Box>
+                    </Card>
+                </Grid>
+            </Grid>
             <Dialog open={openDeleteModal} onClose={handleCloseDeleteModal} aria-labelledby="delete-confirmation-dialog">
                 <DialogTitle id="delete-confirmation-dialog">تأیید حذف</DialogTitle>
                 <DialogContent>
@@ -185,6 +188,6 @@ export default ({ params }: { params: { id: string } }) => {
                     </Button>
                 </DialogActions>
             </Dialog>
-        </>
+        </Box>
     );
 };
