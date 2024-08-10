@@ -28,6 +28,8 @@ export const POST = async (request: NextRequest) => {
 
         if (!Array.isArray(prod.images) || !prod.images.length) return NextResponse.json({ error: 'باید حداقل یک عکس از محصول خود بارگذاری کنید.' }, { status: 400 });
 
+        if (prod.images.length > 10) return NextResponse.json({ error: 'نمیتوانید بیشتر از 10 عکس برای محصول خود آپلود کنید.' }, { status: 400 });
+
         if (typeof prod.price !== 'number' || !(prod.price >= 10000 && prod.price <= 10000000000)) return NextResponse.json({ error: 'هزینه محصول باید بین ده هزار تومان تا ده میلیارد تومان باشد.' }, { status: 400 });
 
         if (!/^.{5,50}$/.test(prod.name)) return NextResponse.json({ error: 'نام محصول باید بین 5 تا 50 حرف باشد.' }, { status: 400 });
