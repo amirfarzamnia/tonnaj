@@ -200,6 +200,7 @@ export default ({ type, id }: { type: 'product' | 'request'; id: string }) => {
                                 setDeleteStatus(e instanceof Error ? e.message : 'حذف با خطا مواجه شد.');
                             } finally {
                                 handleCloseDeleteModal();
+
                                 router.push('/');
                             }
                         }}
