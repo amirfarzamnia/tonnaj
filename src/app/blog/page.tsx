@@ -40,36 +40,39 @@ export default () => {
     if (error) return <Typography variant="h4">{error}</Typography>;
 
     return (
-        <Grid container spacing={3}>
-            {blogs.map(({ content, name, image, categories }, index) => (
-                <Grid item xs={12} sm={6} md={3} key={index}>
-                    <Card sx={{ borderRadius: 4 }}>
-                        <Box component="img" src={image} loading="lazy" height="30vh" />
-                        <CardContent>
-                            <Typography variant="h6" gutterBottom textAlign="center">
-                                {name}
-                            </Typography>
-                            <Box sx={{ my: 2 }}>
-                                <Divider />
-                            </Box>
-                            <Typography variant="body1" color="textSecondary" gutterBottom>
-                                {content.slice(0, 150)}...
-                            </Typography>
-                            <Button href={'/blog/' + name} variant="outlined" color="success" sx={{ width: '100%' }}>
-                                مشاهده
-                            </Button>
-                            <Box sx={{ my: 2 }}>
-                                <Divider />
-                            </Box>
-                            <Typography variant="body2" color="textSecondary">
-                                {categories.map((category) => (
-                                    <Link href={'?categories=' + category}>{category}</Link>
-                                ))}
-                            </Typography>
-                        </CardContent>
-                    </Card>
-                </Grid>
-            ))}
-        </Grid>
+        <>
+            <Box sx={{ height: '300px', boxShadow: '0px 4px 12px rgba(0, 0, 0, 0.3)', backgroundImage: 'url("/images/pages/blog/banner.png")', backgroundSize: 'cover', backgroundPosition: 'center', position: 'relative', display: 'flex', flexDirection: 'column', alignItems: 'start', justifyContent: 'center', borderRadius: 4, mb: 10 }}></Box>
+            <Grid container spacing={3}>
+                {blogs.map(({ content, name, image, categories }, index) => (
+                    <Grid item xs={12} sm={6} md={3} key={index}>
+                        <Card sx={{ borderRadius: 4 }}>
+                            <Box component="img" src={image} loading="lazy" height="30vh" />
+                            <CardContent>
+                                <Typography variant="h6" gutterBottom textAlign="center">
+                                    {name}
+                                </Typography>
+                                <Box sx={{ my: 2 }}>
+                                    <Divider />
+                                </Box>
+                                <Typography variant="body1" color="textSecondary" gutterBottom>
+                                    {content.slice(0, 150)}...
+                                </Typography>
+                                <Button href={'/blog/' + name} variant="outlined" color="success" sx={{ width: '100%' }}>
+                                    مشاهده
+                                </Button>
+                                <Box sx={{ my: 2 }}>
+                                    <Divider />
+                                </Box>
+                                <Typography variant="body2" color="textSecondary">
+                                    {categories.map((category) => (
+                                        <Link href={'?categories=' + category}>{category}</Link>
+                                    ))}
+                                </Typography>
+                            </CardContent>
+                        </Card>
+                    </Grid>
+                ))}
+            </Grid>
+        </>
     );
 };
