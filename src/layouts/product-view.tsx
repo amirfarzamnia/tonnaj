@@ -1,7 +1,7 @@
 'use client';
 
 import { Box, Button, Grid, Typography, Card, Link, IconButton, CircularProgress, Divider, Dialog, DialogActions, DialogContent, DialogTitle } from '@mui/material';
-import { Person, Category, Telegram, WhatsApp, LocationOn, Tag, Phone, Room, Delete } from '@mui/icons-material';
+import { Person, Category, Telegram, WhatsApp, LocationOn, Tag, Phone, Room, Delete, DateRange } from '@mui/icons-material';
 import { ProductTypes, ProductRequestTypes } from '@/types/product';
 import { renderToStaticMarkup } from 'react-dom/server';
 import { Swiper, SwiperSlide } from 'swiper/react';
@@ -135,9 +135,10 @@ export default ({ type, id }: { type: 'product' | 'request'; id: string }) => {
                         </Box>
                         <Box sx={{ mt: 2 }}>
                             {[
-                                { icon: <Category />, label: 'دسته بندی ها', value: product.categories.join(', ') },
+                                { icon: <DateRange />, label: 'تاریخ انتشار', value: new Intl.DateTimeFormat('fa-IR', { year: 'numeric', month: '2-digit', day: '2-digit', timeZone: 'Asia/Tehran' }).format(new Date(product.timestamp)).replace(/(\d{4})\/(\d{2})\/(\d{2})/, '$1/$2/$3') },
                                 { icon: <LocationOn />, label: 'موقعیت مکانی', value: `${product.location.state} - ${product.location.city}` },
                                 { icon: <Person />, label: isProductType(product) ? 'فروشنده' : 'خریدار', value: product.author.name },
+                                { icon: <Category />, label: 'دسته بندی ها', value: product.categories.join(', ') },
                                 { icon: <Tag />, label: isProductType(product) ? 'کد محصول' : 'کد درخواست', value: product.id }
                             ].map(({ icon, label, value }, index) => (
                                 <Box key={index} sx={{ display: 'flex', alignItems: 'center', mb: 1, background: 'rgba(0, 0, 0, 0.05)', p: 1, borderRadius: 1 }}>
