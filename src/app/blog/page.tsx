@@ -54,10 +54,10 @@ export default () => {
                                 <Box sx={{ my: 2 }}>
                                     <Divider />
                                 </Box>
-                                <Typography variant="body1" color="textSecondary" gutterBottom>
+                                <Typography variant="body1" color="textSecondary" sx={{ mb: 2 }}>
                                     {content.slice(0, 150)}...
                                 </Typography>
-                                <Button href={'/blog/' + name} variant="outlined" color="success" sx={{ width: '100%' }}>
+                                <Button href={'/blog/' + name} variant="outlined" color="info" sx={{ width: '100%' }}>
                                     مشاهده
                                 </Button>
                                 <Box sx={{ my: 2 }}>

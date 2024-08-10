@@ -63,7 +63,7 @@ export default ({ type }: { type: 'product' | 'request' }) => {
                     </Typography>
                     <Box>
                         <Button size="large" endIcon={type === 'product' ? <Inventory /> : <ShoppingBasket />} href={'/products/' + (type === 'product' ? 'create' : 'request')} variant="contained" color={type === 'product' ? 'success' : 'secondary'} sx={{ display: 'flex', alignItems: 'center', gap: 1.25, py: 0.82, width: 'fit-content' }}>
-                            {type === 'product' ? 'شماهم محصول خود را ثبت کنید' : 'شماهم محصول مورد نظر خود را ثبت کنید'}
+                            {type === 'product' ? 'شماهم محصول خود را ثبت کنید' : 'شماهم محصول مورد نظر خود را درخواست کنید'}
                         </Button>
                     </Box>
                 </Box>

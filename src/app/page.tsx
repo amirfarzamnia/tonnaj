@@ -89,7 +89,7 @@ export default () => {
                         </Button>
                     </Box>
                 </Box>
-                <Box component="img" src="/images/pages/home/banner-middle.png" sx={{ objectFit: 'cover', height: '230px', pb: 1 }} />
+                <Box component="img" src="/images/pages/home/banner-middle.png" sx={{ objectFit: 'cover', height: '230px', pb: 0.25 }} />
             </Box>
             <Typography variant="h5" sx={{ my: 4, display: 'flex', alignItems: 'center', gap: 2, justifyContent: 'space-between' }}>
                 جدیدترین درخواست های خرید محصول
@@ -116,7 +116,7 @@ export default () => {
                         </Button>
                     </Box>
                 </Box>
-                <Box component="img" src="/images/pages/home/banner-bottom.png" sx={{ objectFit: 'cover', height: '230px' }} />
+                <Box component="img" src="/images/pages/home/banner-bottom.png" sx={{ objectFit: 'cover', height: '230px', pb: 0.25 }} />
             </Box>
         </>
     );
