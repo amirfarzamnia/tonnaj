@@ -1,6 +1,7 @@
 'use client';
 
 import { Grid, Typography, Box, CircularProgress, Button } from '@mui/material';
+import ProductRequestCard from '@/components/product-request-card';
 import { ShoppingBasket, Inventory } from '@mui/icons-material';
 import ProductCard from '@/components/product-card';
 import { ProductTypes } from '@/types/product';
@@ -81,7 +82,7 @@ export default ({ type }: { type: 'product' | 'request' }) => {
                     <Grid container spacing={3}>
                         {products.map((product) => (
                             <Grid item xs={12} sm={6} md={3} key={product.id}>
-                                <ProductCard key={product.id} {...product} />
+                                {type === 'product' ? <ProductCard {...product} /> : <ProductRequestCard {...product} />}
                             </Grid>
                         ))}
                     </Grid>
