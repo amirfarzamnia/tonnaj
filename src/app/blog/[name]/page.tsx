@@ -1,6 +1,6 @@
 'use client';
 
-import { Box, Button, Divider, Typography, CircularProgress } from '@mui/material';
+import { Box, Button, Divider, Typography, CircularProgress, Card } from '@mui/material';
 import { usePathname, useRouter } from 'next/navigation';
 import { useEffect, useState } from 'react';
 import { BlogTypes } from '@/types/blog';
@@ -47,16 +47,14 @@ export default ({ params }: { params: { name: string } }) => {
     return (
         <Box sx={{ px: 10 }}>
             <Box textAlign="center">
-                <Box component="img" loading="lazy" src={blog.image} width="25%" sx={{ borderRadius: 4, border: 1, borderColor: 'grey.600' }} />
-                <Box sx={{ mb: 2 }}>
-                    <Typography variant="h4">{blog.name}</Typography>
-                </Box>
+                <Box component="img" loading="lazy" src={blog.image} width="25%" sx={{ borderRadius: 4, border: 1, mb: 4, borderColor: 'grey.600' }} />
+                <Typography variant="h4">{blog.name}</Typography>
             </Box>
-            <Divider sx={{ width: '100%', my: 2 }} />
-            <Typography sx={{ my: 6 }} variant="body1">
-                {blog.content}
-            </Typography>
-            <Divider sx={{ width: '100%', my: 2 }} />
+            <Card sx={{ p: 4, borderRadius: 4, my: 4 }}>
+                <Typography sx={{ my: 6 }} variant="body1">
+                    {blog.content}
+                </Typography>
+            </Card>
             <Box sx={{ display: 'flex', alignItems: 'center', gap: 1 }}>
                 {blog.categories.map((category) => (
                     <Button
