@@ -16,8 +16,10 @@ interface ProductBase {
 }
 
 export type ProductTypes = ProductBase & {
+    unit_of_measurement: string;
     stock_quantity: number;
     images: string[];
+    minimum: number;
     price: number;
     name: string;
 };

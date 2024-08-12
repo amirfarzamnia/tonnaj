@@ -1,4 +1,5 @@
 import { ProductTypes, ProductRequestTypes } from '@/types/product';
+import units_of_measurement from '@/constants/units_of_measurement';
 import { NextResponse, NextRequest } from 'next/server';
 import findSession from '@/functions/find-session';
 import categories from '@/constants/categories';
@@ -37,6 +38,12 @@ export const POST = async (request: NextRequest) => {
         if (typeof prod.price !== 'number' || !(prod.price >= 10000 && prod.price <= 10000000000)) return NextResponse.json({ error: 'هزینه محصول باید بین ده هزار تومان تا ده میلیارد تومان باشد.' }, { status: 400 });
 
         if (!/^.{2,50}$/.test(prod.name)) return NextResponse.json({ error: 'نام محصول باید بین 2 تا 50 حرف باشد.' }, { status: 400 });
+
+        if (!units_of_measurement.includes(prod.unit_of_measurement)) return NextResponse.json({ error: 'واحد اندازه گیری نادرست است.' }, { status: 400 });
+
+        if (typeof prod.stock_quantity !== 'number') return NextResponse.json({ error: 'میزان موجودی محصول نادرست است.' }, { status: 400 });
+
+        if (typeof prod.minimum !== 'number') return NextResponse.json({ error: 'میزان حداقل خرید محصول بسیار کم یا بسیار زیاد است.' }, { status: 400 });
     }
 
     await database.collection(method === 'create' ? 'products' : 'product_requests').insertOne({ ...entity, id, timestamp: Date.now(), author: session, available: true });

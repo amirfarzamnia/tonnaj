@@ -1,5 +1,6 @@
 import { Box, Grid, TextField, Button, Typography, Snackbar, Alert, IconButton, Divider, FormControl, InputLabel, Select, MenuItem } from '@mui/material';
 import { ProductTypes, ProductRequestTypes } from '@/types/product';
+import units_of_measurement from '@/constants/units_of_measurement';
 import { renderToStaticMarkup } from 'react-dom/server';
 import { Add, Clear, Room } from '@mui/icons-material';
 import categories from '@/constants/categories';
@@ -9,7 +10,7 @@ import L from 'leaflet';
 
 import 'leaflet/dist/leaflet.css';
 
-const initialProductState: Omit<Omit<ProductTypes, 'price' | 'stock_quantity'> & { price: number | null; stock_quantity: number | null }, 'timestamp' | 'id' | 'available' | 'author'> = { categories: [], description: '', images: [], price: null, stock_quantity: null, name: '', location: { latlng: new L.LatLng(32.4279, 53.688), state: '', city: '' } };
+const initialProductState: Omit<Omit<ProductTypes, 'price' | 'stock_quantity' | 'minimum'> & { price: number | null; stock_quantity: number | null; minimum: number | null }, 'timestamp' | 'id' | 'available' | 'author'> = { categories: [], description: '', images: [], price: null, unit_of_measurement: '', minimum: null, stock_quantity: null, name: '', location: { latlng: new L.LatLng(32.4279, 53.688), state: '', city: '' } };
 const initialProductRequestState: Omit<ProductRequestTypes, 'timestamp' | 'id' | 'available' | 'author'> = { categories: [], description: '', location: { latlng: new L.LatLng(32.4279, 53.688), state: '', city: '' } };
 
 const categoriesFlat = Object.values(categories).flatMap(Object.values).flat();
@@ -167,6 +168,21 @@ export default ({ method }: { method: 'create' | 'request' }) => {
                                 </Grid>
                                 <Grid item xs={12}>
                                     <TextField required fullWidth type="number" label="موجودی محصول" value={(product as ProductTypes).stock_quantity || ''} onChange={(e) => handleInputChange('stock_quantity', Number(e.target.value))} />
+                                </Grid>
+                                <Grid item xs={12}>
+                                    <TextField required fullWidth type="number" label="حداقل میزان فروش" value={(product as ProductTypes).minimum || ''} onChange={(e) => handleInputChange('minimum', Number(e.target.value))} />
+                                </Grid>
+                                <Grid item xs={12}>
+                                    <FormControl fullWidth>
+                                        <InputLabel>واحد اندازه‌گیری</InputLabel>
+                                        <Select required value={(product as ProductTypes).unit_of_measurement || ''} onChange={(e) => handleInputChange('unit_of_measurement', e.target.value)} renderValue={(selected) => selected}>
+                                            {units_of_measurement.map((unit, index) => (
+                                                <MenuItem key={index} value={unit}>
+                                                    {unit}
+                                                </MenuItem>
+                                            ))}
+                                        </Select>
+                                    </FormControl>
                                 </Grid>
                             </>
                         )}
