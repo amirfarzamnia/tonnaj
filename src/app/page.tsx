@@ -54,12 +54,12 @@ export default () => {
 
     return (
         <>
-            <Box sx={{ height: '300px', boxShadow: '0px 4px 12px rgba(0, 0, 0, 0.3)', border: 1, borderColor: 'grey.600', backgroundImage: 'url("/images/pages/home/banner-top.png")', backgroundSize: 'cover', backgroundPosition: 'center', position: 'relative', display: 'flex', flexDirection: 'column', alignItems: 'start', justifyContent: 'center', paddingRight: 4, borderRadius: 4 }}>
-                <Box sx={{ mt: 10, mr: 4, display: 'flex', alignItems: 'center', gap: 1 }}>
-                    <Button size="large" endIcon={<Inventory />} href="/products/create" variant="contained" color="success" sx={{ display: 'flex', alignItems: 'center', gap: 1.25, width: 'fit-content' }}>
+            <Box sx={{ height: { xs: '90px', lg: '300px' }, boxShadow: '0px 4px 12px rgba(0, 0, 0, 0.3)', border: 1, borderColor: 'grey.600', backgroundImage: 'url("/images/pages/home/banner-top.png")', backgroundSize: 'cover', backgroundPosition: 'center', position: 'relative', display: 'flex', flexDirection: 'column', alignItems: 'start', justifyContent: 'center', paddingRight: 4, borderRadius: 4 }}>
+                <Box sx={{ mt: { xs: 5, lg: 10 }, mr: { xs: 0, lg: 4 }, display: 'flex', alignItems: 'center', gap: 1 }}>
+                    <Button size="large" endIcon={<Inventory />} href="/products/create" variant="contained" color="success" sx={{ 'display': 'flex', 'alignItems': 'center', 'gap': 1.25, 'width': 'fit-content', '@media (max-width:600px)': { padding: '4px 8px', fontSize: '0.4rem' } }}>
                         ثبت محصول
                     </Button>
-                    <Button size="large" endIcon={<ShoppingBasket />} href="products/request" variant="contained" color="secondary" sx={{ display: 'flex', alignItems: 'center', gap: 1.25, width: 'fit-content' }}>
+                    <Button size="large" endIcon={<ShoppingBasket />} href="products/request" variant="contained" color="secondary" sx={{ 'display': 'flex', 'alignItems': 'center', 'gap': 1.25, 'width': 'fit-content', '@media (max-width:600px)': { padding: '4px 8px', fontSize: '0.4rem' } }}>
                         درخواست محصول
                     </Button>
                 </Box>
