@@ -64,6 +64,13 @@ export default () => {
                     </Button>
                 </Box>
             </Box>
+            <Box>
+                {['صنایع غذایی', 'صنایع نساجی', 'صنایع الکترونیک', 'صنایع ساختمانی', 'صنعت', 'صنایع کشاورزی'].map((category) => (
+                    <>
+                        <Box component="img" loading="lazy" src="/images/pages/home/banner-middle.png" />
+                    </>
+                ))}
+            </Box>
             <Typography variant="h6" sx={{ my: 4, display: 'flex', flexDirection: { xs: 'column', lg: 'row' }, alignItems: 'center', gap: 2, justifyContent: 'space-between' }}>
                 جدیدترین محصولات
                 <Box component="hr" sx={{ display: { xs: 'none', lg: 'block' }, border: 0, borderTop: 1, borderColor: 'grey.600', width: '65%' }}></Box>
@@ -87,7 +94,7 @@ export default () => {
                         ثبت محصول
                     </Button>
                 </Box>
-                <Box component="img" src="/images/pages/home/banner-middle.png" sx={{ display: { xs: 'none', lg: 'block' }, objectFit: 'cover', height: '230px', pb: 0.25 }} />
+                <Box component="img" src="/images/pages/home/banner-middle.png" loading="lazy" sx={{ display: { xs: 'none', lg: 'block' }, objectFit: 'cover', height: '230px', pb: 0.25 }} />
             </Box>
             <Typography variant="h6" sx={{ my: 4, display: 'flex', flexDirection: { xs: 'column', lg: 'row' }, alignItems: 'center', gap: 2, justifyContent: 'space-between' }}>
                 جدیدترین درخواست های خرید محصول
@@ -112,7 +119,7 @@ export default () => {
                         درخواست محصول
                     </Button>
                 </Box>
-                <Box component="img" src="/images/pages/home/banner-bottom.png" sx={{ display: { xs: 'none', lg: 'block' }, objectFit: 'cover', height: '230px', pb: 0.25 }} />
+                <Box component="img" loading="lazy" src="/images/pages/home/banner-bottom.png" sx={{ display: { xs: 'none', lg: 'block' }, objectFit: 'cover', height: '230px', pb: 0.25 }} />
             </Box>
         </>
     );

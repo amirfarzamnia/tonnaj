@@ -73,7 +73,7 @@ export default ({ type }: { type: 'product' | 'request' }) => {
                         {type === 'product' ? 'شماهم محصول خود را ثبت کنید' : 'شماهم محصول مورد نظر خود را درخواست کنید'}
                     </Button>
                 </Box>
-                <Box component="img" src="/images/pages/products/banner.png" sx={{ display: { xs: 'none', lg: 'block' }, objectFit: 'cover', height: '230px', pb: 0.25 }} />
+                <Box component="img" loading="lazy" src="/images/pages/products/banner.png" sx={{ display: { xs: 'none', lg: 'block' }, objectFit: 'cover', height: '230px', pb: 0.25 }} />
             </Box>
             {!products.length && !loading ? (
                 <Box sx={{ display: 'flex', flexDirection: 'column', gap: 4, justifyContent: 'center', alignItems: 'center', height: '40vh' }}>
