@@ -132,7 +132,7 @@ export default ({ children }: { children: React.ReactNode }) => {
         <ThemeProvider theme={theme}>
             <CssBaseline enableColorScheme />
             <Box component="html" lang="fa-IR" dir="rtl">
-                <Box component="body" style={{ backgroundColor: theme.palette.background.default }}>
+                <Box component="body" sx={{ backgroundColor: theme.palette.background.default, pb: { xs: 5, sm: 0 } }}>
                     {loading ? (
                         <Box sx={{ display: 'flex', flexDirection: 'column', alignItems: 'center', justifyContent: 'center', height: '100vh', backgroundColor: theme.palette.background.default }}>
                             <CircularProgress color="primary" />
