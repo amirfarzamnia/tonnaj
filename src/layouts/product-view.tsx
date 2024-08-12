@@ -91,7 +91,7 @@ export default ({ type, id }: { type: 'product' | 'request'; id: string }) => {
     const shareURL = location.origin + '/products' + (isProductType(product) ? '/' : '/requests/') + product.id;
 
     return (
-        <Box sx={{ padding: 3 }}>
+        <Box sx={{ padding: { md: 3 } }}>
             <Grid container spacing={3}>
                 <Grid item xs={12} md={6}>
                     {isProductType(product) && (
