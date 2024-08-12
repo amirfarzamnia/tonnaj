@@ -39,7 +39,7 @@ export default ({ method }: { method: 'create' | 'request' }) => {
             const { address } = await response.json();
 
             const city = address.city || address.town || address.village || 'ناشناس';
-            const state = address.state || 'ناشناس';
+            const state = address.state || address.city;
 
             setProduct((prevProduct) => ({ ...prevProduct, location: { latlng: e.latlng, state, city } }));
 
