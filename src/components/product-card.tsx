@@ -29,7 +29,7 @@ export default ({ price, description, images, name, id, categories, location, au
             </Typography>
             <Typography variant="body2" color="textSecondary" gutterBottom sx={{ fontSize: 'small' }}>
                 <Sell sx={{ fontSize: 'smaller', ml: 1 }} />
-                به قیمت {price} تومان
+                به قیمت {price.toLocaleString()} تومان
             </Typography>
             <Typography variant="body2" color="textSecondary" gutterBottom sx={{ fontSize: 'small' }}>
                 <Person sx={{ fontSize: 'smaller', ml: 1 }} />

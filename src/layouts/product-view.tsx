@@ -113,7 +113,7 @@ export default ({ type, id }: { type: 'product' | 'request'; id: string }) => {
                             <>
                                 <Typography variant="h4">{product.name}</Typography>
                                 <Typography sx={{ my: 2 }} variant="h6" color="textPrimary">
-                                    قیمت: {product.price} تومان
+                                    قیمت: {product.price.toLocaleString()} تومان
                                 </Typography>
                             </>
                         )}
@@ -135,7 +135,7 @@ export default ({ type, id }: { type: 'product' | 'request'; id: string }) => {
                         </Box>
                         <Box sx={{ mt: 2 }}>
                             {[
-                                ...(isProductType(product) ? [{ icon: <Inventory2 />, label: 'مقدار موجودی', value: String(product.stock_quantity) }] : []),
+                                ...(isProductType(product) ? [{ icon: <Inventory2 />, label: 'مقدار موجودی', value: product.stock_quantity.toLocaleString() }] : []),
                                 {
                                     icon: <DateRange />,
                                     label: 'تاریخ انتشار',

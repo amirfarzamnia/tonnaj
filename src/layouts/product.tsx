@@ -166,7 +166,7 @@ export default ({ method }: { method: 'create' | 'request' }) => {
                                     <TextField required fullWidth type="number" label="قیمت محصول (تومان)" value={(product as ProductTypes).price || ''} onChange={(e) => handleInputChange('price', Number(e.target.value))} />
                                 </Grid>
                                 <Grid item xs={12}>
-                                    <TextField required fullWidth type="number" label="موجودی محصول (عدد)" value={(product as ProductTypes).stock_quantity || ''} onChange={(e) => handleInputChange('stock_quantity', Number(e.target.value))} />
+                                    <TextField required fullWidth type="number" label="موجودی محصول" value={(product as ProductTypes).stock_quantity || ''} onChange={(e) => handleInputChange('stock_quantity', Number(e.target.value))} />
                                 </Grid>
                             </>
                         )}
