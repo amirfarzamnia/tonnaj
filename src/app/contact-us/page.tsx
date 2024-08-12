@@ -1,7 +1,7 @@
 import { Typography, Box, Divider, Card } from '@mui/material';
 
 export default () => (
-    <Card elevation={3} sx={{ padding: 4, mx: 50, my: 10, borderRadius: 4 }}>
+    <Card elevation={3} sx={{ padding: 4, mx: { lg: 50 }, my: 10, borderRadius: 4 }}>
         <Typography variant="h4" component="h1" gutterBottom textAlign="center">
             تماس با ما
         </Typography>
