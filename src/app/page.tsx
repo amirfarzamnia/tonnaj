@@ -9,7 +9,6 @@ import ProductCard from '@/components/product-card';
 import { Swiper, SwiperSlide } from 'swiper/react';
 import React from 'react';
 
-import 'swiper/css/navigation';
 import 'swiper/css/pagination';
 import 'swiper/css/scrollbar';
 import 'swiper/css';
