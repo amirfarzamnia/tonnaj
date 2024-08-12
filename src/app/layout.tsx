@@ -306,6 +306,7 @@ export default ({ children }: { children: React.ReactNode }) => {
                     }}
                     sx={{ mt: 1 }}>
                     {Object.entries(categories).map(([category, subcategories]) => (
+                        // @ts-ignore
                         <MenuItem
                             key={category}
                             onClick={(event: React.MouseEvent<HTMLButtonElement | HTMLDivElement>) => {
