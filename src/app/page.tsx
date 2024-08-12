@@ -99,7 +99,7 @@ export default () => {
                         ثبت محصول
                     </Button>
                 </Box>
-                <Box component="img" src="/images/pages/home/banner-middle.png" loading="lazy" sx={{ display: { xs: 'none', lg: 'block' }, objectFit: 'cover', height: '230px', pb: 0.25 }} />
+                <Box component="img" src="/images/pages/home/banner-middle.png" loading="lazy" sx={{ display: { xs: 'none', md: 'block' }, objectFit: 'cover', height: '230px', pb: 0.25 }} />
             </Box>
             <Typography variant="h6" sx={{ my: 4, display: 'flex', flexDirection: { xs: 'column', lg: 'row' }, alignItems: 'center', gap: 2, justifyContent: 'space-between' }}>
                 جدیدترین درخواست های خرید محصول
@@ -124,7 +124,7 @@ export default () => {
                         درخواست محصول
                     </Button>
                 </Box>
-                <Box component="img" loading="lazy" src="/images/pages/home/banner-bottom.png" sx={{ display: { xs: 'none', lg: 'block' }, objectFit: 'cover', height: '230px', pb: 0.25 }} />
+                <Box component="img" loading="lazy" src="/images/pages/home/banner-bottom.png" sx={{ display: { xs: 'none', md: 'block' }, objectFit: 'cover', height: '230px', pb: 0.25 }} />
             </Box>
         </>
     );
