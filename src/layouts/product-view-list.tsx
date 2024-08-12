@@ -9,8 +9,6 @@ import { ProductTypes } from '@/types/product';
 import { MegaMenu } from 'primereact/megamenu';
 import React from 'react';
 
-import 'primereact/resources/themes/saga-blue/theme.css';
-
 const model = Object.entries(categories).reduce<{ label: string; items: { label: string; items: { label: string }[] }[] }[]>((acc, [label, items]) => (acc.push({ label, items: Object.entries(items).map(([label, items]) => ({ label, items: items.map((label) => ({ label })) })) }), acc), []);
 
 export default ({ type }: { type: 'product' | 'request' }) => {
