@@ -5,11 +5,12 @@ import ProductRequestCard from '@/components/product-request-card';
 import { ShoppingBasket, Inventory } from '@mui/icons-material';
 import ProductCard from '@/components/product-card';
 import categories from '@/constants/categories';
+import { MenuItem } from 'primereact/menuitem';
 import { ProductTypes } from '@/types/product';
 import { MegaMenu } from 'primereact/megamenu';
 import React from 'react';
 
-const model = Object.entries(categories).reduce<{ label: string; items: { label: string; items: { label: string }[] }[] }[]>((acc, [label, items]) => (acc.push({ label, items: Object.entries(items).map(([label, items]) => ({ label, items: items.map((label) => ({ label })) })) }), acc), []);
+const model = Object.entries(categories).reduce<MenuItem[]>((acc, [label, items]) => (acc.push({ label, items: Object.entries(items).map(([label, items]) => ({ label, items: items.map((label) => ({ label, url: '?categories=' + label })) })) }), acc), []);
 
 export default ({ type }: { type: 'product' | 'request' }) => {
     const [products, setProducts] = React.useState<ProductTypes[]>([]);
