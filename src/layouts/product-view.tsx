@@ -135,7 +135,12 @@ export default ({ type, id }: { type: 'product' | 'request'; id: string }) => {
                         </Box>
                         <Box sx={{ mt: 2 }}>
                             {[
-                                ...(isProductType(product) ? [{ icon: <Inventory2 />, label: 'مقدار موجودی', value: product.stock_quantity.toLocaleString() }] : []),
+                                ...(isProductType(product)
+                                    ? [
+                                          { icon: <Inventory2 />, label: 'مقدار موجودی', value: product.stock_quantity.toLocaleString() + ' ' + product.unit_of_measurement },
+                                          { icon: <Inventory2 />, label: 'حداقل میزان فروش', value: product.minimum.toLocaleString() + ' ' + product.unit_of_measurement }
+                                      ]
+                                    : []),
                                 {
                                     icon: <DateRange />,
                                     label: 'تاریخ انتشار',
