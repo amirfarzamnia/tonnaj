@@ -74,3 +74,8 @@
 ::-webkit-scrollbar-thumb:hover {
     background-color: #555;
 }
+
+html,
+body {
+    overflow-x: hidden;
+}

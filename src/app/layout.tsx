@@ -116,6 +116,16 @@ export default ({ children }: { children: React.ReactNode }) => {
         fetch('/api/sessions').then(thenAct).catch(catchAct);
     }, []);
 
+    const themeClickHandler = () => {
+        setTheme((previousTheme) => {
+            const nextTheme = previousTheme === 'dark' ? 'light' : 'dark';
+
+            localStorage.setItem('selected-theme', nextTheme);
+
+            return nextTheme;
+        });
+    };
+
     const theme = React.useMemo(() => createTheme(schemeOptions[selectedTheme]), [selectedTheme]);
 
     return (
@@ -154,19 +164,7 @@ export default ({ children }: { children: React.ReactNode }) => {
                                             </Button>
                                         ))}
                                     </Box>
-                                    <Button
-                                        sx={{ py: 0.82 }}
-                                        variant="outlined"
-                                        color="info"
-                                        onClick={() => {
-                                            setTheme((previousTheme) => {
-                                                const nextTheme = previousTheme === 'dark' ? 'light' : 'dark';
-
-                                                localStorage.setItem('selected-theme', nextTheme);
-
-                                                return nextTheme;
-                                            });
-                                        }}>
+                                    <Button sx={{ py: 0.82 }} variant="outlined" color="info" onClick={themeClickHandler}>
                                         {selectedTheme === 'dark' ? <LightMode /> : <DarkMode />}
                                     </Button>
                                     <Button endIcon={<Person />} onClick={() => (isAuthenticated ? setLogoutModalOpen(true) : (location.href = '/auth'))} variant="outlined" color={isAuthenticated ? 'error' : 'info'} sx={{ display: 'flex', alignItems: 'center', gap: 1, py: 0.82 }}>
@@ -180,6 +178,19 @@ export default ({ children }: { children: React.ReactNode }) => {
                             <Container sx={{ padding: 2, borderRadius: 4, mt: 12.5 }} maxWidth="xl">
                                 {children}
                             </Container>
+                            <AppBar position="fixed" color="primary" sx={{ top: 'auto', bottom: 0, display: { xs: 'block', sm: 'none' } }}>
+                                <Toolbar sx={{ display: 'flex', gap: 1, justifyContent: 'space-between', borderTop: 1, borderColor: selectedTheme === 'dark' ? '#3f3f46' : '#e4e4e7' }}>
+                                    <Button size="small" variant="outlined" color="info" onClick={themeClickHandler}>
+                                        {selectedTheme === 'dark' ? <LightMode /> : <DarkMode />}
+                                    </Button>
+                                    <Button size="small" endIcon={<Person />} onClick={() => (isAuthenticated ? setLogoutModalOpen(true) : (location.href = '/auth'))} variant="outlined" color={isAuthenticated ? 'error' : 'info'} sx={{ display: 'flex', alignItems: 'center', gap: 1 }}>
+                                        {isAuthenticated ? 'خروج از اکانت' : 'ورود به اکانت'}
+                                    </Button>
+                                    <Button size="small" startIcon={<Inventory />} href="/products/create" variant="contained" color="success" sx={{ display: 'flex', alignItems: 'center', gap: 1 }}>
+                                        ثبت محصول
+                                    </Button>
+                                </Toolbar>
+                            </AppBar>
                             <Box sx={{ borderTop: 1, borderColor: selectedTheme === 'dark' ? '#3f3f46' : '#e4e4e7', background: selectedTheme === 'dark' ? theme.palette.grey[900] : '#fafafa', py: 4 }} component="footer">
                                 <Container>
                                     <Grid container spacing={8}>
