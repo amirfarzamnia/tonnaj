@@ -12,6 +12,8 @@ import 'leaflet/dist/leaflet.css';
 const initialProductState: Omit<Omit<ProductTypes, 'price'> & { price: string | null }, 'timestamp' | 'id' | 'available' | 'author'> = { categories: [], description: '', images: [], price: null, name: '', location: { latlng: new L.LatLng(32.4279, 53.688), state: '', city: '' } };
 const initialProductRequestState: Omit<ProductRequestTypes, 'timestamp' | 'id' | 'available' | 'author'> = { categories: [], description: '', location: { latlng: new L.LatLng(32.4279, 53.688), state: '', city: '' } };
 
+const categoriesFlat = Object.values(categories).flatMap(Object.values).flat();
+
 export default ({ method }: { method: 'create' | 'request' }) => {
     const [product, setProduct] = React.useState(method === 'create' ? initialProductState : initialProductRequestState);
     const [snackbarSeverity, setSnackbarSeverity] = React.useState<'success' | 'error'>('success');
@@ -169,7 +171,7 @@ export default ({ method }: { method: 'create' | 'request' }) => {
                             <FormControl fullWidth>
                                 <InputLabel>دسته بندی</InputLabel>
                                 <Select required multiple value={product.categories} onChange={(e) => handleInputChange('categories', e.target.value)} renderValue={(selected) => (selected as string[]).join(', ')}>
-                                    {categories.map((category, index) => (
+                                    {categoriesFlat.map((category, index) => (
                                         <MenuItem key={index} value={category}>
                                             {category}
                                         </MenuItem>
