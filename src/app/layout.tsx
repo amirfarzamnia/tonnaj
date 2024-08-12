@@ -157,7 +157,7 @@ export default ({ children }: { children: React.ReactNode }) => {
                                         size="small"
                                         sx={{ flexGrow: 1, background: theme.palette.background.default }}
                                     />
-                                    <Box sx={{ display: { xs: 'none', sm: 'flex' }, overflowX: 'auto', whiteSpace: 'nowrap' }}>
+                                    <Box sx={{ display: { xs: 'none', lg: 'flex' }, overflowX: 'auto', whiteSpace: 'nowrap' }}>
                                         {Object.entries({ 'بلاگ تناژ': '/blog', 'قوانین استفاده از تناژ': '/terms-of-service', 'تماس با تناژ': '/contact-us' }).map(([name, url]) => (
                                             <Button href={url} key={name} sx={{ mx: 1 }}>
                                                 {name}

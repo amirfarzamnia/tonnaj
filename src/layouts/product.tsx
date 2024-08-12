@@ -66,7 +66,7 @@ export default ({ method }: { method: 'create' | 'request' }) => {
 
     return (
         <>
-            <Box sx={{ height: { xs: '180px', lg: '400' }, boxShadow: '0px 4px 12px rgba(0, 0, 0, 0.3)', border: 1, borderColor: 'grey.600', backgroundImage: 'url("/images/pages/products/' + method + '/banner.png")', backgroundSize: 'cover', backgroundPosition: 'center', position: 'relative', display: 'flex', flexDirection: 'column', alignItems: 'start', justifyContent: 'center', borderRadius: 4, mb: 10 }}></Box>
+            <Box sx={{ height: { xs: '80px', sm: '150px', md: '180px', lg: '300px' }, boxShadow: '0px 4px 12px rgba(0, 0, 0, 0.3)', border: 1, borderColor: 'grey.600', backgroundImage: 'url("/images/pages/products/' + method + '/banner.png")', backgroundSize: 'cover', backgroundPosition: 'center', position: 'relative', display: 'flex', flexDirection: 'column', alignItems: 'start', justifyContent: 'center', borderRadius: 4, mb: 10 }}></Box>
             <Box
                 component="form"
                 onSubmit={async (e: React.FormEvent) => {
@@ -86,7 +86,7 @@ export default ({ method }: { method: 'create' | 'request' }) => {
 
                     setSnackbarOpen(true);
                 }}
-                sx={{ width: '80%', mx: 'auto' }}>
+                sx={{ width: { xs: '100%', sm: '80%' }, mx: 'auto' }}>
                 <Box sx={{ width: '100%', display: 'flex', flexDirection: 'column', alignItems: 'center', padding: '16px' }}>
                     <Grid container spacing={2} sx={{ width: '100%' }}>
                         <Box>
