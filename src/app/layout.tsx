@@ -1,15 +1,14 @@
 'use client';
 
-import { Button, CircularProgress, TextField, Box, Grid, Divider, Toolbar, AppBar, Link, Container, Typography, InputAdornment, CssBaseline, Shadows, Dialog, DialogActions, DialogContent, DialogContentText, DialogTitle } from '@mui/material';
-import { Search, LightMode, DarkMode, Person, Inventory } from '@mui/icons-material';
-import { createTheme, ThemeProvider, ThemeOptions } from '@mui/material/styles';
-import { TypographyOptions } from '@mui/material/styles/createTypography';
+import { Button, CircularProgress, TextField, Box, Grid, Divider, Toolbar, AppBar, Link, Container, Typography, InputAdornment, CssBaseline, Dialog, DialogActions, DialogContent, DialogContentText, DialogTitle, Menu, MenuItem, ListItemIcon, ListItemText } from '@mui/material';
+import { Search, LightMode, DarkMode, Person, Inventory, Menu as MenuIcon, ArrowRight } from '@mui/icons-material';
+import { createTheme, ThemeProvider } from '@mui/material/styles';
+import categories from '@/constants/categories';
 import React from 'react';
 
-import 'primereact/resources/themes/lara-light-cyan/theme.css';
 import './index.css';
 
-const common: { typography: TypographyOptions; css: React.CSSProperties } = {
+const common = {
     typography: {
         h1: { color: '#d00434' },
         h2: { color: '#d00434' },
@@ -25,7 +24,7 @@ const common: { typography: TypographyOptions; css: React.CSSProperties } = {
     }
 };
 
-const schemeOptions: { dark: ThemeOptions; light: ThemeOptions } = {
+const schemeOptions = {
     dark: {
         palette: {
             mode: 'dark',
@@ -60,8 +59,7 @@ const schemeOptions: { dark: ThemeOptions; light: ThemeOptions } = {
                     }
                 }
             }
-        },
-        shadows: Array(25).fill('none') as Shadows
+        }
     },
     light: {
         palette: {
@@ -93,24 +91,26 @@ const schemeOptions: { dark: ThemeOptions; light: ThemeOptions } = {
                     }
                 }
             }
-        },
-        shadows: Array(25).fill('none') as Shadows
+        }
     }
 };
 
-export default ({ children }: { children: React.ReactNode }) => {
-    const [logoutModalOpen, setLogoutModalOpen] = React.useState<boolean>(false);
-    const [isAuthenticated, setIsAuthenticated] = React.useState<boolean>(false);
-    const [selectedTheme, setTheme] = React.useState<'dark' | 'light'>('light');
-    const [loading, setLoading] = React.useState<boolean>(true);
+export default ({ children }) => {
+    const [logoutModalOpen, setLogoutModalOpen] = React.useState(false);
+    const [isAuthenticated, setIsAuthenticated] = React.useState(false);
+    const [selectedTheme, setTheme] = React.useState('light');
+    const [loading, setLoading] = React.useState(true);
+    const [anchorEl, setAnchorEl] = React.useState(null);
+    const [subMenuAnchorEl, setSubMenuAnchorEl] = React.useState(null);
+    const [selectedCategory, setSelectedCategory] = React.useState(null);
 
     React.useEffect(() => {
-        const theme = (localStorage.getItem('selected-theme') as 'dark' | 'light') || (matchMedia('(prefers-color-scheme: dark)').matches ? 'dark' : 'light');
+        const theme = localStorage.getItem('selected-theme') || (matchMedia('(prefers-color-scheme: dark)').matches ? 'dark' : 'light');
 
         setTheme(theme);
         setLoading(false);
 
-        const thenAct = async (response: Response) => setIsAuthenticated((await response.json()) instanceof Object);
+        const thenAct = async (response) => setIsAuthenticated((await response.json()) instanceof Object);
         const catchAct = () => setIsAuthenticated(false);
 
         fetch('/api/sessions').then(thenAct).catch(catchAct);
@@ -128,6 +128,23 @@ export default ({ children }: { children: React.ReactNode }) => {
 
     const theme = React.useMemo(() => createTheme(schemeOptions[selectedTheme]), [selectedTheme]);
 
+    const handleClick = (event) => {
+        setAnchorEl(event.currentTarget);
+    };
+
+    const handleClose = () => {
+        setAnchorEl(null);
+        setSubMenuAnchorEl(null);
+    };
+
+    const handleCategoryClick = (event, category) => {
+        setSelectedCategory(category);
+        setSubMenuAnchorEl(event.currentTarget);
+    };
+
+    const open = Boolean(anchorEl);
+    const subMenuOpen = Boolean(subMenuAnchorEl);
+
     return (
         <ThemeProvider theme={theme}>
             <CssBaseline enableColorScheme />
@@ -144,6 +161,9 @@ export default ({ children }: { children: React.ReactNode }) => {
                                     <Link href="/" underline="none">
                                         <Box width={85} component="img" loading="lazy" alt="لوگوی تناژ" src="/images/icons/tonnaj.png" />
                                     </Link>
+                                    <Button startIcon={<MenuIcon />} variant="outlined" sx={{ display: { xs: 'none', sm: 'flex' }, alignItems: 'center', gap: 1, py: 0.82 }} onClick={handleClick}>
+                                        دسته بندی ها
+                                    </Button>
                                     <TextField
                                         placeholder="جست و جوی محصول..."
                                         InputProps={{
@@ -293,6 +313,24 @@ export default ({ children }: { children: React.ReactNode }) => {
                         </>
                     )}
                 </Box>
+                <Menu anchorEl={anchorEl} open={open} onClose={handleClose} sx={{ mt: 1 }}>
+                    {Object.entries(categories).map(([category, subcategories]) => (
+                        <MenuItem key={category} onClick={(event) => handleCategoryClick(event, subcategories)}>
+                            <ListItemText primary={category} />
+                            <ListItemIcon>
+                                <ArrowRight />
+                            </ListItemIcon>
+                        </MenuItem>
+                    ))}
+                </Menu>
+                <Menu anchorEl={subMenuAnchorEl} open={subMenuOpen} onClose={() => setSubMenuAnchorEl(null)} sx={{ mt: 1 }}>
+                    {selectedCategory &&
+                        Object.entries(selectedCategory).map(([subcategory, items]) => (
+                            <MenuItem key={subcategory}>
+                                <ListItemText primary={subcategory} />
+                            </MenuItem>
+                        ))}
+                </Menu>
             </Box>
         </ThemeProvider>
     );
