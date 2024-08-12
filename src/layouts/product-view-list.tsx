@@ -90,7 +90,9 @@ export default ({ type }: { type: 'product' | 'request' }) => {
                 </Box>
             ) : (
                 <>
-                    <MegaMenu model={model} />
+                    <Box sx={{ mb: 4 }}>
+                        <MegaMenu model={model} />
+                    </Box>
                     <Grid container spacing={3}>
                         {products.map((product) => (
                             <Grid item xs={12} sm={6} md={3} key={product.id}>
