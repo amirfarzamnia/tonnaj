@@ -320,13 +320,22 @@ export default ({ children }: { children: React.ReactNode }) => {
                         </MenuItem>
                     ))}
                 </Menu>
-                <Menu anchorEl={subMenuAnchorEl} open={Boolean(subMenuAnchorEl)} onClose={() => setSubMenuAnchorEl(null)} sx={{ mt: 1 }}>
-                    {selectedCategory &&
-                        Object.entries(selectedCategory).map(([subcategory, items]) => (
-                            <MenuItem key={subcategory}>
-                                <ListItemText primary={subcategory} />
-                            </MenuItem>
-                        ))}
+                <Menu anchorEl={subMenuAnchorEl} open={Boolean(subMenuAnchorEl)} onClose={() => setSubMenuAnchorEl(null)} sx={{ mt: 1 }} anchorOrigin={{ vertical: 'top', horizontal: 'left' }} transformOrigin={{ vertical: 'top', horizontal: 'right' }}>
+                    {selectedCategory && (
+                        <Box sx={{ maxWidth: { md: '75vw', lg: '50vw' } }}>
+                            {Object.entries(selectedCategory).map(([subcategory, items], index) => (
+                                <Box sx={{ ...(index > 0 && { mt: 5 }) }}>
+                                    <Typography fontWeight="bold" variant="body1">
+                                        {subcategory}
+                                    </Typography>
+                                    <Box component="hr" sx={{ border: 0, borderTop: 1, borderColor: 'grey.200', width: '100%' }}></Box>
+                                    {items.map((item: string) => (
+                                        <Button href={'/products?categories=' + item}>{item}</Button>
+                                    ))}
+                                </Box>
+                            ))}
+                        </Box>
+                    )}
                 </Menu>
             </Box>
         </ThemeProvider>
