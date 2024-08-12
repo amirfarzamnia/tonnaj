@@ -16,6 +16,7 @@ interface ProductBase {
 }
 
 export type ProductTypes = ProductBase & {
+    stock_quantity: number;
     images: string[];
     price: number;
     name: string;
