@@ -157,20 +157,20 @@ export default ({ children }: { children: React.ReactNode }) => {
                                         size="small"
                                         sx={{ flexGrow: 1, background: theme.palette.background.default }}
                                     />
-                                    <Box sx={{ display: 'flex', overflowX: 'auto', whiteSpace: 'nowrap' }}>
+                                    <Box sx={{ display: { xs: 'none', sm: 'flex' }, overflowX: 'auto', whiteSpace: 'nowrap' }}>
                                         {Object.entries({ 'بلاگ تناژ': '/blog', 'قوانین استفاده از تناژ': '/terms-of-service', 'تماس با تناژ': '/contact-us' }).map(([name, url]) => (
                                             <Button href={url} key={name} sx={{ mx: 1 }}>
                                                 {name}
                                             </Button>
                                         ))}
                                     </Box>
-                                    <Button sx={{ py: 0.82 }} variant="outlined" color="info" onClick={themeClickHandler}>
+                                    <Button sx={{ py: 0.82, display: { xs: 'none', sm: 'block' } }} variant="outlined" color="info" onClick={themeClickHandler}>
                                         {selectedTheme === 'dark' ? <LightMode /> : <DarkMode />}
                                     </Button>
-                                    <Button endIcon={<Person />} onClick={() => (isAuthenticated ? setLogoutModalOpen(true) : (location.href = '/auth'))} variant="outlined" color={isAuthenticated ? 'error' : 'info'} sx={{ display: 'flex', alignItems: 'center', gap: 1, py: 0.82 }}>
+                                    <Button endIcon={<Person />} onClick={() => (isAuthenticated ? setLogoutModalOpen(true) : (location.href = '/auth'))} variant="outlined" color={isAuthenticated ? 'error' : 'info'} sx={{ display: { xs: 'none', sm: 'flex' }, alignItems: 'center', gap: 1, py: 0.82 }}>
                                         {isAuthenticated ? 'خروج از اکانت' : 'ورود به اکانت'}
                                     </Button>
-                                    <Button endIcon={<Inventory />} href="/products/create" variant="contained" color="success" sx={{ display: 'flex', alignItems: 'center', gap: 1.25, py: 0.82 }}>
+                                    <Button endIcon={<Inventory />} href="/products/create" variant="contained" color="success" sx={{ display: { xs: 'none', sm: 'flex' }, alignItems: 'center', gap: 1.25, py: 0.82 }}>
                                         ثبت محصول
                                     </Button>
                                 </Toolbar>
