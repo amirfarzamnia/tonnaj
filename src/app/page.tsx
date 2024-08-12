@@ -71,7 +71,7 @@ export default () => {
                     مشاهده همه محصولات
                 </Button>
             </Typography>
-            <Swiper modules={[Pagination, Scrollbar]} slidesPerView={4} spaceBetween={10} pagination={{ clickable: true }} scrollbar={{ draggable: true }}>
+            <Swiper modules={[Pagination, Scrollbar]} spaceBetween={10} pagination={{ clickable: true }} scrollbar={{ draggable: true }} breakpoints={{ 640: { slidesPerView: 1 }, 768: { slidesPerView: 2 }, 1024: { slidesPerView: 3 }, 1280: { slidesPerView: 4 } }}>
                 {products.map((product) => (
                     <SwiperSlide key={product.id} style={{ display: 'flex', justifyContent: 'center', alignItems: 'center', width: '90%', height: 'auto' }}>
                         <ProductCard {...product} />
@@ -98,7 +98,7 @@ export default () => {
                     مشاهده همه درخواست های خرید
                 </Button>
             </Typography>
-            <Swiper modules={[Pagination, Scrollbar]} slidesPerView={4} spaceBetween={10} pagination={{ clickable: true }} scrollbar={{ draggable: true }}>
+            <Swiper modules={[Pagination, Scrollbar]} spaceBetween={10} pagination={{ clickable: true }} scrollbar={{ draggable: true }} breakpoints={{ 640: { slidesPerView: 1 }, 768: { slidesPerView: 2 }, 1024: { slidesPerView: 3 }, 1280: { slidesPerView: 4 } }}>
                 {productRequests.map((product_request) => (
                     <SwiperSlide key={product_request.id} style={{ display: 'flex', justifyContent: 'center', alignItems: 'center', width: '90%', height: 'auto' }}>
                         <ProductRequestCard {...product_request} />
