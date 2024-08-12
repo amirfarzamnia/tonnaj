@@ -1,7 +1,7 @@
 'use client';
 
 import { Button, CircularProgress, TextField, Menu, MenuItem, ListItemText, ListItemIcon, Box, Grid, Divider, Toolbar, AppBar, Link, Container, Typography, InputAdornment, CssBaseline, Shadows, Dialog, DialogActions, DialogContent, DialogContentText, DialogTitle } from '@mui/material';
-import { Search, LightMode, DarkMode, Person, Inventory, Menu as MenuIcon, ArrowRight } from '@mui/icons-material';
+import { Search, LightMode, DarkMode, Person, Inventory, Menu as MenuIcon, ArrowLeft } from '@mui/icons-material';
 import { createTheme, ThemeProvider, ThemeOptions } from '@mui/material/styles';
 import { TypographyOptions } from '@mui/material/styles/createTypography';
 import categories from '@/constants/categories';
@@ -99,13 +99,13 @@ const schemeOptions: { dark: ThemeOptions; light: ThemeOptions } = {
 };
 
 export default ({ children }: { children: React.ReactNode }) => {
+    const [selectedCategory, setSelectedCategory] = React.useState<Record<string, any> | null>(null);
+    const [subMenuAnchorEl, setSubMenuAnchorEl] = React.useState<HTMLElement | null>(null);
     const [logoutModalOpen, setLogoutModalOpen] = React.useState<boolean>(false);
     const [isAuthenticated, setIsAuthenticated] = React.useState<boolean>(false);
     const [selectedTheme, setTheme] = React.useState<'dark' | 'light'>('light');
-    const [selectedCategory, setSelectedCategory] = React.useState(null);
-    const [subMenuAnchorEl, setSubMenuAnchorEl] = React.useState(null);
+    const [anchorEl, setAnchorEl] = React.useState<null | HTMLElement>(null);
     const [loading, setLoading] = React.useState<boolean>(true);
-    const [anchorEl, setAnchorEl] = React.useState(null);
 
     React.useEffect(() => {
         const theme = (localStorage.getItem('selected-theme') as 'dark' | 'light') || (matchMedia('(prefers-color-scheme: dark)').matches ? 'dark' : 'light');
@@ -122,9 +122,7 @@ export default ({ children }: { children: React.ReactNode }) => {
     const themeClickHandler = () => {
         setTheme((previousTheme) => {
             const nextTheme = previousTheme === 'dark' ? 'light' : 'dark';
-
             localStorage.setItem('selected-theme', nextTheme);
-
             return nextTheme;
         });
     };
@@ -316,7 +314,7 @@ export default ({ children }: { children: React.ReactNode }) => {
                             }}>
                             <ListItemText primary={category} />
                             <ListItemIcon>
-                                <ArrowRight />
+                                <ArrowLeft />
                             </ListItemIcon>
                         </MenuItem>
                     ))}
