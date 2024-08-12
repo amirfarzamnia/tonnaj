@@ -4,8 +4,7 @@ import { Button, CircularProgress, TextField, Box, Grid, Divider, Toolbar, AppBa
 import { Search, LightMode, DarkMode, Person, Inventory } from '@mui/icons-material';
 import { createTheme, ThemeProvider, ThemeOptions } from '@mui/material/styles';
 import { TypographyOptions } from '@mui/material/styles/createTypography';
-import { MegaMenu } from 'primereact/megamenu';
-import React, { MouseEvent } from 'react';
+import React from 'react';
 
 import './index.css';
 
@@ -103,40 +102,6 @@ export default ({ children }: { children: React.ReactNode }) => {
     const [isAuthenticated, setIsAuthenticated] = React.useState<boolean>(false);
     const [selectedTheme, setTheme] = React.useState<'dark' | 'light'>('light');
     const [loading, setLoading] = React.useState<boolean>(true);
-    const [anchorEl, setAnchorEl] = React.useState<null | HTMLElement>(null);
-    const [navItem, setNavItem] = React.useState<string[]>([]);
-
-    const handleMenuOpen = (event: MouseEvent<HTMLElement>) => {
-        setAnchorEl(event.currentTarget);
-        navItem.length !== 0 && setNavItem([]);
-    };
-
-    const handleMenuClose = () => {
-        setAnchorEl(null);
-    };
-
-    const handleThemeChange = () => {
-        setTheme((previousTheme) => {
-            const nextTheme = previousTheme === 'dark' ? 'light' : 'dark';
-            localStorage.setItem('selected-theme', nextTheme);
-            return nextTheme;
-        });
-    };
-
-    const items = [
-        {
-            label: 'منو',
-            icon: 'pi pi-box',
-            items: [
-                [
-                    {
-                        label: 'کشاورزی',
-                        items: [{ label: 'Accessories' }, { label: 'Armchair' }, { label: 'Coffee Table' }, { label: 'Couch' }, { label: 'TV Stand' }]
-                    }
-                ]
-            ]
-        }
-    ];
 
     React.useEffect(() => {
         const theme = (localStorage.getItem('selected-theme') as 'dark' | 'light') || (matchMedia('(prefers-color-scheme: dark)').matches ? 'dark' : 'light');
@@ -168,11 +133,6 @@ export default ({ children }: { children: React.ReactNode }) => {
                                     <Link href="/" underline="none">
                                         <Box width={85} component="img" loading="lazy" alt="لوگوی تناژ" src="/images/icons/tonnaj.png" />
                                     </Link>
-
-                                    <Box>
-                                        <MegaMenu model={items} breakpoint="960px"></MegaMenu>
-                                    </Box>
-
                                     <TextField
                                         placeholder="جست و جوی محصول..."
                                         InputProps={{
@@ -184,9 +144,8 @@ export default ({ children }: { children: React.ReactNode }) => {
                                         }}
                                         variant="outlined"
                                         size="small"
-                                        sx={{ flexGrow: 1, background: 'background.default' }} // Adjust theme usage if necessary
+                                        sx={{ flexGrow: 1, background: theme.palette.background.default }}
                                     />
-
                                     <Box sx={{ display: 'flex', overflowX: 'auto', whiteSpace: 'nowrap' }}>
                                         {Object.entries({ 'بلاگ تناژ': '/blog', 'قوانین استفاده از تناژ': '/terms-of-service', 'تماس با تناژ': '/contact-us' }).map(([name, url]) => (
                                             <Button href={url} key={name} sx={{ mx: 1 }}>
