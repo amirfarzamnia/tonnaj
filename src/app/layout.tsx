@@ -168,7 +168,7 @@ export default ({ children }: { children: React.ReactNode }) => {
                                         {selectedTheme === 'dark' ? <LightMode /> : <DarkMode />}
                                     </Button>
                                     <Button endIcon={<Person />} onClick={() => (isAuthenticated ? setLogoutModalOpen(true) : (location.href = '/auth'))} variant="outlined" color={isAuthenticated ? 'error' : 'info'} sx={{ display: { xs: 'none', sm: 'flex' }, alignItems: 'center', gap: 1, py: 0.82 }}>
-                                        {isAuthenticated ? 'خروج از اکانت' : 'ورود به اکانت'}
+                                        {isAuthenticated ? 'خروج از حساب' : 'ورود به حساب'}
                                     </Button>
                                     <Button endIcon={<Inventory />} href="/products/create" variant="contained" color="success" sx={{ display: { xs: 'none', sm: 'flex' }, alignItems: 'center', gap: 1.25, py: 0.82 }}>
                                         ثبت محصول
@@ -184,7 +184,7 @@ export default ({ children }: { children: React.ReactNode }) => {
                                         {selectedTheme === 'dark' ? <LightMode /> : <DarkMode />}
                                     </Button>
                                     <Button size="small" endIcon={<Person />} onClick={() => (isAuthenticated ? setLogoutModalOpen(true) : (location.href = '/auth'))} variant="outlined" color={isAuthenticated ? 'error' : 'info'} sx={{ display: 'flex', alignItems: 'center', gap: 1 }}>
-                                        {isAuthenticated ? 'خروج از اکانت' : 'ورود به اکانت'}
+                                        {isAuthenticated ? 'خروج از حساب' : 'ورود به حساب'}
                                     </Button>
                                     <Button size="small" startIcon={<Inventory />} href="/products/create" variant="contained" color="success" sx={{ display: 'flex', alignItems: 'center', gap: 1 }}>
                                         ثبت محصول
@@ -248,7 +248,7 @@ export default ({ children }: { children: React.ReactNode }) => {
                                                     </Link>
                                                 </Box>
                                                 <Box component="li">
-                                                    <Link underline="hover" href="/privacy-policy">
+                                                    <Link underline="hover" href="/contact-us">
                                                         تماس با تناژ
                                                     </Link>
                                                 </Box>
