@@ -157,9 +157,8 @@ export default ({ children }: { children: React.ReactNode }) => {
                                                 </InputAdornment>
                                             )
                                         }}
-                                        variant="outlined"
                                         size="small"
-                                        sx={{ flexGrow: 1, background: theme.palette.background.default }}
+                                        sx={{ flexGrow: 1 }}
                                     />
                                     <Box sx={{ display: { xs: 'none', lg: 'flex' }, overflowX: 'auto', whiteSpace: 'nowrap' }}>
                                         {Object.entries({ 'بلاگ تناژ': '/blog', 'قوانین استفاده از تناژ': '/terms-of-service', 'تماس با تناژ': '/contact-us' }).map(([name, url]) => (
