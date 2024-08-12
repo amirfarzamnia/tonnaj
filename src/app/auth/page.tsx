@@ -33,7 +33,7 @@ export default () => {
     }, [router, redirectUrl]);
 
     return (
-        <Box sx={{ mx: 40, borderRadius: 1, border: 1, borderColor: 'grey.700', p: 2 }}>
+        <Box sx={{ mx: { lg: 40 }, borderRadius: 1, border: 1, borderColor: 'grey.700', p: 2 }}>
             <Typography variant="h4" textAlign="center" gutterBottom>
                 ورود به تناژ
             </Typography>
