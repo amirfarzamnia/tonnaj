@@ -1,6 +1,6 @@
 'use client';
 
-import { Typography, Box, CircularProgress, Button } from '@mui/material';
+import { Typography, Box, CircularProgress, Button, Grid } from '@mui/material';
 import { ShoppingBasket, Inventory, ArrowBack } from '@mui/icons-material';
 import { ProductTypes, ProductRequestTypes } from '@/types/product';
 import ProductRequestCard from '@/components/product-request-card';
@@ -64,13 +64,18 @@ export default () => {
                     </Button>
                 </Box>
             </Box>
-            <Box>
+            <Grid container spacing={2} my={8}>
                 {['صنایع غذایی', 'صنایع نساجی', 'صنایع الکترونیک', 'صنایع ساختمانی', 'صنعت', 'صنایع کشاورزی'].map((category) => (
-                    <>
-                        <Box component="img" loading="lazy" src="/images/pages/home/banner-middle.png" />
-                    </>
+                    <Grid item xs={6} sm={2} key={category}>
+                        <Box component="a" href={'/products?categories=' + category} sx={{ display: 'block', textAlign: 'center', textDecoration: 'none', color: 'inherit' }}>
+                            <Box component="img" loading="lazy" src={'/images/pages/home/categories/' + category + '.png'} sx={{ width: '100%', height: 'auto' }} />
+                            <Typography variant="h6" sx={{ mt: 1 }}>
+                                {category}
+                            </Typography>
+                        </Box>
+                    </Grid>
                 ))}
-            </Box>
+            </Grid>
             <Typography variant="h6" sx={{ my: 4, display: 'flex', flexDirection: { xs: 'column', lg: 'row' }, alignItems: 'center', gap: 2, justifyContent: 'space-between' }}>
                 جدیدترین محصولات
                 <Box component="hr" sx={{ display: { xs: 'none', lg: 'block' }, border: 0, borderTop: 1, borderColor: 'grey.600', width: '65%' }}></Box>
