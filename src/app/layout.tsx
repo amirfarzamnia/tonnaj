@@ -324,9 +324,9 @@ export default ({ children }: { children: React.ReactNode }) => {
                         <Box sx={{ maxWidth: { md: '75vw', lg: '50vw' } }}>
                             {Object.entries(selectedCategory).map(([subcategory, items], index) => (
                                 <Box sx={{ ...(index > 0 && { mt: 5 }), px: 0.25 }}>
-                                    <Typography fontWeight="bold" variant="body1">
+                                    <Link fontWeight="bold" color="inherit" href={'/products?categories=' + subcategory} variant="body1" underline="hover">
                                         {subcategory}
-                                    </Typography>
+                                    </Link>
                                     <Box component="hr" sx={{ border: 0, borderTop: 1, borderColor: 'grey.200', width: '100%' }}></Box>
                                     {items.map((item: string) => (
                                         <Button href={'/products?categories=' + item}>{item}</Button>
