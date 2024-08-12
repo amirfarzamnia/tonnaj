@@ -1,12 +1,12 @@
 'use client';
 
-import { Button, CircularProgress, TextField, Box, Grid, Divider, Toolbar, AppBar, Link, Container, Typography, InputAdornment, CssBaseline, Shadows, Dialog, DialogActions, DialogContent, DialogContentText, DialogTitle } from '@mui/material';
-import { Search, LightMode, DarkMode, Person, Inventory } from '@mui/icons-material';
+import { Button, CircularProgress, TextField, Menu, MenuItem, ListItemText, ListItemIcon, Box, Grid, Divider, Toolbar, AppBar, Link, Container, Typography, InputAdornment, CssBaseline, Shadows, Dialog, DialogActions, DialogContent, DialogContentText, DialogTitle } from '@mui/material';
+import { Search, LightMode, DarkMode, Person, Inventory, Menu as MenuIcon, ArrowRight } from '@mui/icons-material';
 import { createTheme, ThemeProvider, ThemeOptions } from '@mui/material/styles';
 import { TypographyOptions } from '@mui/material/styles/createTypography';
+import categories from '@/constants/categories';
 import React from 'react';
 
-import 'primereact/resources/themes/lara-light-cyan/theme.css';
 import './index.css';
 
 const common: { typography: TypographyOptions; css: React.CSSProperties } = {
@@ -102,7 +102,10 @@ export default ({ children }: { children: React.ReactNode }) => {
     const [logoutModalOpen, setLogoutModalOpen] = React.useState<boolean>(false);
     const [isAuthenticated, setIsAuthenticated] = React.useState<boolean>(false);
     const [selectedTheme, setTheme] = React.useState<'dark' | 'light'>('light');
+    const [selectedCategory, setSelectedCategory] = React.useState(null);
+    const [subMenuAnchorEl, setSubMenuAnchorEl] = React.useState(null);
     const [loading, setLoading] = React.useState<boolean>(true);
+    const [anchorEl, setAnchorEl] = React.useState(null);
 
     React.useEffect(() => {
         const theme = (localStorage.getItem('selected-theme') as 'dark' | 'light') || (matchMedia('(prefers-color-scheme: dark)').matches ? 'dark' : 'light');
@@ -144,6 +147,9 @@ export default ({ children }: { children: React.ReactNode }) => {
                                     <Link href="/" underline="none">
                                         <Box width={85} component="img" loading="lazy" alt="لوگوی تناژ" src="/images/icons/tonnaj.png" />
                                     </Link>
+                                    <Button startIcon={<MenuIcon />} variant="outlined" sx={{ display: { xs: 'none', sm: 'flex' }, alignItems: 'center', gap: 1, py: 0.82 }} onClick={(event: React.MouseEvent<HTMLButtonElement>) => setAnchorEl(event.currentTarget)}>
+                                        دسته بندی ها
+                                    </Button>
                                     <TextField
                                         placeholder="جست و جوی محصول..."
                                         InputProps={{
@@ -293,6 +299,36 @@ export default ({ children }: { children: React.ReactNode }) => {
                         </>
                     )}
                 </Box>
+                <Menu
+                    anchorEl={anchorEl}
+                    open={Boolean(anchorEl)}
+                    onClose={() => {
+                        setAnchorEl(null);
+                        setSubMenuAnchorEl(null);
+                    }}
+                    sx={{ mt: 1 }}>
+                    {Object.entries(categories).map(([category, subcategories]) => (
+                        <MenuItem
+                            key={category}
+                            onClick={(event: React.MouseEvent<HTMLButtonElement | HTMLDivElement>) => {
+                                setSelectedCategory(subcategories);
+                                setSubMenuAnchorEl(event.currentTarget);
+                            }}>
+                            <ListItemText primary={category} />
+                            <ListItemIcon>
+                                <ArrowRight />
+                            </ListItemIcon>
+                        </MenuItem>
+                    ))}
+                </Menu>
+                <Menu anchorEl={subMenuAnchorEl} open={Boolean(subMenuAnchorEl)} onClose={() => setSubMenuAnchorEl(null)} sx={{ mt: 1 }}>
+                    {selectedCategory &&
+                        Object.entries(selectedCategory).map(([subcategory, items]) => (
+                            <MenuItem key={subcategory}>
+                                <ListItemText primary={subcategory} />
+                            </MenuItem>
+                        ))}
+                </Menu>
             </Box>
         </ThemeProvider>
     );
