@@ -78,18 +78,16 @@ export default () => {
                     </SwiperSlide>
                 ))}
             </Swiper>
-            <Box sx={{ border: 1, borderColor: 'grey.600', boxShadow: '0px 4px 12px rgba(0, 0, 0, 0.3)', my: 4, px: 10, height: '230px', borderRadius: 4, background: '#feb204', display: 'flex', justifyContent: 'space-between', gap: 2 }}>
+            <Box sx={{ '@media (max-width:600px)': { padding: '4px 8px' }, 'textAlign': { xs: 'center', lg: 'start' }, 'border': 1, 'borderColor': 'grey.600', 'boxShadow': '0px 4px 12px rgba(0, 0, 0, 0.3)', 'my': 4, 'px': 10, 'height': '230px', 'borderRadius': 4, 'background': '#feb204', 'display': 'flex', 'justifyContent': 'space-between', 'gap': 2 }}>
                 <Box sx={{ display: 'flex', flexDirection: 'column', gap: 2, height: '100%', justifyContent: 'center' }}>
                     <Typography variant="h6" color="black" fontWeight="bold">
                         همین حالا محصولات خود را به صورت رایگان در تناژ ثبت کنید!
                     </Typography>
-                    <Box>
-                        <Button size="large" endIcon={<Inventory />} href="/products/create" variant="contained" color="success" sx={{ display: 'flex', alignItems: 'center', gap: 1.25, py: 0.82, width: 'fit-content' }}>
-                            ثبت محصول
-                        </Button>
-                    </Box>
+                    <Button size="large" endIcon={<ShoppingBasket />} href="/products/create" variant="contained" color="success" sx={{ '@media (max-width:600px)': { mx: 'auto' }, 'display': 'flex', 'alignItems': 'center', 'gap': 1.25, 'py': 0.82, 'width': 'fit-content' }}>
+                        ثبت محصول
+                    </Button>
                 </Box>
-                <Box component="img" src="/images/pages/home/banner-middle.png" sx={{ objectFit: 'cover', height: '230px', pb: 0.25 }} />
+                <Box component="img" src="/images/pages/home/banner-middle.png" sx={{ display: { xs: 'none', lg: 'block' }, objectFit: 'cover', height: '230px', pb: 0.25 }} />
             </Box>
             <Typography variant="h6" sx={{ my: 4, display: 'flex', flexDirection: { xs: 'column', lg: 'row' }, alignItems: 'center', gap: 2, justifyContent: 'space-between' }}>
                 جدیدترین درخواست های خرید محصول
