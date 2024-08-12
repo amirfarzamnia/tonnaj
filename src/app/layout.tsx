@@ -141,12 +141,12 @@ export default ({ children }: { children: React.ReactNode }) => {
                     ) : (
                         <>
                             <AppBar position="fixed">
-                                <Toolbar sx={{ display: 'flex', gap: 2, justifyContent: 'space-between', borderBottom: 1, borderColor: selectedTheme === 'dark' ? '#3f3f46' : '#e4e4e7', px: 3 }}>
+                                <Toolbar sx={{ display: 'flex', alignItems: 'center', gap: 2, justifyContent: 'space-between', borderBottom: 1, borderColor: selectedTheme === 'dark' ? '#3f3f46' : '#e4e4e7', px: 3 }}>
                                     <Link href="/" underline="none">
-                                        <Box width={85} component="img" loading="lazy" alt="لوگوی تناژ" src="/images/icons/tonnaj.png" />
+                                        <Box width="15vw" maxWidth="85px" component="img" loading="lazy" alt="لوگوی تناژ" src="/images/icons/tonnaj.png" />
                                     </Link>
-                                    <Button startIcon={<MenuIcon />} variant="outlined" sx={{ display: { xs: 'none', sm: 'flex' }, alignItems: 'center', gap: 1, py: 0.82 }} onClick={(event: React.MouseEvent<HTMLButtonElement>) => setAnchorEl(event.currentTarget)}>
-                                        دسته بندی ها
+                                    <Button startIcon={<MenuIcon />} sx={{ display: 'flex', alignItems: 'center', gap: 1, py: 0.82 }} onClick={(event: React.MouseEvent<HTMLButtonElement>) => setAnchorEl(event.currentTarget)}>
+                                        <Box sx={{ display: { xs: 'none', md: 'block' } }}>دسته بندی ها</Box>
                                     </Button>
                                     <TextField
                                         placeholder="جست و جوی محصول..."
