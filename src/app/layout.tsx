@@ -304,7 +304,7 @@ export default ({ children }: { children: React.ReactNode }) => {
                         setAnchorEl(null);
                         setSubMenuAnchorEl(null);
                     }}
-                    sx={{ mt: 1 }}>
+                    sx={{ mt: 3.4 }}>
                     {Object.entries(categories).map(([category, subcategories]) => (
                         // @ts-ignore
                         <MenuItem
@@ -320,11 +320,11 @@ export default ({ children }: { children: React.ReactNode }) => {
                         </MenuItem>
                     ))}
                 </Menu>
-                <Menu anchorEl={subMenuAnchorEl} open={Boolean(subMenuAnchorEl)} onClose={() => setSubMenuAnchorEl(null)} sx={{ mt: 1 }} anchorOrigin={{ vertical: 'top', horizontal: 'left' }} transformOrigin={{ vertical: 'top', horizontal: 'right' }}>
+                <Menu anchorEl={subMenuAnchorEl} open={Boolean(subMenuAnchorEl)} onClose={() => setSubMenuAnchorEl(null)} sx={{ mt: 0.9 }} anchorOrigin={{ vertical: 'top', horizontal: 'left' }} transformOrigin={{ vertical: 'top', horizontal: 'right' }}>
                     {selectedCategory && (
                         <Box sx={{ maxWidth: { md: '75vw', lg: '50vw' } }}>
                             {Object.entries(selectedCategory).map(([subcategory, items], index) => (
-                                <Box sx={{ ...(index > 0 && { mt: 5 }) }}>
+                                <Box sx={{ ...(index > 0 && { mt: 5 }), px: 0.25 }}>
                                     <Typography fontWeight="bold" variant="body1">
                                         {subcategory}
                                     </Typography>
