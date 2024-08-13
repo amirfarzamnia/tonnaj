@@ -188,7 +188,7 @@ export default ({ method }: { method: 'create' | 'request' }) => {
                         )}
                         <Grid item xs={12}>
                             <FormControl fullWidth>
-                                <InputLabel>دسته بندی</InputLabel>
+                                <InputLabel>دسته بندی ها</InputLabel>
                                 <Select required multiple value={product.categories} onChange={(e) => handleInputChange('categories', e.target.value)} renderValue={(selected) => (selected as string[]).join(', ')}>
                                     {categoriesFlat.map((category, index) => (
                                         <MenuItem key={index} value={category}>
@@ -199,7 +199,7 @@ export default ({ method }: { method: 'create' | 'request' }) => {
                             </FormControl>
                         </Grid>
                         <Grid item xs={12}>
-                            <TextField required fullWidth label="توضیحات محصول" variant="outlined" margin="normal" multiline rows={4} value={product.description} onChange={(e) => handleInputChange('description', e.target.value)} placeholder="توضیحات محصول را اینجا بنویسید..." />
+                            <TextField required fullWidth label="توضیحات محصول" variant="outlined" multiline rows={4} value={product.description} onChange={(e) => handleInputChange('description', e.target.value)} placeholder="توضیحات محصول را اینجا بنویسید..." />
                         </Grid>
                         <Grid item xs={12}>
                             <Button type="submit" variant="contained" color={method === 'create' ? 'success' : 'secondary'}>
