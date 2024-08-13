@@ -133,6 +133,35 @@ export default ({ children }: { children: React.ReactNode }) => {
         <ThemeProvider theme={theme}>
             <CssBaseline enableColorScheme />
             <Box component="html" lang="fa-IR" dir="rtl">
+                <Box component="head">
+                    <Box component="title">تناژ - بزرگترین پلتفرم خرید و فروش محصولات عمده در کشور</Box>
+
+                    <Box component="meta" charSet="UTF-8" />
+                    <Box component="meta" name="application-name" content="تناژ" />
+                    <Box component="meta" name="keywords" content="تناژ، عمده، عمده فروشی، محصولات عمده، خرید، فروش، محصول، درخواست" />
+                    <Box component="meta" name="description" content="تناژ - بزرگترین پلتفرم خرید و فروش محصولات عمده در کشور" />
+                    <Box component="meta" name="theme-color" content="#feb204" />
+                    <Box component="meta" name="copyright" content="تناژ" />
+                    <Box component="meta" name="language" content="fa-IR" />
+                    <Box component="meta" name="author" content="تناژ" />
+                    <Box component="meta" name="owner" content="تناژ" />
+                    <Box component="meta" name="reply-to" content="info@tonnaj.com" />
+                    <Box component="meta" name="url" content="https://www.tonnaj.com" />
+                    <Box component="meta" name="identifier-URL" content="https://www.tonnaj.com" />
+                    <Box component="meta" name="robots" content="index, follow" />
+                    <Box component="meta" name="googlebot" content="index, follow" />
+                    <Box component="meta" name="distribution" content="Global" />
+                    <Box component="meta" name="rating" content="safe for kids" />
+                    <Box component="meta" name="HandheldFriendly" content="true" />
+                    <Box component="meta" name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no" />
+                    <Box component="meta" name="apple-mobile-web-app-title" content="تناژ" />
+                    <Box component="meta" name="apple-mobile-web-app-capable" content="yes" />
+                    <Box component="meta" name="apple-touch-fullscreen" content="yes" />
+
+                    <Box component="link" rel="manifest" href="/manifest.json" type="application/manifest+json" />
+                    <Box component="link" rel="icon" href="/images/icons/tonnaj.png" type="image/png" />
+                    <Box component="link" rel="sitemap" href="/sitemap.xml" type="application/xml" />
+                </Box>
                 <Box component="body" sx={{ backgroundColor: theme.palette.background.default, pb: { xs: 5, sm: 0 } }}>
                     {loading ? (
                         <Box sx={{ display: 'flex', flexDirection: 'column', alignItems: 'center', justifyContent: 'center', height: '100vh', backgroundColor: theme.palette.background.default }}>
