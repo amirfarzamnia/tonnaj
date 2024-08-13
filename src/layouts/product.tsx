@@ -81,7 +81,7 @@ export default ({ method }: { method: 'create' | 'request' }) => {
                     if (response.ok) {
                         setProduct(method === 'request' ? initialProductRequestState : initialProductState);
 
-                        setTimeout(() => router.push(method === 'request' ? '/products/' + json.id : '/'), 2500);
+                        setTimeout(() => router.push(method === 'create' ? '/products/' + json.id : '/'), 2500);
                     }
 
                     setSnackbarOpen(true);
@@ -167,14 +167,8 @@ export default ({ method }: { method: 'create' | 'request' }) => {
                                     <TextField required fullWidth type="number" label="قیمت محصول (تومان)" value={(product as ProductTypes).price || ''} onChange={(e) => handleInputChange('price', Number(e.target.value))} />
                                 </Grid>
                                 <Grid item xs={12}>
-                                    <TextField required fullWidth type="number" label="موجودی محصول" value={(product as ProductTypes).stock_quantity || ''} onChange={(e) => handleInputChange('stock_quantity', Number(e.target.value))} />
-                                </Grid>
-                                <Grid item xs={12}>
-                                    <TextField required fullWidth type="number" label="حداقل میزان فروش" value={(product as ProductTypes).minimum || ''} onChange={(e) => handleInputChange('minimum', Number(e.target.value))} />
-                                </Grid>
-                                <Grid item xs={12}>
                                     <FormControl fullWidth>
-                                        <InputLabel>واحد اندازه‌گیری</InputLabel>
+                                        <InputLabel>واحد اندازه‌گیری محصول</InputLabel>
                                         <Select required value={(product as ProductTypes).unit_of_measurement || ''} onChange={(e) => handleInputChange('unit_of_measurement', e.target.value)} renderValue={(selected) => selected}>
                                             {units_of_measurement.map((unit, index) => (
                                                 <MenuItem key={index} value={unit}>
@@ -183,6 +177,12 @@ export default ({ method }: { method: 'create' | 'request' }) => {
                                             ))}
                                         </Select>
                                     </FormControl>
+                                </Grid>
+                                <Grid item xs={12}>
+                                    <TextField required fullWidth type="number" label="موجودی محصول (بر اساس واحد اندازه گیری)" value={(product as ProductTypes).stock_quantity || ''} onChange={(e) => handleInputChange('stock_quantity', Number(e.target.value))} />
+                                </Grid>
+                                <Grid item xs={12}>
+                                    <TextField required fullWidth type="number" label="حداقل میزان فروش (بر اساس واحد اندازه گیری)" value={(product as ProductTypes).minimum || ''} onChange={(e) => handleInputChange('minimum', Number(e.target.value))} />
                                 </Grid>
                             </>
                         )}
