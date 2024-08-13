@@ -225,9 +225,10 @@ export default ({ children }: { children: React.ReactNode }) => {
                                                         <CircularProgress size={24} />
                                                     </Box>
                                                 ) : (
-                                                    searchResults.map((result, index) => (
-                                                        <MenuItem key={index} component="a" href={`/products/${result.id}`}>
-                                                            {result.name}
+                                                    searchResults.map(({ id, name, description, location, author, images }, index) => (
+                                                        <MenuItem key={index} sx={{ display: 'flex', alignItems: 'center', gap: 2 }} component="a" href={`/products/${name ? '' : 'requests/'}${id}`}>
+                                                            <Box component="img" src={images[0]} width="4rem" height="4rem" alt={name || description} sx={{ objectFit: 'cover' }} />
+                                                            {name ? `${name} در ${location.city} توسط ${author.name}` : description}
                                                         </MenuItem>
                                                     ))
                                                 )}
