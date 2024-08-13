@@ -1,6 +1,7 @@
 import { ProductTypes, ProductRequestTypes } from '@/types/product';
 import units_of_measurement from '@/constants/units_of_measurement';
 import { NextResponse, NextRequest } from 'next/server';
+import stringSimilarity from 'string-similarity-js';
 import findSession from '@/functions/find-session';
 import categories from '@/constants/categories';
 import { randomBytes } from 'node:crypto';
@@ -55,6 +56,7 @@ export const GET = async (request: NextRequest) => {
     const { searchParams } = new URL(request.url);
 
     const id = searchParams.get('id');
+    const search = searchParams.get('search');
     const categories = searchParams.get('categories');
 
     const sortOptions: Record<string, Record<string, 1 | -1>> = {
@@ -68,8 +70,24 @@ export const GET = async (request: NextRequest) => {
     const end = parseInt(searchParams.get('end') || '10', 10);
 
     const collectionRef = database.collection(searchParams.get('type') === 'request' ? 'product_requests' : 'products');
-    const query = collectionRef.find(id ? { id } : categories ? { categories: { $in: categories.split(',').map((cat) => cat.trim()) } } : {});
-    const sortedQuery = query.sort((searchParams.get('filters')?.split(',') || []).map((cat) => cat.trim()).reduce((acc, key) => (sortOptions[key] ? { ...acc, ...sortOptions[key] } : acc), {}));
+    const dbQuery: any = {};
+
+    if (id) {
+        dbQuery.id = id;
+    } else if (categories) {
+        dbQuery.categories = { $in: categories.split(',').map((cat) => cat.trim()) };
+    }
+
+    if (search) {
+        const allDocuments = await collectionRef.find(dbQuery).toArray();
+        const scoredResults = allDocuments.map((doc: any) => ({ doc, score: Object.keys(doc).reduce((acc, key) => (typeof doc[key] === 'string' ? acc + stringSimilarity(search, doc[key]) : acc), 0) }));
+        const filteredAndSortedResults = scoredResults.filter(({ score }) => score > 0).sort((a, b) => b.score - a.score);
+
+        return NextResponse.json(filteredAndSortedResults.map(({ doc }) => doc).slice(start, end), { status: 200 });
+    }
+
+    const sortedQuery = collectionRef.find(dbQuery).sort((searchParams.get('filters')?.split(',') || []).map((cat) => cat.trim()).reduce((acc, key) => (sortOptions[key] ? { ...acc, ...sortOptions[key] } : acc), {}));
+
     const paginatedQuery = sortedQuery.skip(start).limit(end - start);
     const data = await paginatedQuery.toArray();
 

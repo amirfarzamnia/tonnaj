@@ -1,6 +1,6 @@
 'use client';
 
-import { Button, CircularProgress, TextField, Menu, MenuItem, ListItemText, ListItemIcon, Box, Grid, Divider, Toolbar, AppBar, Link, Container, Typography, InputAdornment, CssBaseline, Shadows, Dialog, DialogActions, DialogContent, DialogContentText, DialogTitle } from '@mui/material';
+import { Button, CircularProgress, TextField, Menu, MenuItem, ListItemText, ListItemIcon, Box, Grid, Divider, Toolbar, AppBar, Link, Container, Typography, InputAdornment, CssBaseline, Shadows, Dialog, DialogActions, DialogContent, DialogContentText, DialogTitle, Paper } from '@mui/material';
 import { Search, LightMode, DarkMode, Person, Inventory, Menu as MenuIcon, ArrowLeft } from '@mui/icons-material';
 import { createTheme, ThemeProvider, ThemeOptions } from '@mui/material/styles';
 import { TypographyOptions } from '@mui/material/styles/createTypography';
@@ -105,6 +105,10 @@ export default ({ children }: { children: React.ReactNode }) => {
     const [isAuthenticated, setIsAuthenticated] = React.useState<boolean>(false);
     const [selectedTheme, setTheme] = React.useState<'dark' | 'light'>('light');
     const [anchorEl, setAnchorEl] = React.useState<null | HTMLElement>(null);
+    const [searchResults, setSearchResults] = React.useState<Array<any>>([]);
+    const [timer, setTimer] = React.useState<NodeJS.Timeout | null>(null);
+    const [isSearching, setIsSearching] = React.useState<boolean>(false);
+    const [searchInput, setsearchInput] = React.useState<string>('');
     const [loading, setLoading] = React.useState<boolean>(true);
 
     React.useEffect(() => {
@@ -177,24 +181,63 @@ export default ({ children }: { children: React.ReactNode }) => {
                                     <Button variant="outlined" startIcon={<MenuIcon />} sx={{ display: { xs: 'none', md: 'flex' }, alignItems: 'center', gap: 1, py: 0.82 }} onClick={(event: React.MouseEvent<HTMLButtonElement>) => setAnchorEl(event.currentTarget)}>
                                         دسته بندی ها
                                     </Button>
-                                    <TextField
-                                        placeholder="جست و جوی محصول..."
-                                        InputProps={{
-                                            startAdornment: (
-                                                <InputAdornment position="start">
-                                                    <Search />
-                                                </InputAdornment>
-                                            )
-                                        }}
-                                        size="small"
-                                        sx={{ flexGrow: 1 }}
-                                    />
-                                    <Box sx={{ display: { xs: 'none', lg: 'flex' }, overflowX: 'auto', whiteSpace: 'nowrap' }}>
-                                        {Object.entries({ 'بلاگ تناژ': '/blog', 'قوانین استفاده از تناژ': '/terms-of-service', 'تماس با تناژ': '/contact-us' }).map(([name, url]) => (
-                                            <Button href={url} key={name} sx={{ mx: 1 }}>
-                                                {name}
-                                            </Button>
-                                        ))}
+                                    <Box sx={{ flexGrow: 1, position: 'relative' }}>
+                                        <TextField
+                                            value={searchInput}
+                                            onChange={(event: React.ChangeEvent<HTMLInputElement>) => {
+                                                const { value } = event.target;
+
+                                                setsearchInput(value);
+
+                                                if (timer) clearTimeout(timer);
+
+                                                const newTimer = setTimeout(async () => {
+                                                    if (value.trim()) {
+                                                        setIsSearching(true);
+
+                                                        const response = await fetch('/api/products?search=' + value);
+                                                        const results = await response.json();
+
+                                                        setSearchResults(results);
+                                                        setIsSearching(false);
+                                                    } else {
+                                                        setSearchResults([]);
+                                                    }
+                                                }, 1000);
+
+                                                setTimer(newTimer);
+                                            }}
+                                            placeholder="جست و جوی محصول..."
+                                            InputProps={{
+                                                startAdornment: (
+                                                    <InputAdornment position="start">
+                                                        <Search />
+                                                    </InputAdornment>
+                                                )
+                                            }}
+                                            size="small"
+                                            fullWidth
+                                        />
+                                        {searchInput && (
+                                            <Paper sx={{ position: 'absolute', zIndex: 10, top: '100%', left: 0, right: 0, mt: 1, maxHeight: 300, overflowY: 'auto' }}>
+                                                {isSearching ? (
+                                                    <Box sx={{ display: 'flex', justifyContent: 'center', py: 2 }}>
+                                                        <CircularProgress size={24} />
+                                                    </Box>
+                                                ) : (
+                                                    searchResults.map((result, index) => (
+                                                        <MenuItem key={index} component="a" href={`/products/${result.id}`}>
+                                                            {result.name}
+                                                        </MenuItem>
+                                                    ))
+                                                )}
+                                                {!isSearching && searchResults.length === 0 && (
+                                                    <Box sx={{ textAlign: 'center', py: 2 }}>
+                                                        <Typography variant="body2">نتیجه‌ای یافت نشد</Typography>
+                                                    </Box>
+                                                )}
+                                            </Paper>
+                                        )}
                                     </Box>
                                     <Button sx={{ py: 0.82, display: { xs: 'none', sm: 'flex' } }} variant="outlined" color="info" onClick={themeClickHandler}>
                                         {selectedTheme === 'dark' ? <LightMode /> : <DarkMode />}
