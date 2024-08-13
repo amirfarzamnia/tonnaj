@@ -75,7 +75,7 @@ export const GET = async (request: NextRequest) => {
     if (id) {
         dbQuery.id = id;
     } else if (cats) {
-        const subcategories: string[] = [];
+        const subcategories: string[] = [cats.trim()];
 
         // @ts-ignore
         for (const main in categories) for (const sub in categories[main]) if ([main, sub].includes(cats.trim())) subcategories.push(...categories[main][sub]);
