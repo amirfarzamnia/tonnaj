@@ -1,6 +1,6 @@
 'use client';
 
-import { Grid, Typography, Box, CircularProgress, Button, MenuItem, FormControl, Select, InputLabel } from '@mui/material';
+import { Grid, Typography, Box, CircularProgress, Button, MenuItem, FormControl, Select } from '@mui/material';
 import ProductRequestCard from '@/components/product-request-card';
 import { ShoppingBasket, Inventory } from '@mui/icons-material';
 import ProductCard from '@/components/product-card';
@@ -8,6 +8,7 @@ import { ProductTypes } from '@/types/product';
 import React from 'react';
 
 export default ({ type }: { type: 'product' | 'request' }) => {
+    const categories = new URLSearchParams(location.search).get('categories');
     const [products, setProducts] = React.useState<ProductTypes[]>([]);
     const [error, setError] = React.useState<string | null>(null);
     const [filter, setFilter] = React.useState<string>('newest');
@@ -22,7 +23,7 @@ export default ({ type }: { type: 'product' | 'request' }) => {
         isFetching.current = true;
 
         try {
-            const response = await fetch('/api/products?filters=' + filters + '&type=' + type + '&start=' + start + '&end=' + end);
+            const response = await fetch(`/api/products?filters=${filters}&type=${type}&start=${start}&end=${end}${categories ? `&categories=${categories}` : ''}`);
             const data = await response.json();
 
             if (data.length > 0) {
@@ -43,7 +44,7 @@ export default ({ type }: { type: 'product' | 'request' }) => {
     React.useEffect(() => {
         setLoading(true);
         fetchProducts(0, 10, filter);
-    }, [filter]);
+    }, [filter, categories]);
 
     React.useEffect(() => {
         const handleScroll = () => innerHeight + scrollY >= document.body.offsetHeight - 500 && hasMore && !loading && fetchProducts(start, start + 10, filter);
