@@ -57,13 +57,13 @@ export const GET = async (request: NextRequest) => {
 
     const id = searchParams.get('id');
     const search = searchParams.get('search');
-    const categories = searchParams.get('categories');
+    const cats = searchParams.get('categories');
 
     const sortOptions: Record<string, Record<string, 1 | -1>> = {
-        expensive: { price: -1 },
-        cheapest: { price: 1 },
         newest: { timestamp: -1 },
-        oldest: { timestamp: 1 }
+        oldest: { timestamp: 1 },
+        expensive: { price: -1 },
+        cheapest: { price: 1 }
     };
 
     const start = parseInt(searchParams.get('start') || '0', 10);
@@ -74,8 +74,13 @@ export const GET = async (request: NextRequest) => {
 
     if (id) {
         dbQuery.id = id;
-    } else if (categories) {
-        dbQuery.categories = { $in: categories.split(',').map((cat) => cat.trim()) };
+    } else if (cats) {
+        const subcategories: string[] = [];
+
+        // @ts-ignore
+        for (const main in categories) for (const sub in categories[main]) if ([main, sub].includes(cats.trim())) subcategories.push(...categories[main][sub]);
+
+        dbQuery.categories = { $in: subcategories };
     }
 
     if (search) {
