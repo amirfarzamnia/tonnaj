@@ -58,8 +58,8 @@ export const GET = async (request: NextRequest) => {
     const categories = searchParams.get('categories');
 
     const sortOptions: Record<string, Record<string, 1 | -1>> = {
-        price_higher: { price: -1 },
-        price_lower: { price: 1 },
+        expensive: { price: -1 },
+        cheapest: { price: 1 },
         newest: { timestamp: -1 },
         oldest: { timestamp: 1 }
     };

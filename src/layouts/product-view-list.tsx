@@ -1,6 +1,6 @@
 'use client';
 
-import { Grid, Typography, Box, CircularProgress, Button } from '@mui/material';
+import { Grid, Typography, Box, CircularProgress, Button, MenuItem, FormControl, Select, InputLabel } from '@mui/material';
 import ProductRequestCard from '@/components/product-request-card';
 import { ShoppingBasket, Inventory } from '@mui/icons-material';
 import ProductCard from '@/components/product-card';
@@ -10,18 +10,19 @@ import React from 'react';
 export default ({ type }: { type: 'product' | 'request' }) => {
     const [products, setProducts] = React.useState<ProductTypes[]>([]);
     const [error, setError] = React.useState<string | null>(null);
+    const [filter, setFilter] = React.useState<string>('newest');
     const [loading, setLoading] = React.useState<boolean>(true);
     const [hasMore, setHasMore] = React.useState<boolean>(true);
     const [start, setStart] = React.useState<number>(0);
     const isFetching = React.useRef<boolean>(false);
 
-    const fetchProducts = async (start: number, end: number) => {
+    const fetchProducts = async (start: number, end: number, filters: string) => {
         if (isFetching.current) return;
 
         isFetching.current = true;
 
         try {
-            const response = await fetch('/api/products?type=' + type + '&start=' + start + '&end=' + end);
+            const response = await fetch('/api/products?filters=' + filters + '&type=' + type + '&start=' + start + '&end=' + end);
             const data = await response.json();
 
             if (data.length > 0) {
@@ -41,16 +42,16 @@ export default ({ type }: { type: 'product' | 'request' }) => {
 
     React.useEffect(() => {
         setLoading(true);
-        fetchProducts(0, 10);
-    }, []);
+        fetchProducts(0, 10, filter);
+    }, [filter]);
 
     React.useEffect(() => {
-        const handleScroll = () => innerHeight + scrollY >= document.body.offsetHeight - 500 && hasMore && !loading && fetchProducts(start, start + 10);
+        const handleScroll = () => innerHeight + scrollY >= document.body.offsetHeight - 500 && hasMore && !loading && fetchProducts(start, start + 10, filter);
 
         addEventListener('scroll', handleScroll);
 
         return () => removeEventListener('scroll', handleScroll);
-    }, [start, hasMore, loading]);
+    }, [start, hasMore, loading, filter]);
 
     if (loading && start === 0) {
         return (
@@ -84,6 +85,20 @@ export default ({ type }: { type: 'product' | 'request' }) => {
                 </Box>
             ) : (
                 <>
+                    <FormControl sx={{ minWidth: 200, mb: 4 }}>
+                        <Select
+                            value={filter}
+                            onChange={(e) => {
+                                setStart(0);
+                                setProducts([]);
+                                setFilter(e.target.value);
+                            }}>
+                            <MenuItem value="newest">جدیدترین</MenuItem>
+                            <MenuItem value="oldest">قدیمی ترین</MenuItem>
+                            <MenuItem value="cheapest">ارزانترین</MenuItem>
+                            <MenuItem value="expensive">گرانترین</MenuItem>
+                        </Select>
+                    </FormControl>
                     <Grid container spacing={3}>
                         {products.map((product) => (
                             <Grid item xs={12} sm={6} md={3} key={product.id}>
