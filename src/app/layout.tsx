@@ -161,6 +161,7 @@ export default ({ children }: { children: React.ReactNode }) => {
                     <Box component="meta" name="apple-mobile-web-app-title" content="تناژ" />
                     <Box component="meta" name="apple-mobile-web-app-capable" content="yes" />
                     <Box component="meta" name="apple-touch-fullscreen" content="yes" />
+                    <Box component="meta" name="google-site-verification" content="google75ee1535f90f4c09.html" />
 
                     <Box component="link" rel="manifest" href="/manifest.json" type="application/manifest+json" />
                     <Box component="link" rel="icon" href="/images/icons/tonnaj.png" type="image/png" />
