@@ -126,7 +126,9 @@ export default ({ children }: { children: React.ReactNode }) => {
     const themeClickHandler = () => {
         setTheme((previousTheme) => {
             const nextTheme = previousTheme === 'dark' ? 'light' : 'dark';
+
             localStorage.setItem('selected-theme', nextTheme);
+
             return nextTheme;
         });
     };
