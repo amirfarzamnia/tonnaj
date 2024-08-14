@@ -258,14 +258,21 @@ export default ({ children }: { children: React.ReactNode }) => {
                                 {children}
                             </Container>
                             <AppBar position="fixed" color="primary" sx={{ top: 'auto', bottom: 0, display: { xs: 'block', sm: 'none' } }}>
-                                <Toolbar sx={{ display: 'flex', gap: 1, justifyContent: 'space-between', borderTop: 1, borderColor: selectedTheme === 'dark' ? '#3f3f46' : '#e4e4e7' }}>
-                                    <Button size="small" variant="outlined" color="info" onClick={themeClickHandler}>
-                                        {selectedTheme === 'dark' ? <LightMode /> : <DarkMode />}
+                                <Toolbar sx={{ display: 'flex', gap: 1, pt: 1, justifyContent: 'space-between', borderTop: 1, borderColor: selectedTheme === 'dark' ? '#3f3f46' : '#e4e4e7' }}>
+                                    <Button sx={{ display: 'flex', flexDirection: 'column', alignItems: 'center', gap: 0.25 }} size="small" onClick={(event: React.MouseEvent<HTMLButtonElement>) => setAnchorEl(event.currentTarget)}>
+                                        <MenuIcon />
+                                        دسته بندی ها
                                     </Button>
-                                    <Button size="small" endIcon={<Person />} onClick={() => (isAuthenticated ? setLogoutModalOpen(true) : (location.href = '/auth'))} variant="outlined" color={isAuthenticated ? 'error' : 'info'} sx={{ display: 'flex', alignItems: 'center', gap: 1 }}>
+                                    <Button sx={{ display: 'flex', flexDirection: 'column', alignItems: 'center', gap: 0.25 }} size="small" onClick={themeClickHandler}>
+                                        {selectedTheme === 'dark' ? <LightMode /> : <DarkMode />}
+                                        تغییر تم
+                                    </Button>
+                                    <Button sx={{ display: 'flex', flexDirection: 'column', alignItems: 'center', gap: 0.25 }} size="small" onClick={() => (isAuthenticated ? setLogoutModalOpen(true) : (location.href = '/auth'))}>
+                                        <Person />
                                         {isAuthenticated ? 'خروج از حساب' : 'ورود به حساب'}
                                     </Button>
-                                    <Button size="small" startIcon={<Inventory />} href="/products/create" variant="contained" color="success" sx={{ display: 'flex', alignItems: 'center', gap: 1 }}>
+                                    <Button sx={{ display: 'flex', flexDirection: 'column', alignItems: 'center', gap: 0.25 }} size="small" href="/products/create">
+                                        <Inventory />
                                         ثبت محصول
                                     </Button>
                                 </Toolbar>
