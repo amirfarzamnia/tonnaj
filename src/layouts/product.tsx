@@ -153,6 +153,7 @@ export default function ({ method }: { method: 'create' | 'request' }) {
                             <FormControl fullWidth>
                                 <InputLabel>استان</InputLabel>
                                 <Select
+                                    required
                                     value={selectedProvince}
                                     onChange={(e) => {
                                         setSelectedProvince(e.target.value);
@@ -170,7 +171,7 @@ export default function ({ method }: { method: 'create' | 'request' }) {
                         <Grid item xs={12}>
                             <FormControl fullWidth disabled={!selectedProvince}>
                                 <InputLabel>شهر</InputLabel>
-                                <Select value={product.location.city} onChange={(e) => handleInputChange('location', { ...product.location, city: e.target.value })} renderValue={(selected) => selected}>
+                                <Select required value={product.location.city} onChange={(e) => handleInputChange('location', { ...product.location, city: e.target.value })} renderValue={(selected) => selected}>
                                     {selectedProvince &&
                                         // @ts-ignore
                                         proviences_cities[selectedProvince].map((city, index) => (
