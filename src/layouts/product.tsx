@@ -1,4 +1,4 @@
-import { Box, Grid, TextField, Button, Typography, Snackbar, Alert, IconButton, FormControl, InputLabel, Select, MenuItem } from '@mui/material';
+import { Box, Grid, TextField, Button, Typography, Snackbar, Alert, IconButton, FormControl, InputLabel, Select, MenuItem, CircularProgress } from '@mui/material';
 import { ProductTypes, ProductRequestTypes } from '@/types/product';
 import units_of_measurement from '@/constants/units_of_measurement';
 import proviences_cities from '@/constants/proviences_cities';
@@ -20,6 +20,7 @@ export default function ({ method }: { method: 'create' | 'request' }) {
     const [snackbarMessage, setSnackbarMessage] = React.useState('');
     const fileInputRef = React.useRef<HTMLInputElement | null>(null);
     const [snackbarOpen, setSnackbarOpen] = React.useState(false);
+    const [loading, setLoading] = React.useState(false);
     const router = useRouter();
 
     React.useEffect(() => {
@@ -37,6 +38,8 @@ export default function ({ method }: { method: 'create' | 'request' }) {
                 onSubmit={async (e: React.FormEvent) => {
                     e.preventDefault();
 
+                    setLoading(true);
+
                     const response = await fetch('/api/products', { method: 'POST', headers: { 'Content-Type': 'application/json' }, body: JSON.stringify({ method, ...(method === 'create' ? { product } : { product_request: product }) }) });
                     const json = await response.json();
 
@@ -50,6 +53,7 @@ export default function ({ method }: { method: 'create' | 'request' }) {
                     }
 
                     setSnackbarOpen(true);
+                    setLoading(false);
                 }}
                 sx={{ width: { xs: '100%', sm: '80%' }, mx: 'auto' }}>
                 <Box sx={{ width: '100%', display: 'flex', flexDirection: 'column', alignItems: 'center', padding: '16px' }}>
@@ -186,8 +190,8 @@ export default function ({ method }: { method: 'create' | 'request' }) {
                             <TextField required fullWidth label="توضیحات محصول" variant="outlined" multiline rows={4} value={product.description} onChange={(e) => handleInputChange('description', e.target.value)} placeholder="توضیحات محصول را اینجا بنویسید..." />
                         </Grid>
                         <Grid item xs={12}>
-                            <Button type="submit" variant="contained" color={method === 'create' ? 'success' : 'secondary'}>
-                                {method === 'create' ? 'ثبت محصول' : 'درخواست محصول'}
+                            <Button type="submit" variant="contained" color={method === 'create' ? 'success' : 'secondary'} disabled={loading}>
+                                {loading ? <CircularProgress size={24} /> : method === 'create' ? 'ثبت محصول' : 'درخواست محصول'}
                             </Button>
                         </Grid>
                     </Grid>
