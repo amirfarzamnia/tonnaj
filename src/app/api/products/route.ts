@@ -25,7 +25,7 @@ export const POST = async (request: NextRequest) => {
 
     if (!/^.{25,2500}$/.test(entity.description)) return NextResponse.json({ error: 'توضیحات محصول باید بین 25 تا 2500 حرف باشد.' }, { status: 400 });
 
-    if (!entity.location.city.length || !entity.location.state.length) return NextResponse.json({ error: 'لطفا موقعیت مکانی خود را به درستی انتخاب کنید.' }, { status: 400 });
+    if (!entity.location.city.length || !entity.location.province.length) return NextResponse.json({ error: 'لطفا موقعیت مکانی خود را به درستی انتخاب کنید.' }, { status: 400 });
 
     if (method === 'create') {
         const prod = entity as ProductTypes;

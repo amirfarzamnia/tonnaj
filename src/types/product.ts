@@ -7,7 +7,7 @@ interface ProductBase {
     timestamp: number;
     id: string;
     location: {
-        state: string;
+        province: string;
         city: string;
     };
     author: Omit<AuthTypes, 'verification_code'>;

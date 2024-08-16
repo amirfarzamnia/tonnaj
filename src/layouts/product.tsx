@@ -1,23 +1,25 @@
-import { Box, Grid, TextField, Button, Typography, Snackbar, Alert, IconButton, Divider, FormControl, InputLabel, Select, MenuItem } from '@mui/material';
+import { Box, Grid, TextField, Button, Typography, Snackbar, Alert, IconButton, FormControl, InputLabel, Select, MenuItem } from '@mui/material';
 import { ProductTypes, ProductRequestTypes } from '@/types/product';
 import units_of_measurement from '@/constants/units_of_measurement';
-import { Add, Clear, Room } from '@mui/icons-material';
+import proviences_cities from '@/constants/proviences_cities';
+import { Add, Clear } from '@mui/icons-material';
 import categories from '@/constants/categories';
 import { useRouter } from 'next/navigation';
 import React from 'react';
 
-const initialProductState: Omit<Omit<ProductTypes, 'price' | 'stock_quantity' | 'minimum'> & { price: number | null; stock_quantity: number | null; minimum: number | null }, 'timestamp' | 'id' | 'available' | 'author'> = { categories: [], description: '', images: [], price: null, unit_of_measurement: '', minimum: null, stock_quantity: null, name: '', location: { state: '', city: '' } };
-const initialProductRequestState: Omit<ProductRequestTypes, 'timestamp' | 'id' | 'available' | 'author'> = { categories: [], description: '', location: { state: '', city: '' } };
+const initialProductState: Omit<Omit<ProductTypes, 'price' | 'stock_quantity' | 'minimum'> & { price: number | null; stock_quantity: number | null; minimum: number | null }, 'timestamp' | 'id' | 'available' | 'author'> = { categories: [], description: '', images: [], price: null, unit_of_measurement: '', minimum: null, stock_quantity: null, name: '', location: { province: '', city: '' } };
+const initialProductRequestState: Omit<ProductRequestTypes, 'timestamp' | 'id' | 'available' | 'author'> = { categories: [], description: '', location: { province: '', city: '' } };
 
 const categoriesFlat = Object.values(categories).flatMap(Object.values).flat();
+const provinces = Object.keys(proviences_cities);
 
 export default function ({ method }: { method: 'create' | 'request' }) {
     const [product, setProduct] = React.useState(method === 'create' ? initialProductState : initialProductRequestState);
     const [snackbarSeverity, setSnackbarSeverity] = React.useState<'success' | 'error'>('success');
+    const [selectedProvince, setSelectedProvince] = React.useState<string>('');
     const [snackbarMessage, setSnackbarMessage] = React.useState('');
     const fileInputRef = React.useRef<HTMLInputElement | null>(null);
     const [snackbarOpen, setSnackbarOpen] = React.useState(false);
-    const mapRef = React.useRef<HTMLDivElement | null>(null);
     const router = useRouter();
 
     React.useEffect(() => {
@@ -52,20 +54,6 @@ export default function ({ method }: { method: 'create' | 'request' }) {
                 sx={{ width: { xs: '100%', sm: '80%' }, mx: 'auto' }}>
                 <Box sx={{ width: '100%', display: 'flex', flexDirection: 'column', alignItems: 'center', padding: '16px' }}>
                     <Grid container spacing={2} sx={{ width: '100%' }}>
-                        <Box>
-                            <Typography variant="h6" gutterBottom>
-                                موقعیت مکانی دقیق خود یا محصول خود را از طریق نقشه زیر انتخاب کنید.
-                            </Typography>
-                            <Typography variant="body2" gutterBottom>
-                                توجه داشته باشید که این موقعیت مکانی برای همه قابل مشاهده خواهد بود.
-                            </Typography>
-                        </Box>
-                        <Grid item xs={12}>
-                            <Box ref={mapRef} sx={{ height: '25rem', width: '100%', border: 1, borderColor: 'rgba(133, 133, 133, 0.5)', borderRadius: 1 }}></Box>
-                        </Grid>
-                        <Box sx={{ width: '98.5%', mt: 5 }}>
-                            <Divider />
-                        </Box>
                         {method === 'create' && (
                             <>
                                 <Grid item xs={12}>
@@ -158,6 +146,38 @@ export default function ({ method }: { method: 'create' | 'request' }) {
                                             {category}
                                         </MenuItem>
                                     ))}
+                                </Select>
+                            </FormControl>
+                        </Grid>
+                        <Grid item xs={12}>
+                            <FormControl fullWidth>
+                                <InputLabel>استان</InputLabel>
+                                <Select
+                                    value={selectedProvince}
+                                    onChange={(e) => {
+                                        setSelectedProvince(e.target.value);
+                                        handleInputChange('location', { ...product.location, province: e.target.value, city: '' });
+                                    }}
+                                    renderValue={(selected) => selected}>
+                                    {provinces.map((province, index) => (
+                                        <MenuItem key={index} value={province}>
+                                            {province}
+                                        </MenuItem>
+                                    ))}
+                                </Select>
+                            </FormControl>
+                        </Grid>
+                        <Grid item xs={12}>
+                            <FormControl fullWidth disabled={!selectedProvince}>
+                                <InputLabel>شهر</InputLabel>
+                                <Select value={product.location.city} onChange={(e) => handleInputChange('location', { ...product.location, city: e.target.value })} renderValue={(selected) => selected}>
+                                    {selectedProvince &&
+                                        // @ts-ignore
+                                        proviences_cities[selectedProvince].map((city, index) => (
+                                            <MenuItem key={index} value={city}>
+                                                {city}
+                                            </MenuItem>
+                                        ))}
                                 </Select>
                             </FormControl>
                         </Grid>

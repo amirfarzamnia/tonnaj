@@ -138,7 +138,7 @@ export default function ({ type, id }: { type: 'product' | 'request'; id: string
                                 {
                                     icon: <LocationOn />,
                                     label: 'موقعیت مکانی',
-                                    value: `${product.location.state} - ${product.location.city}`
+                                    value: `${product.location.province} - ${product.location.city}`
                                 },
                                 {
                                     icon: <Person />,
