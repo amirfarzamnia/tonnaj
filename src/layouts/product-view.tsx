@@ -1,7 +1,7 @@
 'use client';
 
 import { Box, Button, Grid, Typography, Card, Link, IconButton, CircularProgress, Divider, Dialog, DialogActions, DialogContent, DialogTitle } from '@mui/material';
-import { Person, Category, Telegram, WhatsApp, LocationOn, Tag, Phone, Room, Delete, DateRange, Inventory2 } from '@mui/icons-material';
+import { Person, Category, Telegram, WhatsApp, LocationOn, Tag, Phone, Delete, DateRange, Inventory2 } from '@mui/icons-material';
 import { ProductTypes, ProductRequestTypes } from '@/types/product';
 import { Swiper, SwiperSlide } from 'swiper/react';
 import { Pagination } from 'swiper/modules';
@@ -18,7 +18,6 @@ export default function ({ type, id }: { type: 'product' | 'request'; id: string
     const [deleteStatus, setDeleteStatus] = React.useState<string | null>(null);
     const [isOwnProduct, setIsOwnProduct] = React.useState<boolean>(false);
     const [openDeleteModal, setOpenDeleteModal] = React.useState(false);
-    const mapContainerRef = React.useRef<HTMLDivElement | null>(null);
     const [error, setError] = React.useState<string | null>(null);
     const [loading, setLoading] = React.useState<boolean>(true);
     const router = useRouter();
@@ -164,10 +163,6 @@ export default function ({ type, id }: { type: 'product' | 'request'; id: string
                                 </Box>
                             ))}
                         </Box>
-                        <Box sx={{ my: 2 }}>
-                            <Divider />
-                        </Box>
-                        <Box sx={{ height: '20rem', marginTop: 2, borderRadius: 1, overflow: 'hidden' }} ref={mapContainerRef}></Box>
                         <Box sx={{ my: 2 }}>
                             <Divider />
                         </Box>
