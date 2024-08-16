@@ -45,7 +45,7 @@ export default function ({ type, id }: { type: 'product' | 'request'; id: string
                     const sessionResponse = await fetch('/api/sessions');
                     const sessionData = await sessionResponse.json();
 
-                    setIsOwnProduct(sessionData?.phone_number === product?.author.phone_number);
+                    setIsOwnProduct(sessionData?.phone_number === productData?.author.phone_number);
                 } catch {}
             } catch (e) {
                 setError(e instanceof Error ? e.message : 'دریافت اطلاعات از دیتابیس با خطا مواجه شد.');
