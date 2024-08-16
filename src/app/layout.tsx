@@ -98,7 +98,7 @@ const schemeOptions: { dark: ThemeOptions; light: ThemeOptions } = {
     }
 };
 
-export default ({ children }: { children: React.ReactNode }) => {
+export default function ({ children }: { children: React.ReactNode }) {
     const [selectedCategory, setSelectedCategory] = React.useState<Record<string, any> | null>(null);
     const [subMenuAnchorEl, setSubMenuAnchorEl] = React.useState<HTMLElement | null>(null);
     const [logoutModalOpen, setLogoutModalOpen] = React.useState<boolean>(false);
@@ -422,4 +422,4 @@ export default ({ children }: { children: React.ReactNode }) => {
             </Box>
         </ThemeProvider>
     );
-};
+}

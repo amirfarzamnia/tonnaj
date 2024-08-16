@@ -14,7 +14,7 @@ const VerificationStep: React.FC<{ label: string; value: string; error: string; 
     </Box>
 );
 
-export default () => {
+export default function () {
     const [verification_code, setVerificationCode] = React.useState<AuthTypes['verification_code']>('');
     const [phone_number, setPhoneNumber] = React.useState<AuthTypes['phone_number']>('');
     const redirectUrl = useSearchParams().get('redirect') || '/';
@@ -109,4 +109,4 @@ export default () => {
             )}
         </Box>
     );
-};
+}

@@ -6,7 +6,7 @@ import { ArrowBack } from '@mui/icons-material';
 import { useEffect, useState } from 'react';
 import { BlogTypes } from '@/types/blog';
 
-export default () => {
+export default function () {
     const [error, setError] = useState<string | null>(null);
     const categories = useSearchParams().get('categories');
     const [blogs, setBlogs] = useState<BlogTypes[]>([]);
@@ -76,4 +76,4 @@ export default () => {
             </Grid>
         </>
     );
-};
+}

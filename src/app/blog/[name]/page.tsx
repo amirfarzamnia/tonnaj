@@ -5,7 +5,7 @@ import { usePathname, useRouter } from 'next/navigation';
 import { useEffect, useState } from 'react';
 import { BlogTypes } from '@/types/blog';
 
-export default ({ params }: { params: { name: string } }) => {
+export default function ({ params }: { params: { name: string } }) {
     const [selectedCategories, setSelectedCategories] = useState<string[]>([]);
     const [blog, setBlog] = useState<BlogTypes | null>(null);
     const [error, setError] = useState<string | null>(null);
@@ -72,4 +72,4 @@ export default ({ params }: { params: { name: string } }) => {
             </Box>
         </Box>
     );
-};
+}

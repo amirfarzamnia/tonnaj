@@ -15,7 +15,7 @@ const initialProductRequestState: Omit<ProductRequestTypes, 'timestamp' | 'id' |
 
 const categoriesFlat = Object.values(categories).flatMap(Object.values).flat();
 
-export default ({ method }: { method: 'create' | 'request' }) => {
+export default function ({ method }: { method: 'create' | 'request' }) {
     const [product, setProduct] = React.useState(method === 'create' ? initialProductState : initialProductRequestState);
     const [snackbarSeverity, setSnackbarSeverity] = React.useState<'success' | 'error'>('success');
     const [snackbarMessage, setSnackbarMessage] = React.useState('');
@@ -216,4 +216,4 @@ export default ({ method }: { method: 'create' | 'request' }) => {
             </Box>
         </>
     );
-};
+}

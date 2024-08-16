@@ -13,7 +13,7 @@ import 'swiper/css/pagination';
 import 'swiper/css/scrollbar';
 import 'swiper/css';
 
-export default () => {
+export default function () {
     const [productRequests, setProductRequests] = React.useState<ProductRequestTypes[]>([]);
     const [products, setProducts] = React.useState<ProductTypes[]>([]);
     const [error, setError] = React.useState<string | null>(null);
@@ -127,4 +127,4 @@ export default () => {
             </Box>
         </>
     );
-};
+}

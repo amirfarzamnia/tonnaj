@@ -16,7 +16,7 @@ import 'swiper/css';
 
 type ProductOrRequest<T extends 'product' | 'request'> = T extends 'product' ? ProductTypes : ProductRequestTypes;
 
-export default ({ type, id }: { type: 'product' | 'request'; id: string }) => {
+export default function ({ type, id }: { type: 'product' | 'request'; id: string }) {
     const [product, setProduct] = React.useState<ProductOrRequest<typeof type> | null>(null);
     const [deleteStatus, setDeleteStatus] = React.useState<string | null>(null);
     const [isOwnProduct, setIsOwnProduct] = React.useState<boolean>(false);
@@ -239,4 +239,4 @@ export default ({ type, id }: { type: 'product' | 'request'; id: string }) => {
             </Dialog>
         </Box>
     );
-};
+}

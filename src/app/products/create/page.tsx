@@ -3,4 +3,6 @@
 import ProductLayout from '@/layouts/product';
 import React from 'react';
 
-export default () => <ProductLayout method="create" />;
+export default function () {
+    return <ProductLayout method="create" />;
+}

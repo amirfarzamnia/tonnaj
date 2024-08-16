@@ -7,7 +7,7 @@ import ProductCard from '@/components/product-card';
 import { ProductTypes } from '@/types/product';
 import React from 'react';
 
-export default ({ type }: { type: 'product' | 'request' }) => {
+export default function ({ type }: { type: 'product' | 'request' }) {
     const categories = new URLSearchParams(location.search).get('categories');
     const [products, setProducts] = React.useState<ProductTypes[]>([]);
     const [error, setError] = React.useState<string | null>(null);
@@ -116,4 +116,4 @@ export default ({ type }: { type: 'product' | 'request' }) => {
             )}
         </>
     );
-};
+}
