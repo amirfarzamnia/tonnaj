@@ -1,5 +1,4 @@
 import { AuthTypes } from './auth';
-import { LatLng } from 'leaflet';
 
 interface ProductBase {
     categories: string[];
@@ -8,7 +7,6 @@ interface ProductBase {
     timestamp: number;
     id: string;
     location: {
-        latlng: LatLng;
         state: string;
         city: string;
     };

@@ -1,17 +1,13 @@
 import { Box, Grid, TextField, Button, Typography, Snackbar, Alert, IconButton, Divider, FormControl, InputLabel, Select, MenuItem } from '@mui/material';
 import { ProductTypes, ProductRequestTypes } from '@/types/product';
 import units_of_measurement from '@/constants/units_of_measurement';
-import { renderToStaticMarkup } from 'react-dom/server';
 import { Add, Clear, Room } from '@mui/icons-material';
 import categories from '@/constants/categories';
 import { useRouter } from 'next/navigation';
 import React from 'react';
-import L from 'leaflet';
 
-import 'leaflet/dist/leaflet.css';
-
-const initialProductState: Omit<Omit<ProductTypes, 'price' | 'stock_quantity' | 'minimum'> & { price: number | null; stock_quantity: number | null; minimum: number | null }, 'timestamp' | 'id' | 'available' | 'author'> = { categories: [], description: '', images: [], price: null, unit_of_measurement: '', minimum: null, stock_quantity: null, name: '', location: { latlng: new L.LatLng(32.4279, 53.688), state: '', city: '' } };
-const initialProductRequestState: Omit<ProductRequestTypes, 'timestamp' | 'id' | 'available' | 'author'> = { categories: [], description: '', location: { latlng: new L.LatLng(32.4279, 53.688), state: '', city: '' } };
+const initialProductState: Omit<Omit<ProductTypes, 'price' | 'stock_quantity' | 'minimum'> & { price: number | null; stock_quantity: number | null; minimum: number | null }, 'timestamp' | 'id' | 'available' | 'author'> = { categories: [], description: '', images: [], price: null, unit_of_measurement: '', minimum: null, stock_quantity: null, name: '', location: { state: '', city: '' } };
+const initialProductRequestState: Omit<ProductRequestTypes, 'timestamp' | 'id' | 'available' | 'author'> = { categories: [], description: '', location: { state: '', city: '' } };
 
 const categoriesFlat = Object.values(categories).flatMap(Object.values).flat();
 
@@ -22,43 +18,10 @@ export default function ({ method }: { method: 'create' | 'request' }) {
     const fileInputRef = React.useRef<HTMLInputElement | null>(null);
     const [snackbarOpen, setSnackbarOpen] = React.useState(false);
     const mapRef = React.useRef<HTMLDivElement | null>(null);
-    const markerRef = React.useRef<L.Marker | null>(null);
-    const mapInstance = React.useRef<L.Map | null>(null);
     const router = useRouter();
 
     React.useEffect(() => {
         (async () => !(await fetch('/api/sessions')).ok && router.push('/auth?redirect=/products/' + method))();
-
-        if (!(mapRef.current && !mapInstance.current)) return;
-
-        mapInstance.current = L.map(mapRef.current, { attributionControl: false }).setView(product.location.latlng, 5);
-
-        L.tileLayer('https://{s}.tile.openstreetmap.org/{z}/{x}/{y}.png').addTo(mapInstance.current);
-
-        const handleMapClick = async (e: L.LeafletMouseEvent) => {
-            const response = await fetch('https://nominatim.openstreetmap.org/reverse?format=jsonv2&lat=' + e.latlng.lat + '&lon=' + e.latlng.lng + '&accept-language=fa');
-            const { address } = await response.json();
-
-            const city = address.city || address.town || address.village || 'ناشناس';
-            const state = address.state || address.city;
-
-            setProduct((prevProduct) => ({ ...prevProduct, location: { latlng: e.latlng, state, city } }));
-
-            if (markerRef.current) mapInstance.current!.removeLayer(markerRef.current);
-
-            const markerOptions = { icon: L.divIcon({ html: renderToStaticMarkup(<Room sx={{ ms: 1 }} />) }) };
-            const marker = L.marker(e.latlng, markerOptions).addTo(mapInstance.current!).bindPopup(`استان: ${state}<br>شهر یا روستا: ${city}`).openPopup();
-
-            markerRef.current = marker;
-        };
-
-        mapInstance.current.on('click', handleMapClick);
-
-        return () => {
-            mapInstance.current?.off('click', handleMapClick);
-            mapInstance.current?.remove();
-            mapInstance.current = null;
-        };
     }, []);
 
     const handleCloseSnackbar = () => setSnackbarOpen(false);

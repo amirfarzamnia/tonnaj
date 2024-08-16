@@ -15,19 +15,15 @@
     "@emotion/styled": "^11.13.0",
     "@mui/icons-material": "^5.16.7",
     "@mui/material": "^5.16.7",
-    "leaflet": "^1.9.4",
     "mongodb": "^6.8.0",
     "next": "14.2.5",
     "react": "^18",
-    "react-dom": "^18.3.1",
     "string-similarity-js": "^2.1.4",
     "swiper": "^11.1.9"
   },
   "devDependencies": {
-    "@types/leaflet": "^1.9.12",
     "@types/node": "^22",
     "@types/react": "^18",
-    "@types/react-dom": "^18.3.0",
     "typescript": "^5"
   },
   "bugs": {

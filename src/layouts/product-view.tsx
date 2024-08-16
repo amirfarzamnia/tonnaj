@@ -3,14 +3,11 @@
 import { Box, Button, Grid, Typography, Card, Link, IconButton, CircularProgress, Divider, Dialog, DialogActions, DialogContent, DialogTitle } from '@mui/material';
 import { Person, Category, Telegram, WhatsApp, LocationOn, Tag, Phone, Room, Delete, DateRange, Inventory2 } from '@mui/icons-material';
 import { ProductTypes, ProductRequestTypes } from '@/types/product';
-import { renderToStaticMarkup } from 'react-dom/server';
 import { Swiper, SwiperSlide } from 'swiper/react';
 import { Pagination } from 'swiper/modules';
 import { useRouter } from 'next/navigation';
 import React from 'react';
-import L from 'leaflet';
 
-import 'leaflet/dist/leaflet.css';
 import 'swiper/css/pagination';
 import 'swiper/css';
 
@@ -51,14 +48,6 @@ export default function ({ type, id }: { type: 'product' | 'request'; id: string
 
                     setIsOwnProduct(Boolean(sessionData?.phone_number));
                 } catch {}
-
-                if (mapContainerRef.current && 'location' in productData) {
-                    const latlng = Object.values(productData.location.latlng) as L.LatLngExpression;
-                    const map = L.map(mapContainerRef.current, { attributionControl: false }).setView(latlng, 13);
-
-                    L.tileLayer('https://{s}.tile.openstreetmap.org/{z}/{x}/{y}.png').addTo(map);
-                    L.marker(latlng, { icon: L.divIcon({ html: renderToStaticMarkup(<Room sx={{ ms: 1 }} />) }) }).addTo(map);
-                }
             } catch (e) {
                 setError(e instanceof Error ? e.message : 'دریافت اطلاعات از دیتابیس با خطا مواجه شد.');
             } finally {
