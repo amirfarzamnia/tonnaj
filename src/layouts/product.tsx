@@ -1,8 +1,8 @@
-import { Box, Grid, TextField, Button, Typography, Snackbar, Alert, IconButton, FormControl, InputLabel, Select, MenuItem, CircularProgress } from '@mui/material';
+import { Box, Grid, TextField, Button, Typography, Snackbar, Alert, IconButton, FormControl, InputLabel, Select, MenuItem, CircularProgress, Dialog, DialogTitle, DialogContent, DialogActions, List, ListItem, ListItemText, Checkbox } from '@mui/material';
+import { Add, Clear, Category as CategoryIcon } from '@mui/icons-material';
 import { ProductTypes, ProductRequestTypes } from '@/types/product';
 import units_of_measurement from '@/constants/units_of_measurement';
 import proviences_cities from '@/constants/proviences_cities';
-import { Add, Clear } from '@mui/icons-material';
 import categories from '@/constants/categories';
 import { useRouter } from 'next/navigation';
 import React from 'react';
@@ -10,16 +10,18 @@ import React from 'react';
 const initialProductState: Omit<Omit<ProductTypes, 'price' | 'stock_quantity' | 'minimum'> & { price: number | null; stock_quantity: number | null; minimum: number | null }, 'timestamp' | 'id' | 'available' | 'author'> = { categories: [], description: '', images: [], price: null, unit_of_measurement: '', minimum: null, stock_quantity: null, name: '', location: { province: '', city: '' } };
 const initialProductRequestState: Omit<ProductRequestTypes, 'timestamp' | 'id' | 'available' | 'author'> = { categories: [], description: '', location: { province: '', city: '' } };
 
-const categoriesFlat = Object.values(categories).flatMap(Object.values).flat();
-const provinces = Object.keys(proviences_cities);
-
 export default function ({ method }: { method: 'create' | 'request' }) {
     const [product, setProduct] = React.useState(method === 'create' ? initialProductState : initialProductRequestState);
     const [snackbarSeverity, setSnackbarSeverity] = React.useState<'success' | 'error'>('success');
+    const [selectedMainCategory, setSelectedMainCategory] = React.useState<string | null>(null);
+    const [selectedSubCategory, setSelectedSubCategory] = React.useState<string | null>(null);
+    const [currentStep, setCurrentStep] = React.useState<'main' | 'sub' | 'final'>('main');
+    const [selectedCategories, setSelectedCategories] = React.useState<string[]>([]);
     const [selectedProvince, setSelectedProvince] = React.useState<string>('');
     const [snackbarMessage, setSnackbarMessage] = React.useState('');
     const fileInputRef = React.useRef<HTMLInputElement | null>(null);
     const [snackbarOpen, setSnackbarOpen] = React.useState(false);
+    const [isModalOpen, setIsModalOpen] = React.useState(false);
     const [loading, setLoading] = React.useState(false);
     const router = useRouter();
 
@@ -143,18 +145,6 @@ export default function ({ method }: { method: 'create' | 'request' }) {
                         )}
                         <Grid item xs={12}>
                             <FormControl fullWidth>
-                                <InputLabel>دسته بندی ها</InputLabel>
-                                <Select required multiple value={product.categories} onChange={(e) => handleInputChange('categories', e.target.value)} renderValue={(selected) => (selected as string[]).join(', ')}>
-                                    {categoriesFlat.map((category, index) => (
-                                        <MenuItem key={index} value={category}>
-                                            {category}
-                                        </MenuItem>
-                                    ))}
-                                </Select>
-                            </FormControl>
-                        </Grid>
-                        <Grid item xs={12}>
-                            <FormControl fullWidth>
                                 <InputLabel>استان</InputLabel>
                                 <Select
                                     required
@@ -164,7 +154,7 @@ export default function ({ method }: { method: 'create' | 'request' }) {
                                         handleInputChange('location', { ...product.location, province: e.target.value, city: '' });
                                     }}
                                     renderValue={(selected) => selected}>
-                                    {provinces.map((province, index) => (
+                                    {Object.keys(proviences_cities).map((province, index) => (
                                         <MenuItem key={index} value={province}>
                                             {province}
                                         </MenuItem>
@@ -190,18 +180,84 @@ export default function ({ method }: { method: 'create' | 'request' }) {
                             <TextField required fullWidth label="توضیحات محصول" variant="outlined" multiline rows={4} value={product.description} onChange={(e) => handleInputChange('description', e.target.value)} placeholder="توضیحات محصول را اینجا بنویسید..." />
                         </Grid>
                         <Grid item xs={12}>
+                            <Button startIcon={<CategoryIcon />} onClick={() => setIsModalOpen(true)} sx={{ py: 2, display: 'flex', alignItems: 'center', gap: 1 }} variant="contained" color="info" fullWidth>
+                                برای انتخاب دسته بندی ها اینجا بزنید
+                            </Button>
+                            <Box sx={{ mt: 2 }}>{selectedCategories.length > 0 && <Typography variant="body2">دسته بندی‌های انتخاب شده: {selectedCategories.join(', ')}</Typography>}</Box>
+                        </Grid>
+                        <Grid item xs={12}>
                             <Button type="submit" variant="contained" color={method === 'create' ? 'success' : 'secondary'} disabled={loading}>
                                 {loading ? <CircularProgress size={24} /> : method === 'create' ? 'ثبت محصول' : 'درخواست محصول'}
                             </Button>
                         </Grid>
                     </Grid>
                 </Box>
-                <Snackbar open={snackbarOpen} autoHideDuration={4000} onClose={handleCloseSnackbar}>
-                    <Alert onClose={handleCloseSnackbar} severity={snackbarSeverity} sx={{ width: '100%' }}>
-                        {snackbarMessage}
-                    </Alert>
-                </Snackbar>
             </Box>
+            <Dialog open={isModalOpen} onClose={() => setIsModalOpen(false)} fullWidth>
+                <DialogTitle>انتخاب دسته بندی</DialogTitle>
+                <DialogContent>
+                    {currentStep === 'main' && (
+                        <List>
+                            {Object.keys(categories).map((mainCategory, index) => (
+                                <ListItem
+                                    key={index}
+                                    button
+                                    onClick={() => {
+                                        setSelectedMainCategory(mainCategory);
+                                        setCurrentStep('sub');
+                                    }}>
+                                    <ListItemText primary={mainCategory} />
+                                </ListItem>
+                            ))}
+                        </List>
+                    )}
+                    {currentStep === 'sub' && selectedMainCategory && (
+                        <List>
+                            {/* @ts-ignore */}
+                            {Object.keys(categories[selectedMainCategory]).map((subCategory, index) => (
+                                <ListItem
+                                    key={index}
+                                    button
+                                    onClick={() => {
+                                        setSelectedSubCategory(subCategory);
+                                        setCurrentStep('final');
+                                    }}>
+                                    <ListItemText primary={subCategory} />
+                                </ListItem>
+                            ))}
+                            <Button onClick={() => setCurrentStep('main')}>بازگشت</Button>
+                        </List>
+                    )}
+                    {currentStep === 'final' && selectedSubCategory && (
+                        <List>
+                            {/* @ts-ignore */}
+                            {categories[selectedMainCategory][selectedSubCategory].map((finalCategory, index) => (
+                                <ListItem key={index} button onClick={() => setSelectedCategories((prevCategories) => (prevCategories.includes(finalCategory) ? prevCategories.filter((cat) => cat !== finalCategory) : [...prevCategories, finalCategory]))}>
+                                    <Checkbox checked={selectedCategories.includes(finalCategory)} />
+                                    <ListItemText primary={finalCategory} />
+                                </ListItem>
+                            ))}
+                            <Button onClick={() => setCurrentStep('sub')}>بازگشت</Button>
+                        </List>
+                    )}
+                </DialogContent>
+                <DialogActions>
+                    <Button onClick={() => setIsModalOpen(false)}>بستن</Button>
+                    <Button
+                        onClick={() => {
+                            setIsModalOpen(false);
+                            handleInputChange('categories', selectedCategories);
+                        }}
+                        variant="contained">
+                        تایید
+                    </Button>
+                </DialogActions>
+            </Dialog>
+            <Snackbar open={snackbarOpen} autoHideDuration={4000} onClose={handleCloseSnackbar}>
+                <Alert onClose={handleCloseSnackbar} severity={snackbarSeverity} sx={{ width: '100%' }}>
+                    {snackbarMessage}
+                </Alert>
+            </Snackbar>
         </>
     );
 }
