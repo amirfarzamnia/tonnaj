@@ -16,7 +16,7 @@ export default function ({ description, author, categories, location, id, timest
                 <Box sx={{ my: 2 }}>
                     <Divider />
                 </Box>
-                <Typography variant="body1" color="textSecondary" gutterBottom sx={{ flex: 1, overflow: 'hidden', textOverflow: 'ellipsis', display: '-webkit-box', WebkitBoxOrient: 'vertical', WebkitLineClamp: 3, mb: 2 }}>
+                <Typography variant="body1" color="textSecondary" gutterBottom sx={{ flex: 1, overflow: 'hidden', textOverflow: 'ellipsis', display: '-webkit-box', WebkitBoxOrient: 'vertical', WebkitLineClamp: 3, mb: 2, height: '16vh' }}>
                     {description.slice(0, 100)}
                 </Typography>
                 <Typography variant="body2" color="textSecondary" gutterBottom sx={{ fontSize: 'small' }}>
