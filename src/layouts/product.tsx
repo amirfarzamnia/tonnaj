@@ -6,6 +6,7 @@ import proviences_cities from '@/constants/proviences_cities';
 import categories from '@/constants/categories';
 import { useRouter } from 'next/navigation';
 import React from 'react';
+import Compressor from 'compressorjs';
 
 const initialProductState: Omit<Omit<ProductTypes, 'price' | 'stock_quantity' | 'minimum'> & { price: number | null; stock_quantity: number | null; minimum: number | null }, 'timestamp' | 'id' | 'available' | 'author'> = { categories: [], description: '', images: [], price: null, unit_of_measurement: '', minimum: null, stock_quantity: null, name: '', location: { province: '', city: '' } };
 const initialProductRequestState: Omit<ProductRequestTypes, 'timestamp' | 'id' | 'available' | 'author'> = { categories: [], description: '', location: { province: '', city: '' } };
@@ -41,7 +42,7 @@ export default function ({ method }: { method: 'create' | 'request' }) {
                     e.preventDefault();
 
                     setLoading(true);
-
+                    console.log(JSON.stringify({ method, ...(method === 'create' ? { product } : { product_request: product }) }));
                     const response = await fetch('/api/products', { method: 'POST', headers: { 'Content-Type': 'application/json' }, body: JSON.stringify({ method, ...(method === 'create' ? { product } : { product_request: product }) }) });
                     const json = await response.json();
 
@@ -99,18 +100,28 @@ export default function ({ method }: { method: 'create' | 'request' }) {
                                                 style={{ display: 'none' }}
                                                 onChange={async (e) => {
                                                     const files = Array.from(e.target.files || []);
-                                                    const base64Images = await Promise.all(
-                                                        files.map((file) => {
-                                                            return new Promise((resolve) => {
-                                                                const reader = new FileReader();
-
-                                                                reader.onloadend = () => resolve(reader.result as string);
-                                                                reader.readAsDataURL(file);
+                                                    const base64Images = files.map((file) => {
+                                                        return new Promise((resolve, reject) => {
+                                                            new Compressor(file, {
+                                                                quality: 0.3,
+                                                                width: 300,
+                                                                height: 300,
+                                                                success(result) {
+                                                                    const reader = new FileReader();
+                                                                    reader.onloadend = () => resolve(reader.result);
+                                                                    reader.readAsDataURL(result);
+                                                                },
+                                                                error(err) {
+                                                                    reject(err); // استفاده از reject برای مدیریت خطا
+                                                                }
                                                             });
-                                                        })
-                                                    );
+                                                        });
+                                                    });
 
-                                                    if (base64Images.length) handleInputChange('images', [...(product as ProductTypes).images, ...base64Images]);
+                                                    // استفاده از async/await برای دریافت نتایج فشرده‌سازی
+                                                    const results = await Promise.all(base64Images);
+
+                                                    if (base64Images.length) handleInputChange('images', [...(product as ProductTypes).images, ...results]);
                                                 }}
                                                 multiple
                                             />
