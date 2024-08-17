@@ -5,8 +5,8 @@ import units_of_measurement from '@/constants/units_of_measurement';
 import proviences_cities from '@/constants/proviences_cities';
 import categories from '@/constants/categories';
 import { useRouter } from 'next/navigation';
-import React from 'react';
 import Compressor from 'compressorjs';
+import React from 'react';
 
 const initialProductState: Omit<Omit<ProductTypes, 'price' | 'stock_quantity' | 'minimum'> & { price: number | null; stock_quantity: number | null; minimum: number | null }, 'timestamp' | 'id' | 'available' | 'author'> = { categories: [], description: '', images: [], price: null, unit_of_measurement: '', minimum: null, stock_quantity: null, name: '', location: { province: '', city: '' } };
 const initialProductRequestState: Omit<ProductRequestTypes, 'timestamp' | 'id' | 'available' | 'author'> = { categories: [], description: '', location: { province: '', city: '' } };
@@ -42,7 +42,7 @@ export default function ({ method }: { method: 'create' | 'request' }) {
                     e.preventDefault();
 
                     setLoading(true);
-                    console.log(JSON.stringify({ method, ...(method === 'create' ? { product } : { product_request: product }) }));
+
                     const response = await fetch('/api/products', { method: 'POST', headers: { 'Content-Type': 'application/json' }, body: JSON.stringify({ method, ...(method === 'create' ? { product } : { product_request: product }) }) });
                     const json = await response.json();
 
@@ -108,20 +108,18 @@ export default function ({ method }: { method: 'create' | 'request' }) {
                                                                 height: 300,
                                                                 success(result) {
                                                                     const reader = new FileReader();
+
                                                                     reader.onloadend = () => resolve(reader.result);
                                                                     reader.readAsDataURL(result);
                                                                 },
-                                                                error(err) {
-                                                                    reject(err); // استفاده از reject برای مدیریت خطا
+                                                                error(e) {
+                                                                    reject(e);
                                                                 }
                                                             });
                                                         });
                                                     });
 
-                                                    // استفاده از async/await برای دریافت نتایج فشرده‌سازی
-                                                    const results = await Promise.all(base64Images);
-
-                                                    if (base64Images.length) handleInputChange('images', [...(product as ProductTypes).images, ...results]);
+                                                    if (base64Images.length) handleInputChange('images', [...(product as ProductTypes).images, ...(await Promise.all(base64Images))]);
                                                 }}
                                                 multiple
                                             />
