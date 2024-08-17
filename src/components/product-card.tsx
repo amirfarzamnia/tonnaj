@@ -1,18 +1,68 @@
+'use client';
+
 import { Card, CardContent, CardMedia, Typography, Button, Box, Divider, Link } from '@mui/material';
 import { ArrowBack, Person, Sell, DateRange } from '@mui/icons-material';
 import { Swiper, SwiperSlide } from 'swiper/react';
 import { ProductTypes } from '@/types/product';
 import { Pagination } from 'swiper/modules';
+import Compressor from 'compressorjs';
 import React from 'react';
 
 import 'swiper/css/pagination';
 import 'swiper/css';
 
+const base64ToBlob = (base64: string, type: string): Blob => {
+    const byteCharacters = atob(base64.split(',')[1]);
+    const byteArrays: Uint8Array[] = [];
+
+    for (let offset = 0; offset < byteCharacters.length; offset += 512) {
+        const slice = byteCharacters.slice(offset, offset + 512);
+        const byteNumbers = new Array(slice.length);
+
+        for (let i = 0; i < slice.length; i++) byteNumbers[i] = slice.charCodeAt(i);
+
+        byteArrays.push(new Uint8Array(byteNumbers));
+    }
+
+    return new Blob(byteArrays, { type });
+};
+
 export default function ({ price, description, images, name, id, categories, location, author, timestamp }: ProductTypes) {
+    const [compressedImages, setCompressedImages] = React.useState<string[]>([]);
+
+    React.useEffect(() => {
+        (async () => {
+            try {
+                const compressedImagePromises = images.map((base64Image) => {
+                    const blob = base64ToBlob(base64Image, 'image/jpeg');
+
+                    return new Promise<string>((resolve, reject) => {
+                        new Compressor(blob, {
+                            quality: 0.9,
+                            maxWidth: 1920,
+                            maxHeight: 1080,
+                            success(result) {
+                                const reader = new FileReader();
+
+                                reader.onloadend = () => resolve(reader.result as string);
+                                reader.readAsDataURL(result);
+                            },
+                            error(e) {
+                                reject(e);
+                            }
+                        });
+                    });
+                });
+
+                setCompressedImages(await Promise.all(compressedImagePromises));
+            } catch {}
+        })();
+    }, [images]);
+
     return (
         <Card sx={{ borderRadius: 4 }}>
             <Swiper modules={[Pagination]} spaceBetween={10} slidesPerView={1} pagination={{ clickable: true }}>
-                {images.map((image, index) => (
+                {compressedImages.map((image, index) => (
                     <SwiperSlide key={index}>
                         <CardMedia component="img" loading="lazy" src={image} alt={`${name} (تصویر شماره ${index + 1})`} sx={{ height: '200px', objectFit: 'cover' }} />
                     </SwiperSlide>
