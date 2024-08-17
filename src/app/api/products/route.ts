@@ -19,6 +19,8 @@ export const POST = async (request: NextRequest) => {
 
     const id = randomBytes(3).toString('hex');
 
+    if (!entity.categories.length) return NextResponse.json({ error: 'باید حداقل یک دسته بندی برای محصول خود انتخاب کنید.' }, { status: 400 });
+
     if (!Array.isArray(entity.categories) || entity.categories.some((category) => !Object.values(categories).flatMap(Object.values).flat().includes(category))) return NextResponse.json({ error: 'دسته بندی ها به درستی ارسال نشده اند.' }, { status: 400 });
 
     if (entity.categories.length > 5) return NextResponse.json({ error: 'نمیتوانید بیشتر از 5 دسته بندی را برای محصول خود انتخاب کنید.' }, { status: 400 });
@@ -32,7 +34,7 @@ export const POST = async (request: NextRequest) => {
 
         if (!Array.isArray(prod.images) || !prod.images.length) return NextResponse.json({ error: 'باید حداقل یک عکس از محصول خود بارگذاری کنید.' }, { status: 400 });
 
-        if (!prod.images.every((image) => /^data:image\/(png|jpg|jpeg);base64,[A-Za-z0-9+/=]+$/.test(image))) return NextResponse.json({ error: 'فرمت تصاویر ارسال شده صحیح نیست. فرمت های پشتیبانی شده: png, jpg, jpeg' }, { status: 400 });
+        if (!prod.images.every((image) => /^data:image\/(png|jpg|jpeg|gif|webp|bmp);base64,[A-Za-z0-9+/=]+$/.test(image))) return NextResponse.json({ error: 'فرمت تصاویر ارسال شده صحیح نیست. فرمت های پشتیبانی شده: png, jpg, jpeg, gif, webp, bmp' }, { status: 400 });
 
         if (prod.images.length > 10) return NextResponse.json({ error: 'نمیتوانید بیشتر از 10 عکس برای محصول خود آپلود کنید.' }, { status: 400 });
 
