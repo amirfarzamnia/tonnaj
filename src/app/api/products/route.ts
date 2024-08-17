@@ -34,8 +34,6 @@ export const POST = async (request: NextRequest) => {
 
         if (!Array.isArray(prod.images) || !prod.images.length) return NextResponse.json({ error: 'باید حداقل یک عکس از محصول خود بارگذاری کنید.' }, { status: 400 });
 
-        if (!prod.images.every((image) => /^data:image\/(png|jpg|jpeg|gif|webp|bmp);base64,[A-Za-z0-9+/=]+$/.test(image))) return NextResponse.json({ error: 'فرمت تصاویر ارسال شده صحیح نیست. فرمت های پشتیبانی شده: png, jpg, jpeg, gif, webp, bmp' }, { status: 400 });
-
         if (prod.images.length > 10) return NextResponse.json({ error: 'نمیتوانید بیشتر از 10 عکس برای محصول خود آپلود کنید.' }, { status: 400 });
 
         if (typeof prod.price !== 'number' || !(prod.price >= 10000 && prod.price <= 10000000000)) return NextResponse.json({ error: 'هزینه محصول باید بین ده هزار تومان تا ده میلیارد تومان باشد.' }, { status: 400 });
