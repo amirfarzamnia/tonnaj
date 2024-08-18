@@ -4,13 +4,13 @@ import { randomBytes } from 'node:crypto';
 import { AuthTypes } from '@/types/auth';
 import { database } from '@/mongodb';
 
-const verificationCodes: { [phone_number: AuthTypes['phone_number']]: { code: AuthTypes['verification_code']; name: AuthTypes['name']; expiresAt: number; attempts: number } } = {};
+const verificationCodes: { [phone_number: AuthTypes['phone_number']]: { code: AuthTypes['verification_code']; expiresAt: number; attempts: number } } = {};
 
 const VERIFICATION_CODE_EXPIRY_MS = 10 * 60 * 1000;
 const MAX_ATTEMPTS = 3;
 
 export const POST = async (request: NextRequest) => {
-    const { phone_number, verification_code, name }: AuthTypes = await request.json();
+    const { phone_number, verification_code }: AuthTypes = await request.json();
 
     if (verification_code) {
         if (!phone_number) return NextResponse.json({ error: 'شماره تلفن همراه ارسال نشده.' }, { status: 400 });
@@ -39,7 +39,7 @@ export const POST = async (request: NextRequest) => {
 
         const session = randomBytes(16).toString('hex');
 
-        await database.collection('sessions').insertOne({ phone_number, session, name: stored.name, created_at: Date.now() });
+        await database.collection('sessions').insertOne({ phone_number, session, created_at: Date.now() });
 
         const response = new NextResponse(null, { status: 204 });
 
@@ -49,13 +49,11 @@ export const POST = async (request: NextRequest) => {
 
         return response;
     } else if (phone_number) {
-        if (!/^.{2,50}$/.test(name)) return NextResponse.json({ error: 'نام شما یا شرکت شما باید بین 2 تا 50 حرف باشد.' }, { status: 400 });
-
         const code = Array.from({ length: 4 }, () => Math.floor(Math.random() * 10)).join('');
 
         fetch('https://api.kavenegar.com/v1/' + process.env.KAVENEGAR_API_KEY + '/verify/lookup.json', { method: 'POST', headers: { 'Content-Type': 'application/x-www-form-urlencoded' }, body: new URLSearchParams({ receptor: phone_number, token: code, template: 'tonnaj' }).toString() });
 
-        verificationCodes[phone_number] = { code, expiresAt: Date.now() + VERIFICATION_CODE_EXPIRY_MS, name, attempts: 0 };
+        verificationCodes[phone_number] = { code, expiresAt: Date.now() + VERIFICATION_CODE_EXPIRY_MS, attempts: 0 };
 
         return new NextResponse(null, { status: 204 });
     }

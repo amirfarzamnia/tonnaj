@@ -20,7 +20,6 @@ export default function () {
     const redirectUrl = useSearchParams().get('redirect') || '/';
     const [loading, setLoading] = React.useState<boolean>(false);
     const [error, setError] = React.useState<string>('');
-    const [name, setName] = React.useState<string>('');
     const [step, setStep] = React.useState<number>(1);
     const router = useRouter();
 
@@ -45,7 +44,6 @@ export default function () {
             </Box>
             {step === 1 ? (
                 <>
-                    <TextField fullWidth label="نام خود یا شرکت خود را اینجا وارد کنید" variant="outlined" margin="normal" value={name} onChange={(e) => setName(e.target.value)} error={!!error} helperText={error} />
                     <VerificationStep
                         label="شماره تلفن همراه خود را اینجا وارد کنید"
                         value={phone_number}
@@ -58,13 +56,11 @@ export default function () {
 
                             if (!/^(09\d{9}|98\d{10})$/.test(phone_number)) return setError('لطفا شماره تلفن همراه خود را به درستی و با اعداد انگلیسی وارد کنید.');
 
-                            if (!name) return setError('لطفا نام خود یا نام شرکت خود را وارد کنید.');
-
                             setLoading(true);
                             setError('');
 
                             try {
-                                const response = await fetch('/api/sessions', { method: 'POST', headers: { 'Content-Type': 'application/json' }, body: JSON.stringify({ phone_number, name }) });
+                                const response = await fetch('/api/sessions', { method: 'POST', headers: { 'Content-Type': 'application/json' }, body: JSON.stringify({ phone_number }) });
 
                                 if (!response.ok) return setError((await response.json()).error);
 

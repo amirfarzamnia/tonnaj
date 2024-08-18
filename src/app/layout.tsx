@@ -181,8 +181,19 @@ export default function ({ children }: { children: React.ReactNode }) {
                                     <Link href="/" underline="none">
                                         <Box width="15vw" maxWidth="90px" component="img" loading="lazy" alt="لوگوی تناژ" src="/images/icons/tonnaj.png" />
                                     </Link>
-                                    <Button variant="outlined" startIcon={<MenuIcon />} sx={{ display: { xs: 'none', md: 'flex' }, alignItems: 'center', gap: 1, py: 0.82 }} onClick={(event: React.MouseEvent<HTMLButtonElement>) => setAnchorEl(event.currentTarget)}>
-                                        دسته بندی ها
+                                    <Button
+                                        variant="outlined"
+                                        startIcon={<MenuIcon sx={{ display: { xs: 'none', md: 'flex' } }} />}
+                                        sx={{
+                                            display: { xs: 'flex', md: 'flex' }, // نمایش دکمه در تمام اندازه‌ها
+                                            alignItems: 'center',
+                                            gap: { xs: 0, md: 1 },
+                                            py: 0.82,
+                                            px: 2
+                                        }}
+                                        onClick={(event: React.MouseEvent<HTMLButtonElement>) => setAnchorEl(event.currentTarget)}>
+                                        <Box sx={{ display: { xs: 'none', md: 'inline' } }}>دسته بندی ها</Box>
+                                        <MenuIcon sx={{ display: { md: 'none' } }} />
                                     </Button>
                                     <Box sx={{ flexGrow: 1, position: 'relative' }}>
                                         <TextField
@@ -243,9 +254,10 @@ export default function ({ children }: { children: React.ReactNode }) {
                                             </Paper>
                                         )}
                                     </Box>
-                                    <Button sx={{ py: 0.82, display: { xs: 'none', sm: 'flex' } }} variant="outlined" color="info" onClick={themeClickHandler}>
+                                    <Button sx={{ py: 0.82, display: { sm: 'flex' } }} variant="outlined" color="info" onClick={themeClickHandler}>
                                         {selectedTheme === 'dark' ? <LightMode /> : <DarkMode />}
                                     </Button>
+
                                     <Button endIcon={<Person />} onClick={() => (isAuthenticated ? setLogoutModalOpen(true) : (location.href = '/auth'))} variant="outlined" color={isAuthenticated ? 'error' : 'info'} sx={{ display: { xs: 'none', sm: 'flex' }, alignItems: 'center', gap: 1, py: 0.82 }}>
                                         {isAuthenticated ? 'خروج از حساب' : 'ورود به حساب'}
                                     </Button>
@@ -254,29 +266,36 @@ export default function ({ children }: { children: React.ReactNode }) {
                                     </Button>
                                 </Toolbar>
                             </AppBar>
+
                             <Container sx={{ padding: 2, borderRadius: 4, mt: 12.5 }} maxWidth="xl">
                                 {children}
                             </Container>
+
                             <AppBar position="fixed" color="primary" sx={{ top: 'auto', bottom: 0, display: { xs: 'block', sm: 'none' } }}>
-                                <Toolbar sx={{ display: 'flex', gap: 1, pt: 1, justifyContent: 'space-between', borderTop: 1, borderColor: selectedTheme === 'dark' ? '#3f3f46' : '#e4e4e7' }}>
-                                    <Button sx={{ display: 'flex', flexDirection: 'column', alignItems: 'center', gap: 0.25 }} size="small" onClick={(event: React.MouseEvent<HTMLButtonElement>) => setAnchorEl(event.currentTarget)}>
-                                        <MenuIcon />
-                                        دسته بندی ها
-                                    </Button>
-                                    <Button sx={{ display: 'flex', flexDirection: 'column', alignItems: 'center', gap: 0.25 }} size="small" onClick={themeClickHandler}>
-                                        {selectedTheme === 'dark' ? <LightMode /> : <DarkMode />}
-                                        تغییر تم
-                                    </Button>
-                                    <Button sx={{ display: 'flex', flexDirection: 'column', alignItems: 'center', gap: 0.25 }} size="small" onClick={() => (isAuthenticated ? setLogoutModalOpen(true) : (location.href = '/auth'))}>
+                                <Toolbar sx={{ display: 'flex', pt: 1, justifyContent: 'space-between', borderTop: 1, borderColor: selectedTheme === 'dark' ? '#3f3f46' : '#e4e4e7' }}>
+                                    <Button sx={{ display: 'flex', flexDirection: 'column', alignItems: 'center', gap: 0.25, fontSize: 11 }} size="small" onClick={() => (isAuthenticated ? setLogoutModalOpen(true) : (location.href = '/auth'))}>
                                         <Person />
                                         {isAuthenticated ? 'خروج از حساب' : 'ورود به حساب'}
                                     </Button>
-                                    <Button sx={{ display: 'flex', flexDirection: 'column', alignItems: 'center', gap: 0.25 }} size="small" href="/products/create">
+                                    <Button sx={{ display: 'flex', flexDirection: 'column', alignItems: 'center', gap: 0.25, fontSize: 11 }} size="small" href="/products/create">
+                                        <Inventory />
+                                        پیام ها
+                                    </Button>
+                                    <Button sx={{ display: 'flex', flexDirection: 'column', alignItems: 'center', gap: 0.25, fontSize: 11 }} size="small" href="/products/create">
                                         <Inventory />
                                         ثبت محصول
                                     </Button>
+                                    <Button sx={{ display: 'flex', flexDirection: 'column', alignItems: 'center', gap: 0.25, fontSize: 11 }} size="small" href="/products/create">
+                                        <Inventory />
+                                        فروشندگان
+                                    </Button>
+                                    <Button sx={{ display: 'flex', flexDirection: 'column', alignItems: 'center', gap: 0.25, fontSize: 11 }} size="small" href="/products/create">
+                                        <Inventory />
+                                        خریداران
+                                    </Button>
                                 </Toolbar>
                             </AppBar>
+
                             <Box sx={{ textAlign: { xs: 'center', sm: 'start' }, borderTop: 1, borderColor: selectedTheme === 'dark' ? '#3f3f46' : '#e4e4e7', background: selectedTheme === 'dark' ? theme.palette.grey[900] : '#fafafa', py: 4 }} component="footer">
                                 <Container>
                                     <Grid container spacing={8}>

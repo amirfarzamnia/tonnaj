@@ -97,8 +97,8 @@ export default function ({ price, description, images, name, id, categories, loc
                     <Divider />
                 </Box>
                 <Typography variant="body2" color="textSecondary" sx={{ display: 'flex', alignItems: 'center', gap: 1 }}>
-                    {categories.map((category) => (
-                        <Link fontSize="smaller" href={'/products?categories=' + category}>
+                    {categories.map((category, index) => (
+                        <Link fontSize="smaller" key={index} href={'/products?categories=' + category}>
                             {category}
                         </Link>
                     ))}

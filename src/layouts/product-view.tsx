@@ -91,9 +91,11 @@ export default function ({ type, id }: { type: 'product' | 'request'; id: string
                             ))}
                         </Swiper>
                     )}
-                    <Typography variant="h6" color="textSecondary" paragraph>
-                        <Card sx={{ padding: 2, borderRadius: 4 }}>{product.description}</Card>
-                    </Typography>
+                    <Card sx={{ padding: 2, borderRadius: 4 }}>
+                        <Typography variant="h5" color="textSecondary" paragraph>
+                            {product.description}
+                        </Typography>
+                    </Card>
                 </Grid>
                 <Grid item xs={12} md={6}>
                     <Card sx={{ padding: 2, borderRadius: 4 }}>
@@ -157,7 +159,7 @@ export default function ({ type, id }: { type: 'product' | 'request'; id: string
                             ].map(({ icon, label, value }, index) => (
                                 <Box key={index} sx={{ display: 'flex', alignItems: 'center', mb: 1, background: 'rgba(0, 0, 0, 0.05)', p: 1, borderRadius: 1 }}>
                                     <Box sx={{ ml: 1 }}>{icon}</Box>
-                                    <Typography variant="body1" sx={{ fontWeight: 'bold' }}>
+                                    <Typography variant="h6" sx={{ fontWeight: 'bold', color: 'white' }}>
                                         {label}: {value}
                                     </Typography>
                                 </Box>
