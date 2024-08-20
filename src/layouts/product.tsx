@@ -223,7 +223,7 @@ export default function ProductForm({ method }: { method: 'create' | 'request' }
                             <TextField required fullWidth label="توضیحات محصول" variant="outlined" multiline rows={4} value={product.description} onChange={(e) => handleInputChange('description', e.target.value)} placeholder="توضیحات محصول را اینجا بنویسید..." />
                         </Grid>
                         <Grid item xs={12}>
-                            <Button startIcon={<CategoryIcon />} onClick={() => setIsModalOpen(true)} sx={{ py: 2, display: 'flex', alignItems: 'center', gap: 1 }} variant="contained" color="info" fullWidth>
+                            <Button startIcon={<CategoryIcon />} onClick={() => setIsModalOpen(true)} sx={{ py: 2, display: 'flex', alignItems: 'center', gap: 1, borderColor: 'grey.600' }} variant="outlined" color="inherit" fullWidth>
                                 برای انتخاب دسته بندی ها اینجا بزنید
                             </Button>
                             <Box sx={{ mt: 2 }}>{selectedCategories.length > 0 && <Typography variant="body2">دسته بندی‌های انتخاب شده: {selectedCategories}</Typography>}</Box>
