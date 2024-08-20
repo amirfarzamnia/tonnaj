@@ -6,152 +6,84 @@ import proviences_cities from '@/constants/proviences_cities';
 import categories from '@/constants/categories';
 import { useRouter } from 'next/navigation';
 import Compressor from 'compressorjs';
-import React, { useState, useEffect, useRef } from 'react';
+import React from 'react';
 
-const initialProductState: Omit<Omit<ProductTypes, 'price' | 'stock_quantity' | 'minimum'> & { price: number | null; stock_quantity: number | null; minimum: number | null }, 'timestamp' | 'id' | 'available' | 'author'> = {
-    categories: [],
-    description: '',
-    images: [],
-    price: null,
-    unit_of_measurement: '',
-    minimum: null,
-    stock_quantity: null,
-    name: '',
-    location: { province: '', city: '' }
-};
+const filterCategories = (searchTerm: string, categories: { [key: string]: { [key: string]: string[] } }) => {
+    if (!searchTerm) return categories;
 
-const initialProductRequestState: Omit<ProductRequestTypes, 'timestamp' | 'id' | 'available' | 'author'> = {
-    categories: [],
-    description: '',
-    location: { province: '', city: '' }
-};
-
-const filterCategories = (
-    searchTerm: string,
-    categories: {
-        [key: string]: {
-            [key: string]: string[];
-        };
-    }
-) => {
     const results: { [key: string]: { [key: string]: string[] } } = {};
-
-    if (!searchTerm) {
-        return categories;
-    }
 
     Object.keys(categories).forEach((category) => {
         const subcategories = categories[category];
+        const filteredSubcategories = Object.keys(subcategories).reduce((acc, subcategory) => (subcategories[subcategory].filter((item) => item.toLowerCase().includes(searchTerm.toLowerCase())).length > 0 && (acc[subcategory] = subcategories[subcategory].filter((item) => item.toLowerCase().includes(searchTerm.toLowerCase()))), acc), {} as { [key: string]: string[] });
 
-        const filteredSubcategories = Object.keys(subcategories).reduce((acc, subcategory) => {
-            const items = subcategories[subcategory].filter((item) => item.toLowerCase().includes(searchTerm.toLowerCase()));
-
-            if (items.length > 0) {
-                acc[subcategory] = items;
-            }
-
-            return acc;
-        }, {} as { [key: string]: string[] });
-
-        if (Object.keys(filteredSubcategories).length > 0) {
-            results[category] = filteredSubcategories;
-        }
+        if (Object.keys(filteredSubcategories).length > 0) results[category] = filteredSubcategories;
     });
 
     return results;
 };
 
-export default function ProductForm({ method }: { method: 'create' | 'request' }) {
-    const [product, setProduct] = useState(method === 'create' ? initialProductState : initialProductRequestState);
-    const [snackbarSeverity, setSnackbarSeverity] = useState<'success' | 'error'>('success');
-    const [selectedMainCategory, setSelectedMainCategory] = useState<string | null>(null);
-    const [selectedSubCategory, setSelectedSubCategory] = useState<string | null>(null);
-    const [currentStep, setCurrentStep] = useState<'main' | 'sub' | 'final'>('main');
-    const [selectedCategories, setSelectedCategories] = useState<string[]>([]);
-    const [selectedProvince, setSelectedProvince] = useState<string>('');
-    const [name, setName] = useState<string>('');
-    const [filteredCategories, setFilteredCategories] = useState(() => filterCategories('', categories));
-    const [snackbarMessage, setSnackbarMessage] = useState('');
-    const [snackbarOpen, setSnackbarOpen] = useState(false);
-    const [isModalOpen, setIsModalOpen] = useState(false);
-    const [isCustomOpen, setIsCustomOpen] = useState(false);
-    const [loading, setLoading] = useState(false);
-    const [searchTerm, setSearchTerm] = useState<string>('');
+const initialProductState: Omit<Omit<ProductTypes, 'price' | 'stock_quantity' | 'minimum'> & { price: number | null; stock_quantity: number | null; minimum: number | null }, 'timestamp' | 'id' | 'available' | 'author'> = { categories: [], description: '', images: [], price: null, unit_of_measurement: '', minimum: null, stock_quantity: null, name: '', location: { province: '', city: '' } };
+const initialProductRequestState: Omit<ProductRequestTypes, 'timestamp' | 'id' | 'available' | 'author'> = { categories: [], description: '', location: { province: '', city: '' } };
 
-    const fileInputRef = useRef<HTMLInputElement | null>(null);
+export default function ProductForm({ method }: { method: 'create' | 'request' }) {
+    const [product, setProduct] = React.useState(method === 'create' ? initialProductState : initialProductRequestState);
+    const [filteredCategories, setFilteredCategories] = React.useState(() => filterCategories('', categories));
+    const [snackbarSeverity, setSnackbarSeverity] = React.useState<'success' | 'error'>('success');
+    const [selectedMainCategory, setSelectedMainCategory] = React.useState<string | null>(null);
+    const [selectedSubCategory, setSelectedSubCategory] = React.useState<string | null>(null);
+    const [currentStep, setCurrentStep] = React.useState<'main' | 'sub' | 'final'>('main');
+    const [selectedCategories, setSelectedCategories] = React.useState<string[]>([]);
+    const [selectedProvince, setSelectedProvince] = React.useState<string>('');
+    const [snackbarMessage, setSnackbarMessage] = React.useState('');
+    const [searchTerm, setSearchTerm] = React.useState<string>('');
+    const [snackbarOpen, setSnackbarOpen] = React.useState(false);
+    const [isCustomOpen, setIsCustomOpen] = React.useState(false);
+    const [isModalOpen, setIsModalOpen] = React.useState(false);
+    const [loading, setLoading] = React.useState(false);
+    const [name, setName] = React.useState<string>('');
+
+    const fileInputRef = React.useRef<HTMLInputElement | null>(null);
     const router = useRouter();
 
-    useEffect(() => {
+    React.useEffect(() => {
         (async () => {
             const response = await fetch('/api/sessions');
-            if (!response.ok) {
-                router.push('/auth?redirect=/products/' + method);
-            }
+
+            if (!response.ok) router.push('/auth?redirect=/products/' + method);
         })();
     }, [method, router]);
 
     const handleCloseSnackbar = () => setSnackbarOpen(false);
-
-    const handleInputChange = (key: string, value: any) => {
-        setProduct((prevProduct) => ({ ...prevProduct, [key]: value }));
-    };
-
-    const handleSearch = (term: string) => {
-        setSearchTerm(term);
-        setFilteredCategories(filterCategories(term, categories));
-    };
-
-    const handleSubmit = async (e: React.FormEvent) => {
-        e.preventDefault();
-        setLoading(true);
-
-        const response = await fetch('/api/products', {
-            method: 'POST',
-            headers: { 'Content-Type': 'application/json' },
-            body: JSON.stringify({ method, ...(method === 'create' ? { product } : { product_request: product }) })
-        });
-
-        const json = await response.json();
-        setSnackbarMessage(json.message || json.error);
-        setSnackbarSeverity(response.ok ? 'success' : 'error');
-
-        if (response.ok) {
-            setProduct(method === 'request' ? initialProductRequestState : initialProductState);
-            setTimeout(() => router.push(method === 'create' ? '/products/' + json.id : '/'), 2500);
-        }
-
-        setSnackbarOpen(true);
-        setLoading(false);
-    };
+    const handleInputChange = (key: string, value: any) => setProduct((prevProduct) => ({ ...prevProduct, [key]: value }));
 
     return (
         <>
+            <Box sx={{ height: { xs: '80px', sm: '150px', md: '180px', lg: '300px' }, boxShadow: '0px 4px 12px rgba(0, 0, 0, 0.3)', border: 1, borderColor: 'grey.600', backgroundImage: `url("/images/pages/products/${method}/banner.png")`, backgroundSize: 'cover', backgroundPosition: 'center', position: 'relative', display: 'flex', flexDirection: 'column', alignItems: 'start', justifyContent: 'center', borderRadius: 4, mb: 10 }}></Box>
             <Box
-                sx={{
-                    height: { xs: '80px', sm: '150px', md: '180px', lg: '300px' },
-                    boxShadow: '0px 4px 12px rgba(0, 0, 0, 0.3)',
-                    border: 1,
-                    borderColor: 'grey.600',
-                    backgroundImage: `url("/images/pages/products/${method}/banner.png")`,
-                    backgroundSize: 'cover',
-                    backgroundPosition: 'center',
-                    position: 'relative',
-                    display: 'flex',
-                    flexDirection: 'column',
-                    alignItems: 'start',
-                    justifyContent: 'center',
-                    borderRadius: 4,
-                    mb: 10
-                }}></Box>
-            <Box component="form" onSubmit={handleSubmit} sx={{ width: { xs: '100%', sm: '80%' }, mx: 'auto' }}>
-                <Box
-                    sx={{
-                        width: '100%',
-                        display: 'flex',
-                        flexDirection: 'column',
-                        alignItems: 'center',
-                        padding: '16px'
-                    }}>
+                component="form"
+                onSubmit={async (e: React.FormEvent) => {
+                    e.preventDefault();
+
+                    setLoading(true);
+
+                    const response = await fetch('/api/products', { method: 'POST', headers: { 'Content-Type': 'application/json' }, body: JSON.stringify({ method, ...(method === 'create' ? { product } : { product_request: product }) }) });
+                    const json = await response.json();
+
+                    setSnackbarMessage(json.message || json.error);
+                    setSnackbarSeverity(response.ok ? 'success' : 'error');
+
+                    if (response.ok) {
+                        setProduct(method === 'request' ? initialProductRequestState : initialProductState);
+
+                        setTimeout(() => router.push(method === 'create' ? '/products/' + json.id : '/'), 2500);
+                    }
+
+                    setSnackbarOpen(true);
+                    setLoading(false);
+                }}
+                sx={{ width: { xs: '100%', sm: '80%' }, mx: 'auto' }}>
+                <Box sx={{ width: '100%', display: 'flex', flexDirection: 'column', alignItems: 'center', padding: '16px' }}>
                     <Grid container spacing={2} sx={{ width: '100%' }}>
                         {method === 'create' && (
                             <>
@@ -159,12 +91,7 @@ export default function ProductForm({ method }: { method: 'create' | 'request' }
                                     <Grid container spacing={2} sx={{ mt: 0 }}>
                                         {(product as ProductTypes).images.map((src, index) => (
                                             <Grid item xs={2} key={index}>
-                                                <Box
-                                                    sx={{
-                                                        position: 'relative',
-                                                        width: '100%',
-                                                        height: '100%'
-                                                    }}>
+                                                <Box sx={{ position: 'relative', width: '100%', height: '100%' }}>
                                                     <IconButton
                                                         onClick={() => {
                                                             handleInputChange(
@@ -173,60 +100,18 @@ export default function ProductForm({ method }: { method: 'create' | 'request' }
                                                             );
                                                         }}
                                                         size="small"
-                                                        sx={{
-                                                            position: 'absolute',
-                                                            top: -17.5,
-                                                            right: -17.5,
-                                                            zIndex: 1,
-                                                            color: 'red',
-                                                            background: 'rgba(0, 0, 0, 0.05)',
-                                                            border: 1,
-                                                            borderColor: 'rgba(133, 133, 133, 0.5)'
-                                                        }}>
+                                                        sx={{ position: 'absolute', top: -17.5, right: -17.5, zIndex: 1, color: 'red', background: 'rgba(0, 0, 0, 0.05)', border: 1, borderColor: 'rgba(133, 133, 133, 0.5)' }}>
                                                         <Clear />
                                                     </IconButton>
-                                                    <Box
-                                                        component="img"
-                                                        loading="lazy"
-                                                        src={src}
-                                                        alt={`عکس شماره ${index}`}
-                                                        sx={{
-                                                            width: '100%',
-                                                            height: '100%',
-                                                            borderRadius: '4px',
-                                                            objectFit: 'cover'
-                                                        }}
-                                                    />
+                                                    <Box component="img" loading="lazy" src={src} alt={`عکس شماره ${index}`} sx={{ width: '100%', height: '100%', borderRadius: '4px', objectFit: 'cover' }} />
                                                 </Box>
                                             </Grid>
                                         ))}
                                     </Grid>
                                 </Grid>
                                 <Grid item xs={12}>
-                                    <Box
-                                        sx={{
-                                            width: '100%',
-                                            height: '30vh',
-                                            display: 'flex',
-                                            alignItems: 'center',
-                                            borderRadius: 1,
-                                            justifyContent: 'center',
-                                            border: 1,
-                                            borderColor: 'rgba(133, 133, 133, 0.5)',
-                                            padding: '16px',
-                                            marginTop: '16px'
-                                        }}>
-                                        <Box
-                                            component="label"
-                                            htmlFor="img"
-                                            sx={{
-                                                cursor: 'pointer',
-                                                width: '100%',
-                                                display: 'flex',
-                                                flexDirection: 'column',
-                                                alignItems: 'center',
-                                                justifyContent: 'center'
-                                            }}>
+                                    <Box sx={{ width: '100%', height: '30vh', display: 'flex', alignItems: 'center', borderRadius: 1, justifyContent: 'center', border: 1, borderColor: 'rgba(133, 133, 133, 0.5)', padding: '16px', marginTop: '16px' }}>
+                                        <Box component="label" htmlFor="img" sx={{ cursor: 'pointer', width: '100%', display: 'flex', flexDirection: 'column', alignItems: 'center', justifyContent: 'center' }}>
                                             <Add fontSize="large" />
                                             <Typography variant="h6" color="text.secondary">
                                                 اضافه کردن عکس
@@ -248,6 +133,7 @@ export default function ProductForm({ method }: { method: 'create' | 'request' }
                                                             height: 300,
                                                             success(result) {
                                                                 const reader = new FileReader();
+
                                                                 reader.onloadend = () => resolve(reader.result as string);
                                                                 reader.readAsDataURL(result);
                                                             },
@@ -258,9 +144,7 @@ export default function ProductForm({ method }: { method: 'create' | 'request' }
                                                     });
                                                 });
 
-                                                if (base64Images.length) {
-                                                    handleInputChange('images', [...(product as ProductTypes).images, ...(await Promise.all(base64Images))]);
-                                                }
+                                                if (base64Images.length) handleInputChange('images', [...(product as ProductTypes).images, ...(await Promise.all(base64Images))]);
                                             }}
                                             multiple
                                         />
@@ -278,14 +162,7 @@ export default function ProductForm({ method }: { method: 'create' | 'request' }
                                 <Grid item xs={12}>
                                     <FormControl fullWidth>
                                         <InputLabel>واحد اندازه‌گیری محصول</InputLabel>
-                                        <Select
-                                            required
-                                            value={(product as ProductTypes).unit_of_measurement || ''}
-                                            onChange={(e) => {
-                                                const value = e.target.value;
-                                                handleInputChange('unit_of_measurement', value);
-                                            }}
-                                            renderValue={(selected) => selected}>
+                                        <Select required value={(product as ProductTypes).unit_of_measurement || ''} onChange={(e) => handleInputChange('unit_of_measurement', e.target.value)} renderValue={(selected) => selected}>
                                             {units_of_measurement.map((unit, index) => (
                                                 <MenuItem key={index} value={unit}>
                                                     {unit}
@@ -359,34 +236,33 @@ export default function ProductForm({ method }: { method: 'create' | 'request' }
                     </Grid>
                 </Box>
             </Box>
-
             <Dialog open={isCustomOpen}>
                 <DialogTitle sx={{ textAlign: 'center' }}>
                     <Typography variant="body1" sx={{ color: 'white', mb: 1 }}>
                         واحد خود را بنویسید
                     </Typography>
                 </DialogTitle>
-
                 <DialogContent sx={{ display: 'flex', flexDirection: 'column', justifyItems: 'center', alignItems: 'center' }}>
-                    <TextField
-                        sx={{ width: '100%' }}
-                        placeholder=""
-                        value={(product as ProductTypes).unit_of_measurement || ''}
-                        onChange={(e) => {
-                            const value = e.target.value;
-                            handleInputChange('unit_of_measurement', value);
-                        }}
-                    />
+                    <TextField sx={{ width: '100%' }} value={(product as ProductTypes).unit_of_measurement || ''} onChange={(e) => handleInputChange('unit_of_measurement', e.target.value)} />
                     <Button onClick={() => setIsCustomOpen(false)} sx={{ mt: 2 }}>
                         ذخیره
                     </Button>
                 </DialogContent>
             </Dialog>
-
             <Dialog open={isModalOpen} onClose={() => setIsModalOpen(false)} fullWidth>
                 <DialogTitle>انتخاب دسته بندی</DialogTitle>
                 <DialogContent>
-                    <TextField fullWidth label="جستجو" variant="outlined" value={searchTerm} onChange={(e) => handleSearch(e.target.value)} sx={{ mb: 2 }} />
+                    <TextField
+                        fullWidth
+                        label="جستجو"
+                        variant="outlined"
+                        value={searchTerm}
+                        onChange={(e) => {
+                            setSearchTerm(e.target.value);
+                            setFilteredCategories(filterCategories(e.target.value, categories));
+                        }}
+                        sx={{ mb: 2 }}
+                    />
                     {currentStep === 'main' && (
                         <Box>
                             <List>
@@ -446,16 +322,11 @@ export default function ProductForm({ method }: { method: 'create' | 'request' }
                 </DialogContent>
                 <DialogActions>
                     <Button onClick={() => setIsModalOpen(false)}>بستن</Button>
-                    <Button
-                        onClick={() => {
-                            setIsModalOpen(false);
-                        }}
-                        variant="contained">
+                    <Button onClick={() => setIsModalOpen(false)} variant="contained">
                         تایید
                     </Button>
                 </DialogActions>
             </Dialog>
-
             <Snackbar open={snackbarOpen} autoHideDuration={4000} onClose={handleCloseSnackbar}>
                 <Alert onClose={handleCloseSnackbar} severity={snackbarSeverity} sx={{ width: '100%' }}>
                     {snackbarMessage}

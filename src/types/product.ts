@@ -1,7 +1,4 @@
-type author = {
-    phone_number: string;
-    name: string;
-};
+import { AuthTypes } from './auth';
 
 interface ProductBase {
     categories: string[];
@@ -13,7 +10,7 @@ interface ProductBase {
         province: string;
         city: string;
     };
-    author: author;
+    author: Omit<AuthTypes, 'verification_code'> & { name: string };
 }
 
 export type ProductTypes = ProductBase & {
