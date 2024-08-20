@@ -67,7 +67,7 @@ export const GET = async (request: NextRequest) => {
     const end = parseInt(searchParams.get('end') || '10', 10);
 
     const collectionRef = database.collection(searchParams.get('type') === 'request' ? 'product_requests' : 'products');
-    const dbQuery: any = {};
+    const dbQuery: any = { available: true };
 
     if (id) {
         dbQuery.id = id;
