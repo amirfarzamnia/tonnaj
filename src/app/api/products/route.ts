@@ -24,7 +24,7 @@ export const POST = async (request: NextRequest) => {
 
     if (entity.categories.length > 5) return NextResponse.json({ error: 'نمیتوانید بیشتر از 5 دسته بندی را برای محصول خود انتخاب کنید.' }, { status: 400 });
 
-    if (!/^.{25,2500}$/.test(entity.description)) return NextResponse.json({ error: 'توضیحات محصول باید بین 25 تا 2500 حرف باشد.' }, { status: 400 });
+    if (!/[a-zA-Z]/.test(entity.description)) return NextResponse.json({ error: 'توضیحات محصول باید بین 25 تا 2500 حرف باشد.' }, { status: 400 });
 
     if (!entity.location.city.length || !entity.location.province.length) return NextResponse.json({ error: 'لطفا موقعیت مکانی خود را به درستی انتخاب کنید.' }, { status: 400 });
 
@@ -37,7 +37,7 @@ export const POST = async (request: NextRequest) => {
 
         if (typeof prod.price !== 'number' || !(prod.price >= 10000 && prod.price <= 10000000000)) return NextResponse.json({ error: 'هزینه محصول باید بین ده هزار تومان تا ده میلیارد تومان باشد.' }, { status: 400 });
 
-        if (!/^.{2,50}$/.test(prod.name)) return NextResponse.json({ error: 'نام محصول باید بین 2 تا 50 حرف باشد.' }, { status: 400 });
+        if (!/[a-zA-Z]/.test(prod.name)) return NextResponse.json({ error: 'نام محصول باید بین 2 تا 50 حرف باشد.' }, { status: 400 });
 
         if (typeof prod.stock_quantity !== 'number') return NextResponse.json({ error: 'میزان موجودی محصول نادرست است.' }, { status: 400 });
 
