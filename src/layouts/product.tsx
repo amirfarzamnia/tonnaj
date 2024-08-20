@@ -76,7 +76,7 @@ export default function ProductForm({ method }: { method: 'create' | 'request' }
                     if (response.ok) {
                         setProduct(method === 'request' ? initialProductRequestState : initialProductState);
 
-                        setTimeout(() => router.push(method === 'create' ? '/products/' + json.id : '/'), 2500);
+                        setTimeout(() => router.push('/'), 2500);
                     }
 
                     setSnackbarOpen(true);
@@ -270,7 +270,6 @@ export default function ProductForm({ method }: { method: 'create' | 'request' }
                                     <ListItem
                                         key={index}
                                         button
-                                        disabled={selectedCategories.length !== 0 ? mainCategory !== selectedMainCategory : false}
                                         onClick={() => {
                                             setSelectedMainCategory(mainCategory);
                                             setCurrentStep('sub');
@@ -308,8 +307,8 @@ export default function ProductForm({ method }: { method: 'create' | 'request' }
                                         key={index}
                                         button
                                         onClick={() => {
-                                            setSelectedCategories(finalCategory);
-                                            handleInputChange('categories', selectedCategories);
+                                            setSelectedCategories([finalCategory]);
+                                            handleInputChange('categories', [finalCategory]);
                                         }}>
                                         <Checkbox checked={selectedCategories.includes(finalCategory)} />
                                         <ListItemText primary={finalCategory} />
