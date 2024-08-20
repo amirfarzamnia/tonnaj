@@ -1,7 +1,7 @@
 'use client';
 
 import { Button, CircularProgress, TextField, Menu, MenuItem, ListItemText, ListItemIcon, Box, Grid, Divider, Toolbar, AppBar, Link, Container, Typography, InputAdornment, CssBaseline, Shadows, Dialog, DialogActions, DialogContent, DialogContentText, DialogTitle, Paper } from '@mui/material';
-import { Search, LightMode, DarkMode, Person, Inventory, Menu as MenuIcon, ArrowLeft } from '@mui/icons-material';
+import { Search, LightMode, DarkMode, Person, Inventory, Menu as MenuIcon, ArrowLeft, AccountCircle, PeopleAlt, SupervisorAccount, ModeComment } from '@mui/icons-material';
 import { createTheme, ThemeProvider, ThemeOptions } from '@mui/material/styles';
 import { TypographyOptions } from '@mui/material/styles/createTypography';
 import categories from '@/constants/categories';
@@ -211,7 +211,7 @@ export default function ({ children }: { children: React.ReactNode }) {
 
                                                 setTimer(newTimer);
                                             }}
-                                            placeholder="جست و جوی محصول..."
+                                            placeholder="جست و جو..."
                                             InputProps={{
                                                 startAdornment: (
                                                     <InputAdornment position="start">
@@ -244,7 +244,7 @@ export default function ({ children }: { children: React.ReactNode }) {
                                             </Paper>
                                         )}
                                     </Box>
-                                    <Button sx={{ py: 0.82, display: { sm: 'flex' } }} variant="outlined" color="info" onClick={themeClickHandler}>
+                                    <Button sx={{ py: 0.82, display: { xs: 'none', sm: 'flex' } }} variant="outlined" color="info" onClick={themeClickHandler}>
                                         {selectedTheme === 'dark' ? <LightMode /> : <DarkMode />}
                                     </Button>
                                     <Button endIcon={<Person />} onClick={() => (isAuthenticated ? setLogoutModalOpen(true) : (location.href = '/auth'))} variant="outlined" color={isAuthenticated ? 'error' : 'info'} sx={{ display: { xs: 'none', sm: 'flex' }, alignItems: 'center', gap: 1, py: 0.82 }}>
@@ -261,11 +261,11 @@ export default function ({ children }: { children: React.ReactNode }) {
                             <AppBar position="fixed" color="primary" sx={{ top: 'auto', bottom: 0, display: { xs: 'block', sm: 'none' } }}>
                                 <Toolbar sx={{ display: 'flex', pt: 1, justifyContent: 'space-between', borderTop: 1, borderColor: selectedTheme === 'dark' ? '#3f3f46' : '#e4e4e7' }}>
                                     <Button sx={{ display: 'flex', flexDirection: 'column', alignItems: 'center', gap: 0.25, fontSize: 11 }} size="small" onClick={() => (isAuthenticated ? setLogoutModalOpen(true) : (location.href = '/auth'))}>
-                                        <Person />
+                                        <AccountCircle />
                                         {isAuthenticated ? 'خروج از حساب' : 'ورود به حساب'}
                                     </Button>
                                     <Button sx={{ display: 'flex', flexDirection: 'column', alignItems: 'center', gap: 0.25, fontSize: 11 }} size="small" href="/products/create">
-                                        <Inventory />
+                                        <ModeComment />
                                         پیام ها
                                     </Button>
                                     <Button sx={{ display: 'flex', flexDirection: 'column', alignItems: 'center', gap: 0.25, fontSize: 11 }} size="small" href="/products/create">
@@ -273,12 +273,12 @@ export default function ({ children }: { children: React.ReactNode }) {
                                         ثبت محصول
                                     </Button>
                                     <Button sx={{ display: 'flex', flexDirection: 'column', alignItems: 'center', gap: 0.25, fontSize: 11 }} size="small" href="/products/create">
-                                        <Inventory />
-                                        فروشندگان
+                                        <SupervisorAccount />
+                                        خریداران
                                     </Button>
                                     <Button sx={{ display: 'flex', flexDirection: 'column', alignItems: 'center', gap: 0.25, fontSize: 11 }} size="small" href="/products/create">
-                                        <Inventory />
-                                        خریداران
+                                        <PeopleAlt />
+                                        فروشندگان
                                     </Button>
                                 </Toolbar>
                             </AppBar>

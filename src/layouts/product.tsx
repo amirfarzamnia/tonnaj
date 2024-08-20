@@ -245,7 +245,7 @@ export default function ProductForm({ method }: { method: 'create' | 'request' }
                 <DialogContent sx={{ display: 'flex', flexDirection: 'column', justifyItems: 'center', alignItems: 'center' }}>
                     <TextField sx={{ width: '100%' }} value={(product as ProductTypes).unit_of_measurement || ''} onChange={(e) => handleInputChange('unit_of_measurement', e.target.value)} />
                     <Button onClick={() => setIsCustomOpen(false)} sx={{ mt: 2 }}>
-                        ذخیره
+                        تایید
                     </Button>
                 </DialogContent>
             </Dialog>
