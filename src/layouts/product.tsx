@@ -13,12 +13,33 @@ const filterCategories = (searchTerm: string, categories: { [key: string]: { [ke
 
     const results: { [key: string]: { [key: string]: string[] } } = {};
 
-    Object.keys(categories).forEach((category) => {
-        const subcategories = categories[category];
-        const filteredSubcategories = Object.keys(subcategories).reduce((acc, subcategory) => (subcategories[subcategory].filter((item) => item.toLowerCase().includes(searchTerm.toLowerCase())).length > 0 && (acc[subcategory] = subcategories[subcategory].filter((item) => item.toLowerCase().includes(searchTerm.toLowerCase()))), acc), {} as { [key: string]: string[] });
+    Object.keys(categories).forEach((mainCategory) => {
+        const subcategories = categories[mainCategory];
+        const filteredSubcategories = Object.keys(subcategories).reduce((acc, subcategory) => {
+            const finalItems = subcategories[subcategory].filter((item) => item.toLowerCase().includes(searchTerm.toLowerCase()));
 
-        if (Object.keys(filteredSubcategories).length > 0) results[category] = filteredSubcategories;
+            if (finalItems.length > 0) acc[subcategory] = finalItems;
+
+            return acc;
+        }, {} as { [key: string]: string[] });
+
+        if (Object.keys(filteredSubcategories).length > 0) results[mainCategory] = filteredSubcategories;
     });
+
+    if (Object.keys(results).length === 0) {
+        Object.keys(categories).forEach((mainCategory) => {
+            const subcategories = categories[mainCategory];
+            const filteredSubcategories = Object.keys(subcategories).reduce((acc, subcategory) => {
+                if (subcategory.toLowerCase().includes(searchTerm.toLowerCase())) acc[subcategory] = subcategories[subcategory];
+
+                return acc;
+            }, {} as { [key: string]: string[] });
+
+            if (Object.keys(filteredSubcategories).length > 0) results[mainCategory] = filteredSubcategories;
+        });
+    }
+
+    if (Object.keys(results).length === 0) Object.keys(categories).forEach((mainCategory) => mainCategory.toLowerCase().includes(searchTerm.toLowerCase()) && (results[mainCategory] = categories[mainCategory]));
 
     return results;
 };
@@ -220,13 +241,13 @@ export default function ProductForm({ method }: { method: 'create' | 'request' }
                             </FormControl>
                         </Grid>
                         <Grid item xs={12}>
-                            <TextField required fullWidth label="توضیحات محصول" variant="outlined" multiline rows={4} value={product.description} onChange={(e) => handleInputChange('description', e.target.value)} placeholder="توضیحات محصول را اینجا بنویسید..." />
-                        </Grid>
-                        <Grid item xs={12}>
                             <Button startIcon={<CategoryIcon />} onClick={() => setIsModalOpen(true)} sx={{ py: 2, display: 'flex', alignItems: 'center', gap: 1, borderColor: 'grey.600' }} variant="outlined" color="inherit" fullWidth>
                                 برای انتخاب دسته بندی ها اینجا بزنید
                             </Button>
                             <Box sx={{ mt: 2 }}>{selectedCategories.length > 0 && <Typography variant="body2">دسته بندی‌های انتخاب شده: {selectedCategories}</Typography>}</Box>
+                        </Grid>
+                        <Grid item xs={12}>
+                            <TextField required fullWidth label="توضیحات محصول" variant="outlined" multiline rows={4} value={product.description} onChange={(e) => handleInputChange('description', e.target.value)} placeholder="توضیحات محصول را اینجا بنویسید..." />
                         </Grid>
                         <Grid item xs={12}>
                             <Button type="submit" variant="contained" color={method === 'create' ? 'success' : 'secondary'} disabled={loading}>
