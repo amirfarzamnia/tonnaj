@@ -92,7 +92,7 @@ export default function ({ type, id }: { type: 'product' | 'request'; id: string
                         </Swiper>
                     )}
                     <Card sx={{ padding: 2, borderRadius: 4 }}>
-                        <Typography variant="h5" color="textSecondary" paragraph>
+                        <Typography variant="h5" sx={{ textAlign: 'justify' }} paragraph>
                             {product.description}
                         </Typography>
                     </Card>

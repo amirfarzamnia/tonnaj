@@ -35,7 +35,7 @@ export const POST = async (request: NextRequest) => {
 
         if (prod.images.length >= 3) return NextResponse.json({ error: 'نمیتوانید بیشتر از 3 عکس برای محصول خود آپلود کنید.' }, { status: 400 });
 
-        if (typeof prod.price !== 'number' || !(prod.price >= 10000 && prod.price <= 10000000000)) return NextResponse.json({ error: 'هزینه محصول باید بین ده هزار تومان تا ده میلیارد تومان باشد.' }, { status: 400 });
+        if (typeof prod.price !== 'number') return NextResponse.json({ error: 'قیمت محصول نادرست است.' }, { status: 400 });
 
         if (typeof prod.name !== 'string' || !prod.name.length) return NextResponse.json({ error: 'لطفا نام محصول را وارد کنید.' }, { status: 400 });
 
